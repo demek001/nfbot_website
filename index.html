@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NF Bot — Automação de Notas Fiscais via WhatsApp</title>
+<meta name="description" content="Serviço de automação que organiza suas notas fiscais brasileiras diretamente pelo WhatsApp. Envie a foto, receba o controle no seu Drive e Sheets.">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    color: #1a1a1a;
+    line-height: 1.6;
+    background: #fafafa;
+  }
+  .container { max-width: 860px; margin: 0 auto; padding: 60px 24px; }
+  header { text-align: center; margin-bottom: 60px; }
+  .logo {
+    display: inline-block;
+    width: 72px; height: 72px;
+    background: #25D366;
+    border-radius: 16px;
+    color: white;
+    line-height: 72px;
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  h1 { font-size: 36px; margin-bottom: 12px; color: #111; }
+  .tagline { font-size: 18px; color: #555; max-width: 600px; margin: 0 auto; }
+  section { background: white; padding: 36px; border-radius: 12px; margin-bottom: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  h2 { font-size: 22px; margin-bottom: 16px; color: #111; border-left: 4px solid #25D366; padding-left: 12px; }
+  p { margin-bottom: 12px; color: #333; }
+  ul { padding-left: 24px; margin-bottom: 12px; }
+  li { margin-bottom: 8px; color: #333; }
+  .steps { counter-reset: step; list-style: none; padding: 0; }
+  .steps li { padding-left: 44px; position: relative; margin-bottom: 16px; }
+  .steps li::before {
+    counter-increment: step;
+    content: counter(step);
+    position: absolute;
+    left: 0; top: 0;
+    width: 30px; height: 30px;
+    background: #25D366;
+    color: white;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 30px;
+    font-weight: bold;
+  }
+  .contact-grid { display: grid; gap: 12px; }
+  .contact-grid div { padding: 12px 0; border-bottom: 1px solid #eee; }
+  .contact-grid div:last-child { border-bottom: none; }
+  .contact-grid strong { display: inline-block; min-width: 120px; color: #555; }
+  a { color: #25D366; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  footer { text-align: center; margin-top: 40px; color: #888; font-size: 14px; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="logo">NF</div>
+    <h1>NF Bot</h1>
+    <p class="tagline">Automação de notas fiscais brasileiras via WhatsApp. Envie a foto, receba organização automática no Google Drive e Sheets.</p>
+  </header>
+
+  <section>
+    <h2>Sobre o serviço</h2>
+    <p>O <strong>NF Bot</strong> é um serviço de produtividade financeira para pessoas físicas e profissionais autônomos que precisam organizar suas notas fiscais de forma simples, sem planilhas manuais.</p>
+    <p>Nossa solução processa imagens de notas fiscais (NFC-e, cupom fiscal e NF-e) enviadas pelo WhatsApp, extrai automaticamente os dados — estabelecimento, data, valor total e itens — e registra tudo em uma planilha organizada por categoria, com a imagem arquivada no Google Drive.</p>
+  </section>
+
+  <section>
+    <h2>Como funciona</h2>
+    <ol class="steps">
+      <li><strong>Envie a foto da NF</strong> pelo WhatsApp para o número do NF Bot.</li>
+      <li><strong>Nossa IA extrai os dados</strong> — estabelecimento, valor, data e itens — e devolve a confirmação.</li>
+      <li><strong>Você escolhe a categoria</strong> (mercado, farmácia, combustível etc.) respondendo por texto.</li>
+      <li><strong>Tudo é salvo</strong> no seu Google Sheets e Drive, organizado por ano e categoria.</li>
+      <li><strong>No fim de cada mês</strong>, você recebe um resumo dos gastos e, se quiser, todas as NFs consolidadas em PDF.</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>Recursos</h2>
+    <ul>
+      <li>Leitura automática de notas fiscais por inteligência artificial</li>
+      <li>Categorização personalizada de despesas</li>
+      <li>Armazenamento seguro no Google Drive do próprio usuário</li>
+      <li>Planilha mensal com totais por categoria</li>
+      <li>Relatório mensal em PDF com todas as NFs</li>
+      <li>Interface via WhatsApp — sem app adicional para instalar</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Público-alvo</h2>
+    <p>Autônomos, freelancers, profissionais liberais e pessoas físicas que desejam manter controle organizado de seus gastos pessoais sem recorrer a aplicativos pagos ou planilhas manuais.</p>
+  </section>
+
+  <section>
+    <h2>Privacidade e dados</h2>
+    <p>Todos os dados — imagens de notas e planilhas — ficam armazenados exclusivamente na conta Google do próprio usuário. O NF Bot não retém cópias, não compartilha informações com terceiros e não faz uso comercial dos dados processados.</p>
+    <p>O serviço utiliza exclusivamente a API oficial do WhatsApp Business Platform (Meta) para comunicação, garantindo conformidade com as políticas de mensageria.</p>
+  </section>
+
+  <section>
+    <h2>Contato</h2>
+    <div class="contact-grid">
+      <div><strong>Responsável:</strong> Yoseff Demek</div>
+      <div><strong>Localização:</strong> São Paulo, SP — Brasil</div>
+      <div><strong>Email:</strong> <a href="mailto:contato@nfbot.com.br">contato@nfbot.com.br</a></div>
+      <div><strong>Instagram:</strong> <a href="https://www.instagram.com/yosdemek/" target="_blank">@yosdemek</a></div>
+    </div>
+  </section>
+
+  <footer>
+    © 2026 NF Bot · Serviço operado por Yoseff Demek · São Paulo, Brasil
+  </footer>
+
+</div>
+</body>
+</html>
