@@ -3,114 +3,285 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Política de Privacidade — NF Bot</title>
+<title>Política de Privacidade — Notinha</title>
+<meta name="description" content="Política de Privacidade do Notinha em conformidade com a LGPD.">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    color: #1a1a1a;
-    line-height: 1.7;
-    background: #fafafa;
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --border: #30363d;
+    --green: #25d366;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --accent: #f0f6fc;
   }
-  .container { max-width: 780px; margin: 0 auto; padding: 60px 24px; }
-  .back { display: inline-block; color: #25D366; text-decoration: none; margin-bottom: 24px; font-size: 14px; }
-  .back:hover { text-decoration: underline; }
-  h1 { font-size: 32px; margin-bottom: 8px; color: #111; }
-  .updated { color: #888; font-size: 14px; margin-bottom: 32px; }
-  main { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
-  h2 { font-size: 20px; margin: 28px 0 12px; color: #111; border-left: 4px solid #25D366; padding-left: 12px; }
-  h2:first-child { margin-top: 0; }
-  p { margin-bottom: 14px; color: #333; }
-  ul { padding-left: 24px; margin-bottom: 14px; }
-  li { margin-bottom: 8px; color: #333; }
-  a { color: #25D366; text-decoration: none; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.75;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+
+  header {
+    padding: 28px 0;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 60px;
+  }
+  header .wrap { display: flex; justify-content: space-between; align-items: center; }
+  .logo {
+    font-family: 'Fraunces', serif;
+    font-weight: 800;
+    font-size: 24px;
+    letter-spacing: -0.02em;
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .logo span { color: var(--green); }
+  header a.back {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 14px;
+  }
+  header a.back:hover { color: var(--green); }
+
+  main { padding-bottom: 80px; }
+
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 44px;
+    letter-spacing: -0.02em;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .meta {
+    color: var(--muted);
+    font-size: 14px;
+    margin-bottom: 48px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 24px;
+    color: var(--accent);
+    margin-top: 48px;
+    margin-bottom: 16px;
+    letter-spacing: -0.01em;
+  }
+  h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 18px;
+    color: var(--accent);
+    margin-top: 28px;
+    margin-bottom: 10px;
+  }
+  p { margin-bottom: 16px; color: var(--text); }
+  ul, ol { margin: 12px 0 16px 24px; }
+  li { margin-bottom: 8px; color: var(--text); }
+  a { color: var(--green); text-decoration: none; }
   a:hover { text-decoration: underline; }
-  footer { text-align: center; margin-top: 40px; color: #888; font-size: 13px; }
+  strong { color: var(--accent); font-weight: 500; }
+
+  .highlight {
+    background: var(--surface);
+    border-left: 3px solid var(--green);
+    padding: 20px 24px;
+    margin: 24px 0;
+    border-radius: 0 8px 8px 0;
+  }
+  .highlight p:last-child { margin-bottom: 0; }
+
+  footer {
+    padding: 40px 0;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 13px;
+    text-align: center;
+    line-height: 1.7;
+  }
+  footer .links { margin-bottom: 16px; }
+  footer .links a {
+    color: var(--muted);
+    text-decoration: none;
+    margin: 0 12px;
+  }
+  footer .links a:hover { color: var(--green); }
 </style>
 </head>
 <body>
-<div class="container">
 
-  <a href="index.html" class="back">← Voltar à página inicial</a>
+<header>
+  <div class="wrap">
+    <a href="index.html" class="logo">Noti<span>nha</span></a>
+    <a href="index.html" class="back">← Voltar</a>
+  </div>
+</header>
 
-  <h1>Política de Privacidade</h1>
-  <p class="updated">Última atualização: 23 de abril de 2026</p>
+<main>
+  <div class="wrap">
+    <h1>Política de Privacidade</h1>
+    <p class="meta">Vigente desde 17/05/2026 · Em conformidade com a Lei Geral de Proteção de Dados Pessoais (LGPD — Lei 13.709/2018)</p>
 
-  <main>
+    <div class="highlight">
+      <p><strong>Resumo em uma linha:</strong> O Notinha trata o mínimo de dados pessoais necessários pra organizar suas notas fiscais, salva tudo no <em>seu próprio</em> Google Drive, e nunca vende seus dados pessoais.</p>
+    </div>
 
-    <h2>1. Introdução</h2>
-    <p>Esta Política de Privacidade descreve como o serviço <strong>NF Bot</strong>, operado por Yoseff Demek, coleta, utiliza, armazena e protege informações dos usuários que interagem com o serviço através do WhatsApp.</p>
-    <p>Ao utilizar o NF Bot, o usuário concorda com as práticas descritas nesta política. Esta política está em conformidade com a Lei Geral de Proteção de Dados Pessoais (LGPD — Lei nº 13.709/2018).</p>
+    <h2>1. Quem somos</h2>
+    <p>O Notinha é um serviço de automação de notas fiscais via WhatsApp operado por <strong>66.824.150 YOSEFF KUSNIEC DEMEK</strong>, inscrito no CNPJ sob nº <strong>66.824.150/0001-28</strong>, registrado como Microempreendedor Individual (MEI) no Brasil.</p>
+    <p>Para fins desta Política, o Notinha é o <strong>Controlador</strong> dos dados pessoais coletados, conforme definido pelo art. 5º, VI da LGPD.</p>
 
-    <h2>2. Dados coletados</h2>
-    <p>O NF Bot coleta apenas os dados mínimos necessários para prestação do serviço:</p>
+    <h3>Encarregado pelo Tratamento de Dados (DPO)</h3>
+    <p>Yoseff Kusniec Demek · <a href="mailto:privacidade@usenotinha.com.br">privacidade@usenotinha.com.br</a></p>
+
+    <h2>2. Quais dados coletamos</h2>
+
+    <h3>2.1. Dados que você fornece ativamente</h3>
     <ul>
-      <li><strong>Número de telefone do WhatsApp</strong> — utilizado para identificar o usuário e responder às mensagens.</li>
-      <li><strong>Imagens de notas fiscais enviadas pelo usuário</strong> — processadas para extração automática de dados fiscais.</li>
-      <li><strong>Dados extraídos das notas fiscais</strong> — estabelecimento, data da compra, valor total, itens e categoria informada pelo usuário.</li>
-      <li><strong>Respostas do usuário em conversas</strong> — como categorias de despesas e confirmações.</li>
+      <li><strong>Número de WhatsApp</strong> — para identificar e responder mensagens</li>
+      <li><strong>E-mail</strong> — para envio de cobrança, relatórios e suporte</li>
+      <li><strong>Nome</strong> — para personalização do atendimento</li>
+      <li><strong>Autorização de acesso ao Google Drive</strong> — via OAuth Google, para criar pastas e planilhas na <em>sua</em> conta</li>
     </ul>
 
-    <h2>3. Finalidade do tratamento</h2>
-    <p>Os dados são utilizados exclusivamente para:</p>
+    <h3>2.2. Dados gerados pelo uso do serviço</h3>
     <ul>
-      <li>Processar as imagens de notas fiscais e extrair informações estruturadas.</li>
-      <li>Organizar e armazenar os dados na conta Google (Google Drive e Google Sheets) do próprio usuário.</li>
-      <li>Gerar relatórios mensais de gastos e retornar ao usuário via WhatsApp.</li>
-      <li>Responder a solicitações do usuário dentro da janela de conversa.</li>
+      <li><strong>Imagens de notas fiscais</strong> enviadas por você</li>
+      <li><strong>Dados extraídos das notas</strong>: estabelecimento, CNPJ, data, valor total, itens, formas de pagamento</li>
+      <li><strong>Metadados de uso</strong>: data/hora de envio, status de processamento, categorização aplicada</li>
     </ul>
 
-    <h2>4. Armazenamento e retenção</h2>
-    <p>Os dados processados (imagens e registros) são armazenados <strong>exclusivamente na conta Google pessoal do próprio usuário</strong> (Google Drive e Google Sheets), sob controle total do usuário.</p>
-    <p>O NF Bot não mantém bancos de dados próprios com cópias dos dados dos usuários. O processamento ocorre em trânsito e o resultado é entregue à conta do usuário, não sendo retido após o processamento.</p>
-
-    <h2>5. Compartilhamento com terceiros</h2>
-    <p>Para funcionamento do serviço, utilizamos as seguintes plataformas de terceiros, cada uma com sua própria política de privacidade:</p>
+    <h3>2.3. Dados que NÃO coletamos</h3>
     <ul>
-      <li><strong>Meta (WhatsApp Business Platform)</strong> — para envio e recebimento de mensagens.</li>
-      <li><strong>Google (Apps Script, Drive, Sheets)</strong> — para orquestração e armazenamento.</li>
-      <li><strong>Google AI (Gemini API)</strong> — para leitura e extração das imagens.</li>
-    </ul>
-    <p>Os dados são enviados a esses serviços somente para execução das funções contratadas. O NF Bot não vende, aluga ou compartilha dados dos usuários com terceiros para fins de marketing ou publicidade.</p>
-
-    <h2>6. Segurança</h2>
-    <p>Adotamos medidas técnicas razoáveis para proteger os dados durante o processamento, incluindo conexões criptografadas (HTTPS/TLS) e uso de provedores reconhecidos (Meta, Google). Contudo, nenhum sistema é 100% seguro, e o usuário reconhece esse risco.</p>
-
-    <h2>7. Direitos do usuário</h2>
-    <p>De acordo com a LGPD, o usuário tem direito a:</p>
-    <ul>
-      <li>Confirmar a existência de tratamento de seus dados.</li>
-      <li>Acessar os dados tratados.</li>
-      <li>Corrigir dados incompletos, inexatos ou desatualizados.</li>
-      <li>Solicitar a eliminação dos dados.</li>
-      <li>Revogar o consentimento e interromper o uso do serviço a qualquer momento.</li>
-    </ul>
-    <p>Como os dados ficam armazenados na conta Google do próprio usuário, o usuário pode exercer diretamente esses direitos excluindo os arquivos e registros de sua conta a qualquer momento.</p>
-
-    <h2>8. Opt-in e opt-out</h2>
-    <p>O usuário manifesta consentimento ao iniciar voluntariamente uma conversa com o NF Bot pelo WhatsApp. Para deixar de usar o serviço a qualquer momento, basta enviar a palavra <strong>SAIR</strong> pelo WhatsApp ou bloquear o número. Nenhuma mensagem adicional será enviada.</p>
-
-    <h2>9. Menores de idade</h2>
-    <p>O serviço é destinado a maiores de 18 anos. Não coletamos intencionalmente dados de menores.</p>
-
-    <h2>10. Alterações nesta política</h2>
-    <p>Esta política pode ser atualizada periodicamente. A data da última atualização está indicada no topo desta página. Recomendamos a consulta regular.</p>
-
-    <h2>11. Contato</h2>
-    <p>Em caso de dúvidas, solicitações ou reclamações relacionadas ao tratamento de dados pessoais, entre em contato:</p>
-    <ul>
-      <li><strong>Responsável:</strong> Yoseff Demek</li>
-      <li><strong>Email:</strong> <a href="mailto:yosdemek@gmail.com">yosdemek@gmail.com</a></li>
-      <li><strong>Telefone:</strong> <a href="tel:+5513996811828">+55 13 99681-1828</a></li>
-      <li><strong>Endereço:</strong> São Paulo, SP — Brasil</li>
+      <li>Senhas de contas bancárias ou aplicativos</li>
+      <li>Dados de cartão de crédito (processados diretamente pelo gateway de pagamento)</li>
+      <li>Localização em tempo real</li>
+      <li>Contatos da sua agenda</li>
+      <li>Histórico de outras conversas no WhatsApp</li>
     </ul>
 
-  </main>
+    <h2>3. Por que coletamos esses dados</h2>
+    <p>Tratamos dados pessoais com as seguintes finalidades e bases legais:</p>
+    <ul>
+      <li><strong>Prestação do serviço contratado</strong> — base legal: execução de contrato (art. 7º, V da LGPD)</li>
+      <li><strong>Cobrança e gestão financeira</strong> — base legal: execução de contrato</li>
+      <li><strong>Suporte e atendimento</strong> — base legal: execução de contrato</li>
+      <li><strong>Cumprimento de obrigações legais e fiscais</strong> — base legal: obrigação legal (art. 7º, II)</li>
+      <li><strong>Melhoria do produto via dados anonimizados</strong> — dados agregados que não identificam você individualmente, sem necessidade de consentimento conforme art. 12 da LGPD</li>
+    </ul>
 
-  <footer>
-    © 2026 NF Bot · Operado por Yoseff Demek · São Paulo, Brasil
-  </footer>
+    <h2>4. Como guardamos seus dados</h2>
 
-</div>
+    <h3>4.1. Imagens e planilhas das notas</h3>
+    <p>Ficam armazenadas na <strong>sua própria conta do Google Drive</strong>. Nós não mantemos cópia dessas imagens nos nossos servidores. Se você revogar o acesso ao Drive ou deletar nossa pasta, perdemos qualquer possibilidade técnica de acessá-las.</p>
+
+    <h3>4.2. Dados cadastrais (telefone, e-mail, nome)</h3>
+    <p>Ficam em banco de dados estruturado hospedado em servidores localizados no Brasil ou em jurisdições com nível adequado de proteção de dados, com criptografia em trânsito e em repouso.</p>
+
+    <h3>4.3. Dados extraídos das notas (em texto)</h3>
+    <p>Armazenados em banco estruturado e usados para:</p>
+    <ul>
+      <li>Gerar seus relatórios mensais</li>
+      <li>Responder perguntas sobre seus gastos no WhatsApp</li>
+      <li>Compor estatísticas <strong>anonimizadas</strong> de mercado (sem identificação pessoal)</li>
+    </ul>
+
+    <h2>5. Compartilhamento de dados</h2>
+    <p>Não vendemos seus dados pessoais. Compartilhamos apenas com operadores estritamente necessários pra prestar o serviço:</p>
+
+    <h3>5.1. Operadores de tecnologia</h3>
+    <ul>
+      <li><strong>Meta Platforms</strong> (WhatsApp Business Platform) — entrega de mensagens</li>
+      <li><strong>Google</strong> (Drive, Sheets, Apps Script) — armazenamento e processamento</li>
+      <li><strong>Provedores de IA</strong> (Google Gemini, Anthropic Claude, OpenAI) — leitura automática das imagens de notas. Esses provedores não usam suas imagens para treinar modelos quando acessados via API paga</li>
+      <li><strong>Gateway de pagamento</strong> — processamento financeiro (cartão de crédito e PIX)</li>
+    </ul>
+
+    <h3>5.2. Dados anonimizados</h3>
+    <p>Estatísticas agregadas (ex.: "preço médio de arroz na região Sudeste em outubro/2026") podem ser compartilhadas ou vendidas a varejistas e fabricantes. Esses dados <strong>não identificam você</strong> em nenhuma hipótese — são números agregados de milhares de usuários, conforme permitido pelo art. 12 da LGPD.</p>
+
+    <h3>5.3. Autoridades públicas</h3>
+    <p>Compartilharemos dados se obrigados por lei, decisão judicial ou requisição formal de autoridade competente.</p>
+
+    <h2>6. Seus direitos (LGPD art. 18)</h2>
+    <p>Você pode, a qualquer momento, exercer os seguintes direitos:</p>
+    <ul>
+      <li><strong>Confirmação</strong> de que tratamos seus dados</li>
+      <li><strong>Acesso</strong> aos dados que temos sobre você</li>
+      <li><strong>Correção</strong> de dados incompletos ou desatualizados</li>
+      <li><strong>Anonimização ou eliminação</strong> de dados desnecessários</li>
+      <li><strong>Portabilidade</strong> dos dados pra outro fornecedor</li>
+      <li><strong>Eliminação</strong> dos dados tratados com seu consentimento</li>
+      <li><strong>Informação</strong> sobre com quem compartilhamos seus dados</li>
+      <li><strong>Revogação do consentimento</strong> a qualquer momento</li>
+      <li><strong>Oposição</strong> ao tratamento de dados feito sem consentimento</li>
+    </ul>
+    <p>Pra exercer qualquer direito, envie e-mail pra <a href="mailto:privacidade@usenotinha.com.br">privacidade@usenotinha.com.br</a>. Respondemos em até 15 dias.</p>
+
+    <h2>7. Prazo de retenção</h2>
+    <ul>
+      <li><strong>Dados cadastrais</strong>: enquanto sua assinatura estiver ativa + 5 anos após cancelamento, pra cumprir obrigações fiscais</li>
+      <li><strong>Dados extraídos das notas</strong>: enquanto sua assinatura estiver ativa</li>
+      <li><strong>Imagens no seu Drive</strong>: sob seu controle exclusivo</li>
+      <li><strong>Logs técnicos</strong>: 6 meses</li>
+    </ul>
+    <p>Após esses prazos, dados são eliminados ou totalmente anonimizados.</p>
+
+    <h2>8. Segurança</h2>
+    <p>Aplicamos medidas técnicas e organizacionais adequadas pra proteger seus dados:</p>
+    <ul>
+      <li>Criptografia em trânsito (TLS/HTTPS) em todas as comunicações</li>
+      <li>Criptografia em repouso nos bancos de dados</li>
+      <li>Autenticação OAuth padrão Google pra acesso ao Drive</li>
+      <li>Controle de acesso restrito a sistemas internos</li>
+      <li>Monitoramento contínuo contra acessos não autorizados</li>
+    </ul>
+    <p>Em caso de incidente de segurança que possa expor dados pessoais, notificaremos os titulares afetados e a ANPD conforme art. 48 da LGPD.</p>
+
+    <h2>9. Cookies e tecnologias similares</h2>
+    <p>Este site usa cookies estritamente necessários pra funcionamento e cookies analíticos pra medição de tráfego (Google Analytics). Nenhum cookie é usado pra publicidade comportamental.</p>
+
+    <h2>10. Crianças e adolescentes</h2>
+    <p>O Notinha não é destinado a menores de 18 anos. Não coletamos dados de menores intencionalmente. Se identificarmos dados de menores, eliminaremos imediatamente.</p>
+
+    <h2>11. Transferência internacional</h2>
+    <p>Alguns operadores (Meta, Google, Anthropic, OpenAI) estão sediados fora do Brasil. Suas transferências internacionais respeitam o art. 33 da LGPD por meio de cláusulas contratuais padrão e adesão a programas de proteção reconhecidos.</p>
+
+    <h2>12. Mudanças nesta Política</h2>
+    <p>Esta Política pode ser atualizada periodicamente. Mudanças relevantes serão comunicadas por e-mail e/ou WhatsApp com pelo menos 30 dias de antecedência. A versão vigente sempre estará disponível neste endereço.</p>
+
+    <h2>13. Contato</h2>
+    <div class="highlight">
+      <p><strong>Encarregado (DPO):</strong> Yoseff Kusniec Demek<br>
+      <strong>E-mail (privacidade/LGPD):</strong> <a href="mailto:privacidade@usenotinha.com.br">privacidade@usenotinha.com.br</a><br>
+      <strong>E-mail (atendimento geral):</strong> <a href="mailto:contato@usenotinha.com.br">contato@usenotinha.com.br</a><br>
+      <strong>WhatsApp:</strong> <a href="https://wa.me/5513996811828">+55 13 99681-1828</a></p>
+      <p style="margin-top: 12px; font-size: 14px; color: var(--muted);">Controlador: 66.824.150 YOSEFF KUSNIEC DEMEK · CNPJ 66.824.150/0001-28</p>
+    </div>
+
+    <h2>14. Autoridade Nacional</h2>
+    <p>Você também pode apresentar reclamações diretamente à <strong>Autoridade Nacional de Proteção de Dados (ANPD)</strong>: <a href="https://www.gov.br/anpd" target="_blank" rel="noopener">gov.br/anpd</a></p>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="links">
+      <a href="index.html">Início</a>
+      <a href="termos.html">Termos de Uso</a>
+      <a href="mailto:contato@usenotinha.com.br">Contato</a>
+    </div>
+    © 2026 Notinha · 66.824.150 YOSEFF KUSNIEC DEMEK · CNPJ 66.824.150/0001-28
+  </div>
+</footer>
+
 </body>
 </html>
