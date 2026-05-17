@@ -353,8 +353,7 @@
         <h4>Contato</h4>
         <p>Atendimento geral: <a href="mailto:contato@usenotinha.com.br">contato@usenotinha.com.br</a><br>
         Suporte técnico: <a href="mailto:suporte@usenotinha.com.br">suporte@usenotinha.com.br</a><br>
-        Privacidade/LGPD: <a href="mailto:privacidade@usenotinha.com.br">privacidade@usenotinha.com.br</a><br>
-        WhatsApp: <a href="https://wa.me/5513996811828">+55 13 99681-1828</a></p>
+        Privacidade/LGPD: <a href="mailto:privacidade@usenotinha.com.br">privacidade@usenotinha.com.br</a></p>
       </div>
     </div>
   </div>
@@ -365,6 +364,7 @@
     <div class="links">
       <a href="privacidade.html">Política de Privacidade</a>
       <a href="termos.html">Termos de Uso</a>
+      <a href="cookies.html">Cookies</a>
       <a href="mailto:contato@usenotinha.com.br">Contato</a>
     </div>
     <div class="legal">
@@ -373,6 +373,30 @@
     </div>
   </div>
 </footer>
+
+
+<!-- Banner de Cookies LGPD -->
+<div id="cookieBanner" style="display:none; position:fixed; bottom:0; left:0; right:0; background:#161b22; border-top:1px solid #30363d; padding:20px 24px; z-index:9999; font-family:'DM Sans',sans-serif; color:#e6edf3;">
+  <div style="max-width:980px; margin:0 auto; display:flex; flex-wrap:wrap; gap:16px; align-items:center; justify-content:space-between;">
+    <p style="font-size:14px; line-height:1.5; flex:1; min-width:280px; margin:0;">
+      Usamos <a href="cookies.html" style="color:#25d366; text-decoration:underline;">cookies</a> para melhorar sua experiência. Cookies analíticos e funcionais dependem do seu consentimento. Veja nossa <a href="privacidade.html" style="color:#25d366; text-decoration:underline;">Política de Privacidade</a>.
+    </p>
+    <div style="display:flex; gap:8px; flex-wrap:wrap;">
+      <button onclick="cookieEssenciais()" style="padding:10px 18px; background:transparent; color:#8b949e; border:1px solid #30363d; border-radius:100px; cursor:pointer; font-family:inherit; font-size:14px;">Apenas essenciais</button>
+      <button onclick="cookieAceitar()" style="padding:10px 18px; background:#25d366; color:#0d1117; border:none; border-radius:100px; cursor:pointer; font-family:inherit; font-weight:600; font-size:14px;">Aceitar todos</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var c = localStorage.getItem('cookieConsent');
+  if (!c) { document.getElementById('cookieBanner').style.display = 'block'; }
+})();
+function cookieAceitar(){ localStorage.setItem('cookieConsent','all'); document.getElementById('cookieBanner').style.display='none'; }
+function cookieEssenciais(){ localStorage.setItem('cookieConsent','essential'); document.getElementById('cookieBanner').style.display='none'; }
+</script>
+
 
 </body>
 </html>
