@@ -3,128 +3,376 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NF Bot — Automação de Notas Fiscais via WhatsApp</title>
-<meta name="description" content="Serviço de automação que organiza suas notas fiscais brasileiras diretamente pelo WhatsApp. Envie a foto, receba o controle no seu Drive e Sheets.">
+<title>Notinha — Controle financeiro pelo WhatsApp</title>
+<meta name="description" content="Mande foto da nota fiscal no WhatsApp. Notinha organiza tudo, salva no seu Drive e gera relatório dos seus gastos automaticamente.">
+<meta property="og:title" content="Notinha — Controle financeiro pelo WhatsApp">
+<meta property="og:description" content="Foto da nota no WhatsApp. Relatório completo dos gastos.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://usenotinha.com.br">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #1f2630;
+    --border: #30363d;
+    --green: #25d366;
+    --green-soft: #25d36622;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --accent: #f0f6fc;
+  }
   * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
   body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    color: #1a1a1a;
-    line-height: 1.6;
-    background: #fafafa;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.65;
+    min-height: 100vh;
   }
-  .container { max-width: 860px; margin: 0 auto; padding: 60px 24px; }
-  header { text-align: center; margin-bottom: 60px; }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(800px circle at 20% 0%, rgba(37, 211, 102, 0.08), transparent 40%),
+      radial-gradient(600px circle at 80% 30%, rgba(37, 211, 102, 0.05), transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+  header {
+    padding: 28px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  header .wrap { display: flex; justify-content: space-between; align-items: center; }
   .logo {
-    display: inline-block;
-    width: 72px; height: 72px;
-    background: #25D366;
-    border-radius: 16px;
-    color: white;
-    line-height: 72px;
-    font-size: 36px;
-    font-weight: bold;
-    margin-bottom: 20px;
+    font-family: 'Fraunces', serif;
+    font-weight: 800;
+    font-size: 28px;
+    letter-spacing: -0.02em;
+    color: var(--accent);
   }
-  h1 { font-size: 36px; margin-bottom: 12px; color: #111; }
-  .tagline { font-size: 18px; color: #555; max-width: 600px; margin: 0 auto; }
-  section { background: white; padding: 36px; border-radius: 12px; margin-bottom: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
-  h2 { font-size: 22px; margin-bottom: 16px; color: #111; border-left: 4px solid #25D366; padding-left: 12px; }
-  p { margin-bottom: 12px; color: #333; }
-  ul { padding-left: 24px; margin-bottom: 12px; }
-  li { margin-bottom: 8px; color: #333; }
-  .steps { counter-reset: step; list-style: none; padding: 0; }
-  .steps li { padding-left: 44px; position: relative; margin-bottom: 16px; }
-  .steps li::before {
-    counter-increment: step;
-    content: counter(step);
-    position: absolute;
-    left: 0; top: 0;
-    width: 30px; height: 30px;
-    background: #25D366;
-    color: white;
-    border-radius: 50%;
+  .logo span { color: var(--green); }
+  nav a {
+    color: var(--muted);
+    text-decoration: none;
+    margin-left: 24px;
+    font-size: 14px;
+    transition: color 0.2s;
+  }
+  nav a:hover { color: var(--accent); }
+
+  .hero {
+    padding: 100px 0 80px;
     text-align: center;
-    line-height: 30px;
-    font-weight: bold;
   }
-  .contact-grid { display: grid; gap: 12px; }
-  .contact-grid div { padding: 12px 0; border-bottom: 1px solid #eee; }
-  .contact-grid div:last-child { border-bottom: none; }
-  .contact-grid strong { display: inline-block; min-width: 120px; color: #555; }
-  a { color: #25D366; text-decoration: none; }
-  a:hover { text-decoration: underline; }
-  footer { text-align: center; margin-top: 40px; color: #888; font-size: 14px; }
-  footer a { color: #25D366; margin: 0 10px; }
+  .badge {
+    display: inline-block;
+    padding: 6px 14px;
+    background: var(--green-soft);
+    border: 1px solid var(--green);
+    color: var(--green);
+    font-size: 13px;
+    font-weight: 500;
+    border-radius: 100px;
+    margin-bottom: 28px;
+  }
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: clamp(40px, 6vw, 64px);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-bottom: 24px;
+    color: var(--accent);
+  }
+  h1 em {
+    font-style: italic;
+    color: var(--green);
+    font-weight: 800;
+  }
+  .lead {
+    font-size: 19px;
+    color: var(--muted);
+    max-width: 580px;
+    margin: 0 auto 40px;
+  }
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 32px;
+    background: var(--green);
+    color: #0d1117;
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 100px;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .cta:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(37, 211, 102, 0.3); }
+
+  section { padding: 70px 0; border-top: 1px solid var(--border); }
+  h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 36px;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+    color: var(--accent);
+  }
+  .sub {
+    color: var(--muted);
+    font-size: 16px;
+    margin-bottom: 40px;
+  }
+
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .step {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    position: relative;
+  }
+  .step-num {
+    font-family: 'Fraunces', serif;
+    font-weight: 800;
+    font-size: 48px;
+    color: var(--green);
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+  .step h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 19px;
+    margin-bottom: 8px;
+    color: var(--accent);
+  }
+  .step p { color: var(--muted); font-size: 15px; }
+
+  .plans {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  .plan {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+  }
+  .plan.featured { border-color: var(--green); position: relative; }
+  .plan.featured::after {
+    content: 'Recomendado';
+    position: absolute;
+    top: -12px;
+    right: 24px;
+    background: var(--green);
+    color: #0d1117;
+    padding: 4px 12px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .plan h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 22px;
+    margin-bottom: 4px;
+    color: var(--accent);
+  }
+  .plan .price {
+    font-family: 'Fraunces', serif;
+    font-weight: 800;
+    font-size: 42px;
+    color: var(--accent);
+    margin: 16px 0 4px;
+  }
+  .plan .price small {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--muted);
+  }
+  .plan ul { list-style: none; margin-top: 20px; }
+  .plan li {
+    padding: 8px 0;
+    color: var(--muted);
+    font-size: 15px;
+    display: flex;
+    align-items: start;
+    gap: 10px;
+  }
+  .plan li::before { content: '✓'; color: var(--green); font-weight: 700; }
+
+  .legal-info {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+  .legal-info h4 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .legal-info p { font-size: 15px; color: var(--text); margin-bottom: 16px; }
+  .legal-info a { color: var(--green); text-decoration: none; }
+  .legal-info a:hover { text-decoration: underline; }
+
+  footer {
+    padding: 40px 0;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 14px;
+    text-align: center;
+  }
+  footer .links { margin-bottom: 16px; }
+  footer .links a {
+    color: var(--muted);
+    text-decoration: none;
+    margin: 0 12px;
+  }
+  footer .links a:hover { color: var(--green); }
+  footer .legal { font-size: 13px; line-height: 1.7; }
+
+  @media (max-width: 720px) {
+    .steps, .plans, .legal-info { grid-template-columns: 1fr; }
+    h1 { font-size: 36px; }
+    nav a { margin-left: 12px; font-size: 13px; }
+  }
 </style>
 </head>
 <body>
-<div class="container">
 
-  <header>
-    <div class="logo">NF</div>
-    <h1>NF Bot</h1>
-    <p class="tagline">Automação de notas fiscais brasileiras via WhatsApp. Envie a foto, receba organização automática no Google Drive e Sheets.</p>
-  </header>
+<header>
+  <div class="wrap">
+    <div class="logo">Noti<span>nha</span></div>
+    <nav>
+      <a href="#como-funciona">Como funciona</a>
+      <a href="#planos">Planos</a>
+      <a href="#contato">Contato</a>
+    </nav>
+  </div>
+</header>
 
-  <section>
-    <h2>Sobre o serviço</h2>
-    <p>O <strong>NF Bot</strong> é um serviço de produtividade financeira para pessoas físicas e profissionais autônomos que precisam organizar suas notas fiscais de forma simples, sem planilhas manuais.</p>
-    <p>Nossa solução processa imagens de notas fiscais (NFC-e, cupom fiscal e NF-e) enviadas pelo WhatsApp, extrai automaticamente os dados — estabelecimento, data, valor total e itens — e registra tudo em uma planilha organizada por categoria, com a imagem arquivada no Google Drive.</p>
-  </section>
+<section class="hero">
+  <div class="wrap">
+    <div class="badge">● Controle financeiro pelo WhatsApp</div>
+    <h1>Foto da nota.<br>Relatório <em>na hora</em>.</h1>
+    <p class="lead">Mande foto da nota fiscal no WhatsApp. Notinha organiza, salva no seu Drive e gera relatório completo dos seus gastos — sem app, sem planilha manual.</p>
+    <a href="#planos" class="cta">Quero começar →</a>
+  </div>
+</section>
 
-  <section>
+<section id="como-funciona">
+  <div class="wrap">
     <h2>Como funciona</h2>
-    <ol class="steps">
-      <li><strong>Envie a foto da NF</strong> pelo WhatsApp para o número do NF Bot.</li>
-      <li><strong>Nossa IA extrai os dados</strong> — estabelecimento, valor, data e itens — e devolve a confirmação.</li>
-      <li><strong>Você escolhe a categoria</strong> (mercado, farmácia, combustível etc.) respondendo por texto.</li>
-      <li><strong>Tudo é salvo</strong> no seu Google Sheets e Drive, organizado por ano e categoria.</li>
-      <li><strong>No fim de cada mês</strong>, você recebe um resumo dos gastos e, se quiser, todas as NFs consolidadas em PDF.</li>
-    </ol>
-  </section>
-
-  <section>
-    <h2>Recursos</h2>
-    <ul>
-      <li>Leitura automática de notas fiscais por inteligência artificial</li>
-      <li>Categorização personalizada de despesas</li>
-      <li>Armazenamento seguro no Google Drive do próprio usuário</li>
-      <li>Planilha mensal com totais por categoria</li>
-      <li>Relatório mensal em PDF com todas as NFs</li>
-      <li>Interface via WhatsApp — sem app adicional para instalar</li>
-    </ul>
-  </section>
-
-  <section>
-    <h2>Público-alvo</h2>
-    <p>Autônomos, freelancers, profissionais liberais e pessoas físicas que desejam manter controle organizado de seus gastos pessoais sem recorrer a aplicativos pagos ou planilhas manuais.</p>
-  </section>
-
-  <section>
-    <h2>Privacidade e dados</h2>
-    <p>Todos os dados — imagens de notas e planilhas — ficam armazenados exclusivamente na conta Google do próprio usuário. O NF Bot não retém cópias, não compartilha informações com terceiros e não faz uso comercial dos dados processados.</p>
-    <p>O serviço utiliza exclusivamente a API oficial do WhatsApp Business Platform (Meta) para comunicação, garantindo conformidade com as políticas de mensageria.</p>
-    <p>Leia os detalhes completos em nossa <a href="privacidade.html">Política de Privacidade</a> e <a href="termos.html">Termos de Uso</a>.</p>
-  </section>
-
-  <section>
-    <h2>Contato</h2>
-    <div class="contact-grid">
-      <div><strong>Responsável:</strong> Yoseff Demek</div>
-      <div><strong>Localização:</strong> São Paulo, SP — Brasil</div>
-      <div><strong>Email:</strong> <a href="mailto:yosdemek@gmail.com">yosdemek@gmail.com</a></div>
-      <div><strong>Telefone:</strong> <a href="tel:+5513996811828">+55 13 99681-1828</a></div>
-      <div><strong>Instagram:</strong> <a href="https://www.instagram.com/yosdemek/" target="_blank">@yosdemek</a></div>
+    <p class="sub">Três passos. Zero esforço.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <h3>Manda foto no WhatsApp</h3>
+        <p>Tira foto da nota fiscal e envia pro número do Notinha. Pronto.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <h3>IA lê e organiza</h3>
+        <p>Extraímos estabelecimento, valor, categoria e itens — em segundos.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <h3>Relatório no seu Drive</h3>
+        <p>Imagem salva, planilha atualizada, relatório mensal automático.</p>
+      </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <footer>
-    © 2026 NF Bot · Operado por Yoseff Demek · São Paulo, Brasil<br><br>
-    <a href="privacidade.html">Política de Privacidade</a> ·
-    <a href="termos.html">Termos de Uso</a>
-  </footer>
+<section id="planos">
+  <div class="wrap">
+    <h2>Planos</h2>
+    <p class="sub">Cobrança mensal. Cancele quando quiser.</p>
+    <div class="plans">
+      <div class="plan">
+        <h3>Base</h3>
+        <p style="color: var(--muted); font-size: 14px;">Pra quem só quer organizar gastos.</p>
+        <div class="price">R$ 14,90<small>/mês</small></div>
+        <ul>
+          <li>Notas fiscais ilimitadas</li>
+          <li>Organização automática por categoria</li>
+          <li>Planilha no seu Google Drive</li>
+          <li>Suporte por WhatsApp</li>
+        </ul>
+      </div>
+      <div class="plan featured">
+        <h3>Premium</h3>
+        <p style="color: var(--muted); font-size: 14px;">Pra quem quer entender pra onde o dinheiro vai.</p>
+        <div class="price">R$ 44,90<small>/mês</small></div>
+        <ul>
+          <li>Tudo do plano Base</li>
+          <li>Insights semanais personalizados</li>
+          <li>Relatório PDF mensal automático</li>
+          <li>Análise de tendências e alertas</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
 
-</div>
+<section id="contato">
+  <div class="wrap">
+    <h2>Informações legais</h2>
+    <p class="sub">Operação registrada e em conformidade com a LGPD.</p>
+    <div class="legal-info">
+      <div>
+        <h4>Empresa</h4>
+        <p>66.824.150 YOSEFF KUSNIEC DEMEK<br>
+        CNPJ 66.824.150/0001-28<br>
+        MEI registrada desde 17/05/2026</p>
+
+        <h4>Atividade</h4>
+        <p>Preparação de documentos e serviços especializados de apoio administrativo (CNAE 8219-9/99)</p>
+      </div>
+      <div>
+        <h4>Contato</h4>
+        <p>Atendimento geral: <a href="mailto:contato@usenotinha.com.br">contato@usenotinha.com.br</a><br>
+        Suporte técnico: <a href="mailto:suporte@usenotinha.com.br">suporte@usenotinha.com.br</a><br>
+        Privacidade/LGPD: <a href="mailto:privacidade@usenotinha.com.br">privacidade@usenotinha.com.br</a><br>
+        WhatsApp: <a href="https://wa.me/5513996811828">+55 13 99681-1828</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="links">
+      <a href="privacidade.html">Política de Privacidade</a>
+      <a href="termos.html">Termos de Uso</a>
+      <a href="mailto:contato@usenotinha.com.br">Contato</a>
+    </div>
+    <div class="legal">
+      © 2026 Notinha · 66.824.150 YOSEFF KUSNIEC DEMEK · CNPJ 66.824.150/0001-28<br>
+      Operação registrada como MEI no Brasil
+    </div>
+  </div>
+</footer>
+
 </body>
 </html>
