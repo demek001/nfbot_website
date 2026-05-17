@@ -3,107 +3,277 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Termos de Uso — NF Bot</title>
+<title>Termos de Uso — Notinha</title>
+<meta name="description" content="Termos de Uso do Notinha — serviço de automação de notas fiscais via WhatsApp.">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    color: #1a1a1a;
-    line-height: 1.7;
-    background: #fafafa;
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --border: #30363d;
+    --green: #25d366;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --accent: #f0f6fc;
   }
-  .container { max-width: 780px; margin: 0 auto; padding: 60px 24px; }
-  .back { display: inline-block; color: #25D366; text-decoration: none; margin-bottom: 24px; font-size: 14px; }
-  .back:hover { text-decoration: underline; }
-  h1 { font-size: 32px; margin-bottom: 8px; color: #111; }
-  .updated { color: #888; font-size: 14px; margin-bottom: 32px; }
-  main { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
-  h2 { font-size: 20px; margin: 28px 0 12px; color: #111; border-left: 4px solid #25D366; padding-left: 12px; }
-  h2:first-child { margin-top: 0; }
-  p { margin-bottom: 14px; color: #333; }
-  ul { padding-left: 24px; margin-bottom: 14px; }
-  li { margin-bottom: 8px; color: #333; }
-  a { color: #25D366; text-decoration: none; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.75;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+
+  header {
+    padding: 28px 0;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 60px;
+  }
+  header .wrap { display: flex; justify-content: space-between; align-items: center; }
+  .logo {
+    font-family: 'Fraunces', serif;
+    font-weight: 800;
+    font-size: 24px;
+    letter-spacing: -0.02em;
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .logo span { color: var(--green); }
+  header a.back {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 14px;
+  }
+  header a.back:hover { color: var(--green); }
+
+  main { padding-bottom: 80px; }
+
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 44px;
+    letter-spacing: -0.02em;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .meta {
+    color: var(--muted);
+    font-size: 14px;
+    margin-bottom: 48px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 24px;
+    color: var(--accent);
+    margin-top: 48px;
+    margin-bottom: 16px;
+    letter-spacing: -0.01em;
+  }
+  h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 18px;
+    color: var(--accent);
+    margin-top: 28px;
+    margin-bottom: 10px;
+  }
+  p { margin-bottom: 16px; color: var(--text); }
+  ul, ol { margin: 12px 0 16px 24px; }
+  li { margin-bottom: 8px; color: var(--text); }
+  a { color: var(--green); text-decoration: none; }
   a:hover { text-decoration: underline; }
-  footer { text-align: center; margin-top: 40px; color: #888; font-size: 13px; }
+  strong { color: var(--accent); font-weight: 500; }
+
+  .highlight {
+    background: var(--surface);
+    border-left: 3px solid var(--green);
+    padding: 20px 24px;
+    margin: 24px 0;
+    border-radius: 0 8px 8px 0;
+  }
+  .highlight p:last-child { margin-bottom: 0; }
+
+  footer {
+    padding: 40px 0;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 13px;
+    text-align: center;
+    line-height: 1.7;
+  }
+  footer .links { margin-bottom: 16px; }
+  footer .links a {
+    color: var(--muted);
+    text-decoration: none;
+    margin: 0 12px;
+  }
+  footer .links a:hover { color: var(--green); }
 </style>
 </head>
 <body>
-<div class="container">
 
-  <a href="index.html" class="back">← Voltar à página inicial</a>
+<header>
+  <div class="wrap">
+    <a href="index.html" class="logo">Noti<span>nha</span></a>
+    <a href="index.html" class="back">← Voltar</a>
+  </div>
+</header>
 
-  <h1>Termos de Uso</h1>
-  <p class="updated">Última atualização: 23 de abril de 2026</p>
+<main>
+  <div class="wrap">
+    <h1>Termos de Uso</h1>
+    <p class="meta">Vigente desde 17/05/2026 · Aplicáveis a todos os usuários do serviço Notinha</p>
 
-  <main>
+    <div class="highlight">
+      <p><strong>Resumo:</strong> Notinha é um serviço de organização de notas fiscais via WhatsApp. Você paga uma mensalidade, manda fotos das suas notas e recebe relatórios financeiros. Você pode cancelar quando quiser.</p>
+    </div>
 
-    <h2>1. Aceitação dos termos</h2>
-    <p>Ao enviar uma mensagem ao <strong>NF Bot</strong> (“Serviço”), operado por Yoseff Demek (“Operador”), o usuário concorda integralmente com estes Termos de Uso. Caso não concorde, deve interromper o uso imediatamente.</p>
-
-    <h2>2. Descrição do serviço</h2>
-    <p>O NF Bot é uma ferramenta de automação pessoal que recebe imagens de notas fiscais brasileiras via WhatsApp, extrai informações através de inteligência artificial e organiza os dados em planilhas e pastas da conta Google do próprio usuário.</p>
-    <p>O Serviço é oferecido <strong>gratuitamente</strong> em fase de testes, sem garantia de disponibilidade contínua.</p>
-
-    <h2>3. Cadastro e uso</h2>
-    <p>Para utilizar o Serviço, o usuário deve:</p>
+    <h2>1. Definições</h2>
     <ul>
-      <li>Ter pelo menos 18 anos de idade.</li>
-      <li>Possuir conta ativa no WhatsApp.</li>
-      <li>Possuir conta Google com acesso ao Drive e Sheets (se optar por armazenamento próprio).</li>
-      <li>Fornecer informações verdadeiras e atualizadas.</li>
+      <li><strong>Notinha</strong> ou <strong>Serviço</strong>: serviço de automação para recebimento, leitura e organização de notas fiscais via WhatsApp, operado pelo Prestador.</li>
+      <li><strong>Prestador</strong>: 66.824.150 YOSEFF KUSNIEC DEMEK, CNPJ 66.824.150/0001-28, registrado como Microempreendedor Individual (MEI) no Brasil.</li>
+      <li><strong>Usuário</strong>: pessoa física que contrata o Serviço através de assinatura mensal.</li>
+      <li><strong>Conteúdo do Usuário</strong>: imagens, mensagens e dados enviados pelo Usuário ao Serviço.</li>
     </ul>
 
-    <h2>4. Uso aceitável</h2>
-    <p>O usuário compromete-se a:</p>
+    <h2>2. Aceitação dos Termos</h2>
+    <p>Ao contratar o Serviço, você declara que:</p>
     <ul>
-      <li>Utilizar o Serviço apenas para finalidade pessoal de organização financeira.</li>
-      <li>Enviar apenas imagens de notas fiscais legítimas e de sua propriedade.</li>
-      <li>Não enviar conteúdo ilegal, ofensivo, difamatório ou que viole direitos de terceiros.</li>
-      <li>Não utilizar o Serviço para qualquer atividade fraudulenta ou não autorizada.</li>
-      <li>Não tentar burlar limites técnicos, engenharia reversa ou explorar vulnerabilidades do sistema.</li>
+      <li>Tem mais de 18 anos e capacidade civil plena</li>
+      <li>Leu e aceita integralmente estes Termos e a <a href="privacidade.html">Política de Privacidade</a></li>
+      <li>Os dados cadastrais que forneceu são verdadeiros</li>
     </ul>
 
-    <h2>5. Propriedade dos dados</h2>
-    <p>Todos os dados fiscais e imagens enviadas permanecem de <strong>propriedade exclusiva do usuário</strong>. O Operador atua apenas como processador temporário dos dados para entrega do serviço solicitado.</p>
+    <h2>3. O que o Serviço faz</h2>
+    <p>O Notinha é um serviço de <strong>preparação e organização de documentos</strong>, conforme atividade econômica registrada (CNAE 8219-9/99). De forma simplificada:</p>
+    <ol>
+      <li>Você envia foto de nota fiscal para o número oficial do Notinha no WhatsApp.</li>
+      <li>Uma rotina automatizada lê o conteúdo da nota e extrai informações estruturadas (estabelecimento, valor, data, itens).</li>
+      <li>Os dados são organizados em planilha na <strong>sua própria conta do Google Drive</strong>, autorizada via OAuth.</li>
+      <li>Conforme o plano contratado, você recebe relatórios e insights periódicos sobre seus gastos.</li>
+    </ol>
 
-    <h2>6. Limitação de responsabilidade</h2>
-    <p>O Serviço é fornecido "no estado em que se encontra" (“as is”), sem garantias de qualquer natureza, expressa ou implícita. O Operador não se responsabiliza por:</p>
+    <h2>4. O que o Serviço NÃO faz</h2>
+    <p>É importante deixar claro o que o Notinha <strong>não é</strong>, para evitar mal-entendidos:</p>
     <ul>
-      <li>Erros na extração automática de dados pela IA.</li>
-      <li>Indisponibilidade temporária do WhatsApp, Google ou outros provedores.</li>
-      <li>Perda de dados em decorrência de falhas da conta Google do usuário.</li>
-      <li>Uso dos dados extraídos para fins contábeis, fiscais ou legais — o usuário deve validar as informações antes de qualquer uso oficial.</li>
-    </ul>
-    <p>O Serviço <strong>não substitui</strong> o trabalho de contador, advogado ou consultor financeiro.</p>
-
-    <h2>7. Propriedade intelectual</h2>
-    <p>Todo o código-fonte, design, marca e conteúdo do NF Bot pertencem ao Operador. É vedada a reprodução, distribuição ou uso comercial sem autorização prévia por escrito.</p>
-
-    <h2>8. Suspensão e encerramento</h2>
-    <p>O Operador pode suspender ou encerrar o acesso de qualquer usuário que viole estes Termos, sem aviso prévio. O usuário pode encerrar seu uso a qualquer momento, bastando interromper o envio de mensagens ou solicitar exclusão via email.</p>
-
-    <h2>9. Modificações nos termos</h2>
-    <p>Estes Termos podem ser atualizados a qualquer momento. Alterações relevantes serão comunicadas por este site. O uso contínuo do Serviço após atualização constitui aceitação dos novos termos.</p>
-
-    <h2>10. Legislação aplicável e foro</h2>
-    <p>Estes Termos são regidos pelas leis da República Federativa do Brasil. Eventuais disputas serão solucionadas no foro da comarca de São Paulo, SP, com renúncia a qualquer outro por mais privilegiado que seja.</p>
-
-    <h2>11. Contato</h2>
-    <p>Para dúvidas sobre estes Termos ou sobre o Serviço:</p>
-    <ul>
-      <li><strong>Responsável:</strong> Yoseff Demek</li>
-      <li><strong>Email:</strong> <a href="mailto:yosdemek@gmail.com">yosdemek@gmail.com</a></li>
-      <li><strong>Telefone:</strong> <a href="tel:+5513996811828">+55 13 99681-1828</a></li>
-      <li><strong>Endereço:</strong> São Paulo, SP — Brasil</li>
+      <li><strong>Não é instituição financeira</strong> — não realizamos pagamentos, transferências, investimentos ou operações bancárias em seu nome.</li>
+      <li><strong>Não é consultor financeiro nem contábil</strong> — relatórios gerados são organização de informação, não recomendação profissional.</li>
+      <li><strong>Não emite notas fiscais</strong> em seu nome — apenas organizamos as notas que você já recebeu.</li>
+      <li><strong>Não substitui contador</strong> — para fins fiscais (Imposto de Renda, declarações), consulte profissional habilitado.</li>
+      <li><strong>Não garante extração 100% precisa</strong> — usamos inteligência artificial para leitura das notas. Erros eventuais podem ocorrer e você é responsável por revisar as informações.</li>
     </ul>
 
-  </main>
+    <h2>5. Planos e cobrança</h2>
 
-  <footer>
-    © 2026 NF Bot · Operado por Yoseff Demek · São Paulo, Brasil
-  </footer>
+    <h3>5.1. Modalidades</h3>
+    <ul>
+      <li><strong>Plano Base</strong>: R$ 14,90/mês — organização de notas e planilha automática</li>
+      <li><strong>Plano Premium</strong>: R$ 44,90/mês — inclui insights semanais e relatório PDF mensal</li>
+    </ul>
 
-</div>
+    <h3>5.2. Cobrança</h3>
+    <p>A cobrança é mensal recorrente, processada por gateway de pagamento parceiro. Aceitamos cartão de crédito e PIX recorrente, conforme disponibilidade do gateway.</p>
+
+    <h3>5.3. Falha de pagamento</h3>
+    <p>Se uma cobrança falhar, tentaremos novamente nos 7 dias seguintes. Se não houver regularização, o Serviço será suspenso. Dados ficam preservados por 30 dias após suspensão pra eventual reativação.</p>
+
+    <h3>5.4. Reajustes</h3>
+    <p>Preços podem ser reajustados anualmente. Mudanças serão comunicadas com pelo menos 30 dias de antecedência. Se discordar, você pode cancelar antes da próxima cobrança sem ônus.</p>
+
+    <h2>6. Cancelamento e direito de arrependimento</h2>
+
+    <h3>6.1. Cancelamento a qualquer momento</h3>
+    <p>Você pode cancelar a qualquer momento enviando solicitação ao <a href="mailto:suporte@usenotinha.com.br">suporte@usenotinha.com.br</a> ou pelo WhatsApp do Notinha. O Serviço continua disponível até o fim do ciclo já pago.</p>
+
+    <h3>6.2. Direito de arrependimento (CDC art. 49)</h3>
+    <p>Por se tratar de serviço contratado fora do estabelecimento comercial, você tem direito de arrependimento em até <strong>7 dias corridos</strong> a partir da contratação, com reembolso integral.</p>
+
+    <h2>7. Suas obrigações como Usuário</h2>
+    <p>Ao usar o Serviço, você se compromete a:</p>
+    <ul>
+      <li>Fornecer informações verdadeiras e mantê-las atualizadas</li>
+      <li>Não enviar imagens fraudulentas, adulteradas ou ilegais</li>
+      <li>Não usar o Serviço para fins ilícitos ou que violem direitos de terceiros</li>
+      <li>Não tentar acessar áreas restritas do sistema</li>
+      <li>Não compartilhar seu acesso com terceiros</li>
+      <li>Manter sob sua responsabilidade os dados armazenados no seu Google Drive</li>
+    </ul>
+
+    <h2>8. Conteúdo do Usuário</h2>
+
+    <h3>8.1. Propriedade</h3>
+    <p>Você mantém toda a propriedade sobre as imagens e dados que envia. O Prestador não reivindica direitos sobre seu Conteúdo.</p>
+
+    <h3>8.2. Licença limitada</h3>
+    <p>Você concede ao Prestador licença não-exclusiva, gratuita e revogável para processar seu Conteúdo exclusivamente para prestação do Serviço contratado.</p>
+
+    <h3>8.3. Dados anonimizados</h3>
+    <p>Conforme detalhado na <a href="privacidade.html">Política de Privacidade</a>, dados <strong>anonimizados e agregados</strong> (sem identificação pessoal) podem ser usados pelo Prestador para estatísticas e melhoria do produto, conforme art. 12 da LGPD.</p>
+
+    <h2>9. Propriedade intelectual do Notinha</h2>
+    <p>O nome Notinha, o código-fonte, design, marca, fluxos automatizados e materiais relacionados são de propriedade exclusiva do Prestador. É vedada qualquer reprodução, engenharia reversa, distribuição ou uso comercial sem autorização prévia por escrito.</p>
+
+    <h2>10. Disponibilidade e limitações técnicas</h2>
+    <ul>
+      <li>O Serviço é prestado <strong>"como está"</strong>, sem garantia de disponibilidade ininterrupta</li>
+      <li>Podem ocorrer manutenções programadas com aviso prévio</li>
+      <li>Falhas em serviços de terceiros (WhatsApp, Google, gateway de pagamento, provedores de IA) podem afetar temporariamente o Serviço</li>
+      <li>Tempo de resposta para leitura de notas é estimado em segundos, mas pode variar conforme volume e qualidade da imagem</li>
+    </ul>
+
+    <h2>11. Limitação de responsabilidade</h2>
+    <p>Na máxima extensão permitida pela legislação brasileira:</p>
+    <ul>
+      <li>O Prestador não responde por <strong>erros de extração de dados</strong> das notas — é sua responsabilidade conferir as informações antes de tomar decisões</li>
+      <li>O Prestador não responde por <strong>decisões financeiras</strong> tomadas com base nos relatórios</li>
+      <li>O Prestador não responde por <strong>perdas indiretas, lucros cessantes ou danos morais</strong>, salvo dolo ou culpa grave comprovada</li>
+      <li>Eventual responsabilidade financeira do Prestador fica limitada ao valor das últimas 12 mensalidades pagas pelo Usuário</li>
+    </ul>
+
+    <h2>12. Suspensão e encerramento pelo Prestador</h2>
+    <p>O Prestador pode suspender ou encerrar o acesso ao Serviço, com ou sem aviso prévio, se identificar:</p>
+    <ul>
+      <li>Violação destes Termos</li>
+      <li>Uso fraudulento ou ilícito do Serviço</li>
+      <li>Comportamento abusivo contra atendimento</li>
+      <li>Tentativa de comprometer a segurança ou estabilidade do Serviço</li>
+    </ul>
+
+    <h2>13. Alterações nestes Termos</h2>
+    <p>Estes Termos podem ser atualizados a qualquer momento. Alterações relevantes serão comunicadas por e-mail e/ou WhatsApp com pelo menos 30 dias de antecedência. O uso contínuo do Serviço após a comunicação constitui aceitação dos novos termos.</p>
+
+    <h2>14. Legislação aplicável e foro</h2>
+    <p>Estes Termos são regidos pelas leis da República Federativa do Brasil, especialmente pelo Código de Defesa do Consumidor (Lei 8.078/1990), Marco Civil da Internet (Lei 12.965/2014) e Lei Geral de Proteção de Dados (Lei 13.709/2018).</p>
+    <p>Eventuais disputas serão solucionadas no foro do domicílio do Usuário, conforme art. 101, I do CDC.</p>
+
+    <h2>15. Contato</h2>
+    <div class="highlight">
+      <p><strong>Prestador:</strong> 66.824.150 YOSEFF KUSNIEC DEMEK<br>
+      <strong>CNPJ:</strong> 66.824.150/0001-28<br>
+      <strong>Atendimento geral:</strong> <a href="mailto:contato@usenotinha.com.br">contato@usenotinha.com.br</a><br>
+      <strong>Suporte:</strong> <a href="mailto:suporte@usenotinha.com.br">suporte@usenotinha.com.br</a><br>
+      <strong>WhatsApp:</strong> <a href="https://wa.me/5513996811828">+55 13 99681-1828</a></p>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="links">
+      <a href="index.html">Início</a>
+      <a href="privacidade.html">Política de Privacidade</a>
+      <a href="mailto:contato@usenotinha.com.br">Contato</a>
+    </div>
+    © 2026 Notinha · 66.824.150 YOSEFF KUSNIEC DEMEK · CNPJ 66.824.150/0001-28
+  </div>
+</footer>
+
 </body>
 </html>
