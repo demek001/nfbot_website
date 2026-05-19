@@ -9,15 +9,19 @@
 <meta property="og:description" content="Foto da nota no WhatsApp. Relatório completo dos gastos.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://usenotinha.com.br">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="64x64" href="favicon-64.png">
+<link rel="apple-touch-icon" href="notinha-icon.png">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=DM+Sans:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #0d1117;
     --surface: #161b22;
     --surface2: #1f2630;
     --border: #30363d;
-    --green: #25d366;
-    --green-soft: #25d36622;
+    --brand: #288A89;
+    --brand-hover: #2EA09E;
+    --brand-soft: #288A8922;
     --text: #e6edf3;
     --muted: #8b949e;
     --accent: #f0f6fc;
@@ -37,26 +41,39 @@
     position: fixed;
     inset: 0;
     background:
-      radial-gradient(800px circle at 20% 0%, rgba(37, 211, 102, 0.08), transparent 40%),
-      radial-gradient(600px circle at 80% 30%, rgba(37, 211, 102, 0.05), transparent 50%);
+      radial-gradient(800px circle at 20% 0%, rgba(40, 138, 137, 0.08), transparent 40%),
+      radial-gradient(600px circle at 80% 30%, rgba(40, 138, 137, 0.05), transparent 50%);
     pointer-events: none;
     z-index: 0;
   }
   .wrap { max-width: 980px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
 
   header {
-    padding: 28px 0;
+    padding: 20px 0;
     border-bottom: 1px solid var(--border);
   }
   header .wrap { display: flex; justify-content: space-between; align-items: center; }
+
   .logo {
-    font-family: 'Fraunces', serif;
-    font-weight: 800;
-    font-size: 28px;
-    letter-spacing: -0.02em;
-    color: var(--accent);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
   }
-  .logo span { color: var(--green); }
+  .logo img {
+    height: 36px;
+    width: auto;
+    display: block;
+  }
+  .logo-text {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 500;
+    font-size: 26px;
+    letter-spacing: -0.01em;
+    color: var(--accent);
+    line-height: 1;
+  }
+
   nav a {
     color: var(--muted);
     text-decoration: none;
@@ -73,9 +90,9 @@
   .badge {
     display: inline-block;
     padding: 6px 14px;
-    background: var(--green-soft);
-    border: 1px solid var(--green);
-    color: var(--green);
+    background: var(--brand-soft);
+    border: 1px solid var(--brand);
+    color: var(--brand);
     font-size: 13px;
     font-weight: 500;
     border-radius: 100px;
@@ -92,7 +109,7 @@
   }
   h1 em {
     font-style: italic;
-    color: var(--green);
+    color: var(--brand);
     font-weight: 800;
   }
   .lead {
@@ -106,14 +123,14 @@
     align-items: center;
     gap: 10px;
     padding: 16px 32px;
-    background: var(--green);
-    color: #0d1117;
+    background: var(--brand);
+    color: #fff;
     text-decoration: none;
     font-weight: 600;
     border-radius: 100px;
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
   }
-  .cta:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(37, 211, 102, 0.3); }
+  .cta:hover { background: var(--brand-hover); transform: translateY(-2px); box-shadow: 0 12px 30px rgba(40, 138, 137, 0.35); }
 
   section { padding: 70px 0; border-top: 1px solid var(--border); }
   h2 {
@@ -124,17 +141,9 @@
     margin-bottom: 12px;
     color: var(--accent);
   }
-  .sub {
-    color: var(--muted);
-    font-size: 16px;
-    margin-bottom: 40px;
-  }
+  .sub { color: var(--muted); font-size: 16px; margin-bottom: 40px; }
 
-  .steps {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-  }
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
   .step {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -146,7 +155,7 @@
     font-family: 'Fraunces', serif;
     font-weight: 800;
     font-size: 48px;
-    color: var(--green);
+    color: var(--brand);
     line-height: 1;
     margin-bottom: 12px;
   }
@@ -159,25 +168,21 @@
   }
   .step p { color: var(--muted); font-size: 15px; }
 
-  .plans {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-  }
+  .plans { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
   .plan {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 16px;
     padding: 32px;
   }
-  .plan.featured { border-color: var(--green); position: relative; }
+  .plan.featured { border-color: var(--brand); position: relative; }
   .plan.featured::after {
     content: 'Recomendado';
     position: absolute;
     top: -12px;
     right: 24px;
-    background: var(--green);
-    color: #0d1117;
+    background: var(--brand);
+    color: #fff;
     padding: 4px 12px;
     border-radius: 100px;
     font-size: 12px;
@@ -197,11 +202,7 @@
     color: var(--accent);
     margin: 16px 0 4px;
   }
-  .plan .price small {
-    font-size: 14px;
-    font-weight: 400;
-    color: var(--muted);
-  }
+  .plan .price small { font-size: 14px; font-weight: 400; color: var(--muted); }
   .plan ul { list-style: none; margin-top: 20px; }
   .plan li {
     padding: 8px 0;
@@ -211,29 +212,17 @@
     align-items: start;
     gap: 10px;
   }
-  .plan li::before { content: '✓'; color: var(--green); font-weight: 700; }
-
-  .legal-info {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 32px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 32px;
-  }
-  .legal-info h4 {
-    font-family: 'Fraunces', serif;
+  .plan li::before { content: '✓'; color: var(--brand); font-weight: 700; }
+  .plan .trial-tag {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 4px 10px;
+    background: var(--brand-soft);
+    color: var(--brand);
+    border-radius: 100px;
+    font-size: 12px;
     font-weight: 600;
-    font-size: 14px;
-    color: var(--muted);
-    margin-bottom: 8px;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
   }
-  .legal-info p { font-size: 15px; color: var(--text); margin-bottom: 16px; }
-  .legal-info a { color: var(--green); text-decoration: none; }
-  .legal-info a:hover { text-decoration: underline; }
 
   footer {
     padding: 40px 0;
@@ -243,18 +232,16 @@
     text-align: center;
   }
   footer .links { margin-bottom: 16px; }
-  footer .links a {
-    color: var(--muted);
-    text-decoration: none;
-    margin: 0 12px;
-  }
-  footer .links a:hover { color: var(--green); }
+  footer .links a { color: var(--muted); text-decoration: none; margin: 0 12px; }
+  footer .links a:hover { color: var(--brand); }
   footer .legal { font-size: 13px; line-height: 1.7; }
 
   @media (max-width: 720px) {
-    .steps, .plans, .legal-info { grid-template-columns: 1fr; }
+    .steps, .plans { grid-template-columns: 1fr; }
     h1 { font-size: 36px; }
     nav a { margin-left: 12px; font-size: 13px; }
+    .logo-text { font-size: 22px; }
+    .logo img { height: 30px; }
   }
 </style>
 </head>
@@ -262,11 +249,14 @@
 
 <header>
   <div class="wrap">
-    <div class="logo">Noti<span>nha</span></div>
+    <a href="index.html" class="logo">
+      <img src="notinha-icon.png" alt="Notinha">
+      <span class="logo-text">Notinha</span>
+    </a>
     <nav>
       <a href="#como-funciona">Como funciona</a>
       <a href="#planos">Planos</a>
-      <a href="#contato">Contato</a>
+      <a href="mailto:contato@usenotinha.com.br">Contato</a>
     </nav>
   </div>
 </header>
@@ -319,6 +309,7 @@
           <li>Planilha no seu Google Drive</li>
           <li>Suporte por WhatsApp</li>
         </ul>
+        <span class="trial-tag">3 meses grátis de insights no lançamento</span>
       </div>
       <div class="plan featured">
         <h3>Premium</h3>
@@ -356,11 +347,11 @@
 <div id="cookieBanner" style="display:none; position:fixed; bottom:0; left:0; right:0; background:#161b22; border-top:1px solid #30363d; padding:20px 24px; z-index:9999; font-family:'DM Sans',sans-serif; color:#e6edf3;">
   <div style="max-width:980px; margin:0 auto; display:flex; flex-wrap:wrap; gap:16px; align-items:center; justify-content:space-between;">
     <p style="font-size:14px; line-height:1.5; flex:1; min-width:280px; margin:0;">
-      Usamos <a href="cookies.html" style="color:#25d366; text-decoration:underline;">cookies</a> para melhorar sua experiência. Cookies analíticos e funcionais dependem do seu consentimento. Veja nossa <a href="privacidade.html" style="color:#25d366; text-decoration:underline;">Política de Privacidade</a>.
+      Usamos <a href="cookies.html" style="color:#288A89; text-decoration:underline;">cookies</a> para melhorar sua experiência. Cookies analíticos e funcionais dependem do seu consentimento. Veja nossa <a href="privacidade.html" style="color:#288A89; text-decoration:underline;">Política de Privacidade</a>.
     </p>
     <div style="display:flex; gap:8px; flex-wrap:wrap;">
       <button onclick="cookieEssenciais()" style="padding:10px 18px; background:transparent; color:#8b949e; border:1px solid #30363d; border-radius:100px; cursor:pointer; font-family:inherit; font-size:14px;">Apenas essenciais</button>
-      <button onclick="cookieAceitar()" style="padding:10px 18px; background:#25d366; color:#0d1117; border:none; border-radius:100px; cursor:pointer; font-family:inherit; font-weight:600; font-size:14px;">Aceitar todos</button>
+      <button onclick="cookieAceitar()" style="padding:10px 18px; background:#288A89; color:#fff; border:none; border-radius:100px; cursor:pointer; font-family:inherit; font-weight:600; font-size:14px;">Aceitar todos</button>
     </div>
   </div>
 </div>
