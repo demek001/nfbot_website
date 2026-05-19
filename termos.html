@@ -6,123 +6,60 @@
 <title>Termos de Uso — Notinha</title>
 <meta name="description" content="Termos de Uso do Notinha — serviço de automação de notas fiscais via WhatsApp.">
 <meta name="robots" content="noindex, nofollow">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="64x64" href="favicon-64.png">
+<link rel="apple-touch-icon" href="notinha-icon.png">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=DM+Sans:wght@300;400;500&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #0d1117;
     --surface: #161b22;
     --border: #30363d;
-    --green: #25d366;
+    --brand: #288A89;
+    --brand-hover: #2EA09E;
+    --brand-soft: #288A8922;
     --text: #e6edf3;
     --muted: #8b949e;
     --accent: #f0f6fc;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 300;
-    line-height: 1.75;
-  }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 300; line-height: 1.75; }
   .wrap { max-width: 760px; margin: 0 auto; padding: 0 24px; }
-
-  header {
-    padding: 28px 0;
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 60px;
-  }
+  header { padding: 20px 0; border-bottom: 1px solid var(--border); margin-bottom: 60px; }
   header .wrap { display: flex; justify-content: space-between; align-items: center; }
-  .logo {
-    font-family: 'Fraunces', serif;
-    font-weight: 800;
-    font-size: 24px;
-    letter-spacing: -0.02em;
-    color: var(--accent);
-    text-decoration: none;
-  }
-  .logo span { color: var(--green); }
-  header a.back {
-    color: var(--muted);
-    text-decoration: none;
-    font-size: 14px;
-  }
-  header a.back:hover { color: var(--green); }
-
+  .logo { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; }
+  .logo img { height: 32px; width: auto; display: block; }
+  .logo-text { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 500; font-size: 22px; letter-spacing: -0.01em; color: var(--accent); line-height: 1; }
+  header a.back { color: var(--muted); text-decoration: none; font-size: 14px; }
+  header a.back:hover { color: var(--brand); }
   main { padding-bottom: 80px; }
-
-  h1 {
-    font-family: 'Fraunces', serif;
-    font-weight: 600;
-    font-size: 44px;
-    letter-spacing: -0.02em;
-    color: var(--accent);
-    margin-bottom: 8px;
-  }
-  .meta {
-    color: var(--muted);
-    font-size: 14px;
-    margin-bottom: 48px;
-    padding-bottom: 24px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  h2 {
-    font-family: 'Fraunces', serif;
-    font-weight: 600;
-    font-size: 24px;
-    color: var(--accent);
-    margin-top: 48px;
-    margin-bottom: 16px;
-    letter-spacing: -0.01em;
-  }
-  h3 {
-    font-family: 'Fraunces', serif;
-    font-weight: 600;
-    font-size: 18px;
-    color: var(--accent);
-    margin-top: 28px;
-    margin-bottom: 10px;
-  }
+  h1 { font-family: 'Fraunces', serif; font-weight: 600; font-size: 44px; letter-spacing: -0.02em; color: var(--accent); margin-bottom: 8px; }
+  .meta { color: var(--muted); font-size: 14px; margin-bottom: 48px; padding-bottom: 24px; border-bottom: 1px solid var(--border); }
+  h2 { font-family: 'Fraunces', serif; font-weight: 600; font-size: 24px; color: var(--accent); margin-top: 48px; margin-bottom: 16px; letter-spacing: -0.01em; }
+  h3 { font-family: 'Fraunces', serif; font-weight: 600; font-size: 18px; color: var(--accent); margin-top: 28px; margin-bottom: 10px; }
   p { margin-bottom: 16px; color: var(--text); }
   ul, ol { margin: 12px 0 16px 24px; }
   li { margin-bottom: 8px; color: var(--text); }
-  a { color: var(--green); text-decoration: none; }
-  a:hover { text-decoration: underline; }
+  a { color: var(--brand); text-decoration: none; }
+  a:hover { text-decoration: underline; color: var(--brand-hover); }
   strong { color: var(--accent); font-weight: 500; }
-
-  .highlight {
-    background: var(--surface);
-    border-left: 3px solid var(--green);
-    padding: 20px 24px;
-    margin: 24px 0;
-    border-radius: 0 8px 8px 0;
-  }
+  .highlight { background: var(--surface); border-left: 3px solid var(--brand); padding: 20px 24px; margin: 24px 0; border-radius: 0 8px 8px 0; }
   .highlight p:last-child { margin-bottom: 0; }
-
-  footer {
-    padding: 40px 0;
-    border-top: 1px solid var(--border);
-    color: var(--muted);
-    font-size: 13px;
-    text-align: center;
-    line-height: 1.7;
-  }
+  footer { padding: 40px 0; border-top: 1px solid var(--border); color: var(--muted); font-size: 13px; text-align: center; line-height: 1.7; }
   footer .links { margin-bottom: 16px; }
-  footer .links a {
-    color: var(--muted);
-    text-decoration: none;
-    margin: 0 12px;
-  }
-  footer .links a:hover { color: var(--green); }
+  footer .links a { color: var(--muted); text-decoration: none; margin: 0 12px; }
+  footer .links a:hover { color: var(--brand); }
 </style>
 </head>
 <body>
 
 <header>
   <div class="wrap">
-    <a href="index.html" class="logo">Noti<span>nha</span></a>
+    <a href="index.html" class="logo">
+      <img src="notinha-icon.png" alt="Notinha">
+      <span class="logo-text">Notinha</span>
+    </a>
     <a href="index.html" class="back">← Voltar</a>
   </div>
 </header>
@@ -139,7 +76,7 @@
     <h2>1. Definições</h2>
     <ul>
       <li><strong>Notinha</strong> ou <strong>Serviço</strong>: serviço de automação para recebimento, leitura e organização de notas fiscais via WhatsApp.</li>
-      <li><strong>Prestador</strong>: CNPJ 66.824.150/0001-28, registrado como Microempreendedor Individual (MEI) no Brasil.</li>
+      <li><strong>Prestador</strong>: 66.824.150 YOSEFF KUSNIEC DEMEK, CNPJ 66.824.150/0001-28, registrado como Microempreendedor Individual (MEI) no Brasil.</li>
       <li><strong>Usuário</strong>: pessoa física que contrata o Serviço por meio de assinatura mensal.</li>
       <li><strong>Conteúdo do Usuário</strong>: imagens, mensagens e dados enviados pelo Usuário ao Serviço.</li>
     </ul>
@@ -181,6 +118,7 @@
       <li><strong>Plano Base</strong>: R$ 14,90/mês — organização de notas e planilha automática</li>
       <li><strong>Plano Premium</strong>: R$ 44,90/mês — inclui insights semanais e relatório PDF mensal</li>
     </ul>
+    <p style="font-size: 14px; color: var(--muted);">Promoção de lançamento: usuários do Plano Base recebem 3 meses gratuitos de insights semanais e mensais. Após o período promocional, o acesso aos insights depende de migração para o Plano Premium.</p>
 
     <h3>6.2. Cobrança</h3>
     <p>A cobrança é mensal recorrente, processada por gateway de pagamento parceiro. Aceitamos cartão de crédito e PIX recorrente, conforme disponibilidade do gateway.</p>
@@ -277,7 +215,7 @@
 
     <h2>16. Contato</h2>
     <div class="highlight">
-      <p><strong>Prestador:</strong> Notinha<br>
+      <p><strong>Prestador:</strong> 66.824.150 YOSEFF KUSNIEC DEMEK<br>
       <strong>CNPJ:</strong> 66.824.150/0001-28<br>
       <strong>Atendimento geral:</strong> <a href="mailto:contato@usenotinha.com.br">contato@usenotinha.com.br</a><br>
       <strong>Suporte:</strong> <a href="mailto:suporte@usenotinha.com.br">suporte@usenotinha.com.br</a><br>
@@ -291,22 +229,22 @@
     <div class="links">
       <a href="index.html">Início</a>
       <a href="privacidade.html">Política de Privacidade</a>
+      <a href="cookies.html">Cookies</a>
       <a href="mailto:contato@usenotinha.com.br">Contato</a>
     </div>
     © 2026 Notinha · CNPJ 66.824.150/0001-28
   </div>
 </footer>
 
-
 <!-- Banner de Cookies LGPD -->
 <div id="cookieBanner" style="display:none; position:fixed; bottom:0; left:0; right:0; background:#161b22; border-top:1px solid #30363d; padding:20px 24px; z-index:9999; font-family:'DM Sans',sans-serif; color:#e6edf3;">
   <div style="max-width:980px; margin:0 auto; display:flex; flex-wrap:wrap; gap:16px; align-items:center; justify-content:space-between;">
     <p style="font-size:14px; line-height:1.5; flex:1; min-width:280px; margin:0;">
-      Usamos <a href="cookies.html" style="color:#25d366; text-decoration:underline;">cookies</a> para melhorar sua experiência. Cookies analíticos e funcionais dependem do seu consentimento. Veja nossa <a href="privacidade.html" style="color:#25d366; text-decoration:underline;">Política de Privacidade</a>.
+      Usamos <a href="cookies.html" style="color:#288A89; text-decoration:underline;">cookies</a> para melhorar sua experiência. Cookies analíticos e funcionais dependem do seu consentimento. Veja nossa <a href="privacidade.html" style="color:#288A89; text-decoration:underline;">Política de Privacidade</a>.
     </p>
     <div style="display:flex; gap:8px; flex-wrap:wrap;">
       <button onclick="cookieEssenciais()" style="padding:10px 18px; background:transparent; color:#8b949e; border:1px solid #30363d; border-radius:100px; cursor:pointer; font-family:inherit; font-size:14px;">Apenas essenciais</button>
-      <button onclick="cookieAceitar()" style="padding:10px 18px; background:#25d366; color:#0d1117; border:none; border-radius:100px; cursor:pointer; font-family:inherit; font-weight:600; font-size:14px;">Aceitar todos</button>
+      <button onclick="cookieAceitar()" style="padding:10px 18px; background:#288A89; color:#fff; border:none; border-radius:100px; cursor:pointer; font-family:inherit; font-weight:600; font-size:14px;">Aceitar todos</button>
     </div>
   </div>
 </div>
@@ -319,7 +257,6 @@
 function cookieAceitar(){ localStorage.setItem('cookieConsent','all'); document.getElementById('cookieBanner').style.display='none'; }
 function cookieEssenciais(){ localStorage.setItem('cookieConsent','essential'); document.getElementById('cookieBanner').style.display='none'; }
 </script>
-
 
 </body>
 </html>
