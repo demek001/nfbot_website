@@ -359,6 +359,15 @@
 
   /* FAQ */
   .faq { display: flex; flex-direction: column; gap: 8px; }
+  .faq-group {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 22px;
+    color: var(--accent);
+    letter-spacing: -0.01em;
+    margin: 48px 0 16px;
+  }
+  .faq-group:first-of-type { margin-top: 0; }
   details {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -605,8 +614,9 @@
 <section id="faq">
   <div class="wrap">
     <h2>Perguntas frequentes</h2>
-    <p class="sub">As dúvidas mais comuns antes de começar.</p>
+    <p class="sub">Antes de começar e no dia a dia.</p>
 
+    <h3 class="faq-group">Antes de começar</h3>
     <div class="faq">
       <details>
         <summary>Preciso baixar algum aplicativo?</summary>
@@ -629,8 +639,8 @@
       </details>
 
       <details>
-        <summary>Posso cancelar quando quiser?</summary>
-        <p>Sim. Sem multa, sem fidelidade, sem letrinha miúda. Você cancela pelo WhatsApp ou e-mail e a assinatura encerra no fim do ciclo já pago.</p>
+        <summary>Quanto tempo demora pra processar uma nota?</summary>
+        <p>Segundos. Você manda a foto e recebe a confirmação com o resumo já categorizado. Se algo parecer estranho, a gente pergunta antes de salvar.</p>
       </details>
 
       <details>
@@ -639,8 +649,8 @@
       </details>
 
       <details>
-        <summary>Quanto tempo demora pra processar uma nota?</summary>
-        <p>Segundos. Você manda a foto e recebe a confirmação com o resumo já categorizado. Se algo parecer estranho, a gente pergunta antes de salvar.</p>
+        <summary>Posso cancelar quando quiser?</summary>
+        <p>Sim. Sem multa, sem fidelidade, sem letrinha miúda. Você cancela pelo WhatsApp ou e-mail e a assinatura encerra no fim do ciclo já pago.</p>
       </details>
 
       <details>
@@ -651,6 +661,49 @@
       <details>
         <summary>Meus dados ficam seguros?</summary>
         <p>Sim. Todos os dados são criptografados e os servidores respeitam as normas da LGPD. Não vendemos dados pessoais e não pedimos senha de banco ou de cartão.</p>
+      </details>
+    </div>
+
+    <h3 class="faq-group">Como usar no dia a dia</h3>
+    <div class="faq">
+      <details>
+        <summary>Como tirar uma boa foto da nota?</summary>
+        <p>Idealmente em lugar bem iluminado, nota apoiada em superfície lisa (mesa, balcão), câmera reta — de cima pra baixo, não inclinada. Tenta pegar a nota inteira, do CNPJ no topo até o total no rodapé. Mas é possivel também enviar uma foto segurando a NF em ambientes com pouca luz. Em todo caso, você será avisado caso eu não consiga ler a imagem.</p>
+      </details>
+
+      <details>
+        <summary>Posso mandar áudio?</summary>
+        <p>Não. Áudios não são processados pelo Notinha. Use sempre texto ou foto. Se quiser registrar um gasto sem ter a nota, basta digitar — por exemplo: <em>gastei 50 mercado</em>.</p>
+      </details>
+
+      <details>
+        <summary>Como vejo o resumo dos meus gastos?</summary>
+        <p>Manda <strong>resumo</strong> pelo WhatsApp pra ver o mês atual. <strong>resumo passado</strong> mostra o mês anterior. <strong>resumo março</strong> ou <strong>resumo março 2026</strong> mostram um mês específico. Pra receber em PDF: <strong>pdf</strong> ou <strong>pdf março</strong>.</p>
+      </details>
+
+      <details>
+        <summary>Tem como ver onde gasto mais?</summary>
+        <p>Sim. <strong>"top produtos"</strong> mostra o que você mais compra. <strong>"top lojas"</strong> mostra onde mais gasta. <strong>"pagamentos"</strong> analisa por forma de pagamento. <strong>"descontos"</strong> mostra quanto economizou. <strong>"comparar"</strong> compara dois períodos.</p>
+      </details>
+
+      <details>
+        <summary>Posso registrar gasto sem ter a nota?</summary>
+        <p>Pode. Manda por texto no formato <strong>"gastei 50 no mercado XYZ"</strong> (valor + onde). Útil pra compras em dinheiro ou quando você esqueceu de pedir a nota.</p>
+      </details>
+
+      <details>
+        <summary>Como peço ajuda dentro do WhatsApp?</summary>
+        <p>Manda <strong>"ajuda"</strong>, <strong>"menu"</strong> ou <strong>"opções"</strong> a qualquer momento. Aparece o menu com as principais ações. Pra dicas de foto, manda <strong>"ajuda foto"</strong>.</p>
+      </details>
+
+      <details>
+        <summary>Como falo com uma pessoa de verdade?</summary>
+        <p>Manda <strong>"suporte"</strong> pelo WhatsApp ou um e-mail pra <a href="mailto:suporte@usenotinha.com.br">suporte@usenotinha.com.br</a>. A gente responde em até um dia.</p>
+      </details>
+
+      <details>
+        <summary>Posso cancelar minha conta pelo WhatsApp?</summary>
+        <p>Sim. Manda <strong>"cancelar conta"</strong> que enviamos para você o link para cancelar. Antes disso, se quiser, manda <strong>exportar meus dados</strong> pra exportar tudo (é um direito seu pela LGPD).</p>
       </details>
     </div>
   </div>
