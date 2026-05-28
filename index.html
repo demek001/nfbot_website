@@ -129,8 +129,22 @@
     font-weight: 600;
     border-radius: 100px;
     transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
   }
   .cta:hover { background: var(--brand-hover); transform: translateY(-2px); box-shadow: 0 12px 30px rgba(40, 138, 137, 0.35); }
+  .cta-secondary {
+    display: inline-block;
+    margin-top: 16px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 14px;
+    border-bottom: 1px dashed var(--border);
+    padding-bottom: 2px;
+  }
+  .cta-secondary:hover { color: var(--brand); border-color: var(--brand); }
 
   section { padding: 70px 0; border-top: 1px solid var(--border); }
   h2 {
@@ -141,8 +155,64 @@
     margin-bottom: 12px;
     color: var(--accent);
   }
-  .sub { color: var(--muted); font-size: 16px; margin-bottom: 40px; }
+  .sub { color: var(--muted); font-size: 16px; margin-bottom: 40px; max-width: 640px; }
 
+  /* COMPARAÇÃO */
+  .compare { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .compare-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+  }
+  .compare-tag {
+    display: inline-block;
+    padding: 4px 10px;
+    background: var(--surface2);
+    color: var(--muted);
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 16px;
+    width: fit-content;
+  }
+  .compare-card h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 20px;
+    color: var(--accent);
+    margin-bottom: 10px;
+    line-height: 1.25;
+  }
+  .compare-problem {
+    color: var(--muted);
+    font-size: 15px;
+    margin-bottom: 20px;
+    flex-grow: 1;
+  }
+  .compare-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 0 0 16px;
+  }
+  .compare-arrow {
+    color: var(--brand);
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+  }
+  .compare-solution {
+    color: var(--accent);
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.5;
+  }
+
+  /* STEPS */
   .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
   .step {
     background: var(--surface);
@@ -168,12 +238,48 @@
   }
   .step p { color: var(--muted); font-size: 15px; }
 
+  /* CONFIANÇA */
+  .trust { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .trust-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 22px 24px;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+  .trust-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: var(--brand-soft);
+    color: var(--brand);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .trust-card h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 17px;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+  .trust-card p { color: var(--muted); font-size: 14px; line-height: 1.5; }
+
+  /* PLANOS */
   .plans { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
   .plan {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 16px;
     padding: 32px;
+    display: flex;
+    flex-direction: column;
   }
   .plan.featured { border-color: var(--brand); position: relative; }
   .plan.featured::after {
@@ -203,7 +309,7 @@
     margin: 16px 0 4px;
   }
   .plan .price small { font-size: 14px; font-weight: 400; color: var(--muted); }
-  .plan ul { list-style: none; margin-top: 20px; }
+  .plan ul { list-style: none; margin-top: 20px; flex-grow: 1; }
   .plan li {
     padding: 8px 0;
     color: var(--muted);
@@ -223,6 +329,73 @@
     font-size: 12px;
     font-weight: 600;
   }
+  .plan-cta {
+    margin-top: 24px;
+    display: block;
+    text-align: center;
+    padding: 12px 24px;
+    background: var(--surface2);
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 100px;
+    transition: background 0.2s;
+    font-size: 15px;
+  }
+  .plan-cta:hover { background: var(--brand); color: #fff; }
+  .plan.featured .plan-cta { background: var(--brand); color: #fff; }
+  .plan.featured .plan-cta:hover { background: var(--brand-hover); }
+
+  /* CTA REPETIDO */
+  .cta-section {
+    text-align: center;
+    margin-top: 48px;
+  }
+  .cta-section p {
+    color: var(--muted);
+    font-size: 15px;
+    margin-bottom: 18px;
+  }
+
+  /* FAQ */
+  .faq { display: flex; flex-direction: column; gap: 8px; }
+  details {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 0;
+    transition: border-color 0.2s;
+  }
+  details[open] { border-color: var(--brand); }
+  summary {
+    cursor: pointer;
+    padding: 20px 24px;
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 17px;
+    color: var(--accent);
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary::after {
+    content: '+';
+    color: var(--brand);
+    font-size: 22px;
+    font-weight: 300;
+    transition: transform 0.2s;
+  }
+  details[open] summary::after { content: '−'; }
+  details p {
+    padding: 0 24px 22px;
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.65;
+    margin: 0;
+  }
 
   footer {
     padding: 40px 0;
@@ -231,17 +404,26 @@
     font-size: 14px;
     text-align: center;
   }
+  .footer-cta {
+    margin-bottom: 32px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--border);
+  }
   footer .links { margin-bottom: 16px; }
   footer .links a { color: var(--muted); text-decoration: none; margin: 0 12px; }
   footer .links a:hover { color: var(--brand); }
   footer .legal { font-size: 13px; line-height: 1.7; }
 
   @media (max-width: 720px) {
-    .steps, .plans { grid-template-columns: 1fr; }
+    .steps, .plans, .compare { grid-template-columns: 1fr; }
+    .trust { grid-template-columns: 1fr; }
     h1 { font-size: 36px; }
+    h2 { font-size: 28px; }
     nav a { margin-left: 12px; font-size: 13px; }
     .logo-text { font-size: 22px; }
     .logo img { height: 30px; }
+    section { padding: 50px 0; }
+    .hero { padding: 60px 0 50px; }
   }
 </style>
 </head>
@@ -254,22 +436,63 @@
       <span class="logo-text">Notinha</span>
     </a>
     <nav>
+      <a href="#por-que">Por que</a>
       <a href="#como-funciona">Como funciona</a>
       <a href="#planos">Planos</a>
-      <a href="mailto:contato@usenotinha.com.br">Contato</a>
+      <a href="#faq">Dúvidas</a>
     </nav>
   </div>
 </header>
 
+<!-- HERO -->
 <section class="hero">
   <div class="wrap">
     <div class="badge">● Controle financeiro pelo WhatsApp</div>
     <h1>Foto da nota.<br>Relatório <em>na hora</em>.</h1>
     <p class="lead">Mande foto da nota fiscal no WhatsApp. Notinha organiza, salva no seu Drive e gera relatório completo dos seus gastos — sem app, sem planilha manual.</p>
-    <a href="#planos" class="cta">Quero começar →</a>
+    <a href="#planos" class="cta">Assinar agora →</a>
+    <div><a href="#como-funciona" class="cta-secondary">ver como funciona</a></div>
   </div>
 </section>
 
+<!-- POR QUE NOTINHA (COMPARAÇÃO) -->
+<section id="por-que">
+  <div class="wrap">
+    <h2>Por que Notinha?</h2>
+    <p class="sub">Você já tentou organizar os gastos antes. Veja o que muda dessa vez.</p>
+
+    <div class="compare">
+      <div class="compare-card">
+        <span class="compare-tag">Hoje você usa: planilha</span>
+        <h3>Sai da digitação manual</h3>
+        <p class="compare-problem">Você abre a planilha, digita item por item, esquece de atualizar por uma semana, perde o controle e acaba parando.</p>
+        <div class="compare-divider"></div>
+        <div class="compare-arrow">Com Notinha</div>
+        <p class="compare-solution">Foto da nota. Tudo digitado, categorizado e somado por você — sem precisar lembrar de nada.</p>
+      </div>
+
+      <div class="compare-card">
+        <span class="compare-tag">Hoje você usa: app de finanças</span>
+        <h3>Sem mais um app pra abrir</h3>
+        <p class="compare-problem">Mais um app pra baixar, mais um cadastro, mais uma senha. Pede acesso ao seu banco e exige que você abra todo dia pra atualizar.</p>
+        <div class="compare-divider"></div>
+        <div class="compare-arrow">Com Notinha</div>
+        <p class="compare-solution">Dentro do WhatsApp que você já usa. Não pede senha de banco. Funciona quando você manda a foto — não quando lembra de abrir.</p>
+      </div>
+
+      <div class="compare-card">
+        <span class="compare-tag">Hoje você usa: app do banco</span>
+        <h3>Vê o que o extrato não mostra</h3>
+        <p class="compare-problem">O extrato mostra "MERCADO XYZ — R$ 287,40" e pronto. Você não sabe o que comprou, em que categoria entra, nem tem a nota guardada.</p>
+        <div class="compare-divider"></div>
+        <div class="compare-arrow">Com Notinha</div>
+        <p class="compare-solution">Item por item da nota, categorizado, com foto arquivada no seu Drive. Inclusive a forma de pagamento.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMO FUNCIONA -->
 <section id="como-funciona">
   <div class="wrap">
     <h2>Como funciona</h2>
@@ -291,13 +514,58 @@
         <p>Imagem salva, planilha atualizada, relatório mensal automático.</p>
       </div>
     </div>
+
+    <div class="cta-section">
+      <p>Demora menos de um minuto pra começar.</p>
+      <a href="#planos" class="cta">Assinar agora →</a>
+    </div>
   </div>
 </section>
 
+<!-- CONFIANÇA / SEGURANÇA -->
+<section id="confianca">
+  <div class="wrap">
+    <h2>Seus dados, sob seu controle</h2>
+    <p class="sub">Privacidade não é detalhe. É como o Notinha foi feito desde o primeiro dia.</p>
+
+    <div class="trust">
+      <div class="trust-card">
+        <div class="trust-icon">D</div>
+        <div>
+          <h3>Tudo no seu próprio Drive</h3>
+          <p>Notas e planilhas ficam guardadas no seu próprio Google Drive. Você é o dono dos arquivos. Se cancelar, leva tudo.</p>
+        </div>
+      </div>
+      <div class="trust-card">
+        <div class="trust-icon">C</div>
+        <div>
+          <h3>Tudo criptografado</h3>
+          <p>Todos os dados são criptografados. Salvos no seu próprio Google Drive, com conexão segura ponta a ponta.</p>
+        </div>
+      </div>
+      <div class="trust-card">
+        <div class="trust-icon">L</div>
+        <div>
+          <h3>Em conformidade com a LGPD</h3>
+          <p>Os servidores possuem alto padrão de proteção e as informações são protegidas e criptografadas, respeitando as normas da LGPD.</p>
+        </div>
+      </div>
+      <div class="trust-card">
+        <div class="trust-icon">B</div>
+        <div>
+          <h3>Sem senha de banco</h3>
+          <p>Não pedimos senha de banco, dados de cartão ou acesso à sua conta. Só lemos as notas que você manda.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PLANOS -->
 <section id="planos">
   <div class="wrap">
     <h2>Planos</h2>
-    <p class="sub">Cobrança mensal. Cancele quando quiser.</p>
+    <p class="sub">Cobrança mensal. Cancele quando quiser. Sem fidelidade.</p>
     <div class="plans">
       <div class="plan">
         <h3>Base</h3>
@@ -310,6 +578,7 @@
           <li>Suporte por WhatsApp</li>
         </ul>
         <span class="trial-tag">3 meses grátis de insights no lançamento</span>
+        <a href="https://wa.me/5513981371748?text=Oi%20Notinha%2C%20quero%20o%20plano%20Base" class="plan-cta">Começar com o Base →</a>
       </div>
       <div class="plan featured">
         <h3>Premium</h3>
@@ -321,7 +590,68 @@
           <li>Relatório PDF mensal automático</li>
           <li>Análise de tendências e alertas</li>
         </ul>
+        <a href="https://wa.me/5513981371748?text=Oi%20Notinha%2C%20quero%20o%20plano%20Premium" class="plan-cta">Começar com o Premium →</a>
       </div>
+    </div>
+
+    <div class="cta-section">
+      <p>Ainda em dúvida? Manda mensagem direto pelo WhatsApp.</p>
+      <a href="https://wa.me/5513981371748?text=Oi%20Notinha%2C%20tenho%20uma%20d%C3%BAvida" class="cta">Tirar dúvida no WhatsApp →</a>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="wrap">
+    <h2>Perguntas frequentes</h2>
+    <p class="sub">As dúvidas mais comuns antes de começar.</p>
+
+    <div class="faq">
+      <details>
+        <summary>Preciso baixar algum aplicativo?</summary>
+        <p>Não. Notinha funciona dentro do WhatsApp que você já usa todo dia. Sem cadastro em app novo, sem ocupar espaço no celular.</p>
+      </details>
+
+      <details>
+        <summary>Funciona em iPhone e Android?</summary>
+        <p>Sim. Qualquer celular com WhatsApp funciona — iPhone, Android, até no WhatsApp Web do computador.</p>
+      </details>
+
+      <details>
+        <summary>Onde meus arquivos ficam salvos?</summary>
+        <p>Na sua própria conta do Google Drive. Você autoriza o acesso e os arquivos ficam sob seu controle. Se cancelar a assinatura, eles continuam com você.</p>
+      </details>
+
+      <details>
+        <summary>Lê cupom fiscal, NFC-e e NFe também?</summary>
+        <p>Sim. Notinha lê nota fiscal de papel, cupom fiscal eletrônico (NFC-e) e nota fiscal eletrônica (NFe) — basta mandar a foto ou o PDF.</p>
+      </details>
+
+      <details>
+        <summary>Posso cancelar quando quiser?</summary>
+        <p>Sim. Sem multa, sem fidelidade, sem letrinha miúda. Você cancela pelo WhatsApp ou e-mail e a assinatura encerra no fim do ciclo já pago.</p>
+      </details>
+
+      <details>
+        <summary>Como recebo os relatórios?</summary>
+        <p>O resumo mensal chega pelo WhatsApp. A planilha completa fica no seu Drive, atualizada em tempo real. No plano Premium, você ainda recebe um PDF mensal pronto pra arquivar ou prestar contas.</p>
+      </details>
+
+      <details>
+        <summary>Quanto tempo demora pra processar uma nota?</summary>
+        <p>Segundos. Você manda a foto e recebe a confirmação com o resumo já categorizado. Se algo parecer estranho, a gente pergunta antes de salvar.</p>
+      </details>
+
+      <details>
+        <summary>O Notinha salva meus dados?</summary>
+        <p>As fotos das notas fiscais e suas planilhas ficam guardadas no seu próprio Google Drive — não nos nossos servidores. Você é o dono dos arquivos. Se cancelar, leva tudo com você.</p>
+      </details>
+
+      <details>
+        <summary>Meus dados ficam seguros?</summary>
+        <p>Sim. Todos os dados são criptografados e os servidores respeitam as normas da LGPD. Não vendemos dados pessoais e não pedimos senha de banco ou de cartão.</p>
+      </details>
     </div>
   </div>
 </section>
@@ -329,6 +659,9 @@
 
 <footer>
   <div class="wrap">
+    <div class="footer-cta">
+      <a href="#planos" class="cta">Assinar agora →</a>
+    </div>
     <div class="links">
       <a href="privacidade.html">Política de Privacidade</a>
       <a href="termos.html">Termos de Uso</a>
