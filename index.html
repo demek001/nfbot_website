@@ -753,7 +753,7 @@ function cookieEssenciais(){ localStorage.setItem('cookieConsent','essential'); 
 <!-- Lista de espera -> Supabase -->
 <script>
 const SUPABASE_URL = 'https://xpzjwlhrlebdpcybxaxu.supabase.co';
-const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_R_j7j9oa96Nl-8v6S7Cx-w_HFhr67pD';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inhwemp3bGhybGViZHBjeWJ4YXh1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4MzAyMzQsImV4cCI6MjA5MzQwNjIzNH0.rR-XrG-cjdNtj7gYc6SuGxnudOXAGaIy52u3qofXJxM';
 
 async function enviarLista(e) {
   e.preventDefault();
@@ -800,8 +800,8 @@ async function enviarLista(e) {
     const res = await fetch(SUPABASE_URL + '/rest/v1/leads_interesse', {
       method: 'POST',
       headers: {
-        'apikey': SUPABASE_PUBLISHABLE_KEY,
-        'Authorization': 'Bearer ' + SUPABASE_PUBLISHABLE_KEY,
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
         'Content-Type': 'application/json',
         'Prefer': 'return=minimal'
       },
