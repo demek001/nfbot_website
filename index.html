@@ -3,15 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-FC1XHM57Z6"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-FC1XHM57Z6');
 </script>
+
 <title>Notinha — Controle financeiro pelo WhatsApp</title>
 <meta name="description" content="Mande foto da nota fiscal no WhatsApp. Notinha organiza tudo, salva no seu Drive e gera relatório dos seus gastos automaticamente.">
 <meta property="og:title" content="Notinha — Controle financeiro pelo WhatsApp">
@@ -35,6 +36,7 @@
     --text: #e6edf3;
     --muted: #8b949e;
     --accent: #f0f6fc;
+    --danger: #f85149;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
@@ -58,23 +60,10 @@
   }
   .wrap { max-width: 980px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
 
-  header {
-    padding: 20px 0;
-    border-bottom: 1px solid var(--border);
-  }
+  header { padding: 20px 0; border-bottom: 1px solid var(--border); }
   header .wrap { display: flex; justify-content: space-between; align-items: center; }
-
-  .logo {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    text-decoration: none;
-  }
-  .logo img {
-    height: 36px;
-    width: auto;
-    display: block;
-  }
+  .logo { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; }
+  .logo img { height: 36px; width: auto; display: block; }
   .logo-text {
     font-family: 'Plus Jakarta Sans', sans-serif;
     font-weight: 500;
@@ -83,7 +72,6 @@
     color: var(--accent);
     line-height: 1;
   }
-
   nav a {
     color: var(--muted);
     text-decoration: none;
@@ -93,10 +81,7 @@
   }
   nav a:hover { color: var(--accent); }
 
-  .hero {
-    padding: 100px 0 80px;
-    text-align: center;
-  }
+  .hero { padding: 100px 0 80px; text-align: center; }
   .badge {
     display: inline-block;
     padding: 6px 14px;
@@ -117,11 +102,7 @@
     margin-bottom: 24px;
     color: var(--accent);
   }
-  h1 em {
-    font-style: italic;
-    color: var(--brand);
-    font-weight: 800;
-  }
+  h1 em { font-style: italic; color: var(--brand); font-weight: 800; }
   .lead {
     font-size: 19px;
     color: var(--muted);
@@ -167,7 +148,6 @@
   }
   .sub { color: var(--muted); font-size: 16px; margin-bottom: 40px; max-width: 640px; }
 
-  /* COMPARAÇÃO */
   .compare { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
   .compare-card {
     background: var(--surface);
@@ -196,17 +176,8 @@
     margin-bottom: 10px;
     line-height: 1.25;
   }
-  .compare-problem {
-    color: var(--muted);
-    font-size: 15px;
-    margin-bottom: 20px;
-    flex-grow: 1;
-  }
-  .compare-divider {
-    height: 1px;
-    background: var(--border);
-    margin: 0 0 16px;
-  }
+  .compare-problem { color: var(--muted); font-size: 15px; margin-bottom: 20px; flex-grow: 1; }
+  .compare-divider { height: 1px; background: var(--border); margin: 0 0 16px; }
   .compare-arrow {
     color: var(--brand);
     font-size: 12px;
@@ -215,14 +186,8 @@
     letter-spacing: 0.08em;
     margin-bottom: 8px;
   }
-  .compare-solution {
-    color: var(--accent);
-    font-size: 15px;
-    font-weight: 500;
-    line-height: 1.5;
-  }
+  .compare-solution { color: var(--accent); font-size: 15px; font-weight: 500; line-height: 1.5; }
 
-  /* STEPS */
   .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
   .step {
     background: var(--surface);
@@ -248,7 +213,6 @@
   }
   .step p { color: var(--muted); font-size: 15px; }
 
-  /* CONFIANÇA */
   .trust { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
   .trust-card {
     background: var(--surface);
@@ -281,90 +245,126 @@
   }
   .trust-card p { color: var(--muted); font-size: 14px; line-height: 1.5; }
 
-  /* PLANOS */
-  .plans { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
-  .plan {
+  /* LISTA DE ESPERA */
+  .lista-box {
     background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 32px;
-    display: flex;
-    flex-direction: column;
+    border: 1px solid var(--brand);
+    border-radius: 20px;
+    padding: 48px;
+    max-width: 640px;
+    margin: 0 auto;
+    position: relative;
   }
-  .plan.featured { border-color: var(--brand); position: relative; }
-  .plan.featured::after {
-    content: 'Recomendado';
-    position: absolute;
-    top: -12px;
-    right: 24px;
+  .lista-tag {
+    display: inline-block;
+    padding: 4px 12px;
     background: var(--brand);
     color: #fff;
-    padding: 4px 12px;
     border-radius: 100px;
-    font-size: 12px;
-    font-weight: 600;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 20px;
   }
-  .plan h3 {
-    font-family: 'Fraunces', serif;
-    font-weight: 600;
-    font-size: 22px;
-    margin-bottom: 4px;
-    color: var(--accent);
-  }
-  .plan .price {
-    font-family: 'Fraunces', serif;
-    font-weight: 800;
-    font-size: 42px;
-    color: var(--accent);
-    margin: 16px 0 4px;
-  }
-  .plan .price small { font-size: 14px; font-weight: 400; color: var(--muted); }
-  .plan ul { list-style: none; margin-top: 20px; flex-grow: 1; }
-  .plan li {
-    padding: 8px 0;
-    color: var(--muted);
-    font-size: 15px;
-    display: flex;
-    align-items: start;
-    gap: 10px;
-  }
-  .plan li::before { content: '✓'; color: var(--brand); font-weight: 700; }
-  .plan .trial-tag {
-    display: inline-block;
-    margin-top: 12px;
-    padding: 4px 10px;
+  .lista-box h2 { font-size: 30px; margin-bottom: 14px; line-height: 1.2; }
+  .lista-box .bonus {
     background: var(--brand-soft);
-    color: var(--brand);
-    border-radius: 100px;
-    font-size: 12px;
-    font-weight: 600;
+    border: 1px solid var(--brand);
+    border-radius: 12px;
+    padding: 18px 20px;
+    margin: 24px 0 32px;
   }
-  .plan-cta {
-    margin-top: 24px;
-    display: block;
-    text-align: center;
-    padding: 12px 24px;
-    background: var(--surface2);
+  .lista-box .bonus strong { color: var(--brand); font-weight: 600; }
+  .lista-box .bonus p { color: var(--accent); font-size: 15px; margin: 0; }
+
+  form.lista-form { display: flex; flex-direction: column; gap: 14px; }
+  form.lista-form label {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 14px;
+    color: var(--muted);
+  }
+  form.lista-form input[type="email"],
+  form.lista-form input[type="tel"],
+  form.lista-form input[type="text"] {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 13px 16px;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 15px;
+    transition: border-color 0.2s;
+  }
+  form.lista-form input:focus { outline: none; border-color: var(--brand); }
+  form.lista-form .checkbox-row {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+  form.lista-form input[type="checkbox"] {
+    margin-top: 3px;
+    accent-color: var(--brand);
+    cursor: pointer;
+  }
+  form.lista-form .checkbox-row a { color: var(--brand); text-decoration: none; }
+  form.lista-form .checkbox-row a:hover { text-decoration: underline; }
+  form.lista-form button {
+    margin-top: 8px;
+    padding: 16px 28px;
+    background: var(--brand);
+    color: #fff;
+    border: none;
+    border-radius: 100px;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.2s, transform 0.2s;
+  }
+  form.lista-form button:hover:not(:disabled) { background: var(--brand-hover); transform: translateY(-1px); }
+  form.lista-form button:disabled { opacity: 0.6; cursor: not-allowed; }
+
+  .honeypot { position: absolute; left: -9999px; opacity: 0; pointer-events: none; }
+
+  .lista-msg { font-size: 14px; padding: 12px 0 0; color: var(--muted); }
+  .lista-msg.erro { color: var(--danger); }
+
+  .lista-sucesso { display: none; text-align: center; padding: 20px 0; }
+  .lista-sucesso .check {
+    width: 64px;
+    height: 64px;
+    background: var(--brand-soft);
+    border: 2px solid var(--brand);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    color: var(--brand);
+    font-size: 32px;
+    font-weight: 700;
+  }
+  .lista-sucesso h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 24px;
     color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .lista-sucesso p { color: var(--muted); font-size: 15px; margin-bottom: 20px; }
+  .lista-sucesso a {
+    color: var(--brand);
     text-decoration: none;
     font-weight: 600;
-    border-radius: 100px;
-    transition: background 0.2s;
-    font-size: 15px;
-  }
-  .plan-cta:hover { background: var(--brand); color: #fff; }
-  .plan.featured .plan-cta { background: var(--brand); color: #fff; }
-  .plan.featured .plan-cta:hover { background: var(--brand-hover); }
-
-  /* CTA REPETIDO */
-  .cta-section {
-    text-align: center;
-    margin-top: 48px;
-  }
-  .cta-section p {
-    color: var(--muted);
-    font-size: 15px;
-    margin-bottom: 18px;
+    font-size: 14px;
+    border-bottom: 1px dashed var(--brand);
+    padding-bottom: 2px;
   }
 
   /* FAQ */
@@ -382,7 +382,6 @@
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 12px;
-    padding: 0;
     transition: border-color 0.2s;
   }
   details[open] { border-color: var(--brand); }
@@ -400,13 +399,7 @@
     gap: 16px;
   }
   summary::-webkit-details-marker { display: none; }
-  summary::after {
-    content: '+';
-    color: var(--brand);
-    font-size: 22px;
-    font-weight: 300;
-    transition: transform 0.2s;
-  }
+  summary::after { content: '+'; color: var(--brand); font-size: 22px; font-weight: 300; }
   details[open] summary::after { content: '−'; }
   details p {
     padding: 0 24px 22px;
@@ -423,18 +416,14 @@
     font-size: 14px;
     text-align: center;
   }
-  .footer-cta {
-    margin-bottom: 32px;
-    padding-bottom: 32px;
-    border-bottom: 1px solid var(--border);
-  }
+  .footer-cta { margin-bottom: 32px; padding-bottom: 32px; border-bottom: 1px solid var(--border); }
   footer .links { margin-bottom: 16px; }
   footer .links a { color: var(--muted); text-decoration: none; margin: 0 12px; }
   footer .links a:hover { color: var(--brand); }
   footer .legal { font-size: 13px; line-height: 1.7; }
 
   @media (max-width: 720px) {
-    .steps, .plans, .compare { grid-template-columns: 1fr; }
+    .steps, .compare { grid-template-columns: 1fr; }
     .trust { grid-template-columns: 1fr; }
     h1 { font-size: 36px; }
     h2 { font-size: 28px; }
@@ -443,6 +432,8 @@
     .logo img { height: 30px; }
     section { padding: 50px 0; }
     .hero { padding: 60px 0 50px; }
+    .lista-box { padding: 32px 24px; }
+    .lista-box h2 { font-size: 24px; }
   }
 </style>
 </head>
@@ -457,7 +448,7 @@
     <nav>
       <a href="#por-que">Por que</a>
       <a href="#como-funciona">Como funciona</a>
-      <a href="#planos">Planos</a>
+      <a href="blog/">Caderninho</a>
       <a href="#faq">Dúvidas</a>
     </nav>
   </div>
@@ -466,15 +457,15 @@
 <!-- HERO -->
 <section class="hero">
   <div class="wrap">
-    <div class="badge">● Controle financeiro pelo WhatsApp</div>
+    <div class="badge">● Em breve · Lista de espera aberta</div>
     <h1>Foto da nota.<br>Relatório <em>na hora</em>.</h1>
-    <p class="lead">Mande foto da nota fiscal no WhatsApp. Notinha organiza, salva no seu Drive e gera relatório completo dos seus gastos — sem app, sem planilha manual.</p>
-    <a href="#planos" class="cta">Assinar agora →</a>
+    <p class="lead">Notinha está chegando: você manda foto da nota fiscal no WhatsApp e seu controle financeiro se organiza sozinho. Entre na lista de espera e ganhe 3 meses de Premium grátis no lançamento.</p>
+    <a href="#lista" class="cta">Garantir acesso antecipado →</a>
     <div><a href="#como-funciona" class="cta-secondary">ver como funciona</a></div>
   </div>
 </section>
 
-<!-- POR QUE NOTINHA (COMPARAÇÃO) -->
+<!-- POR QUE NOTINHA -->
 <section id="por-que">
   <div class="wrap">
     <h2>Por que Notinha?</h2>
@@ -534,14 +525,14 @@
       </div>
     </div>
 
-    <div class="cta-section">
-      <p>Demora menos de um minuto pra começar.</p>
-      <a href="#planos" class="cta">Assinar agora →</a>
+    <div style="text-align: center; margin-top: 48px;">
+      <p style="color: var(--muted); font-size: 15px; margin-bottom: 18px;">Quem entra agora ganha 3 meses de Premium grátis.</p>
+      <a href="#lista" class="cta">Entrar na lista →</a>
     </div>
   </div>
 </section>
 
-<!-- CONFIANÇA / SEGURANÇA -->
+<!-- CONFIANÇA -->
 <section id="confianca">
   <div class="wrap">
     <h2>Seus dados, sob seu controle</h2>
@@ -580,42 +571,54 @@
   </div>
 </section>
 
-<!-- PLANOS -->
-<section id="planos">
+<!-- LISTA DE ESPERA -->
+<section id="lista">
   <div class="wrap">
-    <h2>Planos</h2>
-    <p class="sub">Cobrança mensal. Cancele quando quiser. Sem fidelidade.</p>
-    <div class="plans">
-      <div class="plan">
-        <h3>Base</h3>
-        <p style="color: var(--muted); font-size: 14px;">Pra quem só quer organizar gastos.</p>
-        <div class="price">R$ 14,90<small>/mês</small></div>
-        <ul>
-          <li>Notas fiscais ilimitadas</li>
-          <li>Organização automática por categoria</li>
-          <li>Planilha no seu Google Drive</li>
-          <li>Suporte por WhatsApp</li>
-        </ul>
-        <span class="trial-tag">3 meses grátis de insights no lançamento</span>
-        <a href="https://wa.me/5513981371748?text=Oi%20Notinha%2C%20quero%20o%20plano%20Base" class="plan-cta">Começar com o Base →</a>
-      </div>
-      <div class="plan featured">
-        <h3>Premium</h3>
-        <p style="color: var(--muted); font-size: 14px;">Pra quem quer entender pra onde o dinheiro vai.</p>
-        <div class="price">R$ 44,90<small>/mês</small></div>
-        <ul>
-          <li>Tudo do plano Base</li>
-          <li>Insights semanais personalizados</li>
-          <li>Relatório PDF mensal automático</li>
-          <li>Análise de tendências e alertas</li>
-        </ul>
-        <a href="https://wa.me/5513981371748?text=Oi%20Notinha%2C%20quero%20o%20plano%20Premium" class="plan-cta">Começar com o Premium →</a>
-      </div>
-    </div>
+    <div class="lista-box">
+      <span class="lista-tag">Acesso antecipado</span>
+      <h2>Garanta seu lugar no lançamento</h2>
+      <p class="sub" style="margin-bottom: 0;">Notinha está em fase final de testes. Cadastre-se na lista de espera e seja avisado assim que abrir.</p>
 
-    <div class="cta-section">
-      <p>Ainda em dúvida? Manda mensagem direto pelo WhatsApp.</p>
-      <a href="https://wa.me/5513981371748?text=Oi%20Notinha%2C%20tenho%20uma%20d%C3%BAvida" class="cta">Tirar dúvida no WhatsApp →</a>
+      <div class="bonus">
+        <p><strong>Bônus exclusivo da lista:</strong> 3 meses do plano Premium grátis no lançamento, com insights semanais e relatórios em PDF.</p>
+      </div>
+
+      <form class="lista-form" id="lista-form" onsubmit="enviarLista(event)" novalidate>
+        <label>
+          Seu melhor e-mail *
+          <input type="email" name="email" required autocomplete="email" placeholder="voce@email.com">
+        </label>
+
+        <label>
+          Seu WhatsApp *
+          <input type="tel" name="telefone" required autocomplete="tel" placeholder="(11) 91234-5678">
+        </label>
+
+        <label>
+          Como prefere ser chamado(a)? <span style="color: var(--muted); font-weight: 400;">(opcional)</span>
+          <input type="text" name="nome" autocomplete="given-name" placeholder="Seu primeiro nome">
+        </label>
+
+        <input type="text" name="website" class="honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+        <div class="checkbox-row">
+          <input type="checkbox" name="aceite" id="aceite" required>
+          <label for="aceite" style="font-size: 13px; color: var(--muted);">
+            Concordo em receber e-mails e mensagens do Notinha e li a <a href="privacidade.html">Política de Privacidade</a>.
+          </label>
+        </div>
+
+        <button type="submit" id="lista-submit">Quero ser avisado →</button>
+
+        <div class="lista-msg" id="lista-msg"></div>
+      </form>
+
+      <div class="lista-sucesso" id="lista-sucesso">
+        <div class="check">✓</div>
+        <h3 id="lista-sucesso-h">Você está na lista!</h3>
+        <p id="lista-sucesso-p">A gente te avisa por e-mail e WhatsApp assim que o Notinha abrir.</p>
+        <a href="blog/">Enquanto isso, visite o Caderninho →</a>
+      </div>
     </div>
   </div>
 </section>
@@ -632,42 +635,34 @@
         <summary>Preciso baixar algum aplicativo?</summary>
         <p>Não. Notinha funciona dentro do WhatsApp que você já usa todo dia. Sem cadastro em app novo, sem ocupar espaço no celular.</p>
       </details>
-
       <details>
         <summary>Funciona em iPhone e Android?</summary>
         <p>Sim. Qualquer celular com WhatsApp funciona — iPhone, Android, até no WhatsApp Web do computador.</p>
       </details>
-
       <details>
         <summary>Onde meus arquivos ficam salvos?</summary>
         <p>Na sua própria conta do Google Drive. Você autoriza o acesso e os arquivos ficam sob seu controle. Se cancelar a assinatura, eles continuam com você.</p>
       </details>
-
       <details>
         <summary>Lê cupom fiscal, NFC-e e NFe também?</summary>
         <p>Sim. Notinha lê nota fiscal de papel, cupom fiscal eletrônico (NFC-e) e nota fiscal eletrônica (NFe) — basta mandar a foto ou o PDF.</p>
       </details>
-
       <details>
         <summary>Quanto tempo demora pra processar uma nota?</summary>
         <p>Segundos. Você manda a foto e recebe a confirmação com o resumo já categorizado. Se algo parecer estranho, a gente pergunta antes de salvar.</p>
       </details>
-
       <details>
         <summary>Como recebo os relatórios?</summary>
         <p>O resumo mensal chega pelo WhatsApp. A planilha completa fica no seu Drive, atualizada em tempo real. No plano Premium, você ainda recebe um PDF mensal pronto pra arquivar ou prestar contas.</p>
       </details>
-
       <details>
         <summary>Posso cancelar quando quiser?</summary>
         <p>Sim. Sem multa, sem fidelidade, sem letrinha miúda. Você cancela pelo WhatsApp ou e-mail e a assinatura encerra no fim do ciclo já pago.</p>
       </details>
-
       <details>
         <summary>O Notinha salva meus dados?</summary>
         <p>As fotos das notas fiscais e suas planilhas ficam guardadas no seu próprio Google Drive — não nos nossos servidores. Você é o dono dos arquivos. Se cancelar, leva tudo com você.</p>
       </details>
-
       <details>
         <summary>Meus dados ficam seguros?</summary>
         <p>Sim. Todos os dados são criptografados e os servidores respeitam as normas da LGPD. Não vendemos dados pessoais e não pedimos senha de banco ou de cartão.</p>
@@ -680,37 +675,30 @@
         <summary>Como tirar uma boa foto da nota?</summary>
         <p>Idealmente em lugar bem iluminado, nota apoiada em superfície lisa (mesa, balcão), câmera reta — de cima pra baixo, não inclinada. Tenta pegar a nota inteira, do CNPJ no topo até o total no rodapé. Mas é possivel também enviar uma foto segurando a NF em ambientes com pouca luz. Em todo caso, você será avisado caso eu não consiga ler a imagem.</p>
       </details>
-
       <details>
         <summary>Posso mandar áudio?</summary>
         <p>Não. Áudios não são processados pelo Notinha. Use sempre texto ou foto. Se quiser registrar um gasto sem ter a nota, basta digitar — por exemplo: <em>gastei 50 mercado</em>.</p>
       </details>
-
       <details>
         <summary>Como vejo o resumo dos meus gastos?</summary>
         <p>Manda <strong>resumo</strong> pelo WhatsApp pra ver o mês atual. <strong>resumo passado</strong> mostra o mês anterior. <strong>resumo março</strong> ou <strong>resumo março 2026</strong> mostram um mês específico. Pra receber em PDF: <strong>pdf</strong> ou <strong>pdf março</strong>.</p>
       </details>
-
       <details>
         <summary>Tem como ver onde gasto mais?</summary>
         <p>Sim. <strong>"top produtos"</strong> mostra o que você mais compra. <strong>"top lojas"</strong> mostra onde mais gasta. <strong>"pagamentos"</strong> analisa por forma de pagamento. <strong>"descontos"</strong> mostra quanto economizou. <strong>"comparar"</strong> compara dois períodos.</p>
       </details>
-
       <details>
         <summary>Posso registrar gasto sem ter a nota?</summary>
         <p>Pode. Manda por texto no formato <strong>"gastei 50 no mercado XYZ"</strong> (valor + onde). Útil pra compras em dinheiro ou quando você esqueceu de pedir a nota.</p>
       </details>
-
       <details>
         <summary>Como peço ajuda dentro do WhatsApp?</summary>
         <p>Manda <strong>"ajuda"</strong>, <strong>"menu"</strong> ou <strong>"opções"</strong> a qualquer momento. Aparece o menu com as principais ações. Pra dicas de foto, manda <strong>"ajuda foto"</strong>.</p>
       </details>
-
       <details>
         <summary>Como falo com uma pessoa de verdade?</summary>
         <p>Manda <strong>"suporte"</strong> pelo WhatsApp ou um e-mail pra <a href="mailto:suporte@usenotinha.com.br">suporte@usenotinha.com.br</a>. A gente responde em até um dia.</p>
       </details>
-
       <details>
         <summary>Posso cancelar minha conta pelo WhatsApp?</summary>
         <p>Sim. Manda <strong>"cancelar conta"</strong> que enviamos para você o link para cancelar. Antes disso, se quiser, manda <strong>exportar meus dados</strong> pra exportar tudo (é um direito seu pela LGPD).</p>
@@ -723,9 +711,10 @@
 <footer>
   <div class="wrap">
     <div class="footer-cta">
-      <a href="#planos" class="cta">Assinar agora →</a>
+      <a href="#lista" class="cta">Entrar na lista de espera →</a>
     </div>
     <div class="links">
+      <a href="blog/">Caderninho</a>
       <a href="privacidade.html">Política de Privacidade</a>
       <a href="termos.html">Termos de Uso</a>
       <a href="cookies.html">Cookies</a>
@@ -761,6 +750,89 @@ function cookieAceitar(){ localStorage.setItem('cookieConsent','all'); document.
 function cookieEssenciais(){ localStorage.setItem('cookieConsent','essential'); document.getElementById('cookieBanner').style.display='none'; }
 </script>
 
+<!-- Lista de espera -> Supabase -->
+<script>
+const SUPABASE_URL = 'https://xpzjwlhrlebdpcybxaxu.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_R_j7j9oa96Nl-8v6S7Cx-w_HFhr67pD';
+
+async function enviarLista(e) {
+  e.preventDefault();
+  const form = document.getElementById('lista-form');
+  const btn = document.getElementById('lista-submit');
+  const msg = document.getElementById('lista-msg');
+  const sucesso = document.getElementById('lista-sucesso');
+
+  msg.textContent = '';
+  msg.className = 'lista-msg';
+
+  // honeypot: bot preencheu campo invisível
+  if (form.website.value) { sucesso.style.display = 'block'; form.style.display = 'none'; return; }
+
+  const email = form.email.value.trim().toLowerCase();
+  const telefone = form.telefone.value.trim();
+  const nome = form.nome.value.trim();
+  const aceite = form.aceite.checked;
+
+  if (!email || !telefone) {
+    msg.textContent = 'Preencha e-mail e WhatsApp.';
+    msg.className = 'lista-msg erro';
+    return;
+  }
+  if (!aceite) {
+    msg.textContent = 'Você precisa aceitar a Política de Privacidade.';
+    msg.className = 'lista-msg erro';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Enviando...';
+
+  const payload = {
+    email: email,
+    telefone: telefone,
+    nome: nome || null,
+    origem: 'site',
+    user_agent: navigator.userAgent.substring(0, 500),
+    referrer: document.referrer || null
+  };
+
+  try {
+    const res = await fetch(SUPABASE_URL + '/rest/v1/leads_interesse', {
+      method: 'POST',
+      headers: {
+        'apikey': SUPABASE_PUBLISHABLE_KEY,
+        'Authorization': 'Bearer ' + SUPABASE_PUBLISHABLE_KEY,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify(payload)
+    });
+
+    if (res.status === 201 || res.status === 200 || res.status === 204) {
+      form.style.display = 'none';
+      sucesso.style.display = 'block';
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'lead_captured', { method: 'lista_espera' });
+      }
+    } else if (res.status === 409) {
+      // email duplicado: trata como sucesso, com mensagem ajustada
+      document.getElementById('lista-sucesso-h').textContent = 'Você já está na lista!';
+      document.getElementById('lista-sucesso-p').textContent = 'Não precisa cadastrar de novo. A gente te avisa no lançamento.';
+      form.style.display = 'none';
+      sucesso.style.display = 'block';
+    } else {
+      const erro = await res.text();
+      console.error('Supabase erro:', res.status, erro);
+      throw new Error('Erro ao enviar');
+    }
+  } catch (err) {
+    msg.textContent = 'Ops, deu erro. Tenta de novo daqui a pouco.';
+    msg.className = 'lista-msg erro';
+    btn.disabled = false;
+    btn.textContent = 'Quero ser avisado →';
+  }
+}
+</script>
 
 </body>
 </html>
