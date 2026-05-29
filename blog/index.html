@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FC1XHM57Z6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-FC1XHM57Z6');
+</script>
+
+<title>Caderninho — O blog do Notinha</title>
+<meta name="description" content="Caderninho do Notinha: conteúdo sobre planilha de gastos, controle financeiro pessoal, notas fiscais e organização de despesas pelo WhatsApp.">
+
+<meta property="og:title" content="Caderninho — O blog do Notinha">
+<meta property="og:description" content="Conteúdo sobre controle financeiro pessoal, planilhas, notas fiscais e organização de despesas.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://usenotinha.com.br/blog/">
+
+<link rel="canonical" href="https://usenotinha.com.br/blog/">
+
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png">
+<link rel="icon" type="image/png" sizes="64x64" href="../favicon-64.png">
+<link rel="apple-touch-icon" href="../notinha-icon.png">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=DM+Sans:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #1f2630;
+    --border: #30363d;
+    --brand: #288A89;
+    --brand-hover: #2EA09E;
+    --brand-soft: #288A8922;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --accent: #f0f6fc;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.65;
+    min-height: 100vh;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(800px circle at 20% 0%, rgba(40, 138, 137, 0.08), transparent 40%),
+      radial-gradient(600px circle at 80% 30%, rgba(40, 138, 137, 0.05), transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+  header {
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  header .wrap { display: flex; justify-content: space-between; align-items: center; }
+  .logo { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; }
+  .logo img { height: 36px; width: auto; display: block; }
+  .logo-text {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 500;
+    font-size: 26px;
+    letter-spacing: -0.01em;
+    color: var(--accent);
+    line-height: 1;
+  }
+  nav a {
+    color: var(--muted);
+    text-decoration: none;
+    margin-left: 24px;
+    font-size: 14px;
+    transition: color 0.2s;
+  }
+  nav a:hover { color: var(--accent); }
+
+  .blog-hero {
+    padding: 80px 0 40px;
+    text-align: center;
+  }
+  .badge {
+    display: inline-block;
+    padding: 6px 14px;
+    background: var(--brand-soft);
+    border: 1px solid var(--brand);
+    color: var(--brand);
+    font-size: 13px;
+    font-weight: 500;
+    border-radius: 100px;
+    margin-bottom: 24px;
+  }
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: clamp(36px, 5vw, 52px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+    color: var(--accent);
+  }
+  .blog-hero p {
+    font-size: 18px;
+    color: var(--muted);
+    max-width: 580px;
+    margin: 0 auto;
+  }
+
+  .posts {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding: 40px 0 80px;
+  }
+  .post-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 24px;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .post-card:hover {
+    border-color: var(--brand);
+    transform: translateY(-2px);
+  }
+  .post-card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    aspect-ratio: 16/10;
+    border-right: 1px solid var(--border);
+  }
+  .post-card-body { padding: 24px 28px 24px 4px; display: flex; flex-direction: column; }
+  .post-card-tag {
+    display: inline-block;
+    padding: 3px 10px;
+    background: var(--surface2);
+    color: var(--brand);
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 12px;
+    width: fit-content;
+  }
+  .post-card h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 1.25;
+    color: var(--accent);
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
+  }
+  .post-card p {
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.55;
+    margin-bottom: 16px;
+    flex-grow: 1;
+  }
+  .post-card-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .post-card-cta {
+    color: var(--brand);
+    font-weight: 600;
+  }
+
+  .empty-soon {
+    text-align: center;
+    padding: 60px 24px;
+    background: var(--surface);
+    border: 1px dashed var(--border);
+    border-radius: 16px;
+    color: var(--muted);
+    font-size: 15px;
+  }
+
+  footer.site-footer {
+    padding: 40px 0;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 13px;
+    text-align: center;
+  }
+  footer.site-footer .links { margin-bottom: 16px; }
+  footer.site-footer .links a {
+    color: var(--muted);
+    text-decoration: none;
+    margin: 0 10px;
+  }
+  footer.site-footer .links a:hover { color: var(--brand); }
+
+  @media (max-width: 720px) {
+    .blog-hero { padding: 50px 0 30px; }
+    h1 { font-size: 32px; }
+    .post-card { grid-template-columns: 1fr; gap: 0; }
+    .post-card-image {
+      aspect-ratio: 16/9;
+      border-right: none;
+      border-bottom: 1px solid var(--border);
+    }
+    .post-card-body { padding: 22px; }
+    nav a { margin-left: 12px; font-size: 13px; }
+    .logo-text { font-size: 22px; }
+    .logo img { height: 30px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a href="../index.html" class="logo">
+      <img src="../notinha-icon.png" alt="Notinha">
+      <span class="logo-text">Notinha</span>
+    </a>
+    <nav>
+      <a href="../index.html#por-que">Por que</a>
+      <a href="../index.html#planos">Planos</a>
+      <a href="./">Caderninho</a>
+      <a href="../index.html#faq">Dúvidas</a>
+    </nav>
+  </div>
+</header>
+
+<section class="blog-hero">
+  <div class="wrap">
+    <div class="badge">● Caderninho</div>
+    <h1>Finanças simples,<br>sem complicação</h1>
+    <p>Guias práticos sobre controle de gastos, planilhas, notas fiscais e como organizar a vida financeira sem virar refém de planilha.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="posts">
+
+      <a href="planilha-de-gastos-mensais/" class="post-card">
+        <img src="https://composeo-article-images.s3.us-east-1.amazonaws.com/planilha-de-gastos-como-criar-e-usar-de-forma-eficiente-1779989705586.webp" alt="Planilha de gastos mensais" class="post-card-image" loading="lazy">
+        <div class="post-card-body">
+          <span class="post-card-tag">Planilhas</span>
+          <h2>Planilha de Gastos: Como Criar e Usar de Forma Eficiente</h2>
+          <p>Estrutura, modelos prontos, fórmulas e quando o registro automático passa a fazer mais sentido que o preenchimento manual.</p>
+          <div class="post-card-meta">
+            <span>28 mai 2026 · 9 min</span>
+            <span class="post-card-cta">Ler post →</span>
+          </div>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="empty-soon">
+      Mais conteúdo chegando em breve.
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="links">
+      <a href="../index.html">Início</a>
+      <a href="./">Caderninho</a>
+      <a href="../privacidade.html">Privacidade</a>
+      <a href="../termos.html">Termos</a>
+      <a href="../cookies.html">Cookies</a>
+      <a href="mailto:contato@usenotinha.com.br">Contato</a>
+    </div>
+    © 2026 Notinha · CNPJ 66.824.150/0001-28
+  </div>
+</footer>
+
+</body>
+</html>
