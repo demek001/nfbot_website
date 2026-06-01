@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Notinha — Criar conta</title>
+<style>
+  :root { --verde:#25D366; --escuro:#0b3d2e; --cinza:#667085; --borda:#e4e7ec; }
+  * { box-sizing:border-box; }
+  body { font-family:system-ui,-apple-system,Arial,sans-serif; margin:0; background:#f6f8f7; color:#1a1a1a; }
+  .wrap { max-width:440px; margin:0 auto; padding:28px 20px 48px; }
+  .logo { font-size:26px; font-weight:800; color:var(--escuro); text-align:center; margin-bottom:4px; }
+  .logo span { color:var(--verde); }
+  .sub { text-align:center; color:var(--cinza); font-size:14px; margin-bottom:24px; }
+  label { display:block; font-size:13px; font-weight:600; margin:14px 0 6px; }
+  input[type=text], input[type=email], input[type=tel], input[type=date] {
+    width:100%; padding:12px 14px; border:1px solid var(--borda); border-radius:10px; font-size:15px; }
+  input:focus { outline:none; border-color:var(--verde); }
+  .planos { display:flex; gap:10px; margin-top:6px; }
+  .plano { flex:1; border:1px solid var(--borda); border-radius:10px; padding:12px; cursor:pointer; text-align:center; }
+  .plano input { display:none; }
+  .plano.sel { border-color:var(--verde); background:#eafaf0; }
+  .plano b { display:block; font-size:15px; }
+  .plano small { color:var(--cinza); font-size:12px; }
+  .lgpd { display:flex; gap:8px; align-items:flex-start; margin-top:16px; font-size:12px; color:var(--cinza); }
+  .lgpd input { margin-top:2px; }
+  button { width:100%; margin-top:20px; padding:14px; background:var(--verde); color:#fff; border:0; border-radius:10px;
+    font-size:16px; font-weight:700; cursor:pointer; }
+  button:disabled { opacity:.55; cursor:default; }
+  .erro { color:#c0392b; font-size:13px; margin-top:12px; text-align:center; }
+  .passos { display:none; }
+  .passo { border:1px solid var(--borda); border-radius:12px; padding:18px; margin-top:14px; background:#fff; }
+  .passo h3 { margin:0 0 6px; font-size:16px; }
+  .passo p { margin:0 0 12px; color:var(--cinza); font-size:14px; }
+  .btnlink { display:block; text-align:center; text-decoration:none; padding:13px; border-radius:10px; font-weight:700; }
+  .b-pix { background:#0b3d2e; color:#fff; }
+  .b-drive { background:var(--verde); color:#fff; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="logo">Noti<span>nha</span></div>
+  <div class="sub">Suas notas fiscais organizadas no WhatsApp.</div>
+
+  <form id="form">
+    <label>Nome completo</label>
+    <input type="text" id="nome" required />
+
+    <label>CPF</label>
+    <input type="text" id="cpf" inputmode="numeric" placeholder="000.000.000-00" required />
+
+    <label>E-mail</label>
+    <input type="email" id="email" required />
+
+    <label>WhatsApp (com DDD)</label>
+    <input type="tel" id="whatsapp" placeholder="(13) 99999-9999" required />
+
+    <label>Data de nascimento</label>
+    <input type="date" id="nascimento" />
+
+    <label>Plano</label>
+    <div class="planos">
+      <label class="plano sel"><input type="radio" name="plano" value="base" checked />
+        <b>Base</b><small>R$ 14,90/mês</small></label>
+      <label class="plano"><input type="radio" name="plano" value="premium" />
+        <b>Premium</b><small>R$ 44,90/mês</small></label>
+    </div>
+
+    <div class="lgpd">
+      <input type="checkbox" id="consent" required />
+      <span>Autorizo o Notinha a tratar meus dados conforme a Política de Privacidade,
+      inclusive guardar minhas notas no meu próprio Google Drive.</span>
+    </div>
+
+    <button type="submit" id="enviar">Criar conta</button>
+    <div class="erro" id="erro"></div>
+  </form>
+
+  <div class="passos" id="passos">
+    <div class="passo">
+      <h3>1. Pagamento</h3>
+      <p>Conclua o pagamento para ativar sua assinatura.</p>
+      <a class="btnlink b-pix" id="link-pagar" target="_blank" rel="noopener">Pagar agora</a>
+    </div>
+    <div class="passo">
+      <h3>2. Conectar seu Google Drive</h3>
+      <p>É onde suas notas e planilha ficam guardadas — na sua conta, sua propriedade.</p>
+      <a class="btnlink b-drive" id="link-drive">Conectar Google Drive</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  // URL da Edge Function de onboarding
+  const ONBOARDING_URL = "https://xpzjwlhrlebdpcybxaxu.supabase.co/functions/v1/onboarding";
+
+  // seleção visual do plano
+  document.querySelectorAll(".plano").forEach((el) => {
+    el.addEventListener("click", () => {
+      document.querySelectorAll(".plano").forEach((p) => p.classList.remove("sel"));
+      el.classList.add("sel");
+      el.querySelector("input").checked = true;
+    });
+  });
+
+  const form = document.getElementById("form");
+  const erro = document.getElementById("erro");
+  const btn  = document.getElementById("enviar");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    erro.textContent = "";
+    btn.disabled = true; btn.textContent = "Criando...";
+
+    const dados = {
+      nome: document.getElementById("nome").value,
+      cpf: document.getElementById("cpf").value,
+      email: document.getElementById("email").value,
+      whatsapp: document.getElementById("whatsapp").value,
+      nascimento: document.getElementById("nascimento").value || null,
+      plano: document.querySelector('input[name="plano"]:checked').value,
+      consent: document.getElementById("consent").checked,
+    };
+
+    try {
+      const r = await fetch(ONBOARDING_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(dados),
+      });
+      const j = await r.json();
+      if (!r.ok) {
+        erro.textContent = "Não foi possível criar a conta. (" + (j.error || r.status) + ")";
+        btn.disabled = false; btn.textContent = "Criar conta";
+        return;
+      }
+      // sucesso → mostra os 2 passos
+      form.style.display = "none";
+      document.getElementById("passos").style.display = "block";
+      if (j.payment_url) document.getElementById("link-pagar").href = j.payment_url;
+      else document.getElementById("link-pagar").parentElement.style.display = "none";
+      document.getElementById("link-drive").href = j.oauth_url;
+    } catch (err) {
+      erro.textContent = "Erro de conexão. Tente novamente.";
+      btn.disabled = false; btn.textContent = "Criar conta";
+    }
+  });
+</script>
+</body>
+</html>
