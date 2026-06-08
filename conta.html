@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Minha conta — Notinha</title>
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="64x64" href="favicon-64.png">
+<link rel="apple-touch-icon" href="notinha-icon.png">
+
+<!-- Cloudflare Turnstile -->
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
+<!-- Supabase JS -->
+<script type="module">
+  import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+  window.__sb = createClient(
+    "https://xpzjwlhrlebdpcybxaxu.supabase.co",
+    "sb_publishable_R_j7j9oa96Nl-8v6S7Cx-w_HFhr67pD"
+  );
+</script>
+
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=DM+Sans:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #1f2630;
+    --border: #30363d;
+    --brand: #288A89;
+    --brand-hover: #2EA09E;
+    --brand-soft: #288A8922;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --accent: #f0f6fc;
+    --danger: #f85149;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.65;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(800px circle at 20% 0%, rgba(40, 138, 137, 0.08), transparent 40%),
+      radial-gradient(600px circle at 80% 30%, rgba(40, 138, 137, 0.05), transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; width: 100%; }
+
+  header { padding: 20px 0; border-bottom: 1px solid var(--border); }
+  header .wrap { display: flex; justify-content: space-between; align-items: center; }
+  .logo { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; }
+  .logo img { height: 36px; width: auto; display: block; }
+  .logo-text {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 500;
+    font-size: 26px;
+    letter-spacing: -0.01em;
+    color: var(--accent);
+    line-height: 1;
+  }
+  nav a {
+    color: var(--muted);
+    text-decoration: none;
+    margin-left: 24px;
+    font-size: 14px;
+    transition: color 0.2s;
+  }
+  nav a:hover { color: var(--accent); }
+
+  main { flex: 1; display: flex; align-items: center; padding: 60px 0; }
+
+  .auth-box {
+    background: var(--surface);
+    border: 1px solid var(--brand);
+    border-radius: 20px;
+    padding: 44px;
+    max-width: 460px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  .auth-tag {
+    display: inline-block;
+    padding: 4px 12px;
+    background: var(--brand);
+    color: #fff;
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 20px;
+  }
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 30px;
+    letter-spacing: -0.02em;
+    color: var(--accent);
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+  h1 em { font-style: italic; color: var(--brand); font-weight: 800; }
+  .hint { color: var(--muted); font-size: 15px; margin-bottom: 24px; }
+
+  label {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+  input[type="email"], input[type="password"], input[type="tel"], input[type="text"] {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 13px 16px;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 15px;
+    transition: border-color 0.2s;
+  }
+  input:focus { outline: none; border-color: var(--brand); }
+
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 15px 28px;
+    background: var(--brand);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 100px;
+    transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    margin-top: 6px;
+  }
+  .cta:hover:not(:disabled) { background: var(--brand-hover); transform: translateY(-1px); box-shadow: 0 12px 30px rgba(40, 138, 137, 0.35); }
+  .cta:disabled { opacity: 0.55; cursor: not-allowed; }
+  .cta.ghost { background: transparent; border: 1px solid var(--border); color: var(--text); box-shadow: none; }
+  .cta.ghost:hover:not(:disabled) { border-color: var(--brand); background: transparent; }
+  .cta.danger { background: transparent; border: 1px solid var(--danger); color: var(--danger); box-shadow: none; }
+  .cta.danger:hover:not(:disabled) { background: rgba(248,81,73,0.08); transform: none; box-shadow: none; }
+
+  .turn { margin: 4px 0 18px; display: flex; justify-content: center; }
+
+  .links { text-align: center; margin-top: 20px; font-size: 14px; color: var(--muted); }
+  .links a { color: var(--brand); text-decoration: none; cursor: pointer; }
+  .links a:hover { text-decoration: underline; }
+
+  .msg { font-size: 14px; margin-top: 16px; padding: 12px 14px; border-radius: 10px; display: none; line-height: 1.5; }
+  .msg.ok { background: var(--brand-soft); border: 1px solid var(--brand); color: var(--brand); display: block; }
+  .msg.err { background: rgba(248,81,73,0.1); border: 1px solid var(--danger); color: #ff8a85; display: block; }
+
+  .hidden { display: none; }
+
+  /* painel */
+  .row { padding: 16px 0; border-bottom: 1px solid var(--border); }
+  .row:last-of-type { border-bottom: none; }
+  .row .k { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+  .row .v { font-size: 16px; margin-top: 3px; color: var(--accent); }
+  .pill {
+    display: inline-block; font-size: 12px; padding: 4px 12px; border-radius: 100px;
+    background: var(--brand-soft); color: var(--brand); font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.05em;
+  }
+  .actions { margin-top: 24px; display: flex; flex-direction: column; gap: 12px; }
+
+  footer {
+    padding: 32px 0;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 14px;
+    text-align: center;
+  }
+  footer .links { margin-bottom: 16px; }
+  footer .links a { color: var(--muted); margin: 0 12px; }
+  footer .links a:hover { color: var(--brand); text-decoration: none; }
+  footer .legal { font-size: 13px; line-height: 1.7; }
+
+  @media (max-width: 560px) {
+    .auth-box { padding: 32px 24px; }
+    h1 { font-size: 26px; }
+    nav a { margin-left: 14px; font-size: 13px; }
+    .logo-text { font-size: 22px; }
+    .logo img { height: 30px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a href="index.html" class="logo">
+      <img src="notinha-icon.png" alt="Notinha">
+      <span class="logo-text">Notinha<sup style="font-size:0.45em; font-weight:400; vertical-align:top; margin-left:1px;">™</sup></span>
+    </a>
+    <nav>
+      <a href="index.html">Início</a>
+      <a href="blog/">Caderninho</a>
+      <a href="index.html#faq">Dúvidas</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+
+    <!-- ░░ LOGIN ░░ -->
+    <div class="auth-box" id="view-login">
+      <span class="auth-tag">Minha conta</span>
+      <h1>Entrar</h1>
+      <p class="hint">Acesse para gerenciar seu plano e seu WhatsApp.</p>
+      <label>E-mail
+        <input id="login-email" type="email" autocomplete="email" placeholder="voce@email.com">
+      </label>
+      <label>Senha
+        <input id="login-senha" type="password" autocomplete="current-password" placeholder="••••••••">
+      </label>
+      <div class="turn cf-turnstile" data-sitekey="0x4AAAAAADg8XhQoJhpFcb5w" data-callback="onTurnLogin"></div>
+      <button class="cta" id="btn-login">Entrar →</button>
+      <div class="msg" id="login-msg"></div>
+      <div class="links">
+        <a onclick="mostrar('view-signup')">Primeiro acesso</a> ·
+        <a onclick="mostrar('view-reset')">Esqueci a senha</a>
+      </div>
+    </div>
+
+    <!-- ░░ PRIMEIRO ACESSO ░░ -->
+    <div class="auth-box hidden" id="view-signup">
+      <span class="auth-tag">Primeiro acesso</span>
+      <h1>Criar <em>acesso</em></h1>
+      <p class="hint">Use o mesmo e-mail do seu cadastro no Notinha.</p>
+      <label>E-mail
+        <input id="su-email" type="email" autocomplete="email" placeholder="voce@email.com">
+      </label>
+      <label>Criar senha <span style="font-weight:400">(mín. 8 caracteres)</span>
+        <input id="su-senha" type="password" autocomplete="new-password" placeholder="••••••••">
+      </label>
+      <div class="turn cf-turnstile" data-sitekey="0x4AAAAAADg8XhQoJhpFcb5w" data-callback="onTurnSignup"></div>
+      <button class="cta" id="btn-signup">Criar acesso →</button>
+      <div class="msg" id="su-msg"></div>
+      <div class="links"><a onclick="mostrar('view-login')">Já tenho acesso</a></div>
+    </div>
+
+    <!-- ░░ RESET SENHA ░░ -->
+    <div class="auth-box hidden" id="view-reset">
+      <span class="auth-tag">Recuperar senha</span>
+      <h1>Esqueci a <em>senha</em></h1>
+      <p class="hint">Enviamos um link de redefinição para o seu e-mail.</p>
+      <label>E-mail
+        <input id="rs-email" type="email" autocomplete="email" placeholder="voce@email.com">
+      </label>
+      <div class="turn cf-turnstile" data-sitekey="0x4AAAAAADg8XhQoJhpFcb5w" data-callback="onTurnReset"></div>
+      <button class="cta" id="btn-reset">Enviar link →</button>
+      <div class="msg" id="rs-msg"></div>
+      <div class="links"><a onclick="mostrar('view-login')">Voltar</a></div>
+    </div>
+
+    <!-- ░░ PAINEL ░░ -->
+    <div class="auth-box hidden" id="view-painel">
+      <span class="auth-tag">Minha conta</span>
+      <h1>Olá, <em id="p-nome">—</em></h1>
+      <div class="row"><div class="k">Plano</div><div class="v"><span class="pill" id="p-plano">—</span></div></div>
+      <div class="row"><div class="k">WhatsApp</div><div class="v" id="p-tel">—</div></div>
+      <div class="row"><div class="k">Pagamento</div><div class="v" id="p-pgto">—</div></div>
+
+      <div class="actions">
+        <button class="cta" id="btn-upgrade">Fazer upgrade para Premium →</button>
+        <button class="cta ghost" id="btn-pgto">Trocar forma de pagamento</button>
+        <button class="cta ghost" id="btn-tel">Trocar número de WhatsApp</button>
+        <button class="cta danger" id="btn-cancelar">Cancelar assinatura</button>
+      </div>
+      <div class="msg" id="p-msg"></div>
+      <div class="links" style="margin-top:24px"><a onclick="sair()">Sair</a></div>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="links">
+      <a href="index.html">Início</a>
+      <a href="blog/">Caderninho</a>
+      <a href="privacidade.html">Política de Privacidade</a>
+      <a href="termos.html">Termos de Uso</a>
+      <a href="mailto:suporte@usenotinha.com.br">Suporte</a>
+    </div>
+    <div class="legal">
+      © 2026 Notinha · CNPJ 66.824.150/0001-28<br>
+      Todos os direitos reservados
+    </div>
+  </div>
+</footer>
+
+<script type="module">
+  const FN = "https://xpzjwlhrlebdpcybxaxu.supabase.co/functions/v1/conta";
+  const $ = (id) => document.getElementById(id);
+  const sb = () => window.__sb;
+
+  const turn = { login: "", signup: "", reset: "" };
+  window.onTurnLogin  = (t) => turn.login = t;
+  window.onTurnSignup = (t) => turn.signup = t;
+  window.onTurnReset  = (t) => turn.reset = t;
+
+  window.mostrar = (id) => {
+    ["view-login","view-signup","view-reset","view-painel"].forEach(v => $(v).classList.add("hidden"));
+    $(id).classList.remove("hidden");
+  };
+
+  function show(el, ok, txt) { el.className = "msg " + (ok ? "ok" : "err"); el.textContent = txt; }
+  function resetTurn() { if (window.turnstile) window.turnstile.reset(); }
+
+  // ── LOGIN ──
+  $("btn-login").onclick = async () => {
+    const email = $("login-email").value.trim();
+    const password = $("login-senha").value;
+    if (!turn.login) return show($("login-msg"), false, "Confirme que você não é um robô.");
+    $("btn-login").disabled = true;
+    const { error } = await sb().auth.signInWithPassword({ email, password, options: { captchaToken: turn.login } });
+    $("btn-login").disabled = false;
+    resetTurn(); turn.login = "";
+    if (error) return show($("login-msg"), false, "E-mail ou senha incorretos.");
+    carregarPainel();
+  };
+
+  // ── SIGNUP ──
+  $("btn-signup").onclick = async () => {
+    const email = $("su-email").value.trim();
+    const password = $("su-senha").value;
+    if (!turn.signup) return show($("su-msg"), false, "Confirme que você não é um robô.");
+    if (password.length < 8) return show($("su-msg"), false, "Senha de no mínimo 8 caracteres.");
+    $("btn-signup").disabled = true;
+    const { error } = await sb().auth.signUp({ email, password, options: { captchaToken: turn.signup } });
+    $("btn-signup").disabled = false;
+    resetTurn(); turn.signup = "";
+    if (error) return show($("su-msg"), false, error.message);
+    show($("su-msg"), true, "Acesso criado! Confirme pelo e-mail e depois entre.");
+  };
+
+  // ── RESET ──
+  $("btn-reset").onclick = async () => {
+    const email = $("rs-email").value.trim();
+    if (!turn.reset) return show($("rs-msg"), false, "Confirme que você não é um robô.");
+    $("btn-reset").disabled = true;
+    const { error } = await sb().auth.resetPasswordForEmail(email, {
+      captchaToken: turn.reset,
+      redirectTo: "https://usenotinha.com.br/conta.html",
+    });
+    $("btn-reset").disabled = false;
+    resetTurn(); turn.reset = "";
+    if (error) return show($("rs-msg"), false, error.message);
+    show($("rs-msg"), true, "Se o e-mail existir, enviamos um link.");
+  };
+
+  // ── PAINEL ──
+  async function api(acao, extra = {}) {
+    const { data: s } = await sb().auth.getSession();
+    const token = s?.session?.access_token;
+    const res = await fetch(FN, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Authorization": "Bearer " + token },
+      body: JSON.stringify({ acao, ...extra }),
+    });
+    return res.json();
+  }
+
+  async function carregarPainel() {
+    mostrar("view-painel");
+    const r = await api("perfil");
+    if (r.erro) return show($("p-msg"), false, "Não achamos sua conta. Fale com o suporte.");
+    const c = r.cliente;
+    $("p-nome").textContent = c.nome ?? "—";
+    $("p-plano").textContent = (c.plano_tier ?? "base").toUpperCase();
+    $("p-tel").textContent = c.telefone ?? "—";
+    $("p-pgto").textContent = c.cancelado_em ? "Cancelado" : (c.pagamento_status ?? "ativo");
+    if (c.plano_tier === "premium") $("btn-upgrade").classList.add("hidden");
+  }
+
+  $("btn-upgrade").onclick = async () => {
+    $("btn-upgrade").disabled = true;
+    const r = await api("upgrade");
+    $("btn-upgrade").disabled = false;
+    show($("p-msg"), !r.erro, r.msg ?? "Não foi possível agora.");
+    if (r.ok) setTimeout(carregarPainel, 1200);
+  };
+
+  $("btn-pgto").onclick = async () => {
+    const r = await api("trocar_pagamento");
+    if (r.invoiceUrl) { window.open(r.invoiceUrl, "_blank"); return; }
+    show($("p-msg"), false, "Nenhuma fatura pendente no momento.");
+  };
+
+  $("btn-tel").onclick = async () => {
+    const r = await api("trocar_telefone");
+    if (r.link) { window.open(r.link, "_blank"); show($("p-msg"), true, "Envie a mensagem pelo número novo para revincular."); return; }
+    show($("p-msg"), false, "Não foi possível gerar o código.");
+  };
+
+  $("btn-cancelar").onclick = async () => {
+    if (!confirm("Cancelar sua assinatura? Seus dados continuam no seu Drive.")) return;
+    const motivo = prompt("Conta pra gente o motivo (opcional):") || null;
+    const r = await api("cancelar", { motivo });
+    show($("p-msg"), !r.erro, r.msg ?? "Não foi possível cancelar.");
+    if (r.ok) setTimeout(carregarPainel, 1200);
+  };
+
+  window.sair = async () => { await sb().auth.signOut(); mostrar("view-login"); };
+
+  (async () => {
+    const { data } = await sb().auth.getSession();
+    if (data?.session) carregarPainel();
+  })();
+</script>
+</body>
+</html>
