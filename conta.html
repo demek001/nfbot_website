@@ -238,7 +238,7 @@
       <label>Senha
         <input id="login-senha" type="password" autocomplete="current-password" placeholder="••••••••">
       </label>
-      <div class="turn cf-turnstile" data-sitekey="0x4AAAAAADg8XhQoJhpFcb5w" data-callback="onTurnLogin"></div>
+      <div class="turn cf-turnstile" data-sitekey="COLE_SEU_TURNSTILE_SITEKEY" data-callback="onTurnLogin"></div>
       <button class="cta" id="btn-login">Entrar →</button>
       <div class="msg" id="login-msg"></div>
       <div class="links">
@@ -258,7 +258,7 @@
       <label>Criar senha <span style="font-weight:400">(mín. 8 caracteres)</span>
         <input id="su-senha" type="password" autocomplete="new-password" placeholder="••••••••">
       </label>
-      <div class="turn cf-turnstile" data-sitekey="0x4AAAAAADg8XhQoJhpFcb5w" data-callback="onTurnSignup"></div>
+      <div class="turn cf-turnstile" data-sitekey="COLE_SEU_TURNSTILE_SITEKEY" data-callback="onTurnSignup"></div>
       <button class="cta" id="btn-signup">Criar acesso →</button>
       <div class="msg" id="su-msg"></div>
       <div class="links"><a onclick="mostrar('view-login')">Já tenho acesso</a></div>
@@ -272,7 +272,7 @@
       <label>E-mail
         <input id="rs-email" type="email" autocomplete="email" placeholder="voce@email.com">
       </label>
-      <div class="turn cf-turnstile" data-sitekey="0x4AAAAAADg8XhQoJhpFcb5w" data-callback="onTurnReset"></div>
+      <div class="turn cf-turnstile" data-sitekey="COLE_SEU_TURNSTILE_SITEKEY" data-callback="onTurnReset"></div>
       <button class="cta" id="btn-reset">Enviar link →</button>
       <div class="msg" id="rs-msg"></div>
       <div class="links"><a onclick="mostrar('view-login')">Voltar</a></div>
@@ -288,6 +288,7 @@
 
       <div class="actions">
         <button class="cta" id="btn-upgrade">Fazer upgrade para Premium →</button>
+        <button class="cta ghost" id="btn-downgrade">Voltar para o plano Base</button>
         <button class="cta ghost" id="btn-pgto">Trocar forma de pagamento</button>
         <button class="cta ghost" id="btn-tel">Trocar número de WhatsApp</button>
         <button class="cta danger" id="btn-cancelar">Cancelar assinatura</button>
@@ -396,13 +397,28 @@
     $("p-plano").textContent = (c.plano_tier ?? "base").toUpperCase();
     $("p-tel").textContent = c.telefone ?? "—";
     $("p-pgto").textContent = c.cancelado_em ? "Cancelado" : (c.pagamento_status ?? "ativo");
-    if (c.plano_tier === "premium") $("btn-upgrade").classList.add("hidden");
+    if (c.plano_tier === "premium") {
+      $("btn-upgrade").classList.add("hidden");
+      $("btn-downgrade").classList.remove("hidden");
+    } else {
+      $("btn-upgrade").classList.remove("hidden");
+      $("btn-downgrade").classList.add("hidden");
+    }
   }
 
   $("btn-upgrade").onclick = async () => {
     $("btn-upgrade").disabled = true;
     const r = await api("upgrade");
     $("btn-upgrade").disabled = false;
+    show($("p-msg"), !r.erro, r.msg ?? "Não foi possível agora.");
+    if (r.ok) setTimeout(carregarPainel, 1200);
+  };
+
+  $("btn-downgrade").onclick = async () => {
+    if (!confirm("Voltar para o plano Base? Você perde os insights semanais e o PDF mensal.")) return;
+    $("btn-downgrade").disabled = true;
+    const r = await api("downgrade");
+    $("btn-downgrade").disabled = false;
     show($("p-msg"), !r.erro, r.msg ?? "Não foi possível agora.");
     if (r.ok) setTimeout(carregarPainel, 1200);
   };
