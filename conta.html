@@ -290,6 +290,7 @@
       <div class="actions">
         <button class="cta" id="btn-upgrade">Fazer upgrade para Premium →</button>
         <button class="cta ghost" id="btn-downgrade">Voltar para o plano Base</button>
+        <button class="cta ghost" id="btn-nome">Trocar nome</button>
         <button class="cta ghost" id="btn-pgto">Trocar forma de pagamento</button>
         <button class="cta ghost" id="btn-tel">Trocar número de WhatsApp</button>
         <button class="cta danger" id="btn-cancelar">Cancelar assinatura</button>
@@ -431,6 +432,19 @@
     $("btn-downgrade").disabled = false;
     show($("p-msg"), !r.erro, r.msg ?? "Não foi possível agora.");
     if (r.ok) setTimeout(carregarPainel, 1200);
+  };
+
+  $("btn-nome").onclick = async () => {
+    const atual = $("p-nome").textContent === "—" ? "" : $("p-nome").textContent;
+    const novo = prompt("Seu nome:", atual);
+    if (novo == null) return;
+    const t = novo.trim();
+    if (!t) return show($("p-msg"), false, "O nome não pode ficar vazio.");
+    $("btn-nome").disabled = true;
+    const r = await api("trocar_nome", { nome: t });
+    $("btn-nome").disabled = false;
+    show($("p-msg"), !r.erro, r.msg ?? "Não foi possível agora.");
+    if (r.ok) setTimeout(carregarPainel, 800);
   };
 
   $("btn-pgto").onclick = async () => {
