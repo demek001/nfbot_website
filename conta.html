@@ -172,6 +172,7 @@
   .msg { font-size: 14px; margin-top: 16px; padding: 12px 14px; border-radius: 10px; display: none; line-height: 1.5; }
   .msg.ok { background: var(--brand-soft); border: 1px solid var(--brand); color: var(--brand); display: block; }
   .msg.err { background: rgba(248,81,73,0.1); border: 1px solid var(--danger); color: #ff8a85; display: block; }
+  .msg a { color: var(--brand); text-decoration: underline; cursor: pointer; }
 
   .hidden { display: none; }
 
@@ -321,10 +322,12 @@
   const $ = (id) => document.getElementById(id);
   const sb = () => window.__sb;
 
+  function limpar(el) { el.className = "msg"; el.textContent = ""; }
+
   const turn = { login: "", signup: "", reset: "" };
-  window.onTurnLogin  = (t) => turn.login = t;
-  window.onTurnSignup = (t) => turn.signup = t;
-  window.onTurnReset  = (t) => turn.reset = t;
+  window.onTurnLogin  = (t) => { turn.login = t;  limpar($("login-msg")); };
+  window.onTurnSignup = (t) => { turn.signup = t; limpar($("su-msg")); };
+  window.onTurnReset  = (t) => { turn.reset = t;  limpar($("rs-msg")); };
 
   window.mostrar = (id) => {
     ["view-login","view-signup","view-reset","view-painel"].forEach(v => $(v).classList.add("hidden"));
@@ -354,10 +357,17 @@
     if (!turn.signup) return show($("su-msg"), false, "Confirme que você não é um robô.");
     if (password.length < 8) return show($("su-msg"), false, "Senha de no mínimo 8 caracteres.");
     $("btn-signup").disabled = true;
-    const { error } = await sb().auth.signUp({ email, password, options: { captchaToken: turn.signup } });
+    const { data, error } = await sb().auth.signUp({ email, password, options: { captchaToken: turn.signup } });
     $("btn-signup").disabled = false;
     resetTurn(); turn.signup = "";
     if (error) return show($("su-msg"), false, error.message);
+    // Anti-enumeração do Supabase: e-mail já existente volta com identities vazio.
+    if (data?.user && Array.isArray(data.user.identities) && data.user.identities.length === 0) {
+      const m = $("su-msg");
+      m.className = "msg err";
+      m.innerHTML = 'Esse e-mail já tem acesso. <a onclick="mostrar(\'view-login\')">Entrar</a> ou <a onclick="mostrar(\'view-reset\')">redefinir a senha</a>.';
+      return;
+    }
     show($("su-msg"), true, "Acesso criado! Confirme pelo e-mail e depois entre.");
   };
 
