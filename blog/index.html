@@ -13,20 +13,50 @@
   gtag('config', 'G-FC1XHM57Z6');
 </script>
 
-<title>Caderninho — O blog do Notinha</title>
-<meta name="description" content="Caderninho do Notinha: conteúdo sobre planilha de gastos, controle financeiro pessoal, notas fiscais e organização de despesas pelo WhatsApp.">
+<title>Planilha de Gastos Mensais: Como Criar e Usar | Notinha</title>
+<meta name="description" content="Aprenda a montar uma planilha de gastos mensais que realmente funciona: estrutura, modelos prontos, fórmulas e quando o registro automático faz mais sentido.">
 
-<meta property="og:title" content="Caderninho — O blog do Notinha">
-<meta property="og:description" content="Conteúdo sobre controle financeiro pessoal, planilhas, notas fiscais e organização de despesas.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://usenotinha.com.br/blog/">
+<meta property="og:title" content="Planilha de Gastos Mensais: Como Criar e Usar">
+<meta property="og:description" content="Estrutura, modelos prontos, fórmulas e o que fazer quando o preenchimento manual deixa de funcionar.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://usenotinha.com.br/blog/planilha-de-gastos-mensais/">
+<meta property="og:image" content="https://usenotinha.com.br/blog/img/planilha-de-gastos-como-criar-e-usar-de-forma-eficiente-1779989705586.webp">
 
-<link rel="canonical" href="https://usenotinha.com.br/blog/">
+<link rel="canonical" href="https://usenotinha.com.br/blog/planilha-de-gastos-mensais/">
 
-<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png">
-<link rel="icon" type="image/png" sizes="64x64" href="../favicon-64.png">
-<link rel="apple-touch-icon" href="../notinha-icon.png">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=DM+Sans:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32.png">
+<link rel="icon" type="image/png" sizes="64x64" href="../../favicon-64.png">
+<link rel="apple-touch-icon" href="../../notinha-icon.png">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,800&family=DM+Sans:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Planilha de Gastos Mensais: Como Criar e Usar",
+  "description": "Aprenda a montar uma planilha de gastos mensais que realmente funciona: estrutura, modelos prontos, fórmulas e quando o registro automático faz mais sentido.",
+  "image": "https://usenotinha.com.br/blog/img/planilha-de-gastos-como-criar-e-usar-de-forma-eficiente-1779989705586.webp",
+  "datePublished": "2026-05-28",
+  "dateModified": "2026-06-13",
+  "author": {
+    "@type": "Organization",
+    "name": "Notinha",
+    "url": "https://usenotinha.com.br"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Notinha",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://usenotinha.com.br/notinha-icon.png"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://usenotinha.com.br/blog/planilha-de-gastos-mensais/"
+  }
+}
+</script>
 
 <style>
   :root {
@@ -47,33 +77,33 @@
     background: var(--bg);
     color: var(--text);
     font-family: 'DM Sans', sans-serif;
-    font-weight: 300;
-    line-height: 1.65;
-    min-height: 100vh;
+    font-weight: 400;
+    line-height: 1.75;
+    font-size: 17px;
   }
   body::before {
     content: '';
     position: fixed;
     inset: 0;
     background:
-      radial-gradient(800px circle at 20% 0%, rgba(40, 138, 137, 0.08), transparent 40%),
-      radial-gradient(600px circle at 80% 30%, rgba(40, 138, 137, 0.05), transparent 50%);
+      radial-gradient(800px circle at 20% 0%, rgba(40, 138, 137, 0.06), transparent 40%),
+      radial-gradient(600px circle at 80% 30%, rgba(40, 138, 137, 0.04), transparent 50%);
     pointer-events: none;
     z-index: 0;
   }
-  .wrap { max-width: 980px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
 
   header {
     padding: 20px 0;
     border-bottom: 1px solid var(--border);
   }
-  header .wrap { display: flex; justify-content: space-between; align-items: center; }
+  header .wrap { display: flex; justify-content: space-between; align-items: center; max-width: 980px; }
   .logo { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; }
-  .logo img { height: 36px; width: auto; display: block; }
+  .logo img { height: 32px; width: auto; display: block; }
   .logo-text {
     font-family: 'Plus Jakarta Sans', sans-serif;
     font-weight: 500;
-    font-size: 26px;
+    font-size: 22px;
     letter-spacing: -0.01em;
     color: var(--accent);
     line-height: 1;
@@ -87,120 +117,196 @@
   }
   nav a:hover { color: var(--accent); }
 
-  .blog-hero {
-    padding: 80px 0 40px;
-    text-align: center;
-  }
-  .badge {
-    display: inline-block;
-    padding: 6px 14px;
-    background: var(--brand-soft);
-    border: 1px solid var(--brand);
-    color: var(--brand);
+  /* BREADCRUMB */
+  .breadcrumb {
+    padding: 24px 0 0;
     font-size: 13px;
-    font-weight: 500;
-    border-radius: 100px;
-    margin-bottom: 24px;
+    color: var(--muted);
+  }
+  .breadcrumb a { color: var(--muted); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--brand); }
+  .breadcrumb span { color: var(--border); margin: 0 8px; }
+
+  /* HERO DO POST */
+  .post-hero { padding: 32px 0 24px; }
+  .post-meta {
+    color: var(--muted);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 16px;
   }
   h1 {
     font-family: 'Fraunces', serif;
     font-weight: 600;
-    font-size: clamp(36px, 5vw, 52px);
-    line-height: 1.1;
+    font-size: clamp(32px, 5vw, 46px);
+    line-height: 1.15;
     letter-spacing: -0.02em;
-    margin-bottom: 16px;
+    margin-bottom: 20px;
     color: var(--accent);
   }
-  .blog-hero p {
+  .post-lead {
     font-size: 18px;
     color: var(--muted);
-    max-width: 580px;
-    margin: 0 auto;
+    margin-bottom: 32px;
+    line-height: 1.65;
+  }
+  .post-image {
+    width: 100%;
+    height: auto;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    margin-bottom: 40px;
+    display: block;
   }
 
-  .posts {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 24px;
-    padding: 40px 0 80px;
-  }
-  .post-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    overflow: hidden;
-    display: grid;
-    grid-template-columns: 280px 1fr;
-    gap: 24px;
-    text-decoration: none;
-    color: inherit;
-    transition: border-color 0.2s, transform 0.2s;
-  }
-  .post-card:hover {
-    border-color: var(--brand);
-    transform: translateY(-2px);
-  }
-  .post-card-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    aspect-ratio: 16/10;
-    border-right: 1px solid var(--border);
-  }
-  .post-card-body { padding: 24px 28px 24px 4px; display: flex; flex-direction: column; }
-  .post-card-tag {
-    display: inline-block;
-    padding: 3px 10px;
-    background: var(--surface2);
-    color: var(--brand);
-    border-radius: 100px;
-    font-size: 11px;
+  /* CONTEÚDO */
+  article h2 {
+    font-family: 'Fraunces', serif;
     font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    margin-bottom: 12px;
-    width: fit-content;
+    font-size: 30px;
+    letter-spacing: -0.01em;
+    color: var(--accent);
+    margin: 56px 0 16px;
+    line-height: 1.25;
   }
-  .post-card h2 {
+  article h3 {
     font-family: 'Fraunces', serif;
     font-weight: 600;
     font-size: 22px;
-    line-height: 1.25;
+    color: var(--accent);
+    margin: 36px 0 12px;
+    line-height: 1.3;
+  }
+  article p {
+    margin-bottom: 20px;
+    color: var(--text);
+  }
+  article a { color: var(--brand); text-decoration: none; border-bottom: 1px dotted var(--brand); }
+  article a:hover { color: var(--brand-hover); border-bottom-color: var(--brand-hover); }
+  article strong { color: var(--accent); font-weight: 600; }
+  article ul, article ol {
+    margin: 0 0 24px 24px;
+    color: var(--text);
+  }
+  article li { margin-bottom: 10px; }
+  article code {
+    background: var(--surface2);
+    color: var(--brand);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.92em;
+    font-family: ui-monospace, 'SF Mono', 'Cascadia Code', Menlo, monospace;
+  }
+
+  /* CTA BOX */
+  .cta-box {
+    background: var(--surface);
+    border: 1px solid var(--brand);
+    border-radius: 16px;
+    padding: 28px;
+    margin: 40px 0;
+    position: relative;
+  }
+  .cta-box::before {
+    content: '✦';
+    position: absolute;
+    top: -14px;
+    left: 24px;
+    background: var(--bg);
+    color: var(--brand);
+    padding: 0 10px;
+    font-size: 20px;
+  }
+  .cta-box h4 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 20px;
     color: var(--accent);
     margin-bottom: 10px;
-    letter-spacing: -0.01em;
   }
-  .post-card p {
-    color: var(--muted);
+  .cta-box p { font-size: 15px; margin-bottom: 16px; }
+  .cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: var(--brand);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 100px;
     font-size: 15px;
-    line-height: 1.55;
-    margin-bottom: 16px;
-    flex-grow: 1;
+    border: none;
+    transition: background 0.2s, transform 0.2s;
   }
-  .post-card-meta {
+  .cta-button:hover {
+    background: var(--brand-hover);
+    transform: translateY(-1px);
+    border-bottom-color: transparent;
+  }
+
+  /* FAQ */
+  .faq-section { margin-top: 48px; }
+  .faq-section h2 { margin-bottom: 24px; }
+  details {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 8px;
+    transition: border-color 0.2s;
+  }
+  details[open] { border-color: var(--brand); }
+  summary {
+    cursor: pointer;
+    padding: 20px 24px;
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 17px;
+    color: var(--accent);
+    list-style: none;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 13px;
-    color: var(--muted);
+    gap: 16px;
   }
-  .post-card-cta {
+  summary::-webkit-details-marker { display: none; }
+  summary::after {
+    content: '+';
     color: var(--brand);
-    font-weight: 600;
+    font-size: 22px;
+    font-weight: 300;
   }
-
-  .empty-soon {
-    text-align: center;
-    padding: 60px 24px;
-    background: var(--surface);
-    border: 1px dashed var(--border);
-    border-radius: 16px;
+  details[open] summary::after { content: '−'; }
+  details > p {
+    padding: 0 24px 22px;
     color: var(--muted);
     font-size: 15px;
+    line-height: 1.65;
+    margin: 0;
   }
+
+  /* FOOTER FINAL DO POST */
+  .post-footer {
+    margin-top: 64px;
+    padding: 40px;
+    background: var(--surface);
+    border-radius: 16px;
+    text-align: center;
+  }
+  .post-footer h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 26px;
+    color: var(--accent);
+    margin-bottom: 12px;
+    line-height: 1.3;
+  }
+  .post-footer p { color: var(--muted); margin-bottom: 24px; font-size: 16px; }
 
   footer.site-footer {
     padding: 40px 0;
+    margin-top: 80px;
     border-top: 1px solid var(--border);
     color: var(--muted);
     font-size: 13px;
@@ -215,18 +321,15 @@
   footer.site-footer .links a:hover { color: var(--brand); }
 
   @media (max-width: 720px) {
-    .blog-hero { padding: 50px 0 30px; }
-    h1 { font-size: 32px; }
-    .post-card { grid-template-columns: 1fr; gap: 0; }
-    .post-card-image {
-      aspect-ratio: 16/9;
-      border-right: none;
-      border-bottom: 1px solid var(--border);
-    }
-    .post-card-body { padding: 22px; }
+    body { font-size: 16px; }
+    h1 { font-size: 30px; }
+    article h2 { font-size: 24px; margin: 40px 0 14px; }
+    article h3 { font-size: 19px; }
+    .post-image { border-radius: 12px; }
+    .post-footer { padding: 28px 20px; }
     nav a { margin-left: 12px; font-size: 13px; }
-    .logo-text { font-size: 22px; }
-    .logo img { height: 30px; }
+    .logo-text { font-size: 20px; }
+    .logo img { height: 28px; }
   }
 </style>
 </head>
@@ -234,60 +337,181 @@
 
 <header>
   <div class="wrap">
-    <a href="../index.html" class="logo">
-      <img src="../notinha-icon.png" alt="Notinha">
+    <a href="../../index.html" class="logo">
+      <img src="../../notinha-icon.png" alt="Notinha">
       <span class="logo-text">Notinha<sup style="font-size:0.45em; font-weight:400; vertical-align:top; margin-left:1px;">™</sup></span>
     </a>
     <nav>
-      <a href="../index.html#por-que">Por que</a>
-      <a href="../index.html#planos">Planos</a>
-      <a href="./">Caderninho</a>
-      <a href="../index.html#faq">Dúvidas</a>
+      <a href="../../index.html#planos">Planos</a>
+      <a href="../">Caderninho</a>
+      <a href="https://wa.me/5513981371748?text=Oi%20Notinha" class="cta-nav">WhatsApp →</a>
     </nav>
   </div>
 </header>
 
-<section class="blog-hero">
-  <div class="wrap">
-    <div class="badge">● Caderninho</div>
-    <h1>Finanças simples,<br>sem complicação</h1>
-    <p>Guias práticos sobre controle de gastos, planilhas, notas fiscais e como organizar a vida financeira sem virar refém de planilha.</p>
+<div class="wrap">
+
+  <nav class="breadcrumb" aria-label="breadcrumb">
+    <a href="../../index.html">Notinha</a>
+    <span>/</span>
+    <a href="../">Caderninho</a>
+    <span>/</span>
+    Planilha de Gastos Mensais
+  </nav>
+
+  <div class="post-hero">
+    <div class="post-meta">28 de maio de 2026 · 9 min de leitura</div>
+    <h1>Planilha de Gastos Mensais: Como Criar e Usar</h1>
+    <p class="post-lead">Aprenda a montar uma planilha de gastos mensais que realmente funciona — estrutura, modelos prontos, fórmulas e quando o registro automático passa a fazer mais sentido.</p>
+    <img src="https://usenotinha.com.br/blog/img/planilha-de-gastos-como-criar-e-usar-de-forma-eficiente-1779989705586.webp" alt="Planilha de gastos mensais sobre uma mesa de trabalho" class="post-image" loading="lazy">
   </div>
-</section>
 
-<section>
-  <div class="wrap">
-    <div class="posts">
+  <article>
 
-      <a href="planilha-de-gastos-mensais/" class="post-card">
-        <img src="https://composeo-article-images.s3.us-east-1.amazonaws.com/planilha-de-gastos-como-criar-e-usar-de-forma-eficiente-1779989705586.webp" alt="Planilha de gastos mensais" class="post-card-image" loading="lazy">
-        <div class="post-card-body">
-          <span class="post-card-tag">Planilhas</span>
-          <h2>Planilha de Gastos: Como Criar e Usar de Forma Eficiente</h2>
-          <p>Estrutura, modelos prontos, fórmulas e quando o registro automático passa a fazer mais sentido que o preenchimento manual.</p>
-          <div class="post-card-meta">
-            <span>28 mai 2026 · 9 min</span>
-            <span class="post-card-cta">Ler post →</span>
-          </div>
-        </div>
-      </a>
+    <p>Muitas pessoas já tentaram usar uma planilha de gastos pelo menos uma vez. Você abre o Excel ou o Google Sheets, monta as colunas com cuidado, registra os primeiros lançamentos do mês e sente aquela sensação boa de ter as finanças sob controle. O problema aparece na segunda ou terceira semana, quando a planilha começa a ficar para trás.</p>
 
+    <p>O desafio não é criar a planilha. É mantê-la. Este artigo mostra como estruturar um controle de despesas que realmente funcione no dia a dia, qual modelo de planilha de gastos escolher para o seu perfil e, para quem já sabe que o ponto fraco é o preenchimento manual, quando faz sentido dar um próximo passo. Inclusive, já existem ferramentas que atualizam sua planilha no Google Drive de forma automática, sem você digitar nada, mas esse ponto fica para o final.</p>
+
+    <h2>O que uma planilha de controle de gastos eficiente precisa ter</h2>
+
+    <p>A maioria das planilhas falha não pela falta de dados, mas pela falta de estrutura. Uma planilha cheia de colunas desnecessárias ou com categorias vagas vira um arquivo que ninguém quer abrir. O segredo é partir de uma base simples, com elementos bem definidos, e ajustar conforme o uso.</p>
+
+    <h3>As colunas que não podem faltar</h3>
+
+    <p>A estrutura básica que funciona para a maioria das pessoas é esta: <strong>Data, Tipo (receita ou despesa), Descrição, Categoria, Conta, Valor e Mês.</strong> A coluna "Conta" pode parecer detalhe, mas faz diferença: ela identifica se o gasto saiu do cartão de crédito, do Pix, da conta corrente ou do dinheiro em espécie, o que facilita muito a conferência do extrato bancário ao final do mês.</p>
+
+    <p>Se você usa mais de um meio de pagamento, essa coluna resolve um problema clássico: descobrir por que o saldo da conta não bate com o que a planilha de despesas mostra.</p>
+
+    <h3>Como separar despesas fixas e variáveis</h3>
+
+    <p>Gastos fixos são aqueles que chegam todo mês no mesmo valor: aluguel, internet, escola, plano de saúde. Gastos variáveis mudam conforme o comportamento do mês: mercado, lazer, farmácia, transporte. Essa separação transforma completamente a forma de analisar o orçamento mensal, porque é nos gastos variáveis que o controle financeiro pessoal de verdade acontece.</p>
+
+    <p>Para as categorias, um ponto de partida seguro é: moradia, alimentação, transporte, saúde, educação e lazer. Você pode detalhar mais depois, quando o hábito estiver consolidado. Começar com categorias específicas demais tende a complicar o registro e acelerar o abandono, recomendação consistente com boas práticas de finanças pessoais.</p>
+
+    <h3>Os indicadores simples que fecham o mês</h3>
+
+    <p>Três números precisam aparecer no resumo mensal: <strong>total de receitas, total de despesas e saldo final.</strong> Com esses três, você já tem uma visão clara do mês. O que transforma uma planilha básica em uma ferramenta de decisão é adicionar uma coluna de "planejado" ao lado do "realizado" para cada categoria. Quando você vê que gastou R$ 800 em alimentação sendo que o orçamento era R$ 500, o problema fica visível, e aí é possível agir.</p>
+
+    <h2>Como configurar sua planilha de gastos no Google Sheets ou Excel em 5 passos</h2>
+
+    <p>Montar a estrutura certa desde o início economiza muito retrabalho depois. Os passos abaixo são sequenciais e diretos: siga nessa ordem e você vai ter uma planilha financeira funcional ainda hoje.</p>
+
+    <h3>Passo 1 a 3: estrutura, categorias e metas</h3>
+
+    <p>O primeiro passo é escolher a ferramenta. O Google Sheets é acessível de qualquer dispositivo e salvo automaticamente na nuvem; o Excel funciona melhor para quem prefere trabalhar offline ou quer mais controle sobre o arquivo. Qualquer uma das duas serve, desde que você use com frequência.</p>
+
+    <p>O segundo passo é montar a aba de lançamentos com as colunas definidas acima. O terceiro passo, e o mais ignorado, é criar categorias que reflitam seus gastos reais, não uma lista genérica copiada da internet. Pense nos últimos três comprovantes de pagamento que você recebeu e use isso como ponto de partida. Depois, defina uma meta mensal por categoria, mesmo que seja uma estimativa inicial: R$ 600 em alimentação, R$ 150 em lazer. Essa meta é o que vai tornar a análise mensal útil.</p>
+
+    <h3>Passo 4 e 5: lançar os primeiros registros e gerar visão mensal</h3>
+
+    <p>Para começar sem ansiedade, importe o extrato dos últimos 30 dias da sua conta e cartão e use esse histórico como base. Categorize cada lançamento e você já terá um mês completo de dados sem precisar lembrar de nada de cabeça. A partir daí, o hábito é registrar os novos gastos à medida que acontecem.</p>
+
+    <p>Para gerar o resumo mensal, a fórmula <code>SOMASES</code> resolve a maior parte dos casos: ela soma os valores filtrando por categoria e por mês ao mesmo tempo. Por exemplo: <code>=SOMASES(E:E,C:C,"Alimentação",G:G,"Jan")</code> retorna o total gasto em alimentação no mês de janeiro. Se você preferir algo mais visual e flexível, uma tabela dinâmica faz o agrupamento automaticamente com poucos cliques. Veja um passo a passo de <a href="https://kondado.com.br/blog/a/criando-uma-tabela-dinamica-no-google-sheets" target="_blank" rel="noopener">como criar uma tabela dinâmica no Google Sheets</a>. O que importa é ter, ao final de cada mês, o total gasto por categoria para comparar com o planejado.</p>
+
+    <h2>Modelos de planilha de gastos grátis: qual escolher para o seu caso</h2>
+
+    <p>Não é necessário criar nada do zero. Existem modelos gratuitos bem construídos, com tabelas dinâmicas, fórmulas SOMASES e gráficos prontos, que já têm a estrutura certa e economizam horas de configuração. A escolha depende do seu perfil de uso.</p>
+
+    <h3>Para uso pessoal ou familiar</h3>
+
+    <p>Para quem controla as finanças da casa, os <a href="https://www.sheetgo.com/pt/blog/modelos-financeiros/modelo-de-orcamento-do-google-sheets/" target="_blank" rel="noopener">modelos da Sheetgo</a> e da Sunna para Google Sheets são boas opções, com gráficos embutidos, categorias prontas e versões gratuitas para copiar e adaptar. Para quem prefere Excel, a planilha do Sebrae/PR e o modelo da BM&amp;F são referências com boa estrutura visual e foco em metas mensais. <strong>Os modelos com gráficos de pizza ou colunas tornam muito mais fácil enxergar a distribuição dos gastos</strong> sem precisar montar nada do zero. Vale buscar os nomes diretamente no Google para encontrar as versões mais atualizadas de cada um.</p>
+
+    <h3>Para autônomos, freelancers e MEI</h3>
+
+    <p>Quem tem renda variável ou mistura gastos pessoais com os do negócio precisa de uma planilha financeira com colunas adicionais para separar essas duas esferas. Uma planilha genérica de uso pessoal não tem essa divisão, o que gera confusão na hora de prestar contas para um cliente, calcular Imposto de Renda ou entender a margem real do negócio. Para esse perfil, o modelo do Sebrae/PR é uma referência mais adequada, por ter sido desenvolvido com o contexto do empreendedor brasileiro em mente.</p>
+
+    <p>Se você é MEI, vale também ter uma coluna específica para identificar notas fiscais de fornecedores e insumos. Essa informação ajuda a entender os custos reais da operação e pode ser útil nas obrigações fiscais anuais — consulte o Sebrae ou a Receita Federal para confirmar quais declarações se aplicam ao seu caso em 2026.</p>
+
+    <h2>Por que a maioria das pessoas abandona a planilha de gastos</h2>
+
+    <p>O abandono não é falta de esforço. Esse ponto precisa ficar claro porque muita gente carrega uma culpa desnecessária por ter parado de usar a planilha. O problema é estrutural: o modelo de registro manual exige que a pessoa lembre de cada gasto e encontre tempo para lançar tudo depois que ele aconteceu.</p>
+
+    <h3>O esquecimento é o inimigo, não você</h3>
+
+    <p>A vida financeira real é fragmentada: vários cartões, Pix, dinheiro em espécie, compras parceladas, assinaturas automáticas e gastos miúdos que somam no final do mês. <strong>Quando o lançamento não acontece no momento da compra, os gastos se acumulam,</strong> a memória falha e a vontade de atualizar tudo de uma vez desaparece. Não é fraqueza. Pesquisas em psicologia comportamental mostram que tarefas repetitivas sem retorno imediato são naturalmente desfavorecidas pelo cérebro, o que explica por que o registro manual é tão difícil de manter.</p>
+
+    <h3>Quando o atraso no registro compromete o controle</h3>
+
+    <p>Lançamentos feitos com dias de atraso costumam ter erros de categoria, datas erradas e gastos misturados entre meses diferentes. O saldo final não fecha, a análise perde sentido e a confiança no sistema vai embora. O problema não é a planilha em si: é o intervalo entre o gasto e o registro. Quanto maior esse intervalo, mais rápido o controle desmorona.</p>
+
+    <p>Esse ponto é importante porque identifica onde está o verdadeiro obstáculo. Se você já tentou usar uma planilha de gastos e abandonou por esse motivo, não adianta tentar de novo com outro modelo bonito. O que precisa mudar é a forma de capturar os dados.</p>
+
+    <h2>Quando faz sentido migrar para um controle automático</h2>
+
+    <p>Se a planilha funciona para você, ótimo. Siga com ela. Mas se o ponto de abandono é sempre o mesmo, o preenchimento manual, existe uma alternativa que mantém toda a lógica da planilha, com categorias, histórico mensal e visão por tipo de gasto, sem exigir que você digite nada.</p>
+
+    <h3>O que muda quando a planilha se preenche sozinha</h3>
+
+    <p>O <strong>Notinha</strong> funciona assim: você fotografa a nota fiscal, NFC-e, cupom fiscal ou NF-e, e envia a foto pelo WhatsApp. O serviço lê a nota, identifica os itens, categoriza os gastos e registra tudo automaticamente em uma planilha no seu próprio Google Drive. A lógica é exatamente a mesma de uma planilha manual, com data, categoria, descrição e valor, só que sem digitação.</p>
+
+    <p>O registro acontece no momento exato da compra, que é o único momento em que o dado é preciso e a memória não é necessária. O histórico fica organizado no seu Drive por mês, e você pede o resumo pelo WhatsApp sempre que quiser.</p>
+
+    <div class="cta-box">
+      <h4>Sua planilha se preenche sozinha</h4>
+      <p>Manda foto da nota pelo WhatsApp. Notinha organiza tudo no seu Drive. Sem app, sem digitação, sem retrabalho.</p>
+      <a href="../../index.html#planos" class="cta-button">Ver planos →</a>
     </div>
 
-    <div class="empty-soon">
-      Mais conteúdo chegando em breve.
+    <h3>Para quem esse modelo faz mais sentido</h3>
+
+    <p>Quem faz muitas compras no varejo, supermercado, farmácia e lojas físicas, ganha mais com esse modelo porque são exatamente esses gastos que desaparecem quando a planilha fica desatualizada. MEIs que precisam arquivar notas de fornecedores para obrigações fiscais anuais também se beneficiam: cada nota enviada pelo WhatsApp vira um registro organizado com foto e dados extraídos automaticamente.</p>
+
+    <p>Autônomos que precisam das notas para reembolso de clientes ou para a declaração do Imposto de Renda encontram nesse fluxo uma forma prática de nunca mais perder um comprovante. Nesse fluxo, nenhum comprovante se perde.</p>
+
+    <p><strong>Os dados ficam no Google Drive do próprio usuário.</strong> Segundo o Notinha, o serviço não solicita senha bancária nem acessa contas financeiras, e a política de privacidade segue a LGPD — <a href="../../termos.html">consulte os termos de uso</a> para detalhes completos. Se você cancelar, seus dados continuam com você, no Drive.</p>
+
+    <h2>Comece agora com o método que funciona para a sua rotina</h2>
+
+    <p>A planilha de gastos é um ponto de partida sólido para qualquer pessoa que quer entender para onde o dinheiro vai. Qualquer formato que traga esse entendimento já é um avanço real: não existe método certo ou errado, existe o que se sustenta no cotidiano.</p>
+
+    <p>Se você está começando agora, os modelos prontos e o passo a passo deste artigo são o suficiente para montar um controle financeiro pessoal que funciona. Escolha um modelo compatível com o seu perfil, defina as categorias com base nos seus gastos reais e revise ao final de cada mês. Fechar um mês completo de controle já é mais do que a maioria das pessoas consegue, e é exatamente por onde começa a virada financeira.</p>
+
+    <p>Se você já tentou usar uma planilha de gastos e sabe que o problema é o preenchimento manual, experimente o Notinha. Basta enviar a foto da nota pelo WhatsApp e a planilha se organiza sozinha. Sem app para baixar, sem senha bancária, sem retrabalho. O controle financeiro que você quer já existe, só precisa de um método que acompanhe a sua rotina de verdade.</p>
+
+    <div class="faq-section">
+      <h2>Perguntas frequentes sobre planilha de gastos</h2>
+
+      <details>
+        <summary>Como baixar um modelo de planilha de gastos grátis?</summary>
+        <p>Busque no Google por "planilha de gastos Sheetgo", "planilha financeira Sunna Google Sheets" ou "planilha Sebrae/PR Excel". Todos oferecem versões gratuitas para copiar direto para o seu Google Drive ou baixar em formato .xlsx. Você também pode acessar diretamente a <a href="https://www.santander.com.br/blog/planilha-de-controle-financeiro" target="_blank" rel="noopener">planilha de controle financeiro do Santander</a> para baixar um modelo pronto.</p>
+      </details>
+
+      <details>
+        <summary>Como importar o extrato bancário para a planilha?</summary>
+        <p>A maioria dos bancos permite exportar o extrato em formato .csv ou .ofx. No Google Sheets, use o menu Arquivo > Importar para carregar o arquivo. No Excel, utilize a função "Obter Dados Externos". Depois de importado, basta categorizar os lançamentos manualmente ou com filtros.</p>
+      </details>
+
+      <details>
+        <summary>Uma planilha de gastos no Google Sheets é segura?</summary>
+        <p>Sim. Os dados ficam no seu próprio Google Drive, protegidos pela sua conta Google. Nenhuma ferramenta externa acessa suas informações a menos que você conceda permissão explicitamente.</p>
+      </details>
+
+      <details>
+        <summary>Preciso saber fórmulas para usar uma planilha de gastos?</summary>
+        <p>Não. Os modelos prontos já vêm com fórmulas configuradas. Se quiser personalizar, a fórmula SOMASES é a mais útil e tem tutoriais simples disponíveis na Central de Ajuda do Google Sheets.</p>
+      </details>
     </div>
-  </div>
-</section>
+
+    <p style="margin-top: 40px;">Para quem quer alternativas de modelos e guias sobre planilhas, há também opções como a <a href="https://www.serasa.com.br/blog/planilha-gastos-mensais/" target="_blank" rel="noopener">planilha de gastos mensais da Serasa</a>, que pode servir como referência prática ao começar a montar seu controle.</p>
+
+    <div class="post-footer">
+      <h3>Pare de digitar gasto por gasto</h3>
+      <p>Manda foto da nota no WhatsApp. Notinha organiza tudo no seu Drive automaticamente.</p>
+      <a href="../../index.html#planos" class="cta-button">Conhecer planos →</a>
+    </div>
+
+  </article>
+
+</div>
 
 <footer class="site-footer">
   <div class="wrap">
     <div class="links">
-      <a href="../index.html">Início</a>
-      <a href="./">Caderninho</a>
-      <a href="../privacidade.html">Privacidade</a>
-      <a href="../termos.html">Termos</a>
-      <a href="../cookies.html">Cookies</a>
+      <a href="../../index.html">Início</a>
+      <a href="../">Caderninho</a>
+      <a href="../../privacidade.html">Privacidade</a>
+      <a href="../../termos.html">Termos</a>
+      <a href="../../cookies.html">Cookies</a>
       <a href="mailto:contato@usenotinha.com.br">Contato</a>
     </div>
     © 2026 Notinha · CNPJ 66.824.150/0001-28
