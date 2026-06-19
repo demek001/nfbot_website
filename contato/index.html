@@ -35,10 +35,10 @@
 <body>
 <div class="container">
   <div class="header">
-    <div class="header-brand">
+    <a href="https://usenotinha.com.br/" class="header-brand" style="text-decoration:none;">
       <img src="https://usenotinha.com.br/notinha-icon.png" alt="Notinha">
       <span>Notinha</span>
-    </div>
+    </a>
     <h1>Como podemos ajudar?</h1>
     <p>Preencha o formulário e respondemos em breve.</p>
   </div>
@@ -59,8 +59,8 @@
         </div>
         <div><label>E-mail</label><input type="email" name="Email" maxlength="255" placeholder="seu@email.com" required></div>
         <div class="row">
-          <div><label>WhatsApp cadastrado</label><input type="tel" name="PhoneNumber_countrycode" maxlength="20" placeholder="(00) 00000-0000" required></div>
-          <div><label>CPF</label><input type="text" name="SingleLine" maxlength="255" placeholder="000.000.000-00" required></div>
+          <div><label>WhatsApp cadastrado</label><input type="tel" id="ct-wa" name="PhoneNumber_countrycode" maxlength="20" placeholder="55 11 9-9999-9999" required></div>
+          <div><label>CPF</label><input type="text" id="ct-cpf" name="SingleLine" maxlength="255" placeholder="000.000.000-00" required></div>
         </div>
         <div>
           <label>Como podemos ajudar?</label>
@@ -107,6 +107,32 @@
       document.getElementById('success-msg').style.display='block';
     });
   });
+</script>
+<script>
+/* Máscaras CPF (000.000.000-00) e WhatsApp (55 11 9-9999-9999) */
+(function(){
+  function mascaraCPF(v){
+    v=(v||'').replace(/\D/g,'').slice(0,11);
+    v=v.replace(/(\d{3})(\d)/,'$1.$2');
+    v=v.replace(/(\d{3})(\d)/,'$1.$2');
+    v=v.replace(/(\d{3})(\d{1,2})$/,'$1-$2');
+    return v;
+  }
+  function mascaraTel(v){
+    v=(v||'').replace(/\D/g,'');
+    if(v && !v.startsWith('55')) v='55'+v;
+    v=v.slice(0,13);
+    if(v.length<=2) return v;
+    if(v.length<=4) return v.slice(0,2)+' '+v.slice(2);
+    if(v.length<=5) return v.slice(0,2)+' '+v.slice(2,4)+' '+v.slice(4);
+    if(v.length<=9) return v.slice(0,2)+' '+v.slice(2,4)+' '+v.slice(4,5)+'-'+v.slice(5);
+    return v.slice(0,2)+' '+v.slice(2,4)+' '+v.slice(4,5)+'-'+v.slice(5,9)+'-'+v.slice(9);
+  }
+  var cpf=document.getElementById('ct-cpf');
+  if(cpf) cpf.addEventListener('input',function(){this.value=mascaraCPF(this.value);});
+  var wa=document.getElementById('ct-wa');
+  if(wa) wa.addEventListener('input',function(){this.value=mascaraTel(this.value);});
+})();
 </script>
 </body>
 </html>
