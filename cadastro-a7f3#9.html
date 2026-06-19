@@ -220,7 +220,7 @@
           <input type="email" id="email" required>
         </label>
         <label class="field">WhatsApp (com DDD)
-          <input type="tel" id="whatsapp" placeholder="55 11 9-9999-9999" required>
+          <input type="tel" id="whatsapp" placeholder="11 9-9999-9999" required>
         </label>
         <label class="field">Data de nascimento
           <input type="date" id="nascimento">
@@ -341,7 +341,7 @@
 </script>
 
 <script>
-/* Máscaras CPF (000.000.000-00) e WhatsApp (55 11 9-9999-9999) */
+/* Máscaras CPF (000.000.000-00) e WhatsApp (11 9-9999-9999) */
 (function(){
   function mascaraCPF(v){
     v=(v||'').replace(/\D/g,'').slice(0,11);
@@ -351,14 +351,11 @@
     return v;
   }
   function mascaraTel(v){
-    v=(v||'').replace(/\D/g,'');
-    if(v && !v.startsWith('55')) v='55'+v;
-    v=v.slice(0,13);
+    v=(v||'').replace(/\D/g,'').slice(0,11);
     if(v.length<=2) return v;
-    if(v.length<=4) return v.slice(0,2)+' '+v.slice(2);
-    if(v.length<=5) return v.slice(0,2)+' '+v.slice(2,4)+' '+v.slice(4);
-    if(v.length<=9) return v.slice(0,2)+' '+v.slice(2,4)+' '+v.slice(4,5)+'-'+v.slice(5);
-    return v.slice(0,2)+' '+v.slice(2,4)+' '+v.slice(4,5)+'-'+v.slice(5,9)+'-'+v.slice(9);
+    if(v.length<=3) return v.slice(0,2)+' '+v.slice(2);
+    if(v.length<=7) return v.slice(0,2)+' '+v.slice(2,3)+'-'+v.slice(3);
+    return v.slice(0,2)+' '+v.slice(2,3)+'-'+v.slice(3,7)+'-'+v.slice(7);
   }
   var cpf=document.getElementById('cpf');
   if(cpf) cpf.addEventListener('input',function(){this.value=mascaraCPF(this.value);});
