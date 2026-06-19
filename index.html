@@ -591,7 +591,7 @@
 
         <label>
           Seu WhatsApp *
-          <input type="tel" name="telefone" id="lista-tel" required autocomplete="tel" placeholder="55 11 9-9999-9999">
+          <input type="tel" name="telefone" id="lista-tel" required autocomplete="tel" placeholder="11 9-9999-9999">
         </label>
 
         <label>
@@ -866,17 +866,14 @@ async function enviarLista(e) {
 </script>
 
 <script>
-/* Máscara WhatsApp — formato 55 11 9-9999-9999 (lista de espera) */
+/* Máscara WhatsApp — formato 11 9-9999-9999 (lista de espera) */
 (function(){
   function mascaraTel(v){
-    v = (v||'').replace(/\D/g,'');
-    if (v && !v.startsWith('55')) v = '55' + v;
-    v = v.slice(0,13);
-    if (v.length<=2) return v;
-    if (v.length<=4) return v.slice(0,2)+' '+v.slice(2);
-    if (v.length<=5) return v.slice(0,2)+' '+v.slice(2,4)+' '+v.slice(4);
-    if (v.length<=9) return v.slice(0,2)+' '+v.slice(2,4)+' '+v.slice(4,5)+'-'+v.slice(5);
-    return v.slice(0,2)+' '+v.slice(2,4)+' '+v.slice(4,5)+'-'+v.slice(5,9)+'-'+v.slice(9);
+    v=(v||'').replace(/\D/g,'').slice(0,11);
+    if(v.length<=2) return v;
+    if(v.length<=3) return v.slice(0,2)+' '+v.slice(2);
+    if(v.length<=7) return v.slice(0,2)+' '+v.slice(2,3)+'-'+v.slice(3);
+    return v.slice(0,2)+' '+v.slice(2,3)+'-'+v.slice(3,7)+'-'+v.slice(7);
   }
   var t = document.getElementById('lista-tel');
   if (t) t.addEventListener('input', function(){ this.value = mascaraTel(this.value); });
