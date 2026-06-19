@@ -220,7 +220,7 @@
           <input type="email" id="email" required>
         </label>
         <label class="field">WhatsApp (com DDD)
-          <input type="tel" id="whatsapp" placeholder="(13) 99999-9999" required>
+          <input type="tel" id="whatsapp" placeholder="55 11 9-9999-9999" required>
         </label>
         <label class="field">Data de nascimento
           <input type="date" id="nascimento">
@@ -298,9 +298,9 @@
 
     const dados = {
       nome: document.getElementById("nome").value,
-      cpf: document.getElementById("cpf").value,
+      cpf: document.getElementById("cpf").value.replace(/\D/g, ""),
       email: document.getElementById("email").value,
-      whatsapp: document.getElementById("whatsapp").value,
+      whatsapp: document.getElementById("whatsapp").value.replace(/\D/g, ""),
       nascimento: document.getElementById("nascimento").value || null,
       plano: document.querySelector('input[name="plano"]:checked').value,
       consent: document.getElementById("consent").checked,
@@ -340,5 +340,31 @@
   });
 </script>
 
+<script>
+/* Máscaras CPF (000.000.000-00) e WhatsApp (55 11 9-9999-9999) */
+(function(){
+  function mascaraCPF(v){
+    v=(v||'').replace(/\D/g,'').slice(0,11);
+    v=v.replace(/(\d{3})(\d)/,'$1.$2');
+    v=v.replace(/(\d{3})(\d)/,'$1.$2');
+    v=v.replace(/(\d{3})(\d{1,2})$/,'$1-$2');
+    return v;
+  }
+  function mascaraTel(v){
+    v=(v||'').replace(/\D/g,'');
+    if(v && !v.startsWith('55')) v='55'+v;
+    v=v.slice(0,13);
+    if(v.length<=2) return v;
+    if(v.length<=4) return v.slice(0,2)+' '+v.slice(2);
+    if(v.length<=5) return v.slice(0,2)+' '+v.slice(2,4)+' '+v.slice(4);
+    if(v.length<=9) return v.slice(0,2)+' '+v.slice(2,4)+' '+v.slice(4,5)+'-'+v.slice(5);
+    return v.slice(0,2)+' '+v.slice(2,4)+' '+v.slice(4,5)+'-'+v.slice(5,9)+'-'+v.slice(9);
+  }
+  var cpf=document.getElementById('cpf');
+  if(cpf) cpf.addEventListener('input',function(){this.value=mascaraCPF(this.value);});
+  var wa=document.getElementById('whatsapp');
+  if(wa) wa.addEventListener('input',function(){this.value=mascaraTel(this.value);});
+})();
+</script>
 </body>
 </html>
