@@ -213,6 +213,49 @@
   }
   .step p { color: var(--muted); font-size: 15px; }
 
+  /* DEMO VÍDEO — moldura de celular */
+  .demo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 56px;
+  }
+  .demo-phone {
+    width: 280px;
+    max-width: 78vw;
+    border: 10px solid #1f2630;
+    border-radius: 38px;
+    overflow: hidden;
+    background: #000;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55), 0 0 0 1px var(--border);
+    position: relative;
+  }
+  .demo-phone::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90px;
+    height: 6px;
+    background: #0d1117;
+    border-radius: 100px;
+    z-index: 2;
+  }
+  .demo-phone video {
+    width: 100%;
+    display: block;
+    aspect-ratio: 576 / 1248;
+    background: #000;
+  }
+  .demo-caption {
+    color: var(--muted);
+    font-size: 14px;
+    margin-top: 18px;
+    text-align: center;
+    max-width: 320px;
+  }
+
   .trust { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
   .trust-card {
     background: var(--surface);
@@ -446,8 +489,8 @@
       <span class="logo-text">Notinha<sup style="font-size:0.45em; font-weight:400; vertical-align:top; margin-left:1px;">™</sup></span>
     </a>
     <nav>
-      <a href="#por-que">Por que</a>
       <a href="#como-funciona">Como funciona</a>
+      <a href="#por-que">Por que</a>
       <a href="blog/">Caderninho</a>
       <a href="#faq">Dúvidas</a>
     </nav>
@@ -462,6 +505,52 @@
     <p class="lead">Notinha está chegando: você manda foto da nota fiscal no WhatsApp e seu controle financeiro se organiza sozinho. Entre na lista de espera e ganhe um presente no lançamento.</p>
     <a href="#lista" class="cta">Garantir acesso antecipado →</a>
     <div><a href="#como-funciona" class="cta-secondary">ver como funciona</a></div>
+  </div>
+</section>
+
+<!-- COMO FUNCIONA -->
+<section id="como-funciona">
+  <div class="wrap">
+    <h2>Como funciona</h2>
+    <p class="sub">Três passos. Zero esforço.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <h3>Manda foto no WhatsApp</h3>
+        <p>Tira foto da nota fiscal e envia pro número do Notinha. Pronto.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <h3>Notinha organiza automaticamente</h3>
+        <p>O serviço identifica estabelecimento, valor, categoria e itens — em segundos.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <h3>Relatório no seu Drive</h3>
+        <p>Imagem salva, planilha atualizada, relatório mensal automático.</p>
+      </div>
+    </div>
+
+    <!-- DEMO VÍDEO -->
+    <div class="demo">
+      <div class="demo-phone">
+        <video
+          id="demo-video"
+          src="notinha-enviando-nota-fiscal.mp4"
+          muted
+          loop
+          playsinline
+          preload="metadata"
+          aria-label="Demonstração: enviando uma nota fiscal pelo WhatsApp e recebendo o resumo organizado">
+        </video>
+      </div>
+      <p class="demo-caption">Veja na prática: foto enviada, nota organizada em segundos.</p>
+    </div>
+
+    <div style="text-align: center; margin-top: 48px;">
+      <p style="color: var(--muted); font-size: 15px; margin-bottom: 18px;">Quem entra agora ganha um presente.</p>
+      <a href="#lista" class="cta">Entrar na lista →</a>
+    </div>
   </div>
 </section>
 
@@ -502,36 +591,6 @@
   </div>
 </section>
 
-<!-- COMO FUNCIONA -->
-<section id="como-funciona">
-  <div class="wrap">
-    <h2>Como funciona</h2>
-    <p class="sub">Três passos. Zero esforço.</p>
-    <div class="steps">
-      <div class="step">
-        <div class="step-num">01</div>
-        <h3>Manda foto no WhatsApp</h3>
-        <p>Tira foto da nota fiscal e envia pro número do Notinha. Pronto.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">02</div>
-        <h3>Notinha organiza automaticamente</h3>
-        <p>O serviço identifica estabelecimento, valor, categoria e itens — em segundos.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">03</div>
-        <h3>Relatório no seu Drive</h3>
-        <p>Imagem salva, planilha atualizada, relatório mensal automático.</p>
-      </div>
-    </div>
-
-    <div style="text-align: center; margin-top: 48px;">
-      <p style="color: var(--muted); font-size: 15px; margin-bottom: 18px;">Quem entra agora ganha um presente.</p>
-      <a href="#lista" class="cta">Entrar na lista →</a>
-    </div>
-  </div>
-</section>
-
 <!-- CONFIANÇA -->
 <section id="confianca">
   <div class="wrap">
@@ -547,6 +606,13 @@
         </div>
       </div>
       <div class="trust-card">
+        <div class="trust-icon">B</div>
+        <div>
+          <h3>Sem senha de banco</h3>
+          <p>Não pedimos senha de banco, dados de cartão ou acesso à sua conta. Só lemos as notas que você manda.</p>
+        </div>
+      </div>
+      <div class="trust-card">
         <div class="trust-icon">C</div>
         <div>
           <h3>Tudo criptografado</h3>
@@ -558,13 +624,6 @@
         <div>
           <h3>Em conformidade com a LGPD</h3>
           <p>Os servidores possuem alto padrão de proteção e as informações são protegidas e criptografadas, respeitando as normas da LGPD.</p>
-        </div>
-      </div>
-      <div class="trust-card">
-        <div class="trust-icon">B</div>
-        <div>
-          <h3>Sem senha de banco</h3>
-          <p>Não pedimos senha de banco, dados de cartão ou acesso à sua conta. Só lemos as notas que você manda.</p>
         </div>
       </div>
     </div>
@@ -773,6 +832,22 @@
 })();
 function cookieAceitar(){ localStorage.setItem('cookieConsent','all'); document.getElementById('cookieBanner').style.display='none'; }
 function cookieEssenciais(){ localStorage.setItem('cookieConsent','essential'); document.getElementById('cookieBanner').style.display='none'; }
+</script>
+
+<!-- Demo vídeo: toca só quando visível (economia de banda) -->
+<script>
+(function(){
+  var v = document.getElementById('demo-video');
+  if (!v) return;
+  if (!('IntersectionObserver' in window)) { v.setAttribute('autoplay',''); v.play().catch(function(){}); return; }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (e.isIntersecting) { v.play().catch(function(){}); }
+      else { v.pause(); }
+    });
+  }, { threshold: 0.5 });
+  io.observe(v);
+})();
 </script>
 
 <!-- Lista de espera -> Supabase -->
