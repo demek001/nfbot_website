@@ -14,10 +14,10 @@
 </script>
 
 <title>Planilha de Gastos Mensais: Como Criar e Usar | Notinha</title>
-<meta name="description" content="Aprenda a montar uma planilha de gastos mensais que realmente funciona: estrutura, modelos prontos, fórmulas e quando o registro automático faz mais sentido.">
+<meta name="description" content="Aprenda a montar uma planilha de gastos mensais que realmente funciona: estrutura, fórmulas e uma planilha grátis pronta para baixar e usar hoje.">
 
 <meta property="og:title" content="Planilha de Gastos Mensais: Como Criar e Usar de Forma Eficiente">
-<meta property="og:description" content="Estrutura, modelos prontos, fórmulas e o que fazer quando o preenchimento manual deixa de funcionar.">
+<meta property="og:description" content="Estrutura, fórmulas e uma planilha de gastos grátis para baixar — pronta para usar no Excel ou no Google Drive.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://usenotinha.com.br/blog/planilha-de-gastos-mensais/">
 <meta property="og:image" content="https://usenotinha.com.br/blog/img/planilha-de-gastos-mensais.webp">
@@ -34,10 +34,10 @@
   "@context": "https://schema.org",
   "@type": "Article",
   "headline": "Planilha de Gastos Mensais: Como Criar e Usar de Forma Eficiente",
-  "description": "Aprenda a montar uma planilha de gastos mensais que realmente funciona: estrutura, modelos prontos, fórmulas e quando o registro automático faz mais sentido.",
+  "description": "Aprenda a montar uma planilha de gastos mensais que realmente funciona: estrutura, fórmulas e uma planilha grátis pronta para baixar e usar hoje.",
   "image": "https://usenotinha.com.br/blog/img/planilha-de-gastos-mensais.webp",
   "datePublished": "2026-05-28",
-  "dateModified": "2026-05-28",
+  "dateModified": "2026-06-27",
   "author": {
     "@type": "Organization",
     "name": "Notinha",
@@ -246,6 +246,30 @@
     border-bottom-color: transparent;
   }
 
+  /* DOWNLOAD BOX */
+  .download-box {
+    background: var(--surface);
+    border: 1px solid var(--brand);
+    border-radius: 16px;
+    padding: 28px;
+    margin: 32px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .download-box .dl-info { flex: 1; min-width: 240px; }
+  .download-box h4 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 20px;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .download-box p { font-size: 14px; color: var(--muted); margin: 0; }
+  .download-box .dl-meta { font-size: 12px; color: var(--muted); margin-top: 8px; }
+
   /* FAQ */
   .faq-section { margin-top: 48px; }
   .faq-section h2 { margin-bottom: 24px; }
@@ -330,6 +354,7 @@
     nav a { margin-left: 12px; font-size: 13px; }
     .logo-text { font-size: 20px; }
     .logo img { height: 28px; }
+    .download-box { flex-direction: column; align-items: flex-start; }
   }
 </style>
 </head>
@@ -362,7 +387,7 @@
   <div class="post-hero">
     <div class="post-meta">28 de maio de 2026 · 9 min de leitura</div>
     <h1>Planilha de Gastos: Como Criar e Usar de Forma Eficiente</h1>
-    <p class="post-lead">Aprenda a montar uma planilha de gastos mensais que realmente funciona — estrutura, modelos prontos, fórmulas e quando o registro automático passa a fazer mais sentido.</p>
+    <p class="post-lead">Aprenda a montar uma planilha de gastos mensais que realmente funciona — estrutura, fórmulas e uma planilha grátis pronta para baixar e usar hoje.</p>
     <img src="https://usenotinha.com.br/blog/img/planilha-de-gastos-mensais.webp" alt="Planilha de gastos mensais sobre uma mesa de trabalho" class="post-image" loading="lazy">
   </div>
 
@@ -370,7 +395,7 @@
 
     <p>Muitas pessoas já tentaram usar uma planilha de gastos pelo menos uma vez. Você abre o Excel ou o Google Sheets, monta as colunas com cuidado, registra os primeiros lançamentos do mês e sente aquela sensação boa de ter as finanças sob controle. O problema aparece na segunda ou terceira semana, quando a planilha começa a ficar para trás.</p>
 
-    <p>O desafio não é criar a planilha. É mantê-la. Este artigo mostra como estruturar um controle de despesas que realmente funcione no dia a dia, qual modelo de planilha de gastos escolher para o seu perfil e, para quem já sabe que o ponto fraco é o preenchimento manual, quando faz sentido dar um próximo passo. Inclusive, já existem ferramentas que atualizam sua planilha no Google Drive de forma automática, sem você digitar nada, mas esse ponto fica para o final.</p>
+    <p>O desafio não é criar a planilha. É mantê-la. Este artigo mostra como estruturar um controle de despesas que realmente funcione no dia a dia, traz uma planilha grátis pronta para baixar e, para quem já sabe que o ponto fraco é o preenchimento manual, mostra quando faz sentido dar um próximo passo. Inclusive, já existem ferramentas que atualizam sua planilha no Google Drive de forma automática, sem você digitar nada, mas esse ponto fica para o final.</p>
 
     <h2>O que uma planilha de controle de gastos eficiente precisa ter</h2>
 
@@ -408,19 +433,28 @@
 
     <p>Para gerar o resumo mensal, a fórmula <code>SOMASES</code> resolve a maior parte dos casos: ela soma os valores filtrando por categoria e por mês ao mesmo tempo. Por exemplo: <code>=SOMASES(E:E,C:C,"Alimentação",G:G,"Jan")</code> retorna o total gasto em alimentação no mês de janeiro. Se você preferir algo mais visual e flexível, uma tabela dinâmica faz o agrupamento automaticamente com poucos cliques. Veja um passo a passo de <a href="https://kondado.com.br/blog/a/criando-uma-tabela-dinamica-no-google-sheets" target="_blank" rel="noopener">como criar uma tabela dinâmica no Google Sheets</a>. O que importa é ter, ao final de cada mês, o total gasto por categoria para comparar com o planejado.</p>
 
-    <h2>Modelos de planilha de gastos grátis: qual escolher para o seu caso</h2>
+    <h2>Baixe a planilha de gastos do Notinha (grátis)</h2>
 
-    <p>Não é necessário criar nada do zero. Existem modelos gratuitos bem construídos, com tabelas dinâmicas, fórmulas SOMASES e gráficos prontos, que já têm a estrutura certa e economizam horas de configuração. A escolha depende do seu perfil de uso.</p>
+    <p>Você não precisa montar tudo do zero nem caçar modelo na internet. A planilha de gastos do Notinha é gratuita e já vem com a estrutura certa: um painel do ano, a renda e as despesas separadas por categoria, os produtos que você mais compra e os que mais subiram de preço. É só baixar, abrir no Excel ou copiar para o seu Google Drive e começar a usar.</p>
+
+    <p>Ela foi desenhada para funcionar quase sozinha. Você preenche apenas a sua renda e a meta do mês nas células amarelas — leva uns 30 segundos — e o painel mostra na hora quanto entrou, quanto saiu, quanto sobrou e quanto da renda você já gastou. Cada aba é um ano: a de 2026 vem com dados de exemplo para você ver o resultado pronto, e a de 2025 está em branco, pronta pra usar.</p>
+
+    <div class="download-box">
+      <div class="dl-info">
+        <h4>Planilha de Gastos Notinha</h4>
+        <p>Painel do ano, categorias e fórmulas já configuradas. Funciona no Excel e no Google Sheets.</p>
+        <div class="dl-meta">Arquivo .xlsx · grátis · sem cadastro</div>
+      </div>
+      <a href="../../planilha-de-gastos-notinha.xlsx" class="cta-button" download>Baixar grátis →</a>
+    </div>
 
     <h3>Para uso pessoal ou familiar</h3>
 
-    <p>Para quem controla as finanças da casa, os <a href="https://www.sheetgo.com/pt/blog/modelos-financeiros/modelo-de-orcamento-do-google-sheets/" target="_blank" rel="noopener">modelos da Sheetgo</a> e da Sunna para Google Sheets são boas opções, com gráficos embutidos, categorias prontas e versões gratuitas para copiar e adaptar. Para quem prefere Excel, a planilha do Sebrae/PR e o modelo da BM&amp;F são referências com boa estrutura visual e foco em metas mensais. <strong>Os modelos com gráficos de pizza ou colunas tornam muito mais fácil enxergar a distribuição dos gastos</strong> sem precisar montar nada do zero. Vale buscar os nomes diretamente no Google para encontrar as versões mais atualizadas de cada um.</p>
+    <p>Para quem controla as finanças da casa, a planilha já traz as categorias do dia a dia — mercado, combustível, restaurante, farmácia, transporte, lazer, serviços e outros — somadas mês a mês. <strong>O painel com o uso da meta torna muito mais fácil enxergar para onde o dinheiro foi</strong> sem precisar montar fórmula nenhuma. É só preencher a renda e acompanhar o saldo.</p>
 
     <h3>Para autônomos, freelancers e MEI</h3>
 
-    <p>Quem tem renda variável ou mistura gastos pessoais com os do negócio precisa de uma planilha financeira com colunas adicionais para separar essas duas esferas. Uma planilha genérica de uso pessoal não tem essa divisão, o que gera confusão na hora de prestar contas para um cliente, calcular imposto de renda ou entender a margem real do negócio. Para esse perfil, o modelo do Sebrae/PR é uma referência mais adequada, por ter sido desenvolvido com o contexto do empreendedor brasileiro em mente.</p>
-
-    <p>Se você é MEI, vale também ter uma coluna específica para identificar notas fiscais de fornecedores e insumos. Essa informação ajuda a entender os custos reais da operação e pode ser útil nas obrigações fiscais anuais — consulte o Sebrae ou a Receita Federal para confirmar quais declarações se aplicam ao seu caso em 2026.</p>
+    <p>Quem tem renda variável ou mistura gastos pessoais com os do negócio usa a seção "Sua renda" para registrar salário, extras e outros recebimentos separadamente em cada mês, mantendo entradas e saídas no mesmo lugar. E há um ganho extra: <strong>essa é a mesma planilha que o Notinha preenche automaticamente a partir das fotos das suas notas.</strong> Ou seja, ela serve tanto para o controle manual quanto para o automático — você não troca de ferramenta quando decidir dar o próximo passo.</p>
 
     <h2>Por que a maioria das pessoas abandona a planilha de gastos</h2>
 
@@ -442,7 +476,7 @@
 
     <h3>O que muda quando a planilha se preenche sozinha</h3>
 
-    <p>O <strong>Notinha</strong> funciona assim: você fotografa a nota fiscal, NFC-e, cupom fiscal ou NF-e, e envia a foto pelo WhatsApp. O serviço lê a nota, identifica os itens, categoriza os gastos e registra tudo automaticamente em uma planilha no seu próprio Google Drive. A lógica é exatamente a mesma de uma planilha manual, com data, categoria, descrição e valor, só que sem digitação.</p>
+    <p>O <strong>Notinha</strong> funciona assim: você fotografa a nota fiscal, NFC-e, cupom fiscal ou NF-e, e envia a foto pelo WhatsApp. O serviço lê a nota, identifica os itens, categoriza os gastos e registra tudo automaticamente em uma planilha no seu próprio Google Drive. A lógica é exatamente a mesma da planilha que você baixou acima, com data, categoria, descrição e valor, só que sem digitação.</p>
 
     <p>O registro acontece no momento exato da compra, que é o único momento em que o dado é preciso e a memória não é necessária. O histórico fica organizado no seu Drive por mês, com resumo enviado pelo WhatsApp ao final de cada período.</p>
 
@@ -464,16 +498,21 @@
 
     <p>A planilha de gastos é um ponto de partida sólido para qualquer pessoa que quer entender para onde o dinheiro vai. Qualquer formato que traga esse entendimento já é um avanço real: não existe método certo ou errado, existe o que se sustenta no cotidiano.</p>
 
-    <p>Se você está começando agora, os modelos prontos e o passo a passo deste artigo são o suficiente para montar um controle financeiro pessoal que funciona. Escolha um modelo compatível com o seu perfil, defina as categorias com base nos seus gastos reais e revise ao final de cada mês. Fechar um mês completo de controle já é mais do que a maioria das pessoas consegue, e é exatamente por onde começa a virada financeira.</p>
+    <p>Se você está começando agora, baixe a planilha grátis do Notinha e siga o passo a passo deste artigo: ela já vem pronta, com painel, categorias e fórmulas configuradas. Defina as categorias com base nos seus gastos reais e revise ao final de cada mês. Fechar um mês completo de controle já é mais do que a maioria das pessoas consegue, e é exatamente por onde começa a virada financeira.</p>
 
-    <p>Se você já tentou usar uma planilha de gastos e sabe que o problema é o preenchimento manual, experimente o Notinha. Basta enviar a foto da nota pelo WhatsApp e a planilha se organiza sozinha. Sem app para baixar, sem senha bancária, sem retrabalho. O controle financeiro que você quer já existe, só precisa de um método que acompanhe a sua rotina de verdade.</p>
+    <p>Se você já tentou usar uma planilha de gastos e sabe que o problema é o preenchimento manual, experimente o Notinha. Basta enviar a foto da nota pelo WhatsApp e a mesma planilha se organiza sozinha. Sem app para baixar, sem senha bancária, sem retrabalho. O controle financeiro que você quer já existe, só precisa de um método que acompanhe a sua rotina de verdade.</p>
 
     <div class="faq-section">
       <h2>Perguntas frequentes sobre planilha de gastos</h2>
 
       <details>
-        <summary>Como baixar um modelo de planilha de gastos grátis?</summary>
-        <p>Busque no Google por "planilha de gastos Sheetgo", "planilha financeira Sunna Google Sheets" ou "planilha Sebrae/PR Excel". Todos oferecem versões gratuitas para copiar direto para o seu Google Drive ou baixar em formato .xlsx. Você também pode acessar diretamente a <a href="https://www.santander.com.br/blog/planilha-de-controle-financeiro" target="_blank" rel="noopener">planilha de controle financeiro do Santander</a> para baixar um modelo pronto.</p>
+        <summary>Como baixar uma planilha de gastos grátis?</summary>
+        <p>Aqui mesmo no Caderninho. A <a href="../../planilha-de-gastos-notinha.xlsx" download>planilha de gastos do Notinha</a> é gratuita e já vem pronta, com painel do ano, categorias e fórmulas configuradas. Depois de baixar, abra no Excel ou copie o arquivo para o seu Google Drive e comece a usar — sem cadastro e sem precisar montar nada do zero.</p>
+      </details>
+
+      <details>
+        <summary>A planilha funciona no Excel e no Google Sheets?</summary>
+        <p>Sim. O arquivo é .xlsx e abre direto no Excel. Para usar no Google Sheets, é só subir o arquivo para o seu Google Drive e abri-lo com o Google Sheets — as fórmulas e o painel continuam funcionando normalmente.</p>
       </details>
 
       <details>
@@ -487,12 +526,10 @@
       </details>
 
       <details>
-        <summary>Preciso saber fórmulas para usar uma planilha de gastos?</summary>
-        <p>Não. Os modelos prontos já vêm com fórmulas configuradas. Se quiser personalizar, a fórmula SOMASES é a mais útil e tem tutoriais simples disponíveis na Central de Ajuda do Google Sheets.</p>
+        <summary>Preciso saber fórmulas para usar a planilha?</summary>
+        <p>Não. A planilha do Notinha já vem com as fórmulas e o painel configurados — você só preenche a renda e a meta nas células amarelas. Se quiser personalizar, a fórmula SOMASES é a mais útil e tem tutoriais simples na Central de Ajuda do Google Sheets.</p>
       </details>
     </div>
-
-    <p style="margin-top: 40px;">Para quem quer alternativas de modelos e guias sobre planilhas, há também opções como a <a href="https://www.serasa.com.br/blog/planilha-gastos-mensais/" target="_blank" rel="noopener">planilha de gastos mensais da Serasa</a>, que pode servir como referência prática ao começar a montar seu controle.</p>
 
     <div class="post-footer">
       <h3>Pare de digitar gasto por gasto</h3>
