@@ -404,23 +404,6 @@ function cookieEssenciais(){ localStorage.setItem('cookieConsent','essential'); 
 <script>
 const SUPABASE_URL = 'https://xpzjwlhrlebdpcybxaxu.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inhwemp3bGhybGViZHBjeWJ4YXh1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4MzAyMzQsImV4cCI6MjA5MzQwNjIzNH0.rR-XrG-cjdNtj7gYc6SuGxnudOXAGaIy52u3qofXJxM';
-const ZOHO_ACTION = 'https://forms.zohopublic.com/contatouseno1/form/ContatoNotinha/formperma/McAVVB_o31lyd3aimAfra8OluVHs-wmehpyD6cZq-7A/htmlRecords/submit';
-
-function enviarZoho(d){
-  // redundância best-effort: dispara e ignora resultado (cross-origin não retorna resposta legível)
-  try{
-    var fd = new FormData();
-    fd.append('Name_First', d.nome_first);
-    fd.append('Name_Last', d.nome_last);
-    fd.append('Email', d.email);
-    fd.append('PhoneNumber_countrycode', d.telefone);
-    fd.append('SingleLine', d.cpf);
-    fd.append('Dropdown', d.motivo);
-    fd.append('MultiLine', d.mensagem);
-    fetch(ZOHO_ACTION, { method:'POST', body: fd, mode:'no-cors' }).catch(function(){});
-  }catch(e){}
-}
-
 async function enviarContato(e){
   e.preventDefault();
   const form = document.getElementById('contato-form');
@@ -482,8 +465,6 @@ async function enviarContato(e){
     });
 
     if (res.status === 201 || res.status === 200 || res.status === 204) {
-      // redundância Zoho só após sucesso no Supabase
-      enviarZoho({ nome_first: nome, nome_last: sobrenome, email: email, telefone: telefone, cpf: cpf, motivo: motivo, mensagem: mensagem });
       form.style.display = 'none';
       sucesso.style.display = 'block';
       if (typeof gtag !== 'undefined') { gtag('event', 'contato_enviado', { method: 'site_contato' }); }
