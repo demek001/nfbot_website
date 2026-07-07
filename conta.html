@@ -273,6 +273,21 @@
     .conta-main { padding: 24px 20px; min-height: 0; }
     .pane .cta { width: 100%; min-width: 0; }
   }
+
+  /* ===== Modal confirmacao ===== */
+  .modal-ov { position: fixed; inset: 0; background: rgba(0,0,0,0.65); backdrop-filter: blur(3px); z-index: 200; display: none; align-items: center; justify-content: center; padding: 20px; }
+  .modal-ov.open { display: flex; }
+  .modal { background: var(--surface); border: 1px solid var(--border); border-radius: 18px; padding: 28px; max-width: 440px; width: 100%; box-shadow: 0 24px 60px rgba(0,0,0,0.5); }
+  .modal-tit { font-family: 'Fraunces', serif; font-weight: 600; font-size: 21px; color: var(--accent); margin-bottom: 8px; }
+  .modal-body { font-size: 15px; color: var(--muted); line-height: 1.6; margin-bottom: 16px; }
+  .modal-alert { display: flex; gap: 10px; padding: 12px 14px; border-radius: 12px; font-size: 13.5px; line-height: 1.55; margin-bottom: 18px; background: rgba(255,171,64,0.1); border: 1px solid rgba(255,171,64,0.4); color: #ffc87a; }
+  .modal-alert.danger { background: rgba(248,81,73,0.1); border-color: rgba(248,81,73,0.45); color: #ff9a95; }
+  .modal-alert .ic { flex-shrink: 0; font-size: 15px; }
+  .modal textarea { width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 11px 14px; color: var(--text); font-family: inherit; font-size: 14px; resize: vertical; min-height: 68px; margin-bottom: 18px; }
+  .modal textarea:focus { outline: none; border-color: var(--brand); }
+  .modal-acts { display: flex; gap: 10px; }
+  .modal-acts .cta { margin-top: 0; }
+  @media (max-width: 480px){ .modal-acts { flex-direction: column-reverse; } }
 </style>
 </head>
 <body>
@@ -505,6 +520,21 @@
   </div>
 </main>
 
+
+<!-- ░░ MODAL CONFIRMACAO ░░ -->
+<div class="modal-ov" id="modal-ov">
+  <div class="modal" role="dialog" aria-modal="true">
+    <div class="modal-tit" id="modal-tit">—</div>
+    <div class="modal-body" id="modal-body">—</div>
+    <div class="modal-alert" id="modal-alert"><span class="ic">🔒</span><span id="modal-alert-txt">—</span></div>
+    <textarea id="modal-input" class="hidden" placeholder="Conta pra gente o motivo (opcional)"></textarea>
+    <div class="modal-acts">
+      <button class="cta ghost" id="modal-cancel">Voltar</button>
+      <button class="cta" id="modal-ok">Confirmar</button>
+    </div>
+  </div>
+</div>
+
 <footer>
   <div class="wrap">
     <div class="links">
@@ -682,16 +712,50 @@
     show($("p-msg"), false, "Nenhuma fatura pendente no momento.");
   };
 
+  // ── MODAL reutilizavel ──
+  let _modalOk = null;
+  function abrirModal({ tit, body, alerta, danger = false, okLabel = "Confirmar", input = false }) {
+    $("modal-tit").textContent = tit;
+    $("modal-body").innerHTML = body;
+    $("modal-alert-txt").textContent = alerta;
+    $("modal-alert").className = "modal-alert" + (danger ? " danger" : "");
+    $("modal-ok").textContent = okLabel;
+    $("modal-ok").className = "cta" + (danger ? " danger" : "");
+    const ta = $("modal-input");
+    ta.classList.toggle("hidden", !input);
+    ta.value = "";
+    $("modal-ov").classList.add("open");
+    return new Promise((res) => { _modalOk = res; });
+  }
+  function fecharModal(v) { $("modal-ov").classList.remove("open"); if (_modalOk) { _modalOk(v); _modalOk = null; } }
+  $("modal-cancel").onclick = () => fecharModal(null);
+  $("modal-ov").onclick = (e) => { if (e.target === $("modal-ov")) fecharModal(null); };
+  $("modal-ok").onclick = () => { const ta = $("modal-input"); fecharModal({ ok: true, valor: ta.classList.contains("hidden") ? null : (ta.value.trim() || null) }); };
+
   $("btn-tel").onclick = async () => {
+    const ok = await abrirModal({
+      tit: "Trocar número de WhatsApp",
+      body: "Vamos gerar um código de ativação. Você abre o WhatsApp <b>no número novo</b> e manda a mensagem pronta pra revincular sua conta.",
+      alerta: "Por segurança, só troque para um número que seja seu. Quem tiver acesso a esse WhatsApp passa a acessar seus dados.",
+      okLabel: "Gerar código →",
+    });
+    if (!ok) return;
     const r = await api("trocar_telefone");
     if (r.link) { window.open(r.link, "_blank"); show($("p-msg"), true, "Envie a mensagem pelo número novo para revincular."); return; }
     show($("p-msg"), false, "Não foi possível gerar o código.");
   };
 
   $("btn-cancelar").onclick = async () => {
-    if (!confirm("Cancelar sua assinatura? Seus dados continuam no seu Drive.")) return;
-    const motivo = prompt("Conta pra gente o motivo (opcional):") || null;
-    const r = await api("cancelar", { motivo });
+    const res = await abrirModal({
+      tit: "Cancelar assinatura",
+      body: "Sua cobrança é interrompida. Seus dados continuam salvos <b>no seu Google Drive</b> e você pode voltar quando quiser.",
+      alerta: "Esta ação encerra seu acesso ao Notinha no WhatsApp. Confirme só se for você mesmo.",
+      danger: true,
+      okLabel: "Cancelar assinatura",
+      input: true,
+    });
+    if (!res?.ok) return;
+    const r = await api("cancelar", { motivo: res.valor });
     show($("p-msg"), !r.erro, r.msg ?? "Não foi possível cancelar.");
     if (r.ok) setTimeout(carregarPainel, 1200);
   };
