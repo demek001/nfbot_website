@@ -82,7 +82,7 @@
   }
   nav a:hover { color: var(--accent); }
 
-  main { flex: 1; display: flex; align-items: center; padding: 60px 0; }
+  main { flex: 1; display: flex; align-items: flex-start; padding: 48px 0; }
 
   .auth-box {
     background: var(--surface);
@@ -208,24 +208,52 @@
     .logo img { height: 30px; }
   }
 
-  /* ===== Como usar (bloco painel) ===== */
-  .uso { margin-top: 28px; border-top: 1px solid var(--border); padding-top: 22px; }
-  .uso-tit { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.09em; color: var(--muted); margin-bottom: 14px; }
+  /* ===== Painel mestre-detalhe ===== */
+  .conta { display: grid; grid-template-columns: 248px 1fr; gap: 24px; align-items: start; }
+  .conta-side { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 20px; position: sticky; top: 24px; }
+  .conta-prof { display: flex; align-items: center; gap: 12px; padding-bottom: 16px; margin-bottom: 14px; border-bottom: 1px solid var(--border); }
+  .conta-avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--brand-soft); border: 1px solid var(--brand); color: var(--brand); font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .conta-hello { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+  .conta-nome { font-family: 'Fraunces', serif; font-weight: 600; font-size: 17px; color: var(--accent); line-height: 1.25; margin: 2px 0 6px; }
+  .conta-nav { display: flex; flex-direction: column; gap: 4px; }
+  .nav-item { display: flex; align-items: center; gap: 10px; width: 100%; text-align: left; background: none; border: none; color: var(--muted); font-family: inherit; font-size: 15px; font-weight: 400; padding: 11px 12px; border-radius: 12px; cursor: pointer; transition: background .15s, color .15s; }
+  .nav-item:hover { background: var(--surface2); color: var(--accent); }
+  .nav-item.active { background: var(--brand-soft); color: var(--brand); font-weight: 600; }
+  .nav-item.danger:hover { color: #ff8a85; }
+  .nav-item.danger.active { background: rgba(248,81,73,0.1); color: #ff8a85; }
+  .conta-sair { display: block; text-align: center; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); color: var(--muted); font-size: 14px; cursor: pointer; }
+  .conta-sair:hover { color: var(--brand); }
+  .conta-main { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 32px; min-height: 440px; }
+  .pane-tit { font-family: 'Fraunces', serif; font-weight: 600; font-size: 24px; color: var(--accent); letter-spacing: -0.01em; margin-bottom: 6px; }
+  .pane-sub { color: var(--muted); font-size: 15px; margin-bottom: 24px; }
+  .info-row { padding: 14px 0; border-bottom: 1px solid var(--border); }
+  .info-row:first-of-type { padding-top: 0; }
+  .info-row .k { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+  .info-row .v { font-size: 17px; margin-top: 4px; color: var(--accent); }
+  .pane .actions { margin-top: 24px; }
+  .pane .cta { width: auto; align-self: flex-start; min-width: 240px; }
+
+  /* como usar (acordeao) */
   details.uso-acc { border: 1px solid var(--border); border-radius: 14px; background: var(--surface2); margin-bottom: 10px; overflow: hidden; }
   details.uso-acc[open] { border-color: var(--brand); }
-  details.uso-acc > summary { list-style: none; cursor: pointer; padding: 14px 16px; font-weight: 500; font-size: 15px; color: var(--text); display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  details.uso-acc > summary { list-style: none; cursor: pointer; padding: 15px 18px; font-weight: 500; font-size: 15px; color: var(--text); display: flex; align-items: center; justify-content: space-between; gap: 10px; }
   details.uso-acc > summary::-webkit-details-marker { display: none; }
   details.uso-acc > summary .chev { color: var(--brand); font-size: 18px; transition: transform .2s; }
   details.uso-acc[open] > summary .chev { transform: rotate(90deg); }
-  .uso-body { padding: 4px 16px 16px; }
+  .uso-body { padding: 4px 18px 18px; }
   .cmd-grid { display: flex; flex-direction: column; gap: 8px; }
   .cmd { display: flex; flex-direction: column; gap: 3px; padding: 10px 12px; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; }
-  .cmd code { font-family: ui-monospace, 'DM Sans', monospace; font-size: 14px; color: var(--brand); font-weight: 500; }
+  .cmd code { font-family: ui-monospace, monospace; font-size: 14px; color: var(--brand); font-weight: 500; }
   .cmd span { font-size: 13px; color: var(--muted); }
   .steps { display: flex; flex-direction: column; gap: 12px; margin: 0; padding: 0; list-style: none; counter-reset: s; }
   .steps li { position: relative; padding-left: 40px; font-size: 15px; }
   .steps li::before { counter-increment: s; content: counter(s); position: absolute; left: 0; top: -2px; width: 26px; height: 26px; border-radius: 50%; background: var(--brand-soft); border: 1px solid var(--brand); color: var(--brand); font-weight: 600; font-size: 13px; display: flex; align-items: center; justify-content: center; }
   .dica { margin-top: 14px; padding: 12px 14px; background: var(--brand-soft); border-left: 3px solid var(--brand); border-radius: 8px; font-size: 14px; color: var(--text); }
+  .mnu-grp { font-weight: 600; color: var(--brand); font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; margin: 16px 0 8px; }
+  .mnu-grp:first-child { margin-top: 0; }
+  .mnu-item { display: flex; gap: 9px; padding: 6px 0; font-size: 14px; color: var(--text); align-items: baseline; }
+  .mnu-num { color: var(--muted); min-width: 20px; text-align: right; }
+  .soon { color: var(--muted); font-style: italic; font-size: 12px; }
   details.faq-q { border-bottom: 1px solid var(--border); }
   details.faq-q:last-child { border-bottom: none; }
   details.faq-q > summary { list-style: none; cursor: pointer; padding: 13px 2px; font-size: 15px; font-weight: 500; color: var(--text); display: flex; justify-content: space-between; gap: 10px; }
@@ -234,6 +262,17 @@
   details.faq-q[open] > summary .chev { transform: rotate(90deg); }
   .faq-a { padding: 0 2px 14px; font-size: 14px; color: var(--muted); line-height: 1.6; }
   .faq-a b { color: var(--text); font-weight: 600; }
+
+  @media (max-width: 780px) {
+    .conta { grid-template-columns: 1fr; gap: 16px; }
+    .conta-side { position: static; padding: 16px; }
+    .conta-nav { flex-direction: row; overflow-x: auto; gap: 6px; padding-bottom: 4px; scrollbar-width: none; }
+    .conta-nav::-webkit-scrollbar { display: none; }
+    .nav-item { white-space: nowrap; flex-shrink: 0; padding: 9px 14px; border: 1px solid var(--border); border-radius: 100px; font-size: 14px; }
+    .nav-item.active { border-color: var(--brand); }
+    .conta-main { padding: 24px 20px; min-height: 0; }
+    .pane .cta { width: 100%; min-width: 0; }
+  }
 </style>
 </head>
 <body>
@@ -256,7 +295,7 @@
   <div class="wrap">
 
     <!-- ░░ LOGIN ░░ -->
-    <div class="auth-box" id="view-login">
+    <div class="auth-box hidden" id="view-login">
       <span class="auth-tag">Minha conta</span>
       <h1>Entrar</h1>
       <p class="hint">Acesse para gerenciar seu plano e seu WhatsApp.</p>
@@ -307,82 +346,160 @@
     </div>
 
     <!-- ░░ PAINEL ░░ -->
-    <div class="auth-box hidden" id="view-painel">
-      <span class="auth-tag">Minha conta</span>
-      <h1>Olá, <em id="p-nome">—</em></h1>
-      <div class="row"><div class="k">Plano</div><div class="v"><span class="pill" id="p-plano">—</span></div></div>
-      <div class="row"><div class="k">WhatsApp</div><div class="v" id="p-tel">—</div></div>
-      <div class="row"><div class="k">Pagamento</div><div class="v" id="p-pgto">—</div></div>
+    <div id="view-painel">
+      <div class="conta">
 
-      <div class="actions">
-        <button class="cta" id="btn-upgrade">Fazer upgrade para Premium →</button>
-        <button class="cta ghost" id="btn-downgrade">Voltar para o plano Base</button>
-        <button class="cta ghost" id="btn-nome">Trocar nome</button>
-        <button class="cta ghost" id="btn-pgto">Trocar forma de pagamento</button>
-        <button class="cta ghost" id="btn-tel">Trocar número de WhatsApp</button>
-        <button class="cta danger" id="btn-cancelar">Cancelar assinatura</button>
-      </div>
-
-      <section class="uso">
-        <div class="uso-tit">Como usar o Notinha</div>
-
-        <details class="uso-acc">
-          <summary>⚡ Comandos rápidos <span class="chev">›</span></summary>
-          <div class="uso-body">
-            <div class="cmd-grid">
-              <div class="cmd"><code>menu</code><span>abre o menu de opções</span></div>
-              <div class="cmd"><code>resumo</code><span>seus gastos do mês</span></div>
-              <div class="cmd"><code>planilha</code><span>link da sua planilha no Drive</span></div>
-              <div class="cmd"><code>gastei 50 no mercado</code><span>lança um gasto por texto</span></div>
-              <div class="cmd"><code>recebi 5000 salário</code><span>lança uma entrada</span></div>
-              <div class="cmd"><code>apagar última</code><span>apaga a última nota lançada</span></div>
-              <div class="cmd"><code>corrigir valor pra 89,90</code><span>ajusta o valor da última nota</span></div>
-              <div class="cmd"><code>ATIVAR 1234</code><span>vincula seu WhatsApp (código do e-mail)</span></div>
+        <!-- LADO ESQUERDO: navegacao -->
+        <aside class="conta-side">
+          <div class="conta-prof">
+            <div class="conta-avatar" id="conta-avatar">N</div>
+            <div>
+              <div class="conta-hello">Olá</div>
+              <div class="conta-nome" id="p-nome">—</div>
+              <span class="pill" id="p-plano">—</span>
             </div>
           </div>
-        </details>
-
-        <details class="uso-acc">
-          <summary>📸 Como funciona <span class="chev">›</span></summary>
-          <div class="uso-body">
-            <ol class="steps">
-              <li>Manda a foto, o print ou o PDF da nota aqui no WhatsApp.</li>
-              <li>O Notinha lê item por item e organiza tudo por categoria.</li>
-              <li>Cai direto na sua planilha, no seu Google Drive. É sua.</li>
-            </ol>
-            <div class="dica">Categoria errada? Responde a mensagem de confirmação da nota com a categoria certa. O Notinha aprende e corrige.</div>
+          <div class="conta-nav" id="conta-nav">
+            <button class="nav-item active" data-pane="passos">🚀 Primeiros passos</button>
+            <button class="nav-item" data-pane="plano">💎 Meu plano</button>
+            <button class="nav-item" data-pane="nome">👤 Nome</button>
+            <button class="nav-item" data-pane="pagamento">💳 Forma de pagamento</button>
+            <button class="nav-item" data-pane="numero">📱 Número de WhatsApp</button>
+            <button class="nav-item danger" data-pane="perigo">⚠️ Zona de perigo</button>
           </div>
-        </details>
+          <a class="conta-sair" onclick="sair()">Sair</a>
+        </aside>
 
-        <details class="uso-acc">
-          <summary>❓ Dúvidas <span class="chev">›</span></summary>
-          <div class="uso-body">
-            <details class="faq-q">
-              <summary>Preciso baixar algum app? <span class="chev">›</span></summary>
-              <div class="faq-a">Não. Tudo acontece aqui no <b>WhatsApp</b>. Sem app, sem senha de banco.</div>
+        <!-- LADO DIREITO: conteudo que troca -->
+        <section class="conta-main">
+          <div class="msg" id="p-msg"></div>
+
+          <!-- PRIMEIROS PASSOS -->
+          <div class="pane" data-pane="passos">
+            <div class="pane-tit">Primeiros passos</div>
+            <div class="pane-sub">Tudo que dá pra fazer — direto no WhatsApp, sem baixar nada.</div>
+
+            <details class="uso-acc" open>
+              <summary>⚡ Comandos rápidos <span class="chev">›</span></summary>
+              <div class="uso-body">
+                <div class="cmd-grid">
+                  <div class="cmd"><code>menu</code><span>abre o menu de opções</span></div>
+                  <div class="cmd"><code>resumo</code><span>gasto, recebido e saldo do mês</span></div>
+                  <div class="cmd"><code>resumo maio</code><span>resumo de um mês específico</span></div>
+                  <div class="cmd"><code>planilha</code><span>link da sua planilha no Drive</span></div>
+                  <div class="cmd"><code>gastei 50 no mercado</code><span>lança um gasto por texto</span></div>
+                  <div class="cmd"><code>recebi 5000 salário</code><span>lança uma entrada</span></div>
+                  <div class="cmd"><code>apagar última</code><span>apaga a última nota lançada</span></div>
+                  <div class="cmd"><code>corrigir valor pra 89,90</code><span>ajusta o valor da última nota</span></div>
+                  <div class="cmd"><code>preço café</code><span>variação de preço de um produto</span></div>
+                  <div class="cmd"><code>ATIVAR 1234</code><span>vincula seu WhatsApp (código do e-mail)</span></div>
+                </div>
+              </div>
             </details>
-            <details class="faq-q">
-              <summary>A foto saiu tremida, e agora? <span class="chev">›</span></summary>
-              <div class="faq-a">Manda de novo com a nota bem iluminada e reta. Se ainda assim não ler, lança por texto: <b>gastei 50 no mercado</b>.</div>
+
+            <details class="uso-acc">
+              <summary>📸 Como funciona <span class="chev">›</span></summary>
+              <div class="uso-body">
+                <ol class="steps">
+                  <li>Manda a foto, o print ou o PDF da nota aqui no WhatsApp.</li>
+                  <li>O Notinha lê item por item e organiza tudo por categoria.</li>
+                  <li>Cai direto na sua planilha, no seu Google Drive. É sua.</li>
+                </ol>
+                <div class="dica">Categoria errada? Responda a mensagem de confirmação da nota com a categoria certa. O Notinha aprende e corrige.</div>
+              </div>
             </details>
-            <details class="faq-q">
-              <summary>Lançou errado, como corrijo? <span class="chev">›</span></summary>
-              <div class="faq-a">Pra apagar, mande <b>apagar última</b>. Pra valor, <b>corrigir valor pra 89,90</b>. Pra categoria, responda a confirmação com a categoria certa.</div>
+
+            <details class="uso-acc">
+              <summary>📋 O menu por dentro <span class="chev">›</span></summary>
+              <div class="uso-body">
+                <p style="font-size:13px;color:var(--muted);margin-bottom:6px">Mande <b>menu</b> e responda só o número.</p>
+                <div class="mnu-grp">Base</div>
+                <div class="mnu-item"><span class="mnu-num">1</span><span>📸 Enviar foto/PDF — leio e organizo sozinho</span></div>
+                <div class="mnu-item"><span class="mnu-num">2</span><span>✍️ Registrar gasto — ex: gastei 50 mercado</span></div>
+                <div class="mnu-item"><span class="mnu-num">3</span><span>💰 Registrar recebimento — ex: recebi 500 salário</span></div>
+                <div class="mnu-item"><span class="mnu-num">4</span><span>📊 Resumo do mês</span></div>
+                <div class="mnu-item"><span class="mnu-num">5</span><span>📅 Resumo do mês passado</span></div>
+                <div class="mnu-item"><span class="mnu-num">6</span><span>📄 Relatório PDF do mês <span class="soon">(em breve)</span></span></div>
+                <div class="mnu-grp">Premium</div>
+                <div class="mnu-item"><span class="mnu-num">7</span><span>✨ Insights da semana <span class="soon">(em breve)</span></span></div>
+                <div class="mnu-item"><span class="mnu-num">8</span><span>🔎 Buscar lançamentos <span class="soon">(em breve)</span></span></div>
+                <div class="mnu-item"><span class="mnu-num">9</span><span>🧠 Maiores gastos — top 5 do mês</span></div>
+                <div class="mnu-item"><span class="mnu-num">10</span><span>🧾 Relatório com fotos <span class="soon">(em breve)</span></span></div>
+                <div class="mnu-item"><span class="mnu-num">11</span><span>📈 Preço — variação de um produto</span></div>
+                <div class="mnu-grp">Ajuda</div>
+                <div class="mnu-item"><span class="mnu-num">12</span><span>❓ Ajuda / FAQ</span></div>
+              </div>
             </details>
-            <details class="faq-q">
-              <summary>Onde ficam meus dados? <span class="chev">›</span></summary>
-              <div class="faq-a">No <b>seu</b> Google Drive, na sua conta. A planilha é sua — acesse quando quiser com o comando <b>planilha</b>.</div>
-            </details>
-            <details class="faq-q">
-              <summary>Ainda com dúvida? <span class="chev">›</span></summary>
-              <div class="faq-a">Fale com a gente em <a href="contato/" style="color:var(--brand)">usenotinha.com.br/contato</a>.</div>
+
+            <details class="uso-acc">
+              <summary>❓ Dúvidas <span class="chev">›</span></summary>
+              <div class="uso-body">
+                <details class="faq-q">
+                  <summary>Preciso baixar algum app? <span class="chev">›</span></summary>
+                  <div class="faq-a">Não. Tudo acontece aqui no <b>WhatsApp</b>. Sem app, sem senha de banco.</div>
+                </details>
+                <details class="faq-q">
+                  <summary>A foto saiu tremida, e agora? <span class="chev">›</span></summary>
+                  <div class="faq-a">Manda de novo com a nota bem iluminada e reta. Se ainda não ler, lança por texto: <b>gastei 50 no mercado</b>.</div>
+                </details>
+                <details class="faq-q">
+                  <summary>Lancei errado, como corrijo? <span class="chev">›</span></summary>
+                  <div class="faq-a">Pra apagar, mande <b>apagar última</b>. Pra valor, <b>corrigir valor pra 89,90</b>. Pra categoria, responda a confirmação com a categoria certa.</div>
+                </details>
+                <details class="faq-q">
+                  <summary>Onde ficam meus dados? <span class="chev">›</span></summary>
+                  <div class="faq-a">No <b>seu</b> Google Drive, na sua conta. A planilha é sua — acesse quando quiser com o comando <b>planilha</b>.</div>
+                </details>
+                <details class="faq-q">
+                  <summary>Ainda com dúvida? <span class="chev">›</span></summary>
+                  <div class="faq-a">Fale com a gente em <a href="contato/" style="color:var(--brand)">usenotinha.com.br/contato</a>.</div>
+                </details>
+              </div>
             </details>
           </div>
-        </details>
-      </section>
 
-      <div class="msg" id="p-msg"></div>
-      <div class="links" style="margin-top:24px"><a onclick="sair()">Sair</a></div>
+          <!-- MEU PLANO -->
+          <div class="pane hidden" data-pane="plano">
+            <div class="pane-tit">Meu plano</div>
+            <div class="pane-sub">Você está no plano <b id="p-plano2" style="color:var(--brand)">—</b>.</div>
+            <div class="actions">
+              <button class="cta" id="btn-upgrade">Fazer upgrade para Premium →</button>
+              <button class="cta ghost" id="btn-downgrade">Voltar para o plano Base</button>
+            </div>
+          </div>
+
+          <!-- NOME -->
+          <div class="pane hidden" data-pane="nome">
+            <div class="pane-tit">Nome</div>
+            <div class="pane-sub">É como o Notinha te chama nas mensagens.</div>
+            <div class="actions"><button class="cta ghost" id="btn-nome">Trocar nome</button></div>
+          </div>
+
+          <!-- FORMA DE PAGAMENTO -->
+          <div class="pane hidden" data-pane="pagamento">
+            <div class="pane-tit">Forma de pagamento</div>
+            <div class="pane-sub">Gerencie como sua assinatura é cobrada.</div>
+            <div class="info-row"><div class="k">Status</div><div class="v" id="p-pgto">—</div></div>
+            <div class="actions"><button class="cta ghost" id="btn-pgto">Trocar forma de pagamento</button></div>
+          </div>
+
+          <!-- NUMERO -->
+          <div class="pane hidden" data-pane="numero">
+            <div class="pane-tit">Número de WhatsApp</div>
+            <div class="pane-sub">É por aqui que o Notinha fala com você.</div>
+            <div class="info-row"><div class="k">Número cadastrado</div><div class="v" id="p-tel">—</div></div>
+            <div class="actions"><button class="cta ghost" id="btn-tel">Trocar número de WhatsApp</button></div>
+          </div>
+
+          <!-- ZONA DE PERIGO -->
+          <div class="pane hidden" data-pane="perigo">
+            <div class="pane-tit">Zona de perigo</div>
+            <div class="pane-sub">Cancelar interrompe a cobrança. Seus dados continuam no seu Drive.</div>
+            <div class="actions"><button class="cta danger" id="btn-cancelar">Cancelar assinatura</button></div>
+          </div>
+
+        </section>
+      </div>
     </div>
 
   </div>
@@ -485,14 +602,40 @@
     return res.json();
   }
 
+  function formatTel(t) {
+    if (!t) return "—";
+    const d = String(t).replace(/\D/g, "");
+    const n = d.startsWith("55") ? d.slice(2) : d;
+    if (n.length === 11) return `+55 (${n.slice(0,2)}) ${n.slice(2,7)}-${n.slice(7)}`;
+    if (n.length === 10) return `+55 (${n.slice(0,2)}) ${n.slice(2,6)}-${n.slice(6)}`;
+    return t;
+  }
+  function iniciais(nome) {
+    const p = String(nome ?? "").trim().split(/\s+/).filter(Boolean);
+    return (p.length ? p.slice(0,2).map(w => w[0]).join("") : "N").toUpperCase();
+  }
+
+  // troca de painel (menu lateral)
+  document.querySelectorAll(".nav-item").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const p = btn.dataset.pane;
+      document.querySelectorAll(".nav-item").forEach((b) => b.classList.toggle("active", b === btn));
+      document.querySelectorAll(".pane").forEach((pane) => pane.classList.toggle("hidden", pane.dataset.pane !== p));
+      limpar($("p-msg"));
+    });
+  });
+
   async function carregarPainel() {
     mostrar("view-painel");
     const r = await api("perfil");
     if (r.erro) return show($("p-msg"), false, "Não achamos sua conta. Fale com o suporte.");
     const c = r.cliente;
+    const tier = (c.plano_tier ?? "base").toUpperCase();
     $("p-nome").textContent = c.nome ?? "—";
-    $("p-plano").textContent = (c.plano_tier ?? "base").toUpperCase();
-    $("p-tel").textContent = c.telefone ?? "—";
+    $("conta-avatar").textContent = iniciais(c.nome);
+    $("p-plano").textContent = tier;
+    $("p-plano2").textContent = tier;
+    $("p-tel").textContent = formatTel(c.telefone);
     $("p-pgto").textContent = c.cancelado_em ? "Cancelado" : (c.pagamento_status ?? "ativo");
     if (c.plano_tier === "premium") {
       $("btn-upgrade").classList.add("hidden");
@@ -559,6 +702,22 @@
     const { data } = await sb().auth.getSession();
     if (data?.session) carregarPainel();
   })();
+</script>
+<script>
+window.addEventListener("load",()=>{
+  document.getElementById("p-nome").textContent="Yoseff Demek";
+  document.getElementById("conta-avatar").textContent="YD";
+  document.getElementById("p-plano").textContent="PREMIUM";
+  document.getElementById("p-plano2").textContent="PREMIUM";
+  document.getElementById("p-tel").textContent="+55 (13) 99681-1828";
+  document.getElementById("p-pgto").textContent="cortesia";
+  document.getElementById("btn-upgrade").classList.add("hidden");
+  document.querySelectorAll(".nav-item").forEach(b=>b.addEventListener("click",()=>{
+    const p=b.dataset.pane;
+    document.querySelectorAll(".nav-item").forEach(x=>x.classList.toggle("active",x===b));
+    document.querySelectorAll(".pane").forEach(pn=>pn.classList.toggle("hidden",pn.dataset.pane!==p));
+  }));
+});
 </script>
 </body>
 </html>
