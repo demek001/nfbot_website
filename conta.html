@@ -295,7 +295,7 @@
   <div class="wrap">
 
     <!-- ░░ LOGIN ░░ -->
-    <div class="auth-box hidden" id="view-login">
+    <div class="auth-box" id="view-login">
       <span class="auth-tag">Minha conta</span>
       <h1>Entrar</h1>
       <p class="hint">Acesse para gerenciar seu plano e seu WhatsApp.</p>
@@ -346,7 +346,7 @@
     </div>
 
     <!-- ░░ PAINEL ░░ -->
-    <div id="view-painel">
+    <div class="hidden" id="view-painel">
       <div class="conta">
 
         <!-- LADO ESQUERDO: navegacao -->
@@ -702,22 +702,6 @@
     const { data } = await sb().auth.getSession();
     if (data?.session) carregarPainel();
   })();
-</script>
-<script>
-window.addEventListener("load",()=>{
-  document.getElementById("p-nome").textContent="Yoseff Demek";
-  document.getElementById("conta-avatar").textContent="YD";
-  document.getElementById("p-plano").textContent="PREMIUM";
-  document.getElementById("p-plano2").textContent="PREMIUM";
-  document.getElementById("p-tel").textContent="+55 (13) 99681-1828";
-  document.getElementById("p-pgto").textContent="cortesia";
-  document.getElementById("btn-upgrade").classList.add("hidden");
-  document.querySelectorAll(".nav-item").forEach(b=>b.addEventListener("click",()=>{
-    const p=b.dataset.pane;
-    document.querySelectorAll(".nav-item").forEach(x=>x.classList.toggle("active",x===b));
-    document.querySelectorAll(".pane").forEach(pn=>pn.classList.toggle("hidden",pn.dataset.pane!==p));
-  }));
-});
 </script>
 </body>
 </html>
