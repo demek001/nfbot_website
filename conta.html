@@ -263,14 +263,19 @@
   .faq-a { padding: 0 2px 14px; font-size: 14px; color: var(--muted); line-height: 1.6; }
   .faq-a b { color: var(--text); font-weight: 600; }
 
+  .conta-back { display: none; align-items: center; gap: 6px; background: none; border: none; color: var(--brand); font-family: inherit; font-size: 15px; cursor: pointer; margin-bottom: 18px; padding: 0; }
   @media (max-width: 780px) {
     .conta { grid-template-columns: 1fr; gap: 16px; }
     .conta-side { position: static; padding: 16px; }
-    .conta-nav { flex-direction: row; overflow-x: auto; gap: 6px; padding-bottom: 4px; scrollbar-width: none; }
-    .conta-nav::-webkit-scrollbar { display: none; }
-    .nav-item { white-space: nowrap; flex-shrink: 0; padding: 9px 14px; border: 1px solid var(--border); border-radius: 100px; font-size: 14px; }
-    .nav-item.active { border-color: var(--brand); }
-    .conta-main { padding: 24px 20px; min-height: 0; }
+    .conta-nav { gap: 6px; }
+    .nav-item { border: 1px solid var(--border); border-radius: 12px; padding: 14px; font-size: 15px; justify-content: space-between; }
+    .nav-item::after { content: "›"; color: var(--brand); font-size: 18px; line-height: 1; }
+    .nav-item.active { background: none; color: var(--text); font-weight: 400; }
+    .nav-item.danger.active { background: none; color: var(--text); }
+    .conta-main { padding: 24px 20px; min-height: 0; display: none; }
+    .conta.show-detail .conta-side { display: none; }
+    .conta.show-detail .conta-main { display: block; }
+    .conta-back { display: inline-flex; }
     .pane .cta { width: 100%; min-width: 0; }
   }
 
@@ -387,6 +392,7 @@
 
         <!-- LADO DIREITO: conteudo que troca -->
         <section class="conta-main">
+          <button class="conta-back" id="conta-back">‹ Voltar</button>
           <div class="msg" id="p-msg"></div>
 
           <!-- PRIMEIROS PASSOS -->
@@ -646,14 +652,18 @@
   }
 
   // troca de painel (menu lateral)
+  const _conta = () => document.querySelector(".conta");
   document.querySelectorAll(".nav-item").forEach((btn) => {
     btn.addEventListener("click", () => {
       const p = btn.dataset.pane;
       document.querySelectorAll(".nav-item").forEach((b) => b.classList.toggle("active", b === btn));
       document.querySelectorAll(".pane").forEach((pane) => pane.classList.toggle("hidden", pane.dataset.pane !== p));
       limpar($("p-msg"));
+      _conta().classList.add("show-detail");
+      window.scrollTo({ top: 0, behavior: "smooth" });
     });
   });
+  $("conta-back").onclick = () => { _conta().classList.remove("show-detail"); window.scrollTo({ top: 0, behavior: "smooth" }); };
 
   async function carregarPainel() {
     mostrar("view-painel");
