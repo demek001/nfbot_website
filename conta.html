@@ -207,6 +207,33 @@
     .logo-text { font-size: 22px; }
     .logo img { height: 30px; }
   }
+
+  /* ===== Como usar (bloco painel) ===== */
+  .uso { margin-top: 28px; border-top: 1px solid var(--border); padding-top: 22px; }
+  .uso-tit { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.09em; color: var(--muted); margin-bottom: 14px; }
+  details.uso-acc { border: 1px solid var(--border); border-radius: 14px; background: var(--surface2); margin-bottom: 10px; overflow: hidden; }
+  details.uso-acc[open] { border-color: var(--brand); }
+  details.uso-acc > summary { list-style: none; cursor: pointer; padding: 14px 16px; font-weight: 500; font-size: 15px; color: var(--text); display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  details.uso-acc > summary::-webkit-details-marker { display: none; }
+  details.uso-acc > summary .chev { color: var(--brand); font-size: 18px; transition: transform .2s; }
+  details.uso-acc[open] > summary .chev { transform: rotate(90deg); }
+  .uso-body { padding: 4px 16px 16px; }
+  .cmd-grid { display: flex; flex-direction: column; gap: 8px; }
+  .cmd { display: flex; flex-direction: column; gap: 3px; padding: 10px 12px; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; }
+  .cmd code { font-family: ui-monospace, 'DM Sans', monospace; font-size: 14px; color: var(--brand); font-weight: 500; }
+  .cmd span { font-size: 13px; color: var(--muted); }
+  .steps { display: flex; flex-direction: column; gap: 12px; margin: 0; padding: 0; list-style: none; counter-reset: s; }
+  .steps li { position: relative; padding-left: 40px; font-size: 15px; }
+  .steps li::before { counter-increment: s; content: counter(s); position: absolute; left: 0; top: -2px; width: 26px; height: 26px; border-radius: 50%; background: var(--brand-soft); border: 1px solid var(--brand); color: var(--brand); font-weight: 600; font-size: 13px; display: flex; align-items: center; justify-content: center; }
+  .dica { margin-top: 14px; padding: 12px 14px; background: var(--brand-soft); border-left: 3px solid var(--brand); border-radius: 8px; font-size: 14px; color: var(--text); }
+  details.faq-q { border-bottom: 1px solid var(--border); }
+  details.faq-q:last-child { border-bottom: none; }
+  details.faq-q > summary { list-style: none; cursor: pointer; padding: 13px 2px; font-size: 15px; font-weight: 500; color: var(--text); display: flex; justify-content: space-between; gap: 10px; }
+  details.faq-q > summary::-webkit-details-marker { display: none; }
+  details.faq-q > summary .chev { color: var(--brand); transition: transform .2s; }
+  details.faq-q[open] > summary .chev { transform: rotate(90deg); }
+  .faq-a { padding: 0 2px 14px; font-size: 14px; color: var(--muted); line-height: 1.6; }
+  .faq-a b { color: var(--text); font-weight: 600; }
 </style>
 </head>
 <body>
@@ -295,6 +322,65 @@
         <button class="cta ghost" id="btn-tel">Trocar número de WhatsApp</button>
         <button class="cta danger" id="btn-cancelar">Cancelar assinatura</button>
       </div>
+
+      <section class="uso">
+        <div class="uso-tit">Como usar o Notinha</div>
+
+        <details class="uso-acc">
+          <summary>⚡ Comandos rápidos <span class="chev">›</span></summary>
+          <div class="uso-body">
+            <div class="cmd-grid">
+              <div class="cmd"><code>menu</code><span>abre o menu de opções</span></div>
+              <div class="cmd"><code>resumo</code><span>seus gastos do mês</span></div>
+              <div class="cmd"><code>planilha</code><span>link da sua planilha no Drive</span></div>
+              <div class="cmd"><code>gastei 50 no mercado</code><span>lança um gasto por texto</span></div>
+              <div class="cmd"><code>recebi 5000 salário</code><span>lança uma entrada</span></div>
+              <div class="cmd"><code>apagar última</code><span>apaga a última nota lançada</span></div>
+              <div class="cmd"><code>corrigir valor pra 89,90</code><span>ajusta o valor da última nota</span></div>
+              <div class="cmd"><code>ATIVAR 1234</code><span>vincula seu WhatsApp (código do e-mail)</span></div>
+            </div>
+          </div>
+        </details>
+
+        <details class="uso-acc">
+          <summary>📸 Como funciona <span class="chev">›</span></summary>
+          <div class="uso-body">
+            <ol class="steps">
+              <li>Manda a foto, o print ou o PDF da nota aqui no WhatsApp.</li>
+              <li>O Notinha lê item por item e organiza tudo por categoria.</li>
+              <li>Cai direto na sua planilha, no seu Google Drive. É sua.</li>
+            </ol>
+            <div class="dica">Categoria errada? Responde a mensagem de confirmação da nota com a categoria certa. O Notinha aprende e corrige.</div>
+          </div>
+        </details>
+
+        <details class="uso-acc">
+          <summary>❓ Dúvidas <span class="chev">›</span></summary>
+          <div class="uso-body">
+            <details class="faq-q">
+              <summary>Preciso baixar algum app? <span class="chev">›</span></summary>
+              <div class="faq-a">Não. Tudo acontece aqui no <b>WhatsApp</b>. Sem app, sem senha de banco.</div>
+            </details>
+            <details class="faq-q">
+              <summary>A foto saiu tremida, e agora? <span class="chev">›</span></summary>
+              <div class="faq-a">Manda de novo com a nota bem iluminada e reta. Se ainda assim não ler, lança por texto: <b>gastei 50 no mercado</b>.</div>
+            </details>
+            <details class="faq-q">
+              <summary>Lançou errado, como corrijo? <span class="chev">›</span></summary>
+              <div class="faq-a">Pra apagar, mande <b>apagar última</b>. Pra valor, <b>corrigir valor pra 89,90</b>. Pra categoria, responda a confirmação com a categoria certa.</div>
+            </details>
+            <details class="faq-q">
+              <summary>Onde ficam meus dados? <span class="chev">›</span></summary>
+              <div class="faq-a">No <b>seu</b> Google Drive, na sua conta. A planilha é sua — acesse quando quiser com o comando <b>planilha</b>.</div>
+            </details>
+            <details class="faq-q">
+              <summary>Ainda com dúvida? <span class="chev">›</span></summary>
+              <div class="faq-a">Fale com a gente em <a href="contato/" style="color:var(--brand)">usenotinha.com.br/contato</a>.</div>
+            </details>
+          </div>
+        </details>
+      </section>
+
       <div class="msg" id="p-msg"></div>
       <div class="links" style="margin-top:24px"><a onclick="sair()">Sair</a></div>
     </div>
