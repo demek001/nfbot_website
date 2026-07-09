@@ -21,12 +21,22 @@
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://usenotinha.com.br/blog/planilha-de-gastos-mensais/">
 <meta property="og:image" content="https://usenotinha.com.br/blog/img/planilha-de-gastos-mensais.webp">
+<meta property="og:image:width" content="1536">
+<meta property="og:image:height" content="1024">
+<meta property="og:site_name" content="Notinha">
+<meta property="og:locale" content="pt_BR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Planilha de Controle Financeiro e Gastos: Como Criar + Modelo Grátis">
+<meta name="twitter:description" content="Controle de gastos e planejamento financeiro num só lugar. Modelo grátis para Excel ou Google Sheets.">
+<meta name="twitter:image" content="https://usenotinha.com.br/blog/img/planilha-de-gastos-mensais.webp">
 
 <link rel="canonical" href="https://usenotinha.com.br/blog/planilha-de-gastos-mensais/">
 
 <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32.png">
 <link rel="icon" type="image/png" sizes="64x64" href="../../favicon-64.png">
 <link rel="apple-touch-icon" href="../../notinha-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,800&family=DM+Sans:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
 
 <script type="application/ld+json">
@@ -67,6 +77,17 @@
     {"@type":"Question","name":"Como importar o extrato bancário para a planilha?","acceptedAnswer":{"@type":"Answer","text":"A maioria dos bancos permite exportar o extrato em formato .csv ou .ofx. No Google Sheets, use Arquivo > Importar para carregar o arquivo. No Excel, utilize Obter Dados Externos. Depois de importado, basta categorizar os lançamentos."}},
     {"@type":"Question","name":"Uma planilha de gastos no Google Sheets é segura?","acceptedAnswer":{"@type":"Answer","text":"Sim. Os dados ficam no seu próprio Google Drive, protegidos pela sua conta Google. Nenhuma ferramenta externa acessa suas informações a menos que você conceda permissão explicitamente."}},
     {"@type":"Question","name":"Preciso saber fórmulas para usar a planilha?","acceptedAnswer":{"@type":"Answer","text":"Não. A planilha do Notinha já vem com as fórmulas e o painel configurados; você só preenche a renda e a meta nas células amarelas. Para personalizar, a fórmula SOMASES é a mais útil."}}
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type":"ListItem","position":1,"name":"Notinha","item":"https://usenotinha.com.br/"},
+    {"@type":"ListItem","position":2,"name":"Caderninho","item":"https://usenotinha.com.br/blog/"},
+    {"@type":"ListItem","position":3,"name":"Planilha de Gastos Mensais","item":"https://usenotinha.com.br/blog/planilha-de-gastos-mensais/"}
   ]
 }
 </script>
@@ -210,6 +231,7 @@
     border-radius: 4px;
     font-size: 0.92em;
     font-family: ui-monospace, 'SF Mono', 'Cascadia Code', Menlo, monospace;
+    overflow-wrap: anywhere;
   }
 
   /* CTA BOX */
@@ -357,6 +379,16 @@
   }
   footer.site-footer .links a:hover { color: var(--brand); }
 
+  a:focus-visible, button:focus-visible, summary:focus-visible {
+    outline: 2px solid var(--brand);
+    outline-offset: 2px;
+  }
+
+  @media (max-width: 480px) {
+    header .wrap { flex-direction: column; gap: 12px; }
+    nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 16px; }
+    nav a { margin-left: 0; }
+  }
   @media (max-width: 720px) {
     body { font-size: 16px; }
     h1 { font-size: 30px; }
@@ -375,12 +407,12 @@
 
 <header>
   <div class="wrap">
-    <a href="../../index.html" class="logo">
-      <img src="../../notinha-icon.png" alt="Notinha">
+    <a href="/" class="logo">
+      <img src="../../notinha-icon-128.png" alt="Notinha" width="128" height="128">
       <span class="logo-text">Notinha<sup style="font-size:0.45em; font-weight:400; vertical-align:top; margin-left:1px;">™</sup></span>
     </a>
     <nav>
-      <a href="../../index.html#planos">Planos</a>
+      <a href="/#lista">Lista de espera</a>
       <a href="../">Caderninho</a>
       <a href="https://wa.me/5513981371748?text=Oi%20Notinha" class="cta-nav">WhatsApp →</a>
     </nav>
@@ -390,7 +422,7 @@
 <div class="wrap">
 
   <nav class="breadcrumb" aria-label="breadcrumb">
-    <a href="../../index.html">Notinha</a>
+    <a href="/">Notinha</a>
     <span>/</span>
     <a href="../">Caderninho</a>
     <span>/</span>
@@ -401,7 +433,7 @@
     <div class="post-meta">28 de maio de 2026 · 9 min de leitura</div>
     <h1>Planilha de Controle Financeiro e Gastos: Como Criar e Usar</h1>
     <p class="post-lead">Monte uma planilha de controle financeiro que realmente funciona — estrutura, fórmulas, controle de gastos por categoria e um modelo grátis pronto para baixar e usar hoje.</p>
-    <img src="https://usenotinha.com.br/blog/img/planilha-de-gastos-mensais.webp" alt="Planilha de controle financeiro e de gastos mensais aberta no computador" class="post-image" loading="lazy">
+    <img src="../img/planilha-de-gastos-mensais.webp" alt="Planilha de controle financeiro e de gastos mensais aberta no computador" class="post-image" fetchpriority="high" width="1536" height="1024">
   </div>
 
   <article>
@@ -496,7 +528,7 @@
     <div class="cta-box">
       <h4>Sua planilha se preenche sozinha</h4>
       <p>Manda foto da nota pelo WhatsApp. Notinha organiza tudo no seu Drive. Sem app, sem digitação, sem retrabalho.</p>
-      <a href="../../index.html#planos" class="cta-button">Ver planos →</a>
+      <a href="/#lista" class="cta-button">Entrar na lista de espera →</a>
     </div>
 
     <h3>Para quem esse modelo faz mais sentido</h3>
@@ -547,7 +579,7 @@
     <div class="post-footer">
       <h3>Pare de digitar gasto por gasto</h3>
       <p>Manda foto da nota no WhatsApp. Notinha organiza tudo no seu Drive automaticamente.</p>
-      <a href="../../index.html#planos" class="cta-button">Conhecer planos →</a>
+      <a href="/#lista" class="cta-button">Entrar na lista de espera →</a>
     </div>
 
   </article>
@@ -557,7 +589,7 @@
 <footer class="site-footer">
   <div class="wrap">
     <div class="links">
-      <a href="../../index.html">Início</a>
+      <a href="/">Início</a>
       <a href="../">Caderninho</a>
       <a href="../../privacidade.html">Privacidade</a>
       <a href="../../termos.html">Termos</a>

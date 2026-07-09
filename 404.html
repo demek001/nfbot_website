@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Página não encontrada — Notinha</title>
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="64x64" href="/favicon-64.png">
+<link rel="apple-touch-icon" href="/notinha-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --border: #30363d;
+    --brand: #288A89;
+    --brand-hover: #2EA09E;
+    --brand-soft: #288A8922;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --accent: #f0f6fc;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.65;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(800px circle at 50% 0%, rgba(40, 138, 137, 0.08), transparent 40%);
+    pointer-events: none;
+  }
+  .box { text-align: center; max-width: 480px; position: relative; }
+  .code {
+    font-family: 'Fraunces', serif;
+    font-weight: 800;
+    font-size: 96px;
+    line-height: 1;
+    color: var(--brand);
+    margin-bottom: 16px;
+  }
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 30px;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+  p { color: var(--muted); font-size: 16px; margin-bottom: 32px; }
+  .cta {
+    display: inline-block;
+    padding: 14px 28px;
+    background: var(--brand);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 100px;
+    transition: background 0.2s;
+  }
+  .cta:hover { background: var(--brand-hover); }
+  .links { margin-top: 24px; font-size: 14px; }
+  .links a { color: var(--muted); text-decoration: none; margin: 0 10px; }
+  .links a:hover { color: var(--brand); }
+  a:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+</style>
+</head>
+<body>
+  <div class="box">
+    <div class="code">404</div>
+    <h1>Essa nota a gente não achou</h1>
+    <p>A página que você procura não existe ou mudou de endereço. Mas o resto do Notinha está no lugar de sempre.</p>
+    <a href="/" class="cta">Voltar pro início →</a>
+    <div class="links">
+      <a href="/blog/">Caderninho</a>
+      <a href="/contato/">Contato</a>
+    </div>
+  </div>
+</body>
+</html>
