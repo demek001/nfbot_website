@@ -18,6 +18,8 @@
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="icon" type="image/png" sizes="64x64" href="favicon-64.png">
 <link rel="apple-touch-icon" href="notinha-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=DM+Sans:wght@300;400;500&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -63,17 +65,24 @@
   footer .links { margin-bottom: 16px; }
   footer .links a { color: var(--muted); text-decoration: none; margin: 0 12px; }
   footer .links a:hover { color: var(--brand); }
+  a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+  @media (max-width: 720px) {
+    h1 { font-size: 32px; }
+    h2 { font-size: 21px; }
+    header { margin-bottom: 40px; }
+    table { display: block; overflow-x: auto; }
+  }
 </style>
 </head>
 <body>
 
 <header>
   <div class="wrap">
-    <a href="index.html" class="logo">
+    <a href="/" class="logo">
       <img src="notinha-icon.png" alt="Notinha">
       <span class="logo-text">Notinha<sup style="font-size:0.45em; font-weight:400; vertical-align:top; margin-left:1px;">™</sup></span>
     </a>
-    <a href="index.html" class="back">← Voltar</a>
+    <a href="/" class="back">← Voltar</a>
   </div>
 </header>
 
@@ -266,7 +275,7 @@
 <footer>
   <div class="wrap">
     <div class="links">
-      <a href="index.html">Início</a>
+      <a href="/">Início</a>
       <a href="termos.html">Termos de Uso</a>
       <a href="cookies.html">Cookies</a>
       <a href="contato/">Contato</a>
