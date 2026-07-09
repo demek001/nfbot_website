@@ -1,0 +1,51 @@
+name: Publicar posts agendados
+
+on:
+  schedule:
+    # 09:00 no horário de Brasília (UTC-3) = 12:00 UTC, todo dia
+    - cron: "0 12 * * *"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Simular sem commitar"
+        required: false
+        default: "false"
+
+permissions:
+  contents: write
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Publicar (dry-run)
+        if: github.event.inputs.dry_run == 'true'
+        run: python scripts/publicar-agendados.py --dry-run
+
+      - name: Publicar
+        id: publicar
+        if: github.event.inputs.dry_run != 'true'
+        run: python scripts/publicar-agendados.py
+
+      - name: Commitar e enviar
+        if: steps.publicar.outputs.houve_publicacao == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "post: publica ${{ steps.publicar.outputs.publicados }}"
+          git push
+
+      - name: Avisar o Google (ping do sitemap)
+        if: steps.publicar.outputs.houve_publicacao == 'true'
+        run: |
+          curl -s -o /dev/null -w "ping sitemap: %{http_code}\n" \
+            "https://www.google.com/ping?sitemap=https://usenotinha.com.br/sitemap.xml" || true
