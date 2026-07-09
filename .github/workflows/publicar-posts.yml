@@ -43,9 +43,3 @@ jobs:
           git add -A
           git commit -m "post: publica ${{ steps.publicar.outputs.publicados }}"
           git push
-
-      - name: Avisar o Google (ping do sitemap)
-        if: steps.publicar.outputs.houve_publicacao == 'true'
-        run: |
-          curl -s -o /dev/null -w "ping sitemap: %{http_code}\n" \
-            "https://www.google.com/ping?sitemap=https://usenotinha.com.br/sitemap.xml" || true
