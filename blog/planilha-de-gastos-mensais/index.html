@@ -4,11 +4,32 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-FC1XHM57Z6"></script>
+<!-- Google Consent Mode v2: padrão negado até o usuário consentir -->
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
+  gtag('consent', 'default', {
+    ad_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+    analytics_storage: 'denied',
+    functionality_storage: 'granted',
+    security_storage: 'granted',
+    wait_for_update: 500
+  });
+  if (localStorage.getItem('cookieConsent') === 'all') {
+    gtag('consent', 'update', {
+      analytics_storage: 'granted',
+      ad_storage: 'granted',
+      ad_user_data: 'granted',
+      ad_personalization: 'granted'
+    });
+  }
+</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FC1XHM57Z6"></script>
+<script>
   gtag('js', new Date());
   gtag('config', 'G-FC1XHM57Z6');
 </script>
@@ -599,6 +620,37 @@
     © 2026 Notinha · CNPJ 66.824.150/0001-28
   </div>
 </footer>
+
+<!-- Banner de Cookies LGPD -->
+<div id="cookieBanner" style="display:none; position:fixed; bottom:0; left:0; right:0; background:#161b22; border-top:1px solid #30363d; padding:20px 24px; z-index:9999; font-family:'DM Sans',sans-serif; color:#e6edf3;">
+  <div style="max-width:980px; margin:0 auto; display:flex; flex-wrap:wrap; gap:16px; align-items:center; justify-content:space-between;">
+    <p style="font-size:14px; line-height:1.5; flex:1; min-width:280px; margin:0;">
+      Usamos <a href="../../cookies.html" style="color:#288A89; text-decoration:underline;">cookies</a> para melhorar sua experiência. Cookies analíticos e funcionais dependem do seu consentimento. Veja nossa <a href="../../privacidade.html" style="color:#288A89; text-decoration:underline;">Política de Privacidade</a>.
+    </p>
+    <div style="display:flex; gap:8px; flex-wrap:wrap;">
+      <button onclick="cookieEssenciais()" style="padding:10px 18px; background:transparent; color:#8b949e; border:1px solid #30363d; border-radius:100px; cursor:pointer; font-family:inherit; font-size:14px;">Apenas essenciais</button>
+      <button onclick="cookieAceitar()" style="padding:10px 18px; background:#288A89; color:#fff; border:none; border-radius:100px; cursor:pointer; font-family:inherit; font-weight:600; font-size:14px;">Aceitar todos</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var c = localStorage.getItem('cookieConsent');
+  if (!c) { document.getElementById('cookieBanner').style.display = 'block'; }
+})();
+function cookieConsentUpdate(v){
+  var s = v === 'all' ? 'granted' : 'denied';
+  gtag('consent', 'update', {
+    analytics_storage: s,
+    ad_storage: s,
+    ad_user_data: s,
+    ad_personalization: s
+  });
+}
+function cookieAceitar(){ localStorage.setItem('cookieConsent','all'); cookieConsentUpdate('all'); document.getElementById('cookieBanner').style.display='none'; }
+function cookieEssenciais(){ localStorage.setItem('cookieConsent','essential'); cookieConsentUpdate('essential'); document.getElementById('cookieBanner').style.display='none'; }
+</script>
 
 </body>
 </html>
