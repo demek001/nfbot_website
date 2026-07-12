@@ -16,7 +16,7 @@
 // ═════════════════════════════════════════════════════════════════
 
 import {
-  TPL_REN, TPL_REEMBOLSO, TPL_CANCELAMENTO, TPL_COBRANCA, TPL_PAUSADO, TPL_ALERTA_CHARGEBACK,
+  TPL_REEMBOLSO, TPL_CANCELAMENTO, TPL_COBRANCA, TPL_PAUSADO, TPL_ALERTA_CHARGEBACK,
 } from "./templates.ts";
 
 const WEBHOOK_TOKEN      = Deno.env.get("WEBHOOK_TOKEN")!;
@@ -170,16 +170,16 @@ function htmlEmail(nome: string, codigo: string, logId: string): string {
   const B = (t: string) => `<strong style="color:${TEXT};font-weight:600;">${t}</strong>`;
 
   const corpo =
-    P(`Oi, ${nome}! Seu pagamento foi confirmado e sua assinatura do Notinha já está ativa.`) +
+    P(`Oi, ${nome}! Teu pagamento foi confirmado e tua assinatura do Notinha já está ativa.`) +
     P(`Agora são só ${B("2 passos")} pra tudo começar a funcionar:`) +
-    P(`${B("1. Cria sua senha de acesso.")} É no botão “Primeiro acesso” da sua página de conta — leva 1 minuto:`) +
+    P(`${B("1. Cria tua senha de acesso.")} É no botão “Primeiro acesso” da tua página de conta — leva 1 minuto:`) +
     BTN("Criar minha senha →", CONTA, BRAND) +
     P(`${B("2. Ativa o Notinha no WhatsApp.")} Clica no botão abaixo — ele abre o WhatsApp com a mensagem de ativação já escrita. É só apertar enviar:`) +
     BTN("Ativar no WhatsApp →", waUrl, WAG) +
     P("Se o botão não abrir, manda esta mensagem no nosso WhatsApp:", MUTED) +
     `<tr><td style="padding:0 32px 20px 32px;" align="center"><span style="display:inline-block;background:${BG};border:1px dashed ${BRAND};border-radius:8px;padding:14px 28px;font-family:'Courier New',Courier,monospace;font-size:18px;letter-spacing:1px;color:${TEXT};">ATIVAR ${codigo}</span></td></tr>` +
-    P("Assim que ativar, seu assistente acorda e cria sua planilha no Google Drive.") +
-    P(`Qualquer dúvida de uso, o guia completo está na sua conta, seção ${B("Como Usar")}: <a href="${CONTA}" style="color:${BRANDH};text-decoration:underline;">usenotinha.com.br/conta</a>`);
+    P("Assim que ativar, teu assistente acorda e cria tua planilha no Google Drive.") +
+    P(`Qualquer dúvida de uso, o guia completo está na tua conta, seção ${B("Como Usar")}: <a href="${CONTA}" style="color:${BRANDH};text-decoration:underline;">usenotinha.com.br/conta</a>`);
 
   return `<!DOCTYPE html>
 <html lang="pt-BR"><head><meta charset="utf-8">
@@ -187,7 +187,7 @@ function htmlEmail(nome: string, codigo: string, logId: string): string {
 <meta name="color-scheme" content="dark"><meta name="supported-color-schemes" content="dark">
 <title>Pagamento confirmado</title></head>
 <body style="margin:0;padding:0;background-color:${BG};">
-<div style="display:none;max-height:0;overflow:hidden;opacity:0;">Dois passos e seu Notinha entra em ação.</div>
+<div style="display:none;max-height:0;overflow:hidden;opacity:0;">Dois passos e teu Notinha entra em ação.</div>
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:${BG};">
 <tr><td align="center" style="padding:24px 12px;">
 <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;width:100%;background-color:${SURFACE};border:1px solid ${BORDER};border-radius:16px;overflow:hidden;">
@@ -205,6 +205,41 @@ Precisa de ajuda? <a href="${SUPORTE}" style="color:${BRANDH};text-decoration:un
 <img src="${pixelUrl}" width="1" height="1" alt="" style="display:block;border:0;">
 </td></tr></table></body></html>`;
 }
+
+// ── Template REN (renovação confirmada — emails/onboarding-recuperacao) ──
+// Placeholders: {primeiro_nome}, {pixel_url}
+const TPL_REN = `<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Renovação confirmada 🧾</title></head>
+<body style="margin:0;padding:0;background-color:#f2f4f4;">
+<div style="display:none;max-height:0;overflow:hidden;mso-hide:all;">Pagamento recebido — teu Notinha segue firme.&nbsp;&zwnj;&nbsp;&zwnj;</div>
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background-color:#f2f4f4;">
+<tr><td align="center" style="padding:24px 12px;">
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="600" style="max-width:600px;width:100%;background-color:#ffffff;border-radius:12px;overflow:hidden;">
+<tr><td style="background-color:#288A89;padding:28px 32px;text-align:center;">
+<span style="font-family:Georgia,'Times New Roman',serif;font-size:26px;font-weight:bold;color:#ffffff;">Notinha</span><br>
+<span style="font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#d8ecec;">Suas notas organizadas no WhatsApp</span>
+</td></tr>
+<tr><td style="padding:36px 32px 8px 32px;">
+<h1 style="margin:0 0 18px 0;font-family:Georgia,'Times New Roman',serif;font-size:24px;line-height:1.3;color:#1a2b2b;">Renovação confirmada 🧾</h1>
+<p style="margin:0 0 16px 0;font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:1.65;color:#334848;">Oi, {primeiro_nome}! Passando só pra confirmar: teu pagamento deste mês foi recebido e tua assinatura do Notinha segue ativa.</p>
+<p style="margin:0 0 16px 0;font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:1.65;color:#334848;">Obrigado por continuar com a gente. É bom demais fazer parte da tua rotina — nota vai, nota vem, e teus gastos seguem se organizando sozinhos. 🧾</p>
+<p style="margin:0 0 16px 0;font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:1.65;color:#334848;">Detalhes da assinatura e recibos ficam na tua conta:</p>
+</td></tr>
+<tr><td style="padding:8px 32px 24px 32px;" align="center">
+<table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
+<td style="border-radius:100px;background-color:#288A89;text-align:center;">
+<a href="https://usenotinha.com.br/conta" style="display:inline-block;padding:14px 36px;font-family:Arial,Helvetica,sans-serif;font-size:16px;font-weight:bold;color:#ffffff;text-decoration:none;border-radius:100px;">Ver minha conta →</a>
+</td></tr></table></td></tr>
+<tr><td style="padding:24px 32px 32px 32px;border-top:1px solid #e6ecec;">
+<p style="margin:0 0 6px 0;font-family:Arial,Helvetica,sans-serif;font-size:11px;line-height:1.6;color:#8aa0a0;">
+Notinha · usenotinha.com.br · CNPJ 66.824.150/0001-28<br>
+E-mail transacional referente à sua assinatura ativa do Notinha.</p>
+<p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:11px;color:#8aa0a0;">
+Precisa de ajuda? <a href="https://usenotinha.com.br/contato" style="color:#288A89;text-decoration:underline;">Fale com o suporte</a>.</p>
+</td></tr></table>
+<img src="{pixel_url}" width="1" height="1" alt="" style="display:block;border:0;">
+</td></tr></table></body></html>`;
 
 // ── Template ALERTA interno: falha de entrega (só pra suporte@) ──
 // Placeholders: {primeiro_nome}, {email_cliente}, {whatsapp_cliente}, {motivo_falha}, {codigo}
@@ -237,8 +272,8 @@ Notinha · usenotinha.com.br · alerta interno automático.</p>
 const EMAILS_CICLO: Record<string, { assunto: string; tpl: string }> = {
   reembolso:       { assunto: "Reembolso confirmado ✅",       tpl: TPL_REEMBOLSO },
   cancelamento:    { assunto: "Cancelamento confirmado",       tpl: TPL_CANCELAMENTO },
-  cobranca_falhou: { assunto: "Seu pagamento não caiu 😬",     tpl: TPL_COBRANCA },
-  acesso_pausado:  { assunto: "Seu Notinha foi pausado ⏸️",    tpl: TPL_PAUSADO },
+  cobranca_falhou: { assunto: "Teu pagamento não caiu 😬",     tpl: TPL_COBRANCA },
+  acesso_pausado:  { assunto: "Teu Notinha foi pausado ⏸️",    tpl: TPL_PAUSADO },
 };
 const TIPOS_VALIDOS = new Set([
   "boas_vindas", "renovacao", "chargeback", ...Object.keys(EMAILS_CICLO),

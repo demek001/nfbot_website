@@ -450,7 +450,7 @@ Deno.serve(async (req) => {
         agora - Date.parse(c.ativado_em) >= DIA && !h.tipos.has("r3")
       ) {
         await enviarRecuperacao(
-          c, "r3", "Só falta conectar seu Google Drive 📁",
+          c, "r3", "Só falta conectar teu Google Drive 📁",
           merge(TPL_R3, { primeiro_nome: nome, link_oauth_drive: linkOauthDrive(c.id, oauthOverride) }), resumo,
         );
       }
