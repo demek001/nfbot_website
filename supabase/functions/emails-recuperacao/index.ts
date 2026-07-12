@@ -36,6 +36,23 @@ const REMETENTE_ALERTA = `Notinha Alertas <${EMAIL_ENVIO}>`;  // só interno
 const SUPORTE_EMAIL    = "suporte@usenotinha.com.br";
 const CONTA_URL        = "https://usenotinha.com.br/conta";
 
+// OAuth do Drive: mesma montagem da função onboarding (state = cliente_id)
+const GOOGLE_CLIENT_ID = Deno.env.get("GOOGLE_CLIENT_ID") ?? "";
+const OAUTH_REDIRECT   = `${SUPABASE_URL}/functions/v1/oauth-callback`;
+const OAUTH_SCOPE      = "https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile";
+
+// Link de conexão do Drive é POR CLIENTE (state identifica quem conectou).
+// Override manual: config_privada.OAUTH_DRIVE_URL ≠ "PENDENTE" vale pra todos.
+// Sem GOOGLE_CLIENT_ID e sem override, cai na página da conta.
+function linkOauthDrive(clienteId: string, override: string): string {
+  if (override && override !== "PENDENTE") return override;
+  if (!GOOGLE_CLIENT_ID) return CONTA_URL;
+  return "https://accounts.google.com/o/oauth2/v2/auth?" + new URLSearchParams({
+    client_id: GOOGLE_CLIENT_ID, redirect_uri: OAUTH_REDIRECT, response_type: "code",
+    scope: OAUTH_SCOPE, access_type: "offline", prompt: "consent", state: clienteId,
+  }).toString();
+}
+
 const DIA = 24 * 3600 * 1000;
 
 function sb(extra: Record<string, string> = {}) {
@@ -331,8 +348,7 @@ Deno.serve(async (req) => {
   try {
     // placeholders de runtime
     const numeroWa = (await configVal("WHATSAPP_NUMBER")) ?? "5513996286090";
-    let linkOauth = (await configVal("OAUTH_DRIVE_URL")) ?? "PENDENTE";
-    if (linkOauth === "PENDENTE") linkOauth = CONTA_URL; // fallback até a URL real existir
+    const oauthOverride = (await configVal("OAUTH_DRIVE_URL")) ?? "PENDENTE";
 
     // clientes pagantes ativos (cortesia/bloqueado/anonimizado ficam fora)
     const rc = await fetch(
@@ -385,7 +401,7 @@ Deno.serve(async (req) => {
       ) {
         await enviarRecuperacao(
           c, "r3", "Só falta conectar teu Google Drive 📁",
-          merge(TPL_R3, { primeiro_nome: nome, link_oauth_drive: linkOauth }), resumo,
+          merge(TPL_R3, { primeiro_nome: nome, link_oauth_drive: linkOauthDrive(c.id, oauthOverride) }), resumo,
         );
       }
     }
