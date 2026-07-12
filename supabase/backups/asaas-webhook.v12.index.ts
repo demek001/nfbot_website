@@ -1,15 +1,10 @@
 // ═════════════════════════════════════════════════════════════════
 // NOTINHA — Edge Function: asaas-webhook
-// Recebe eventos do Asaas → atualiza o cliente e dispara o e-mail certo.
-// Pagamento OK, PRIMEIRA pergunta: é renovação?
+// Recebe eventos do Asaas → atualiza pagamento_status do cliente.
+// pago = acesso liberado · atraso/refund/cancelamento = bloqueado.
+// Após pagamento, PRIMEIRA pergunta: é renovação?
 //   email_boasvindas_enviado = true  → e-mail REN (confirmação) e nada mais.
 //   novo cliente                     → garante codigo_ativacao + e-mail BV.
-// Reembolso    → bloqueia + e-mail "reembolso confirmado" (garantia).
-// Cancelamento → bloqueia + e-mail "cancelamento confirmado" (a menos que
-//                já tenha sido reembolsado — aí não manda 2º e-mail).
-// Atraso       → CARÊNCIA: serviço segue ativo, marca inadimplente_desde e
-//                avisa (D0); o cron emails-recuperacao pausa após 3 dias.
-// Chargeback   → bloqueia + alerta interno pra suporte@ (nunca o cliente).
 // Verify JWT = OFF. Auth via header asaas-access-token = ASAAS_WEBHOOK_TOKEN.
 // NÃO altera clientes com status "cortesia".
 // Secrets: ASAAS_WEBHOOK_TOKEN, WEBHOOK_TOKEN, SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY
@@ -20,13 +15,13 @@ const NOTIFY_TOKEN  = Deno.env.get("WEBHOOK_TOKEN")!;   // auth interna p/ envia
 const SUPABASE_URL  = Deno.env.get("SUPABASE_URL")!;
 const SUPABASE_KEY  = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 
-// Eventos → ação
-const LIBERA     = new Set(["PAYMENT_CONFIRMED", "PAYMENT_RECEIVED"]);
-const REEMBOLSA  = new Set(["PAYMENT_REFUNDED", "PAYMENT_REVERSED"]);
-const CANCELA    = new Set(["SUBSCRIPTION_DELETED", "SUBSCRIPTION_INACTIVATED"]);
-const INADIMPLE  = new Set(["PAYMENT_OVERDUE"]);
-const CHARGEBACK = new Set(["PAYMENT_CHARGEBACK_REQUESTED"]);
-const BLOQUEIA   = new Set(["PAYMENT_DELETED"]); // ação administrativa, sem e-mail
+// Eventos → novo status
+const LIBERA  = new Set(["PAYMENT_CONFIRMED", "PAYMENT_RECEIVED"]);
+const BLOQUEIA = new Set([
+  "PAYMENT_OVERDUE", "PAYMENT_REFUNDED", "PAYMENT_DELETED",
+  "PAYMENT_REVERSED", "PAYMENT_CHARGEBACK_REQUESTED",
+  "SUBSCRIPTION_DELETED", "SUBSCRIPTION_INACTIVATED",
+]);
 
 function sbHeaders(extra: Record<string, string> = {}) {
   return {
@@ -47,21 +42,19 @@ function filtroCliente(p: any, s: any): string | null {
   return null;
 }
 
-// PATCH no cliente do evento. neq.cortesia protege os donos/cortesia de
-// qualquer evento; extraFiltro permite condições extras (ex.: só se ainda
-// não estava inadimplente).
-async function patchCliente(filtro: string, body: Record<string, unknown>, extraFiltro = "") {
+async function setStatus(filtro: string, status: string) {
+  // neq.cortesia protege os 3 donos/cortesia de qualquer evento
   await fetch(
-    `${SUPABASE_URL}/rest/v1/clientes?${filtro}&pagamento_status=neq.cortesia${extraFiltro}`,
-    { method: "PATCH", headers: sbHeaders(), body: JSON.stringify(body) },
+    `${SUPABASE_URL}/rest/v1/clientes?${filtro}&pagamento_status=neq.cortesia`,
+    { method: "PATCH", headers: sbHeaders(), body: JSON.stringify({ pagamento_status: status }) },
   );
 }
 
-// Busca o cliente do evento (1 select só; decide o branch do e-mail).
+// Busca o cliente do evento (1 select só; decide renovação × novo cliente).
 // Nunca derruba o webhook — erro só vira log.
 async function buscarCliente(filtro: string): Promise<any | null> {
   try {
-    const sel = `${SUPABASE_URL}/rest/v1/clientes?${filtro}&select=id,codigo_ativacao,pagamento_status,email_boasvindas_enviado,motivo_cancelamento`;
+    const sel = `${SUPABASE_URL}/rest/v1/clientes?${filtro}&select=id,codigo_ativacao,pagamento_status,email_boasvindas_enviado`;
     const r = await fetch(sel, { headers: sbHeaders() });
     if (!r.ok) { console.error("buscarCliente select", r.status, await r.text()); return null; }
     return (await r.json())?.[0] ?? null;
@@ -131,16 +124,12 @@ Deno.serve(async (req) => {
   const pay = body?.payment ?? null;
   const sub = body?.subscription ?? null;
 
-  let acao: string | null = null;
-  if (LIBERA.has(evento))          acao = "libera";
-  else if (REEMBOLSA.has(evento))  acao = "reembolso";
-  else if (CANCELA.has(evento))    acao = "cancelamento";
-  else if (INADIMPLE.has(evento))  acao = "inadimplente";
-  else if (CHARGEBACK.has(evento)) acao = "chargeback";
-  else if (BLOQUEIA.has(evento))   acao = "bloqueia";
+  let novo: string | null = null;
+  if (LIBERA.has(evento))   novo = "ativo";
+  else if (BLOQUEIA.has(evento)) novo = "bloqueado";
 
   // evento que não interessa → 200 e ignora (evita retry do Asaas)
-  if (!acao) return new Response(JSON.stringify({ ok: true, ignored: evento }), {
+  if (!novo) return new Response(JSON.stringify({ ok: true, ignored: evento }), {
     status: 200, headers: { "Content-Type": "application/json" },
   });
 
@@ -152,77 +141,24 @@ Deno.serve(async (req) => {
     });
   }
 
-  const c = await buscarCliente(filtro);
-  if (c?.pagamento_status === "cortesia") {
-    console.log(`asaas-webhook ${evento} ignorado (cortesia)`);
-    return new Response(JSON.stringify({ ok: true, cortesia: true }), {
-      status: 200, headers: { "Content-Type": "application/json" },
-    });
-  }
-  const ref = pay?.id ? String(pay.id) : (sub?.id ? String(sub.id) : null);
-  const agora = new Date().toISOString();
-
-  switch (acao) {
-    case "libera":
-      // pagamento OK: reativa e zera a inadimplência
-      await patchCliente(filtro, { pagamento_status: "ativo", inadimplente_desde: null });
-      if (c) {
-        if (c.email_boasvindas_enviado) {
-          // Renovação: agradece e confirma o pagamento. Onboarding NÃO roda de novo.
-          await dispararEmail(c.id, "renovacao", ref);
-        } else {
-          // Novo cliente: garante código e envia boas-vindas (seta a flag lá).
-          await garantirCodigo(c);
-          await dispararEmail(c.id, "boas_vindas", ref);
-        }
-      }
-      break;
-
-    case "reembolso":
-      // garantia: reembolso é feito manualmente no Asaas; aqui só reagimos
-      await patchCliente(filtro, {
-        pagamento_status: "bloqueado", cancelado_em: agora,
-        motivo_cancelamento: "reembolso", inadimplente_desde: null,
-      });
-      if (c) await dispararEmail(c.id, "reembolso", ref);
-      break;
-
-    case "cancelamento":
-      if (c?.motivo_cancelamento === "reembolso") {
-        // veio depois do reembolso (cancelar a assinatura faz parte do
-        // procedimento) — só garante o bloqueio, sem 2º e-mail
-        await patchCliente(filtro, { pagamento_status: "bloqueado" });
+  await setStatus(filtro, novo);
+  if (novo === "ativo") {
+    const c = await buscarCliente(filtro);
+    if (c && c.pagamento_status !== "cortesia") {
+      const ref = pay?.id ? String(pay.id) : null;
+      if (c.email_boasvindas_enviado) {
+        // Renovação: agradece e confirma o pagamento. Onboarding NÃO roda de novo.
+        await dispararEmail(c.id, "renovacao", ref);
       } else {
-        await patchCliente(filtro, {
-          pagamento_status: "bloqueado", cancelado_em: agora,
-          motivo_cancelamento: "cancelamento", inadimplente_desde: null,
-        });
-        if (c) await dispararEmail(c.id, "cancelamento", ref);
+        // Novo cliente: garante código e envia boas-vindas (seta a flag lá).
+        await garantirCodigo(c);
+        await dispararEmail(c.id, "boas_vindas", ref);
       }
-      break;
-
-    case "inadimplente":
-      // carência de 3 dias: serviço segue ativo; o cron pausa quando vencer.
-      // is.null preserva o início da inadimplência em OVERDUEs repetidos.
-      if (c?.pagamento_status === "ativo") {
-        await patchCliente(filtro, { inadimplente_desde: agora }, "&inadimplente_desde=is.null");
-        await dispararEmail(c.id, "cobranca_falhou", ref);
-      }
-      break;
-
-    case "chargeback":
-      // contestação na operadora: bloqueia já e chama humano — nada ao cliente
-      await patchCliente(filtro, { pagamento_status: "bloqueado" });
-      if (c) await dispararEmail(c.id, "chargeback", ref);
-      break;
-
-    case "bloqueia":
-      await patchCliente(filtro, { pagamento_status: "bloqueado" });
-      break;
+    }
   }
-  console.log(`asaas-webhook ${evento} → ${acao} (${filtro})`);
+  console.log(`asaas-webhook ${evento} → ${novo} (${filtro})`);
 
-  return new Response(JSON.stringify({ ok: true, evento, acao }), {
+  return new Response(JSON.stringify({ ok: true, evento, status: novo }), {
     status: 200, headers: { "Content-Type": "application/json" },
   });
 });

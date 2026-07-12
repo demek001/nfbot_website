@@ -1,23 +1,15 @@
 // ═════════════════════════════════════════════════════════════════
 // NOTINHA — Edge Function: enviar-boasvindas
 // E-mails transacionais de pagamento via Zoho Mail API:
-//   tipo "boas_vindas" (padrão)  → BV + código de ativação (1× na vida)
-//   tipo "renovacao"             → REN, confirmação de renovação
-//   tipo "reembolso"             → reembolso confirmado (garantia)
-//   tipo "cancelamento"          → cancelamento confirmado
-//   tipo "cobranca_falhou"       → aviso D0: 3 dias de carência
-//   tipo "acesso_pausado"        → carência venceu, acesso pausado
-//   tipo "chargeback"            → SÓ alerta interno pra suporte@ (nunca cliente)
-// Idempotência por pagamento: ref = payment id do Asaas (ref_externa no log);
-// sem ref, janela de 20h por tipo. Remetente ao cliente: "Notinha
-// <contato@usenotinha.com.br>". Falha de envio → INSERT em email_falhas +
-// alerta interno pra suporte@ (remetente "Notinha Alertas"). Rastreio: pixel.
+//   tipo "boas_vindas" (padrão) → BV + código de ativação (1× na vida)
+//   tipo "renovacao"            → REN, confirmação de renovação (1× por
+//                                 pagamento; ref = payment id do Asaas)
+// Remetente ao cliente: "Notinha <contato@usenotinha.com.br>".
+// Falha de envio → INSERT em email_falhas + alerta interno pra suporte@
+// (remetente "Notinha Alertas"). Rastreio: pixel de abertura/clique.
+// Idempotente via emails_log (+ flag clientes.email_boasvindas_enviado).
 // Auth: header x-webhook-token = WEBHOOK_TOKEN.
 // ═════════════════════════════════════════════════════════════════
-
-import {
-  TPL_REEMBOLSO, TPL_CANCELAMENTO, TPL_COBRANCA, TPL_PAUSADO, TPL_ALERTA_CHARGEBACK,
-} from "./templates.ts";
 
 const WEBHOOK_TOKEN      = Deno.env.get("WEBHOOK_TOKEN")!;
 const SUPABASE_URL       = Deno.env.get("SUPABASE_URL")!;
@@ -268,17 +260,6 @@ const TPL_ALERTA_FALHA = `<!DOCTYPE html>
 Notinha · usenotinha.com.br · alerta interno automático.</p>
 </td></tr></table></td></tr></table></body></html>`;
 
-// Assunto + template dos tipos de ciclo de pagamento (BV e REN têm caminho próprio)
-const EMAILS_CICLO: Record<string, { assunto: string; tpl: string }> = {
-  reembolso:       { assunto: "Reembolso confirmado ✅",       tpl: TPL_REEMBOLSO },
-  cancelamento:    { assunto: "Cancelamento confirmado",       tpl: TPL_CANCELAMENTO },
-  cobranca_falhou: { assunto: "Teu pagamento não caiu 😬",     tpl: TPL_COBRANCA },
-  acesso_pausado:  { assunto: "Teu Notinha foi pausado ⏸️",    tpl: TPL_PAUSADO },
-};
-const TIPOS_VALIDOS = new Set([
-  "boas_vindas", "renovacao", "chargeback", ...Object.keys(EMAILS_CICLO),
-]);
-
 Deno.serve(async (req) => {
   if (req.method !== "POST") return new Response("method_not_allowed", { status: 405 });
   if (req.headers.get("x-webhook-token") !== WEBHOOK_TOKEN) {
@@ -289,7 +270,7 @@ Deno.serve(async (req) => {
   try { body = await req.json(); } catch { return new Response("bad_json", { status: 400 }); }
   const clienteId = body?.cliente_id;
   if (!clienteId) return new Response("cliente_id_obrigatorio", { status: 400 });
-  const tipo = TIPOS_VALIDOS.has(body?.tipo) ? body.tipo : "boas_vindas";
+  const tipo = body?.tipo === "renovacao" ? "renovacao" : "boas_vindas";
   const ref  = body?.ref ? String(body.ref) : null;
 
   const out = (o: unknown, s = 200) =>
@@ -304,37 +285,6 @@ Deno.serve(async (req) => {
     );
     c = (await rc.json())?.[0];
     if (!c) return out({ ok: false, motivo: "cliente_nao_encontrado" });
-
-    // Chargeback: NUNCA e-mail ao cliente — só alerta interno pra suporte@
-    if (tipo === "chargeback") {
-      const dup = ref
-        ? `ref_externa=eq.${ref}`
-        : `enviado_em=gte.${new Date(Date.now() - 20 * 3600 * 1000).toISOString()}`;
-      const rj = await fetch(
-        `${SUPABASE_URL}/rest/v1/emails_log?cliente_id=eq.${clienteId}&tipo=eq.chargeback&status=eq.enviado&${dup}&select=id&limit=1`,
-        { headers: sb() },
-      );
-      if (((await rj.json()) ?? []).length > 0) return out({ ok: true, ja_enviado: true });
-      const html = merge(TPL_ALERTA_CHARGEBACK, {
-        primeiro_nome: (c.nome ?? "—").split(" ")[0],
-        email_cliente: c.email ?? "—",
-        whatsapp_cliente: c.telefone ?? "—",
-        ref_pagamento: ref ?? "—",
-      });
-      const envio = await zohoEnviar(
-        SUPORTE_EMAIL, `[URGENTE] Chargeback — ${c.nome ?? clienteId}`, html, REMETENTE_ALERTA,
-      );
-      await fetch(`${SUPABASE_URL}/rest/v1/emails_log`, {
-        method: "POST", headers: sb(),
-        body: JSON.stringify({
-          cliente_id: clienteId, tipo: "chargeback", email_para: SUPORTE_EMAIL, ref_externa: ref,
-          status: envio.ok ? "enviado" : "falhou",
-          erro: envio.ok ? null : JSON.stringify(envio.resp).slice(0, 500),
-        }),
-      });
-      return out({ ok: envio.ok });
-    }
-
     if (!c.email) {
       // pagou e não tem como receber → falha registrada + alerta interno
       await registrarFalha(c, tipo, "cliente sem e-mail cadastrado");
@@ -354,14 +304,12 @@ Deno.serve(async (req) => {
       );
       if (((await rj.json()) ?? []).length > 0) return out({ ok: true, ja_enviado: true });
     } else {
-      // Demais tipos: 1 por pagamento (ref = payment id do Asaas; eventos
-      // duplicados como CONFIRMED + RECEIVED não geram 2 e-mails).
-      // Sem ref, janela de 20h por tipo.
+      // REN: 1 por pagamento (CONFIRMED + RECEIVED do mesmo payment não duplicam)
       const dup = ref
         ? `ref_externa=eq.${ref}`
         : `enviado_em=gte.${new Date(Date.now() - 20 * 3600 * 1000).toISOString()}`;
       const rj = await fetch(
-        `${SUPABASE_URL}/rest/v1/emails_log?cliente_id=eq.${clienteId}&tipo=eq.${tipo}&status=eq.enviado&${dup}&select=id&limit=1`,
+        `${SUPABASE_URL}/rest/v1/emails_log?cliente_id=eq.${clienteId}&tipo=eq.renovacao&status=eq.enviado&${dup}&select=id&limit=1`,
         { headers: sb() },
       );
       if (((await rj.json()) ?? []).length > 0) return out({ ok: true, ja_enviado: true });
@@ -378,20 +326,12 @@ Deno.serve(async (req) => {
 
     // 4. Monta e envia
     const nome = (c.nome ?? "").split(" ")[0] || "tudo bem";
-    const pixelUrl = `${SUPABASE_URL}/functions/v1/pixel?id=${log.id}`;
-    let assunto: string;
-    let html: string;
-    if (tipo === "boas_vindas") {
-      assunto = "Pagamento confirmado — bora ativar 🎉";
-      html = htmlEmail(nome, c.codigo_ativacao, log.id);
-    } else if (tipo === "renovacao") {
-      assunto = "Renovação confirmada 🧾";
-      html = merge(TPL_REN, { primeiro_nome: nome, pixel_url: pixelUrl });
-    } else {
-      const cfg = EMAILS_CICLO[tipo];
-      assunto = cfg.assunto;
-      html = merge(cfg.tpl, { primeiro_nome: nome, pixel_url: pixelUrl });
-    }
+    const assunto = tipo === "renovacao"
+      ? "Renovação confirmada 🧾"
+      : "Pagamento confirmado — bora ativar 🎉";
+    const html = tipo === "renovacao"
+      ? merge(TPL_REN, { primeiro_nome: nome, pixel_url: `${SUPABASE_URL}/functions/v1/pixel?id=${log.id}` })
+      : htmlEmail(nome, c.codigo_ativacao, log.id);
     const envio = await zohoEnviar(c.email, assunto, html);
 
     // 5. Atualiza o log (+ flag do cliente no BV)

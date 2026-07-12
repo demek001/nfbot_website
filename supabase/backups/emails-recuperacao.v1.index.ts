@@ -12,9 +12,6 @@
 // existente com pixel de abertura, histórico e dedupe por status=enviado.
 // Retry de email_falhas: reprocessa não-resolvidos (backoff natural de
 // 24h entre tentativas via cron diário); ≥3 tentativas → alerta suporte@.
-// Inadimplência: cliente com inadimplente_desde ≥3 dias (carência do aviso
-// D0 do webhook) → pagamento_status=bloqueado + e-mail "acesso pausado".
-// Durante a carência, nenhum R1/R2/R3 é enviado (um problema por vez).
 // "Pagou" = data do BV enviado (emails_log); fallback criado_em.
 // Auth: header x-cron-token = config_privada.CRON_TOKEN (ou secret CRON_TOKEN).
 // Remetente cliente: "Notinha" · alertas internos: "Notinha Alertas".
@@ -246,43 +243,6 @@ async function alertaD7(c: any, resumo: Record<string, number>) {
   }
 }
 
-// Carência vencida: inadimplente há ≥3 dias e ainda ativo → pausa o acesso
-// (pagamento_status=bloqueado) + e-mail "acesso pausado". A reativação é
-// automática: PAYMENT_CONFIRMED no webhook volta pra ativo e zera a marca.
-async function processarInadimplentes(resumo: Record<string, number>) {
-  const rc = await fetch(
-    `${SUPABASE_URL}/rest/v1/clientes?pagamento_status=eq.ativo&anonimizado=eq.false&inadimplente_desde=not.is.null&select=id,nome,email,inadimplente_desde`,
-    { headers: sb() },
-  );
-  const rows = (await rc.json()) ?? [];
-  for (const c of rows) {
-    try {
-      if (Date.now() - Date.parse(c.inadimplente_desde) < 3 * DIA) continue; // ainda na carência
-      await fetch(`${SUPABASE_URL}/rest/v1/clientes?id=eq.${c.id}&pagamento_status=eq.ativo`, {
-        method: "PATCH", headers: sb(),
-        body: JSON.stringify({ pagamento_status: "bloqueado" }),
-      });
-      const r = await fetch(`${SUPABASE_URL}/functions/v1/enviar-boasvindas`, {
-        method: "POST",
-        headers: { "x-webhook-token": WEBHOOK_TOKEN, "Content-Type": "application/json" },
-        body: JSON.stringify({ cliente_id: c.id, tipo: "acesso_pausado" }),
-      });
-      const j = await r.json().catch(() => ({}));
-      if (j?.ok) resumo.pausados++;
-      else { resumo.falhas++; console.error("acesso_pausado falhou", c.id, JSON.stringify(j)); }
-      console.log(`inadimplencia vencida: cliente=${c.id} pausado`);
-    } catch (e) {
-      resumo.falhas++;
-      console.error("processarInadimplentes excecao", c.id, String(e));
-    }
-  }
-}
-
-// Tipos que o retry reenvia via enviar-boasvindas (todos idempotentes lá)
-const TIPOS_REENVIO = new Set([
-  "boas_vindas", "renovacao", "reembolso", "cancelamento", "cobranca_falhou", "acesso_pausado",
-]);
-
 // Retry de email_falhas não-resolvidas. Backoff = 1 tentativa por rodada
 // diária do cron. Na 3ª falha, alerta humano e para de tentar sozinho.
 async function retryFalhas(resumo: Record<string, number>) {
@@ -320,7 +280,7 @@ async function retryFalhas(resumo: Record<string, number>) {
         continue;
       }
 
-      if (TIPOS_REENVIO.has(f.tipo_email)) {
+      if (f.tipo_email === "boas_vindas" || f.tipo_email === "renovacao") {
         // reenvio via enviar-boasvindas (idempotente; em falha ela mesma
         // incrementa tentativas em email_falhas — não incrementar aqui)
         const r = await fetch(`${SUPABASE_URL}/functions/v1/enviar-boasvindas`, {
@@ -382,20 +342,17 @@ Deno.serve(async (req) => {
     });
   }
 
-  const resumo: Record<string, number> = { r1: 0, r2: 0, r3: 0, alerta_d7: 0, pausados: 0, retries: 0, falhas: 0 };
+  const resumo: Record<string, number> = { r1: 0, r2: 0, r3: 0, alerta_d7: 0, retries: 0, falhas: 0 };
   const agora = Date.now();
 
   try {
-    // carência de inadimplência vencida → pausa ANTES do ciclo de recuperação
-    await processarInadimplentes(resumo);
-
     // placeholders de runtime
     const numeroWa = (await configVal("WHATSAPP_NUMBER")) ?? "5513996286090";
     const oauthOverride = (await configVal("OAUTH_DRIVE_URL")) ?? "PENDENTE";
 
     // clientes pagantes ativos (cortesia/bloqueado/anonimizado ficam fora)
     const rc = await fetch(
-      `${SUPABASE_URL}/rest/v1/clientes?pagamento_status=eq.ativo&anonimizado=eq.false&email=not.is.null&select=id,nome,email,telefone,codigo_ativacao,ativado,ativado_em,drive_folder_id,senha_criada,ultimo_email_recuperacao,criado_em,inadimplente_desde`,
+      `${SUPABASE_URL}/rest/v1/clientes?pagamento_status=eq.ativo&anonimizado=eq.false&email=not.is.null&select=id,nome,email,telefone,codigo_ativacao,ativado,ativado_em,drive_folder_id,senha_criada,ultimo_email_recuperacao,criado_em`,
       { headers: sb() },
     );
     const clientes = (await rc.json()) ?? [];
@@ -425,10 +382,6 @@ Deno.serve(async (req) => {
       if (!c.ativado && diasPagou >= 7 && !h.tipos.has("alerta_d7")) {
         await alertaD7(c, resumo);
       }
-
-      // inadimplente na carência: pagamento primeiro, ativação depois —
-      // nenhum R1/R2/R3 enquanto a cobrança está pendente
-      if (c.inadimplente_desde) continue;
 
       // cap diário: máx. 1 e-mail de recuperação/dia por cliente
       if (c.ultimo_email_recuperacao && agora - Date.parse(c.ultimo_email_recuperacao) < DIA) continue;
