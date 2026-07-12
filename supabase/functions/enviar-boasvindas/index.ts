@@ -355,7 +355,7 @@ Deno.serve(async (req) => {
     } else {
       const cfg = EMAILS_CICLO[tipo];
       assunto = cfg.assunto;
-      html = merge(cfg.tpl, { primeiro_nome: nome, pixel_url: pixelUrl });
+      html = merge(cfg.tpl, { primeiro_nome: nome, pixel_url: pixelUrl, link_fatura: CONTA });
     }
     const envio = await zohoEnviar(c.email, assunto, html);
 
