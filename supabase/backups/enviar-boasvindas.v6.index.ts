@@ -153,12 +153,11 @@ async function registrarFalha(c: any, tipoEmail: string, motivo: string) {
   }
 }
 
-// ── Template BV (design do site: fundo claro, faixa teal, Fraunces + DM Sans) ──
+// ── Template BV (design do site: tema escuro, Fraunces + DM Sans) ──
 function htmlEmail(nome: string, codigo: string, logId: string): string {
-  const BG = "#f4f6f6", SURFACE = "#ffffff", BORDER = "#e3e9e9";
-  const TEXT = "#14302f", MUTED = "#6b7d7d", BODYC = "#3a4a4a", FOOT = "#8aa0a0";
-  const BRAND = "#288A89", LINK = "#22706f", WAG = "#25D366";
-  const CODEBG = "#f0f5f5";
+  const BG = "#0d1117", SURFACE = "#161b22", BORDER = "#30363d";
+  const TEXT = "#e6edf3", MUTED = "#8b949e", BODYC = "#c9d4dd";
+  const BRAND = "#288A89", BRANDH = "#2EA09E", WAG = "#25D366";
   const FH = "'Fraunces', Georgia, 'Times New Roman', serif";
   const FB = "'DM Sans', Arial, Helvetica, sans-serif";
   const pixelUrl = `${SUPABASE_URL}/functions/v1/pixel?id=${logId}`;
@@ -178,29 +177,30 @@ function htmlEmail(nome: string, codigo: string, logId: string): string {
     P(`${B("2. Ativa o Notinha no WhatsApp.")} Clica no botão abaixo — ele abre o WhatsApp com a mensagem de ativação já escrita. É só apertar enviar:`) +
     BTN("Ativar no WhatsApp →", waUrl, WAG) +
     P("Se o botão não abrir, manda esta mensagem no nosso WhatsApp:", MUTED) +
-    `<tr><td style="padding:0 32px 20px 32px;" align="center"><span style="display:inline-block;background:${CODEBG};border:1px dashed ${BRAND};border-radius:8px;padding:14px 28px;font-family:'Courier New',Courier,monospace;font-size:18px;letter-spacing:1px;color:${TEXT};">ATIVAR ${codigo}</span></td></tr>` +
+    `<tr><td style="padding:0 32px 20px 32px;" align="center"><span style="display:inline-block;background:${BG};border:1px dashed ${BRAND};border-radius:8px;padding:14px 28px;font-family:'Courier New',Courier,monospace;font-size:18px;letter-spacing:1px;color:${TEXT};">ATIVAR ${codigo}</span></td></tr>` +
     P("Assim que ativar, seu assistente acorda e cria sua planilha no Google Drive.") +
-    P(`Qualquer dúvida de uso, o guia completo está na sua conta, seção ${B("Como Usar")}: <a href="${CONTA}" style="color:${LINK};text-decoration:underline;">usenotinha.com.br/conta</a>`);
+    P(`Qualquer dúvida de uso, o guia completo está na sua conta, seção ${B("Como Usar")}: <a href="${CONTA}" style="color:${BRANDH};text-decoration:underline;">usenotinha.com.br/conta</a>`);
 
   return `<!DOCTYPE html>
 <html lang="pt-BR"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark"><meta name="supported-color-schemes" content="dark">
 <title>Pagamento confirmado</title></head>
 <body style="margin:0;padding:0;background-color:${BG};">
 <div style="display:none;max-height:0;overflow:hidden;opacity:0;">Dois passos e seu Notinha entra em ação.</div>
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:${BG};">
 <tr><td align="center" style="padding:24px 12px;">
 <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;width:100%;background-color:${SURFACE};border:1px solid ${BORDER};border-radius:16px;overflow:hidden;">
-<tr><td style="background-color:${BRAND};padding:28px 32px;" align="center">
-<span style="font-family:${FH};font-size:28px;font-weight:800;color:#ffffff;">Notinha</span></td></tr>
+<tr><td style="padding:28px 32px;border-bottom:1px solid ${BORDER};" align="center">
+<span style="font-family:${FH};font-size:28px;font-weight:800;color:${BRAND};">Notinha</span></td></tr>
 <tr><td style="padding:32px 32px 8px 32px;">
 <h1 style="margin:0 0 8px 0;font-family:${FH};font-size:26px;line-height:1.25;font-weight:800;color:${TEXT};">Pagamento confirmado 🎉</h1></td></tr>
 ${corpo}
 <tr><td style="padding:24px 32px 32px 32px;border-top:1px solid ${BORDER};">
-<p style="margin:0;font-family:${FB};font-size:12px;line-height:1.6;color:${FOOT};">
+<p style="margin:0;font-family:${FB};font-size:12px;line-height:1.6;color:${MUTED};">
 Notinha · CNPJ 66.824.150/0001-28 · Santos/SP<br>
 Você recebeu este e-mail porque tem uma assinatura ativa do Notinha.<br>
-Precisa de ajuda? <a href="${SUPORTE}" style="color:${LINK};text-decoration:underline;">Fale com o suporte</a>.</p>
+Precisa de ajuda? <a href="${SUPORTE}" style="color:${BRANDH};text-decoration:underline;">Fale com o suporte</a>.</p>
 </td></tr></table>
 <img src="${pixelUrl}" width="1" height="1" alt="" style="display:block;border:0;">
 </td></tr></table></body></html>`;

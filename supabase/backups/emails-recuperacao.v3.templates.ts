@@ -2,7 +2,7 @@
 // NOTINHA — emails-recuperacao/templates.ts
 // Templates HTML dos e-mails de recuperação (fonte: emails/onboarding-
 // recuperacao do repositório — R1/R2/R3 são GERADOS dos HTMLs, não editar
-// à mão). Padrão visual do site: fundo claro, faixa teal, Fraunces + DM Sans.
+// à mão). Padrão visual do site: tema escuro, Fraunces + DM Sans.
 // Placeholders {chave} substituídos em runtime pela função merge():
 //   R1/R2: {primeiro_nome} {codigo} {numero_whatsapp} {pixel_url}
 //   R3:    {primeiro_nome} {link_oauth_drive} {pixel_url}
@@ -28,27 +28,28 @@ const CABECALHO = `<tr><td style="background-color:#288A89;padding:28px 32px;tex
 export const TPL_R1 = `<!DOCTYPE html>
 <html lang="pt-BR"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark"><meta name="supported-color-schemes" content="dark">
 <title>Falta 1 toque pra ativar 📲</title></head>
-<body style="margin:0;padding:0;background-color:#f4f6f6;">
+<body style="margin:0;padding:0;background-color:#0d1117;">
 <div style="display:none;max-height:0;overflow:hidden;opacity:0;">Seu Notinha tá pronto, só esperando seu oi.</div>
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f4f6f6;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#0d1117;">
 <tr><td align="center" style="padding:24px 12px;">
-<table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;width:100%;background-color:#ffffff;border:1px solid #e3e9e9;border-radius:16px;overflow:hidden;">
-<tr><td style="background-color:#288A89;padding:28px 32px;" align="center">
-<span style="font-family:'Fraunces', Georgia, 'Times New Roman', serif;font-size:28px;font-weight:800;color:#ffffff;">Notinha</span></td></tr>
+<table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;width:100%;background-color:#161b22;border:1px solid #30363d;border-radius:16px;overflow:hidden;">
+<tr><td style="padding:28px 32px;border-bottom:1px solid #30363d;" align="center">
+<span style="font-family:'Fraunces', Georgia, 'Times New Roman', serif;font-size:28px;font-weight:800;color:#288A89;">Notinha</span></td></tr>
 <tr><td style="padding:32px 32px 8px 32px;">
-<h1 style="margin:0 0 8px 0;font-family:'Fraunces', Georgia, 'Times New Roman', serif;font-size:26px;line-height:1.25;font-weight:800;color:#14302f;">Falta 1 toque 📲</h1></td></tr>
-<tr><td style="padding:0 32px;"><p style="margin:0 0 16px 0;font-family:'DM Sans', Arial, Helvetica, sans-serif;font-size:16px;line-height:1.65;color:#3a4a4a;">{primeiro_nome}, sua assinatura tá ativa e paga — mas seu Notinha ainda não acordou no WhatsApp.</p></td></tr>
-<tr><td style="padding:0 32px;"><p style="margin:0 0 16px 0;font-family:'DM Sans', Arial, Helvetica, sans-serif;font-size:16px;line-height:1.65;color:#3a4a4a;">É literalmente 1 clique: o botão abaixo abre o WhatsApp com a mensagem pronta. Só apertar enviar.</p></td></tr>
+<h1 style="margin:0 0 8px 0;font-family:'Fraunces', Georgia, 'Times New Roman', serif;font-size:26px;line-height:1.25;font-weight:800;color:#e6edf3;">Falta 1 toque 📲</h1></td></tr>
+<tr><td style="padding:0 32px;"><p style="margin:0 0 16px 0;font-family:'DM Sans', Arial, Helvetica, sans-serif;font-size:16px;line-height:1.65;color:#c9d4dd;">{primeiro_nome}, sua assinatura tá ativa e paga — mas seu Notinha ainda não acordou no WhatsApp.</p></td></tr>
+<tr><td style="padding:0 32px;"><p style="margin:0 0 16px 0;font-family:'DM Sans', Arial, Helvetica, sans-serif;font-size:16px;line-height:1.65;color:#c9d4dd;">É literalmente 1 clique: o botão abaixo abre o WhatsApp com a mensagem pronta. Só apertar enviar.</p></td></tr>
 <tr><td style="padding:8px 32px 24px 32px;" align="center"><table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td style="border-radius:100px;background-color:#25D366;text-align:center;"><a href="https://wa.me/{numero_whatsapp}?text=ATIVAR%20{codigo}" style="display:inline-block;padding:15px 40px;font-family:'DM Sans', Arial, Helvetica, sans-serif;font-size:16px;font-weight:700;color:#ffffff;text-decoration:none;border-radius:100px;">Ativar no WhatsApp →</a></td></tr></table></td></tr>
-<tr><td style="padding:0 32px;"><p style="margin:0 0 16px 0;font-family:'DM Sans', Arial, Helvetica, sans-serif;font-size:16px;line-height:1.65;color:#6b7d7d;">Se o botão não abrir, manda esta mensagem manualmente no nosso WhatsApp:</p></td></tr>
-<tr><td style="padding:0 32px 20px 32px;" align="center"><span style="display:inline-block;background:#f0f5f5;border:1px dashed #288A89;border-radius:8px;padding:14px 28px;font-family:'Courier New',Courier,monospace;font-size:18px;letter-spacing:1px;color:#14302f;">ATIVAR {codigo}</span></td></tr>
-<tr><td style="padding:0 32px;"><p style="margin:0 0 16px 0;font-family:'DM Sans', Arial, Helvetica, sans-serif;font-size:16px;line-height:1.65;color:#3a4a4a;">Assim que ativar, sua planilha é criada no seu Google Drive e a primeira foto de nota já entra organizada.</p></td></tr>
-<tr><td style="padding:24px 32px 32px 32px;border-top:1px solid #e3e9e9;">
-<p style="margin:0;font-family:'DM Sans', Arial, Helvetica, sans-serif;font-size:12px;line-height:1.6;color:#8aa0a0;">
+<tr><td style="padding:0 32px;"><p style="margin:0 0 16px 0;font-family:'DM Sans', Arial, Helvetica, sans-serif;font-size:16px;line-height:1.65;color:#8b949e;">Se o botão não abrir, manda esta mensagem manualmente no nosso WhatsApp:</p></td></tr>
+<tr><td style="padding:0 32px 20px 32px;" align="center"><span style="display:inline-block;background:#0d1117;border:1px dashed #288A89;border-radius:8px;padding:14px 28px;font-family:'Courier New',Courier,monospace;font-size:18px;letter-spacing:1px;color:#e6edf3;">ATIVAR {codigo}</span></td></tr>
+<tr><td style="padding:0 32px;"><p style="margin:0 0 16px 0;font-family:'DM Sans', Arial, Helvetica, sans-serif;font-size:16px;line-height:1.65;color:#c9d4dd;">Assim que ativar, sua planilha é criada no seu Google Drive e a primeira foto de nota já entra organizada.</p></td></tr>
+<tr><td style="padding:24px 32px 32px 32px;border-top:1px solid #30363d;">
+<p style="margin:0;font-family:'DM Sans', Arial, Helvetica, sans-serif;font-size:12px;line-height:1.6;color:#8b949e;">
 Notinha · CNPJ 66.824.150/0001-28 · Santos/SP<br>
 E-mail transacional referente à sua assinatura ativa do Notinha.<br>
-Precisa de ajuda? <a href="https://usenotinha.com.br/contato" style="color:#22706f;text-decoration:underline;">Fale com o suporte</a>.</p>
+Precisa de ajuda? <a href="https://usenotinha.com.br/contato" style="color:#2EA09E;text-decoration:underline;">Fale com o suporte</a>.</p>
 </td></tr></table>
 <img src="{pixel_url}" width="1" height="1" alt="" style="display:block;border:0;">
 </td></tr></table></body></html>`;
@@ -56,28 +57,29 @@ Precisa de ajuda? <a href="https://usenotinha.com.br/contato" style="color:#2270
 export const TPL_R2 = `<!DOCTYPE html>
 <html lang="pt-BR"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark"><meta name="supported-color-schemes" content="dark">
 <title>Precisa de uma mão?</title></head>
-<body style="margin:0;padding:0;background-color:#f4f6f6;">
+<body style="margin:0;padding:0;background-color:#0d1117;">
 <div style="display:none;max-height:0;overflow:hidden;opacity:0;">Vi que sua ativação ainda não rolou. Deixa a gente ajudar.</div>
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f4f6f6;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#0d1117;">
 <tr><td align="center" style="padding:24px 12px;">
-<table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;width:100%;background-color:#ffffff;border:1px solid #e3e9e9;border-radius:16px;overflow:hidden;">
-<tr><td style="background-color:#288A89;padding:28px 32px;" align="center">
-<span style="font-family:'Fraunces', Georgia, 'Times New Roman', serif;font-size:28px;font-weight:800;color:#ffffff;">Notinha</span></td></tr>
+<table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;width:100%;background-color:#161b22;border:1px solid #30363d;border-radius:16px;overflow:hidden;">
+<tr><td style="padding:28px 32px;border-bottom:1px solid #30363d;" align="center">
+<span style="font-family:'Fraunces', Georgia, 'Times New Roman', serif;font-size:28px;font-weight:800;color:#288A89;">Notinha</span></td></tr>
 <tr><td style="padding:32px 32px 8px 32px;">
-<h1 style="margin:0 0 8px 0;font-family:'Fraunces', Georgia, 'Times New Roman', serif;font-size:26px;line-height:1.25;font-weight:800;color:#14302f;">Precisa de uma mão?</h1></td></tr>
-<tr><td style="padding:0 32px;"><p style="margin:0 0 16px 0;font-family:'DM Sans', Arial, Helvetica, sans-serif;font-size:16px;line-height:1.65;color:#3a4a4a;">Oi, {primeiro_nome}. Aqui é do Notinha — reparei que seu assistente ainda não foi ativado no WhatsApp.</p></td></tr>
-<tr><td style="padding:0 32px;"><p style="margin:0 0 16px 0;font-family:'DM Sans', Arial, Helvetica, sans-serif;font-size:16px;line-height:1.65;color:#3a4a4a;">Às vezes é correria, às vezes travou algo no caminho. Se travou, deixa a gente ajudar: responde este e-mail contando o que aconteceu, ou chama a gente no suporte. Gente de verdade responde.</p></td></tr>
-<tr><td style="padding:0 32px;"><p style="margin:0 0 16px 0;font-family:'DM Sans', Arial, Helvetica, sans-serif;font-size:16px;line-height:1.65;color:#3a4a4a;">Se foi só correria, seu botão continua aqui:</p></td></tr>
+<h1 style="margin:0 0 8px 0;font-family:'Fraunces', Georgia, 'Times New Roman', serif;font-size:26px;line-height:1.25;font-weight:800;color:#e6edf3;">Precisa de uma mão?</h1></td></tr>
+<tr><td style="padding:0 32px;"><p style="margin:0 0 16px 0;font-family:'DM Sans', Arial, Helvetica, sans-serif;font-size:16px;line-height:1.65;color:#c9d4dd;">Oi, {primeiro_nome}. Aqui é do Notinha — reparei que seu assistente ainda não foi ativado no WhatsApp.</p></td></tr>
+<tr><td style="padding:0 32px;"><p style="margin:0 0 16px 0;font-family:'DM Sans', Arial, Helvetica, sans-serif;font-size:16px;line-height:1.65;color:#c9d4dd;">Às vezes é correria, às vezes travou algo no caminho. Se travou, deixa a gente ajudar: responde este e-mail contando o que aconteceu, ou chama a gente no suporte. Gente de verdade responde.</p></td></tr>
+<tr><td style="padding:0 32px;"><p style="margin:0 0 16px 0;font-family:'DM Sans', Arial, Helvetica, sans-serif;font-size:16px;line-height:1.65;color:#c9d4dd;">Se foi só correria, seu botão continua aqui:</p></td></tr>
 <tr><td style="padding:8px 32px 24px 32px;" align="center"><table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td style="border-radius:100px;background-color:#25D366;text-align:center;"><a href="https://wa.me/{numero_whatsapp}?text=ATIVAR%20{codigo}" style="display:inline-block;padding:15px 40px;font-family:'DM Sans', Arial, Helvetica, sans-serif;font-size:16px;font-weight:700;color:#ffffff;text-decoration:none;border-radius:100px;">Ativar no WhatsApp →</a></td></tr></table></td></tr>
-<tr><td style="padding:0 32px;"><p style="margin:0 0 16px 0;font-family:'DM Sans', Arial, Helvetica, sans-serif;font-size:16px;line-height:1.65;color:#6b7d7d;">Se o botão não abrir, manda esta mensagem manualmente no nosso WhatsApp:</p></td></tr>
-<tr><td style="padding:0 32px 20px 32px;" align="center"><span style="display:inline-block;background:#f0f5f5;border:1px dashed #288A89;border-radius:8px;padding:14px 28px;font-family:'Courier New',Courier,monospace;font-size:18px;letter-spacing:1px;color:#14302f;">ATIVAR {codigo}</span></td></tr>
-<tr><td style="padding:0 32px;"><p style="margin:0 0 16px 0;font-family:'DM Sans', Arial, Helvetica, sans-serif;font-size:16px;line-height:1.65;color:#3a4a4a;">Suporte direto: <a href="https://usenotinha.com.br/contato" style="color:#22706f;text-decoration:underline;">usenotinha.com.br/contato</a></p></td></tr>
-<tr><td style="padding:24px 32px 32px 32px;border-top:1px solid #e3e9e9;">
-<p style="margin:0;font-family:'DM Sans', Arial, Helvetica, sans-serif;font-size:12px;line-height:1.6;color:#8aa0a0;">
+<tr><td style="padding:0 32px;"><p style="margin:0 0 16px 0;font-family:'DM Sans', Arial, Helvetica, sans-serif;font-size:16px;line-height:1.65;color:#8b949e;">Se o botão não abrir, manda esta mensagem manualmente no nosso WhatsApp:</p></td></tr>
+<tr><td style="padding:0 32px 20px 32px;" align="center"><span style="display:inline-block;background:#0d1117;border:1px dashed #288A89;border-radius:8px;padding:14px 28px;font-family:'Courier New',Courier,monospace;font-size:18px;letter-spacing:1px;color:#e6edf3;">ATIVAR {codigo}</span></td></tr>
+<tr><td style="padding:0 32px;"><p style="margin:0 0 16px 0;font-family:'DM Sans', Arial, Helvetica, sans-serif;font-size:16px;line-height:1.65;color:#c9d4dd;">Suporte direto: <a href="https://usenotinha.com.br/contato" style="color:#2EA09E;text-decoration:underline;">usenotinha.com.br/contato</a></p></td></tr>
+<tr><td style="padding:24px 32px 32px 32px;border-top:1px solid #30363d;">
+<p style="margin:0;font-family:'DM Sans', Arial, Helvetica, sans-serif;font-size:12px;line-height:1.6;color:#8b949e;">
 Notinha · CNPJ 66.824.150/0001-28 · Santos/SP<br>
 E-mail transacional referente à sua assinatura ativa do Notinha.<br>
-Precisa de ajuda? <a href="https://usenotinha.com.br/contato" style="color:#22706f;text-decoration:underline;">Fale com o suporte</a>.</p>
+Precisa de ajuda? <a href="https://usenotinha.com.br/contato" style="color:#2EA09E;text-decoration:underline;">Fale com o suporte</a>.</p>
 </td></tr></table>
 <img src="{pixel_url}" width="1" height="1" alt="" style="display:block;border:0;">
 </td></tr></table></body></html>`;
@@ -85,26 +87,27 @@ Precisa de ajuda? <a href="https://usenotinha.com.br/contato" style="color:#2270
 export const TPL_R3 = `<!DOCTYPE html>
 <html lang="pt-BR"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark"><meta name="supported-color-schemes" content="dark">
 <title>Só falta conectar seu Google Drive</title></head>
-<body style="margin:0;padding:0;background-color:#f4f6f6;">
+<body style="margin:0;padding:0;background-color:#0d1117;">
 <div style="display:none;max-height:0;overflow:hidden;opacity:0;">Sem o Drive, sua planilha não tem onde morar.</div>
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f4f6f6;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#0d1117;">
 <tr><td align="center" style="padding:24px 12px;">
-<table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;width:100%;background-color:#ffffff;border:1px solid #e3e9e9;border-radius:16px;overflow:hidden;">
-<tr><td style="background-color:#288A89;padding:28px 32px;" align="center">
-<span style="font-family:'Fraunces', Georgia, 'Times New Roman', serif;font-size:28px;font-weight:800;color:#ffffff;">Notinha</span></td></tr>
+<table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;width:100%;background-color:#161b22;border:1px solid #30363d;border-radius:16px;overflow:hidden;">
+<tr><td style="padding:28px 32px;border-bottom:1px solid #30363d;" align="center">
+<span style="font-family:'Fraunces', Georgia, 'Times New Roman', serif;font-size:28px;font-weight:800;color:#288A89;">Notinha</span></td></tr>
 <tr><td style="padding:32px 32px 8px 32px;">
-<h1 style="margin:0 0 8px 0;font-family:'Fraunces', Georgia, 'Times New Roman', serif;font-size:26px;line-height:1.25;font-weight:800;color:#14302f;">Só falta o Google Drive 📁</h1></td></tr>
-<tr><td style="padding:0 32px;"><p style="margin:0 0 16px 0;font-family:'DM Sans', Arial, Helvetica, sans-serif;font-size:16px;line-height:1.65;color:#3a4a4a;">{primeiro_nome}, seu Notinha já foi ativado no WhatsApp — ótimo! Mas falta um detalhe importante: conectar seu Google Drive.</p></td></tr>
-<tr><td style="padding:0 32px;"><p style="margin:0 0 16px 0;font-family:'DM Sans', Arial, Helvetica, sans-serif;font-size:16px;line-height:1.65;color:#3a4a4a;">É lá que mora sua planilha de gastos. <strong style="color:#14302f;font-weight:600;">Ela é criada na sua conta, no seu Drive</strong> — é sua pra sempre, com ou sem a gente. Sem essa conexão, as notas que você mandar não têm onde ser organizadas.</p></td></tr>
-<tr><td style="padding:0 32px;"><p style="margin:0 0 16px 0;font-family:'DM Sans', Arial, Helvetica, sans-serif;font-size:16px;line-height:1.65;color:#3a4a4a;">A conexão é oficial do Google, leva 30 segundos e a gente só pede permissão pra criar e editar a pasta do Notinha — nada além disso.</p></td></tr>
+<h1 style="margin:0 0 8px 0;font-family:'Fraunces', Georgia, 'Times New Roman', serif;font-size:26px;line-height:1.25;font-weight:800;color:#e6edf3;">Só falta o Google Drive 📁</h1></td></tr>
+<tr><td style="padding:0 32px;"><p style="margin:0 0 16px 0;font-family:'DM Sans', Arial, Helvetica, sans-serif;font-size:16px;line-height:1.65;color:#c9d4dd;">{primeiro_nome}, seu Notinha já foi ativado no WhatsApp — ótimo! Mas falta um detalhe importante: conectar seu Google Drive.</p></td></tr>
+<tr><td style="padding:0 32px;"><p style="margin:0 0 16px 0;font-family:'DM Sans', Arial, Helvetica, sans-serif;font-size:16px;line-height:1.65;color:#c9d4dd;">É lá que mora sua planilha de gastos. <strong style="color:#e6edf3;font-weight:600;">Ela é criada na sua conta, no seu Drive</strong> — é sua pra sempre, com ou sem a gente. Sem essa conexão, as notas que você mandar não têm onde ser organizadas.</p></td></tr>
+<tr><td style="padding:0 32px;"><p style="margin:0 0 16px 0;font-family:'DM Sans', Arial, Helvetica, sans-serif;font-size:16px;line-height:1.65;color:#c9d4dd;">A conexão é oficial do Google, leva 30 segundos e a gente só pede permissão pra criar e editar a pasta do Notinha — nada além disso.</p></td></tr>
 <tr><td style="padding:8px 32px 24px 32px;" align="center"><table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td style="border-radius:100px;background-color:#288A89;text-align:center;"><a href="{link_oauth_drive}" style="display:inline-block;padding:15px 40px;font-family:'DM Sans', Arial, Helvetica, sans-serif;font-size:16px;font-weight:700;color:#ffffff;text-decoration:none;border-radius:100px;">Conectar meu Google Drive →</a></td></tr></table></td></tr>
-<tr><td style="padding:0 32px;"><p style="margin:0 0 16px 0;font-family:'DM Sans', Arial, Helvetica, sans-serif;font-size:16px;line-height:1.65;color:#6b7d7d;">Deu erro na conexão? <a href="https://usenotinha.com.br/contato" style="color:#22706f;text-decoration:underline;">Fala com o suporte</a> que resolvemos junto.</p></td></tr>
-<tr><td style="padding:24px 32px 32px 32px;border-top:1px solid #e3e9e9;">
-<p style="margin:0;font-family:'DM Sans', Arial, Helvetica, sans-serif;font-size:12px;line-height:1.6;color:#8aa0a0;">
+<tr><td style="padding:0 32px;"><p style="margin:0 0 16px 0;font-family:'DM Sans', Arial, Helvetica, sans-serif;font-size:16px;line-height:1.65;color:#8b949e;">Deu erro na conexão? <a href="https://usenotinha.com.br/contato" style="color:#2EA09E;text-decoration:underline;">Fala com o suporte</a> que resolvemos junto.</p></td></tr>
+<tr><td style="padding:24px 32px 32px 32px;border-top:1px solid #30363d;">
+<p style="margin:0;font-family:'DM Sans', Arial, Helvetica, sans-serif;font-size:12px;line-height:1.6;color:#8b949e;">
 Notinha · CNPJ 66.824.150/0001-28 · Santos/SP<br>
 E-mail transacional referente à sua assinatura ativa do Notinha.<br>
-Precisa de ajuda? <a href="https://usenotinha.com.br/contato" style="color:#22706f;text-decoration:underline;">Fale com o suporte</a>.</p>
+Precisa de ajuda? <a href="https://usenotinha.com.br/contato" style="color:#2EA09E;text-decoration:underline;">Fale com o suporte</a>.</p>
 </td></tr></table>
 <img src="{pixel_url}" width="1" height="1" alt="" style="display:block;border:0;">
 </td></tr></table></body></html>`;
