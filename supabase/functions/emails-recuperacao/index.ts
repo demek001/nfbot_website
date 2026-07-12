@@ -363,8 +363,10 @@ Deno.serve(async (req) => {
     return new Response("unauthorized", { status: 401 });
   }
 
-  // Disparo manual de BV/REN pra 1 cliente (ex.: fix pontual), sem rodar o
-  // ciclo: body {"bv_cliente_id":"uuid","tipo":"boas_vindas"|"renovacao"}
+  // Disparo manual de 1 e-mail transacional pra 1 cliente (fix pontual/teste),
+  // sem rodar o ciclo: body {"bv_cliente_id":"uuid","tipo":"..."} — o tipo é
+  // validado pela própria enviar-boasvindas (inválido/ausente vira BV, que é
+  // idempotente).
   let bodyReq: any = null;
   try { bodyReq = await req.json(); } catch { /* corpo vazio = rodada normal */ }
   if (bodyReq?.bv_cliente_id) {
@@ -373,7 +375,8 @@ Deno.serve(async (req) => {
       headers: { "x-webhook-token": WEBHOOK_TOKEN, "Content-Type": "application/json" },
       body: JSON.stringify({
         cliente_id: bodyReq.bv_cliente_id,
-        tipo: bodyReq.tipo === "renovacao" ? "renovacao" : "boas_vindas",
+        tipo: typeof bodyReq.tipo === "string" ? bodyReq.tipo : "boas_vindas",
+        ref: bodyReq.ref ?? null,
       }),
     });
     const j = await r.json().catch(() => ({}));
