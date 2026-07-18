@@ -745,6 +745,11 @@
         </label>
 
         <label>
+          Tem um código de indicação? (opcional)
+          <input type="text" name="indicado_por" id="lista-ref" autocomplete="off" maxlength="6" placeholder="Ex.: A2B3C4" style="text-transform: uppercase;">
+        </label>
+
+        <label>
           Seu WhatsApp *
           <input type="tel" name="telefone" id="lista-tel" required autocomplete="tel" placeholder="11 9-9999-9999">
         </label>
@@ -1007,6 +1012,10 @@ async function enviarLista(e) {
     referrer: document.referrer || null
   };
 
+  // Código de indicação: só entra no payload se for válido (6 chars, sem 0/O/1/I/L)
+  const indicadoPor = (form.indicado_por.value || '').trim().toUpperCase();
+  if (/^[A-Z2-9]{6}$/.test(indicadoPor)) payload.indicado_por = indicadoPor;
+
   try {
     const res = await fetch(SUPABASE_URL + '/rest/v1/leads_interesse', {
       method: 'POST',
@@ -1043,6 +1052,20 @@ async function enviarLista(e) {
     btn.textContent = 'Quero ser avisado →';
   }
 }
+
+/* Captura do ?ref= (link de indicação): preenche o campo e guarda em
+   sessionStorage pra sobreviver à navegação antes do cadastro. */
+(function(){
+  var campo = document.getElementById('lista-ref');
+  if (!campo) return;
+  var ref = (new URLSearchParams(location.search).get('ref') || '').trim().toUpperCase();
+  if (!/^[A-Z2-9]{6}$/.test(ref)) ref = '';
+  try {
+    if (ref) sessionStorage.setItem('notinha_ref', ref);
+    else ref = (sessionStorage.getItem('notinha_ref') || '').trim().toUpperCase();
+  } catch (e) {}
+  if (/^[A-Z2-9]{6}$/.test(ref)) campo.value = ref;
+})();
 </script>
 
 <script>
