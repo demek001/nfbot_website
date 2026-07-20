@@ -1013,7 +1013,7 @@ async function enviarLista(e) {
 
   const payload = {
     email: email,
-    telefone: telefone,
+    telefone: telefone || null,
     nome: (nome + ' ' + sobrenome).trim() || null,
     origem: _origem,
     user_agent: navigator.userAgent.substring(0, 500),
