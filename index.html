@@ -1005,8 +1005,12 @@ async function enviarLista(e) {
 
   // Captura parâmetros de campanha (Google Ads, orgânico, etc)
   const _params = new URLSearchParams(location.search);
-  const _utmSource = (_params.get('utm_source') || '').trim().slice(0, 100);
-  const _gclid = (_params.get('gclid') || '').trim().slice(0, 200);
+  let _utmSource = (_params.get('utm_source') || '').trim().slice(0, 100);
+  let _gclid = (_params.get('gclid') || '').trim().slice(0, 200);
+  try {
+    if (!_gclid) _gclid = (sessionStorage.getItem('notinha_gclid') || '').slice(0, 200);
+    if (!_utmSource) _utmSource = (sessionStorage.getItem('notinha_utm_source') || '').slice(0, 100);
+  } catch(e) {}
   // Define origem real: se veio do Google Ads (gclid ou utm_source=google), marca como tal
   let _origem = 'site';
   if (_gclid || _utmSource === 'google') _origem = 'google_ads';
@@ -1062,6 +1066,18 @@ async function enviarLista(e) {
     btn.textContent = 'Quero ser avisado →';
   }
 }
+
+/* Persiste gclid/utm_source em sessionStorage no carregamento, pra
+   sobreviver à navegação antes do cadastro (mesmo padrão do ?ref=). */
+(function(){
+  try {
+    var p = new URLSearchParams(location.search);
+    var g = (p.get('gclid') || '').trim().slice(0, 200);
+    var u = (p.get('utm_source') || '').trim().slice(0, 100);
+    if (g) sessionStorage.setItem('notinha_gclid', g);
+    if (u) sessionStorage.setItem('notinha_utm_source', u);
+  } catch(e) {}
+})();
 
 /* Captura do ?ref= (link de indicação): preenche o campo e guarda em
    sessionStorage pra sobreviver à navegação antes do cadastro. */
