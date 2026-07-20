@@ -1003,11 +1003,20 @@ async function enviarLista(e) {
   btn.disabled = true;
   btn.textContent = 'Enviando...';
 
+  // Captura parâmetros de campanha (Google Ads, orgânico, etc)
+  const _params = new URLSearchParams(location.search);
+  const _utmSource = (_params.get('utm_source') || '').trim().slice(0, 100);
+  const _gclid = (_params.get('gclid') || '').trim().slice(0, 200);
+  // Define origem real: se veio do Google Ads (gclid ou utm_source=google), marca como tal
+  let _origem = 'site';
+  if (_gclid || _utmSource === 'google') _origem = 'google_ads';
+  else if (_utmSource) _origem = _utmSource;
+
   const payload = {
     email: email,
     telefone: telefone,
     nome: (nome + ' ' + sobrenome).trim(),
-    origem: 'site',
+    origem: _origem,
     user_agent: navigator.userAgent.substring(0, 500),
     referrer: document.referrer || null
   };
@@ -1032,6 +1041,7 @@ async function enviarLista(e) {
       form.style.display = 'none';
       sucesso.style.display = 'block';
       if (typeof gtag !== 'undefined') {
+        gtag('event', 'signup_created', { method: 'lista_espera' });
         gtag('event', 'lead_captured', { method: 'lista_espera' });
       }
     } else if (res.status === 409) {
