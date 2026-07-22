@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Notinha — o que o extrato esconde</title>
-<meta name="description" content="O extrato para no nome da loja. O Notinha abre a compra item por item e mostra pra onde cada real foi. Controle financeiro no WhatsApp que você já usa.">
+<title>Notinha — seu controle de gastos, sem esforço</title>
+<meta name="description" content="Quase metade dos brasileiros não acompanha os próprios gastos — porque dá trabalho. O Notinha faz isso por você: só manda a foto da nota no WhatsApp. Todo dia, todo mês.">
 <meta name="robots" content="noindex,nofollow">
 <meta name="googlebot" content="noindex,nofollow">
 
@@ -246,6 +246,23 @@
   .demo-phone.no-video video{display:none}   /* vídeo faltando/erro -> mostra a tela clara */
   .demo-caption{color:var(--muted);font-size:14px;margin-top:18px;text-align:center;max-width:320px}
 
+  /* story block (dor / depois) */
+  .story{max-width:440px;margin:0 auto;text-align:center;font-size:15px;line-height:1.65;color:var(--body)}
+  .story p{margin-bottom:14px}
+  .story p:last-child{margin-bottom:0}
+  .story b{color:var(--ink);font-weight:600}
+
+  /* stats de dor */
+  .stats{display:flex;gap:14px;max-width:440px;margin:26px auto 10px}
+  .stats > div{flex:1;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 14px;text-align:center;box-shadow:0 4px 16px -12px rgba(20,48,47,.2)}
+  .stats .fig{display:block;font-family:'Fraunces',Georgia,serif;font-weight:700;font-size:30px;color:var(--teal);line-height:1;margin-bottom:8px}
+  .stats .lbl{display:block;font-size:12px;color:var(--muted);line-height:1.35}
+  .source{font-size:11px;color:var(--faint);text-align:center;margin-top:8px}
+
+  /* chips de emoção (reaproveita visual dos selos) */
+  .emochips{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:22px}
+  .emochips span{font-size:12px;font-weight:600;color:var(--teal-deep);background:var(--teal-wash);border:1px solid rgba(40,138,137,.3);border-radius:100px;padding:7px 14px}
+
   /* strengths */
   .diff{background:var(--card);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
   .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
@@ -350,18 +367,18 @@
   <!-- HERO -->
   <div class="wrap hero">
     <div class="eyebrow">Controle financeiro no WhatsApp</div>
-    <h1>O dinheiro some.<span class="thin">E a planilha? Largada de novo.</span></h1>
+    <h1>Só 2 em cada 10 brasileiros acompanham os próprios gastos.<span class="thin">E não é falta de vontade — é que dá trabalho demais.</span></h1>
 
     <div class="stage">
       <div class="statement">
-        <span class="tag">Extrato do banco</span>
-        <span><b>MERCADO XYZ</b> · R$ 287,40</span>
+        <span class="tag">Você no WhatsApp</span>
+        <span>📷 <b>Foto da nota</b> enviada</span>
       </div>
 
       <div class="receipt" id="receipt">
         <div class="r-head">
-          <div class="r-store">Notinha leu sua nota</div>
-          <div class="r-sub">item por item · categorizado</div>
+          <div class="r-store">Notinha organizou por você</div>
+          <div class="r-sub">item por item · sem digitar</div>
         </div>
         <div class="r-line"><div class="nm"><span>Arroz 5kg</span><span class="cat">Mercado</span></div><span class="vl">39,90</span></div>
         <div class="r-line"><div class="nm"><span>Café gourmet</span><span class="cat">Mercado</span></div><span class="vl">28,50</span></div>
@@ -372,11 +389,28 @@
       </div>
     </div>
 
-    <p class="caption">Você já tentou. Abriu a planilha, digitou três dias e parou. <b>Dessa vez é só mandar a foto da nota no WhatsApp</b> — o Notinha abre a compra item por item e mostra pra onde cada real foi.</p>
+    <p class="caption">Não porque não querem — porque toda ferramenta dá trabalho. <b>O Notinha faz o acompanhamento por você:</b> é só mandar a foto da nota no WhatsApp. Todo dia, todo mês, sem digitar.</p>
 
     <a href="#lista" class="cta" id="cta-hero">Quero entrar na lista</a>
     <p class="cta-note">Sem baixar app · sem planilha · sem senha do banco · 30 dias de garantia</p>
   </div>
+
+  <!-- POR QUE VOCÊ DESISTE (dor + dados) -->
+  <section>
+    <div class="wrap">
+      <div class="kicker">Por que você desiste</div>
+      <h2>O problema nunca<br>foi você.</h2>
+      <div class="story">
+        <p>Você já tentou planilha. Já baixou app. Durou alguns dias. Não é preguiça — é que <b>todo controle financeiro depende do seu esforço diário</b>. E esforço, no fim de um dia corrido, a gente larga.</p>
+        <p>A conta não fecha porque a ferramenta trabalha contra você. O Notinha inverte isso: <b>o esforço é dele, não seu</b>.</p>
+      </div>
+      <div class="stats">
+        <div><span class="fig">48%</span><span class="lbl">não acompanham os gastos nem em planilha ou anotação</span></div>
+        <div><span class="fig">19%</span><span class="lbl">usam algum app de controle financeiro</span></div>
+      </div>
+      <p class="source">Fonte: estudo Lina Open X · Exame, 2026</p>
+    </div>
+  </section>
 
   <!-- HOW -->
   <section>
@@ -386,15 +420,15 @@
       <div class="steps">
         <div class="step">
           <div class="n">1</div>
-          <div><h3>Manda a foto</h3><p>Tira foto da nota no WhatsApp, como manda pra qualquer amigo.</p></div>
+          <div><h3>Manda a foto</h3><p>Tira foto da nota no WhatsApp, como manda pra qualquer amigo. Isso é tudo do seu lado.</p></div>
         </div>
         <div class="step">
           <div class="n">2</div>
-          <div><h3>Notinha organiza</h3><p>Lê item por item, categoriza e soma automaticamente. Se algo parecer estranho, pergunta antes.</p></div>
+          <div><h3>Notinha acompanha</h3><p>Lê item por item, categoriza e soma. Todo dia, cada gasto entra sozinho — sem você lembrar de nada.</p></div>
         </div>
         <div class="step">
           <div class="n">3</div>
-          <div><h3>Cai no seu Drive</h3><p>Sua planilha se preenche sozinha, no seu Google Drive. O dado é seu.</p></div>
+          <div><h3>Você vê pronto</h3><p>No seu Drive, a planilha se preenche sozinha. Resumo do dia e do mês montado sem esforço. O dado é seu.</p></div>
         </div>
       </div>
     </div>
@@ -426,7 +460,7 @@
             aria-label="Demonstração: enviando uma nota fiscal pelo WhatsApp e recebendo o resumo organizado">
           </video>
         </div>
-        <p class="demo-caption">Foto enviada no WhatsApp, nota organizada item por item — sem digitar nada.</p>
+        <p class="demo-caption">Foto no WhatsApp de um lado, gasto organizado do outro — sem digitar nada.</p>
       </div>
     </div>
   </section>
@@ -434,13 +468,13 @@
   <!-- STRENGTHS -->
   <section class="diff">
     <div class="wrap">
-      <div class="kicker">Por que é diferente</div>
-      <h2>Feito pra quem já<br>desistiu de planilha.</h2>
+      <div class="kicker">Por que não vira mais um app largado</div>
+      <h2>Feito pra durar,<br>não pra ser largado.</h2>
       <div class="grid">
         <div class="fcard">
           <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.1-3.1a2 2 0 0 0-2.8 0L6 21"/></svg>
           <h3>Zero digitação</h3>
-          <p>Você fotografa. O resto é automático. Nunca mais linha por linha.</p>
+          <p>Você fotografa, o resto é automático. Sem esforço diário, não tem o que largar.</p>
         </div>
         <div class="fcard">
           <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg>
@@ -450,13 +484,27 @@
         <div class="fcard">
           <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 15h6"/><path d="M9 11h2"/></svg>
           <h3>Item por item</h3>
-          <p>Vê o que tem dentro da compra — não só o total da loja.</p>
+          <p>Vê o que entrou em cada compra, não só o total da loja.</p>
         </div>
         <div class="fcard">
           <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
           <h3>No WhatsApp que você já usa</h3>
-          <p>Funciona quando você manda a foto. Não quando lembra de abrir um app.</p>
+          <p>Acontece onde você já vive o dia. Não precisa lembrar de abrir nada.</p>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- O DEPOIS (transformação) -->
+  <section>
+    <div class="wrap">
+      <div class="kicker">O depois</div>
+      <h2>Controle sem<br>sofrimento.</h2>
+      <div class="story">
+        <p>No lugar da bagunça e da culpa, <b>clareza</b>. No lugar do esforço de todo dia, <b>leveza</b>. Você acompanha cada gasto sem nem pensar nisso — e finalmente sabe como está, todo dia e todo mês.</p>
+      </div>
+      <div class="emochips">
+        <span>Clareza</span><span>Leveza</span><span>Controle sem sofrimento</span>
       </div>
     </div>
   </section>
@@ -480,8 +528,8 @@
   <section class="final" id="lista">
     <div class="wrap">
       <div class="kicker">Lista de espera aberta</div>
-      <h2>Chega de dinheiro<br>que some sem explicação.</h2>
-      <p class="sub">Entre agora e garanta acesso antecipado no lançamento, em 31 de agosto.</p>
+      <h2>Dessa vez, o controle<br>não depende de você.</h2>
+      <p class="sub">Entre na lista e garanta acesso antecipado no lançamento, em 31 de agosto.</p>
 
       <div class="lista-box">
         <div class="bonus">
