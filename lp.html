@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notinha — o que o extrato esconde</title>
+<meta name="description" content="O extrato para no nome da loja. O Notinha abre a compra item por item e mostra pra onde cada real foi. Controle financeiro no WhatsApp que você já usa.">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="64x64" href="favicon-64.png">
+<link rel="apple-touch-icon" href="notinha-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* paleta idêntica aos e-mails (v7) */
+    --page:#f4f6f6;
+    --card:#ffffff;
+    --line:#e3e9e9;
+    --teal:#288A89;
+    --teal-deep:#22706f;
+    --teal-ink:#14302f;
+    --ink:#14302f;
+    --body:#3a4a4a;
+    --muted:#6b7d7d;
+    --faint:#8aa0a0;
+    --teal-wash:#f0f9f9;
+    --gold:#eaa000;
+    --gold-deep:#825a00;
+    --gold-wash:#fff7e0;
+    --wa:#25a752;
+    --paper:#fbfaf6;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--page);
+    color:var(--body);
+    font-family:'DM Sans',Arial,Helvetica,sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  .wrap{width:100%;max-width:560px;margin:0 auto;padding:0 22px}
+
+  /* ---------- header ---------- */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(244,246,246,.86);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .hbar{display:flex;align-items:center;justify-content:space-between;height:58px}
+  .wordmark{
+    font-family:'Fraunces',Georgia,serif;font-weight:800;
+    font-size:24px;letter-spacing:-.01em;color:var(--teal);
+  }
+  .badge{
+    font-size:11px;font-weight:600;color:var(--teal-deep);
+    border:1px solid rgba(40,138,137,.35);border-radius:100px;
+    background:var(--teal-wash);
+    padding:5px 12px;display:flex;align-items:center;gap:6px;white-space:nowrap;
+  }
+  .dot{width:6px;height:6px;border-radius:50%;background:var(--teal);
+    box-shadow:0 0 0 0 rgba(40,138,137,.5);animation:pulse 2s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(40,138,137,.45)}70%{box-shadow:0 0 0 7px rgba(40,138,137,0)}100%{box-shadow:0 0 0 0 rgba(40,138,137,0)}}
+
+  /* ---------- hero ---------- */
+  .hero{padding:44px 0 20px;text-align:center}
+  .eyebrow{
+    font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--teal);margin-bottom:20px;
+  }
+  h1{
+    font-family:'Fraunces',Georgia,serif;font-weight:700;
+    font-size:clamp(30px,9vw,42px);line-height:1.08;letter-spacing:-.01em;
+    color:var(--ink);
+  }
+  h1 .thin{font-weight:400;font-style:italic;color:var(--muted);display:block;font-size:.62em;margin-top:12px}
+
+  /* ---------- receipt signature ---------- */
+  .stage{margin:30px auto 8px}
+  .statement{
+    font-size:12px;color:var(--muted);
+    display:flex;justify-content:space-between;align-items:center;
+    background:var(--card);border:1px solid var(--line);
+    border-radius:10px;padding:12px 15px;margin-bottom:14px;
+    box-shadow:0 4px 14px -8px rgba(20,48,47,.18);
+  }
+  .statement b{color:var(--ink);font-weight:600}
+  .statement .tag{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+
+  .receipt{
+    background:var(--paper);color:#1a1a1a;border-radius:6px;
+    padding:20px 18px 22px;text-align:left;position:relative;
+    box-shadow:0 22px 50px -22px rgba(20,48,47,.45);
+    border:1px solid #ece7d8;
+    transform-origin:top center;
+    max-width:320px;margin:0 auto;
+  }
+  .receipt::before,.receipt::after{
+    content:"";position:absolute;left:0;right:0;height:9px;
+    background:radial-gradient(circle at 6px -3px,transparent 6px,var(--paper) 6px);
+    background-size:14px 9px;
+  }
+  .receipt::before{top:-8px;transform:rotate(180deg)}
+  .receipt::after{bottom:-8px}
+  .r-head{text-align:center;border-bottom:1px dashed #c9c4b4;padding-bottom:10px;margin-bottom:10px}
+  .r-store{font-weight:700;font-size:13px;letter-spacing:.02em;color:#2a2a2a}
+  .r-sub{font-size:10px;color:#8a8577;margin-top:2px}
+  .r-line{
+    display:flex;justify-content:space-between;align-items:center;
+    font-size:12.5px;padding:6px 0;opacity:0;transform:translateY(6px);
+  }
+  .r-line .cat{
+    font-size:9px;font-weight:600;color:var(--teal-deep);
+    background:rgba(40,138,137,.1);border-radius:4px;padding:2px 6px;margin-left:8px;
+  }
+  .r-line .nm{display:flex;align-items:center;flex:1;min-width:0}
+  .r-line .nm span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .r-line .vl{font-variant-numeric:tabular-nums;color:#333;white-space:nowrap}
+  .r-total{
+    border-top:1px dashed #c9c4b4;margin-top:10px;padding-top:10px;
+    display:flex;justify-content:space-between;font-weight:700;font-size:13px;color:#2a2a2a;
+  }
+  .revealed .r-line{opacity:1;transform:translateY(0);transition:all .5s cubic-bezier(.2,.7,.3,1)}
+  .revealed .r-line:nth-child(1){transition-delay:.05s}
+  .revealed .r-line:nth-child(2){transition-delay:.15s}
+  .revealed .r-line:nth-child(3){transition-delay:.25s}
+  .revealed .r-line:nth-child(4){transition-delay:.35s}
+  .revealed .r-line:nth-child(5){transition-delay:.45s}
+
+  .caption{font-size:14px;color:var(--body);margin-top:22px;max-width:340px;margin-left:auto;margin-right:auto;line-height:1.6}
+  .caption b{color:var(--ink);font-weight:600}
+
+  /* ---------- cta button ---------- */
+  .cta{
+    display:block;width:100%;max-width:340px;margin:26px auto 0;text-align:center;
+    background:var(--teal);color:#fff;
+    font-weight:700;font-size:16px;text-decoration:none;
+    padding:16px;border-radius:100px;
+    box-shadow:0 12px 26px -12px rgba(40,138,137,.7);
+    transition:transform .15s ease,background .15s ease;
+  }
+  .cta:active{transform:scale(.98)}
+  .cta:hover{background:var(--teal-deep)}
+  .cta-note{font-size:12px;color:var(--muted);text-align:center;margin-top:10px}
+
+  /* ---------- sections ---------- */
+  section{padding:44px 0}
+  .kicker{font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);text-align:center;margin-bottom:8px}
+  h2{font-family:'Fraunces',Georgia,serif;font-weight:700;font-size:27px;line-height:1.15;text-align:center;letter-spacing:-.01em;margin-bottom:28px;color:var(--ink)}
+
+  /* how it works */
+  .steps{display:flex;flex-direction:column;gap:12px}
+  .step{
+    display:flex;gap:14px;align-items:flex-start;
+    background:var(--card);border:1px solid var(--line);
+    border-radius:14px;padding:16px;
+    box-shadow:0 4px 16px -12px rgba(20,48,47,.2);
+  }
+  .step .n{
+    flex:none;width:32px;height:32px;border-radius:9px;
+    background:var(--teal-wash);color:var(--teal);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Fraunces',Georgia,serif;font-weight:700;font-size:16px;
+  }
+  .step h3{font-size:15px;font-weight:700;color:var(--ink);margin-bottom:2px}
+  .step p{font-size:13.5px;color:var(--muted);line-height:1.55}
+
+  /* strengths */
+  .diff{background:var(--card);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .fcard{
+    background:var(--page);border:1px solid var(--line);
+    border-radius:14px;padding:16px 15px;
+  }
+  .fcard .ic{width:26px;height:26px;color:var(--teal);margin-bottom:10px}
+  .fcard h3{font-size:14px;font-weight:700;color:var(--ink);line-height:1.25;margin-bottom:4px}
+  .fcard p{font-size:12.5px;color:var(--muted);line-height:1.45}
+
+  /* referral highlight (igual ao bloco dourado do e-mail) */
+  .referral{
+    background:var(--gold-wash);border:2px solid var(--gold);border-radius:14px;
+    overflow:hidden;margin-top:4px;
+  }
+  .referral .rtop{background:var(--gold);text-align:center;padding:10px 20px}
+  .referral .rtop span{font-size:12px;font-weight:700;color:#fff;letter-spacing:.04em}
+  .referral .rbody{padding:22px 22px 24px}
+  .referral h3{font-family:'DM Sans',Arial,sans-serif;font-size:19px;font-weight:700;color:var(--gold-deep);margin-bottom:6px}
+  .referral p{font-size:14px;line-height:1.6;color:var(--body)}
+  .referral p b{color:var(--ink);font-weight:600}
+
+  /* ---------- final cta ---------- */
+  .final{background:var(--teal-wash);text-align:center;padding:52px 0 44px;border-top:1px solid var(--line)}
+  .final h2{font-size:29px;margin-bottom:12px}
+  .final p{font-size:14.5px;color:var(--body);max-width:340px;margin:0 auto}
+  .guarantees{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:22px}
+  .gtag{
+    font-size:11.5px;font-weight:600;color:var(--teal-deep);
+    background:var(--card);border:1px solid rgba(40,138,137,.3);
+    border-radius:100px;padding:7px 13px;display:flex;align-items:center;gap:6px;
+  }
+  .gtag svg{width:13px;height:13px;color:var(--teal)}
+
+  footer{text-align:center;padding:28px 0 40px;font-size:12px;color:var(--faint);line-height:1.7}
+  footer .wordmark{font-size:18px;display:inline-block;margin-bottom:8px}
+  footer a{color:var(--teal-deep);text-decoration:underline}
+
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+    .r-line{opacity:1!important;transform:none!important}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap hbar">
+    <div class="wordmark">Notinha</div>
+    <div class="badge"><span class="dot"></span>Lançamento 31/08</div>
+  </div>
+</header>
+
+<main>
+  <!-- HERO -->
+  <div class="wrap hero">
+    <div class="eyebrow">Controle financeiro no WhatsApp</div>
+    <h1>R$&nbsp;287,40 no mercado.<span class="thin">Mas em quê, exatamente?</span></h1>
+
+    <div class="stage">
+      <div class="statement">
+        <span class="tag">Extrato do banco</span>
+        <span><b>MERCADO XYZ</b> · R$ 287,40</span>
+      </div>
+
+      <div class="receipt" id="receipt">
+        <div class="r-head">
+          <div class="r-store">Notinha leu sua nota</div>
+          <div class="r-sub">item por item · categorizado</div>
+        </div>
+        <div class="r-line"><div class="nm"><span>Arroz 5kg</span><span class="cat">Mercado</span></div><span class="vl">39,90</span></div>
+        <div class="r-line"><div class="nm"><span>Café gourmet</span><span class="cat">Mercado</span></div><span class="vl">28,50</span></div>
+        <div class="r-line"><div class="nm"><span>Vinho tinto</span><span class="cat">Lazer</span></div><span class="vl">64,00</span></div>
+        <div class="r-line"><div class="nm"><span>Detergente x6</span><span class="cat">Limpeza</span></div><span class="vl">31,80</span></div>
+        <div class="r-line"><div class="nm"><span>Ração pet</span><span class="cat">Pet</span></div><span class="vl">123,20</span></div>
+        <div class="r-total"><span>Total</span><span>R$ 287,40</span></div>
+      </div>
+    </div>
+
+    <p class="caption">O extrato para no nome da loja. <b>O Notinha abre a compra</b> — e mostra pra onde cada real foi.</p>
+
+    <a href="#lista" class="cta">Entrar na lista de espera</a>
+    <p class="cta-note">Sem baixar app · sem planilha · sem senha do banco</p>
+  </div>
+
+  <!-- HOW -->
+  <section>
+    <div class="wrap">
+      <div class="kicker">Como funciona</div>
+      <h2>Três passos. Nenhum é digitar.</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="n">1</div>
+          <div><h3>Manda a foto</h3><p>Tira foto da nota no WhatsApp, como manda pra qualquer amigo.</p></div>
+        </div>
+        <div class="step">
+          <div class="n">2</div>
+          <div><h3>Notinha organiza</h3><p>Lê item por item, categoriza e soma automaticamente. Se algo parecer estranho, pergunta antes.</p></div>
+        </div>
+        <div class="step">
+          <div class="n">3</div>
+          <div><h3>Cai no seu Drive</h3><p>Sua planilha se preenche sozinha, no seu Google Drive. O dado é seu.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STRENGTHS -->
+  <section class="diff">
+    <div class="wrap">
+      <div class="kicker">Por que é diferente</div>
+      <h2>Feito pra quem já<br>desistiu de planilha.</h2>
+      <div class="grid">
+        <div class="fcard">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.1-3.1a2 2 0 0 0-2.8 0L6 21"/></svg>
+          <h3>Zero digitação</h3>
+          <p>Você fotografa. O resto é automático. Nunca mais linha por linha.</p>
+        </div>
+        <div class="fcard">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg>
+          <h3>Sem senha do banco</h3>
+          <p>Não conecta conta, não pede login. Só a foto da nota.</p>
+        </div>
+        <div class="fcard">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 15h6"/><path d="M9 11h2"/></svg>
+          <h3>Item por item</h3>
+          <p>Vê o que tem dentro da compra — não só o total da loja.</p>
+        </div>
+        <div class="fcard">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <h3>No WhatsApp que você já usa</h3>
+          <p>Funciona quando você manda a foto. Não quando lembra de abrir um app.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REFERRAL / BENEFÍCIO -->
+  <section>
+    <div class="wrap">
+      <div class="kicker">Benefício de quem entra cedo</div>
+      <h2>Dois presentes na<br>lista de espera.</h2>
+      <div class="referral">
+        <div class="rtop"><span>🎁 EXCLUSIVO PARA A LISTA DE ESPERA</span></div>
+        <div class="rbody">
+          <h3>Indique um amigo e ganhe 34% OFF</h3>
+          <p>Indique um amigo que também assinar o Notinha e ganhe <b>34% de desconto na sua primeira mensalidade</b>. E ainda: <b>30 dias de garantia</b> — não gostou, devolvemos seu dinheiro, sem perguntas.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="final" id="lista">
+    <div class="wrap">
+      <div class="kicker">Lista de espera aberta</div>
+      <h2>Chega de dinheiro<br>que some sem explicação.</h2>
+      <p>Entre agora e garanta acesso antecipado no lançamento, em 31 de agosto.</p>
+      <a href="#" class="cta">Garantir meu acesso</a>
+      <div class="guarantees">
+        <span class="gtag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>34% OFF no 1º mês</span>
+        <span class="gtag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/></svg>30 dias de garantia</span>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <div class="wordmark">Notinha</div>
+      <div>Seu controle financeiro, no WhatsApp que você já usa.</div>
+      <div style="margin-top:8px">Notinha · CNPJ 66.824.150/0001-28 · Santos/SP · <a href="/contato">Suporte</a></div>
+    </div>
+  </footer>
+</main>
+
+<script>
+  // revela a discriminação da nota quando o recibo entra em tela
+  var receipt = document.getElementById('receipt');
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if(e.isIntersecting){ receipt.classList.add('revealed'); io.disconnect(); }});
+    },{threshold:.35});
+    io.observe(receipt);
+  } else { receipt.classList.add('revealed'); }
+</script>
+</body>
+</html>
