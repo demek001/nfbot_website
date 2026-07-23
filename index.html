@@ -31,7 +31,10 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-FC1XHM57Z6"></script>
 <script>
   gtag('js', new Date());
+  gtag('set', 'url_passthrough', true);
+  gtag('set', 'ads_data_redaction', true);
   gtag('config', 'G-FC1XHM57Z6');
+  gtag('config', 'AW-18331471265');
 </script>
 
 <title>Notinha — Controle financeiro pelo WhatsApp</title>
@@ -1042,6 +1045,7 @@ async function enviarLista(e) {
       if (typeof gtag !== 'undefined') {
         gtag('event', 'signup_created', { method: 'lista_espera' });
         gtag('event', 'lead_captured', { method: 'lista_espera' });
+        gtag('event', 'conversion', { send_to: 'AW-18331471265/OS6BCP70uNUcEKGbkKVE', value: 1.0, currency: 'BRL' });
       }
     } else if (res.status === 409) {
       // email duplicado: trata como sucesso, com mensagem ajustada
