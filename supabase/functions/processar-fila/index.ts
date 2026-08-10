@@ -819,7 +819,7 @@ async function enviarPlanilhaMes(cliente: any, phoneNumberId: string, from: stri
   await enviarWhats(phoneNumberId, from, `📊 *Planilha de ${labelMes(anoMesStr)}*\nhttps://docs.google.com/spreadsheets/d/${melhor}/edit`);
 }
 function montarMenuCompleto(): string {
-  return [ "📋 *Notinha — Menu completo*", "Responde *só o número*:", "", "*Base*", "1) 📸 *Enviar foto/PDF* → eu leio e organizo sozinho", "2) ✍️ *registrar gasto* → ex: gastei 50 mercado", "3) 💰 *registrar recebimento* → ex: recebi 500 salário", "4) 📊 *resumo* → gasto, recebido e saldo do mês atual", "5) 📅 *resumo mês passado* → mesmo resumo do mês anterior", "6) 📄 *relatório* → PDF do mês", "7) 📊 *Planilha do mês* → link para acesso das suas planilhas", "", "*Premium*", "8) ✨ *insights* → comparativo personalizado da semana", "9) 🔎 *buscar* → acha lançamentos por termo (ex: mercado)", "10) 🧠 *maiores gastos* → top 5 do mês por valor", "11) 🧾 *relatório com fotos* → PDF do mês + notas anexadas", "12) 📈 *preço* → compara um produto entre lugares", "", "*Ajuda*", "13) ❓ *ajuda* → abre o FAQ; se não resolver, fala com a gente", "14) 📅 *Painel do ano* → seu resumo anual em uma página" ].join("\n");
+  return [ "📋 *Notinha — Menu completo*", "Responde *só o número*:", "", "*Base*", "1) 📸 *Enviar foto/PDF* → eu leio e organizo sozinho", "2) ✍️ *registrar gasto* → ex: gastei 50 mercado", "3) 💰 *registrar recebimento* → ex: recebi 500 salário", "4) 📊 *resumo* → gasto, recebido e saldo do mês atual", "5) 📅 *resumo mês passado* → mesmo resumo do mês anterior", "6) 📄 *relatório* → PDF do mês", "7) 📊 *Planilha do mês* → link para acesso das suas planilhas", "", "*Premium*", "8) 📅 *Painel do ano* → seu resumo anual em uma página", "9) ✨ *insights* → comparativo personalizado da semana", "10) 🔎 *buscar* → acha lançamentos por termo (ex: mercado)", "11) 🧠 *maiores gastos* → top 5 do mês por valor", "12) 🧾 *relatório com fotos* → PDF do mês + notas anexadas", "13) 📈 *preço* → compara um produto entre lugares", "", "*Ajuda*", "14) ❓ *ajuda* → abre o FAQ; se não resolver, fala com a gente" ].join("\n");
 }
 function montarMenuPos(): string {
   return [ "Posso te ajudar em algo? Responde *só o número*:", "", "1️⃣ Resumo do mês", "2️⃣ Alterar categoria", "3️⃣ Apagar última nota", "4️⃣ Relatório PDF (em breve)", "5️⃣ Menu" ].join("\n");
@@ -871,13 +871,13 @@ async function tratarMenuNav(cliente: any, phoneNumberId: string, from: string, 
   if (op === 5) { const [ay, am2] = nowSP().iso.split("-").map(Number); const pm = am2 === 1 ? 12 : am2 - 1; const py = am2 === 1 ? ay - 1 : ay; await tratarComando(cliente, phoneNumberId, from, `resumo ${String(pm).padStart(2, "0")}/${py}`); return true; }
   if (op === 6) { await tratarComando(cliente, phoneNumberId, from, "relatório"); return true; }
   if (op === 7) { await iniciarPlanilhaMes(cliente, phoneNumberId, from); return true; }
-  if (op === 8) { await tratarComando(cliente, phoneNumberId, from, "insights"); return true; }
-  if (op === 9) { await iniciarBuscar(cliente, phoneNumberId, from); return true; }
-  if (op === 10) { await tratarComando(cliente, phoneNumberId, from, "maiores gastos"); return true; }
-  if (op === 11) { await pedirRelatorioFotos(cliente, phoneNumberId, from); return true; }
-  if (op === 12) { await listarProdutosPreco(cliente, phoneNumberId, from); return true; }
-  if (op === 13) { await tratarComando(cliente, phoneNumberId, from, "ajuda"); return true; }
-  if (op === 14) { await enviarPainelAno(cliente, phoneNumberId, from); return true; }
+  if (op === 8) { await enviarPainelAno(cliente, phoneNumberId, from); return true; }
+  if (op === 9) { await tratarComando(cliente, phoneNumberId, from, "insights"); return true; }
+  if (op === 10) { await iniciarBuscar(cliente, phoneNumberId, from); return true; }
+  if (op === 11) { await tratarComando(cliente, phoneNumberId, from, "maiores gastos"); return true; }
+  if (op === 12) { await pedirRelatorioFotos(cliente, phoneNumberId, from); return true; }
+  if (op === 13) { await listarProdutosPreco(cliente, phoneNumberId, from); return true; }
+  if (op === 14) { await tratarComando(cliente, phoneNumberId, from, "ajuda"); return true; }
   await enviarWhats(phoneNumberId, from, EMBREVE);
   return true;
 }
