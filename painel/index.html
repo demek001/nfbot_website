@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Seu ano em notas · Notinha</title>
+<link rel="icon" href="https://raw.githubusercontent.com/demek001/nfbot_website/main/notinha-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=DM+Sans:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --fundo:#0d1117;
+    --papel:#f4f6f6;
+    --teal:#288A89;
+    --teal-claro:#3ea9a8;
+    --carimbo:#b8433a;
+    --tinta:#0d1117;
+    --tinta-fraca:#6b7280;
+    --linha:#d7dcdc;
+    --escuro-fraco:#8b949e;
+    --dente:9px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--fundo);
+    color:var(--papel);
+    font-family:"DM Sans",system-ui,sans-serif;
+    font-size:16px;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:680px;margin:0 auto;padding:28px 16px 64px}
+
+  /* ---------- cabecalho ---------- */
+  .topo{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:28px}
+  .marca{display:flex;align-items:center;gap:10px}
+  .marca img{width:30px;height:30px;display:block}
+  .marca span{font-family:"Plus Jakarta Sans","DM Sans",sans-serif;font-weight:700;letter-spacing:-.02em}
+  .anos{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+  .ano-btn{
+    font-family:"Space Mono",monospace;font-weight:700;font-size:13px;
+    background:transparent;color:var(--escuro-fraco);
+    border:1px solid #263041;border-radius:999px;
+    padding:5px 12px;cursor:pointer;transition:.15s;
+  }
+  .ano-btn:hover{border-color:var(--teal);color:var(--papel)}
+  .ano-btn[aria-pressed="true"]{background:var(--teal);border-color:var(--teal);color:#fff}
+  .ano-btn:focus-visible,.ano-btn:focus{outline:2px solid var(--teal-claro);outline-offset:2px}
+
+  .saudacao{font-family:"Fraunces",Georgia,serif;font-weight:500;font-size:clamp(26px,7vw,38px);line-height:1.12;letter-spacing:-.02em;margin:0 0 6px}
+  .saudacao em{font-style:normal;color:var(--teal-claro)}
+  .sub{color:var(--escuro-fraco);font-size:14px;margin:0 0 30px}
+
+  /* ---------- fita de papel ---------- */
+  .fita{
+    position:relative;background:var(--papel);color:var(--tinta);
+    padding:30px 20px;margin:0 0 22px;
+  }
+  .fita::before,.fita::after{
+    content:"";position:absolute;left:0;right:0;height:10px;pointer-events:none;
+    background-size:18px 18px;background-repeat:repeat-x;
+  }
+  .fita::before{top:0;background-image:radial-gradient(circle at 50% 0,var(--fundo) var(--dente),transparent calc(var(--dente) + .5px))}
+  .fita::after{bottom:0;background-image:radial-gradient(circle at 50% 100%,var(--fundo) var(--dente),transparent calc(var(--dente) + .5px))}
+
+  .fita h2{
+    font-family:"Space Mono",monospace;font-weight:700;font-size:12px;
+    letter-spacing:.16em;text-transform:uppercase;color:var(--tinta-fraca);
+    margin:0 0 18px;text-align:center;
+  }
+  .cupom-total{text-align:center;margin:0 0 22px}
+  .cupom-total .rotulo{font-family:"Space Mono",monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--tinta-fraca)}
+  .cupom-total .valor{font-family:"Fraunces",Georgia,serif;font-weight:700;font-size:clamp(38px,11vw,56px);line-height:1;letter-spacing:-.03em;margin-top:4px}
+
+  /* linha pontilhada de cupom */
+  .linhas{list-style:none;margin:0;padding:0}
+  .linhas li{display:flex;align-items:baseline;gap:6px;padding:7px 0;font-family:"Space Mono",monospace;font-size:14px}
+  .linhas .rot{white-space:nowrap}
+  .linhas .pont{flex:1;border-bottom:1px dotted #b9c1c1;transform:translateY(-4px)}
+  .linhas .val{white-space:nowrap;font-weight:700}
+  .serrilha{border:0;border-top:1px dashed #c3caca;margin:20px 0}
+
+  /* ---------- blocos escuros ---------- */
+  .bloco{margin:0 0 34px}
+  .bloco h3{
+    font-family:"Fraunces",Georgia,serif;font-weight:500;font-size:22px;
+    letter-spacing:-.01em;margin:0 0 4px;
+  }
+  .bloco p.nota{color:var(--escuro-fraco);font-size:13px;margin:0 0 16px}
+
+  /* barras */
+  .barras{display:flex;flex-direction:column;gap:9px}
+  .barra{display:grid;grid-template-columns:64px 1fr auto;align-items:center;gap:10px}
+  .barra .nome{font-family:"Space Mono",monospace;font-size:12px;color:var(--escuro-fraco);text-transform:uppercase;letter-spacing:.06em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .barra .trilho{background:#1a2029;border-radius:2px;height:22px;overflow:hidden}
+  .barra .preenche{background:var(--teal);height:100%;border-radius:2px;width:0;transition:width .7s cubic-bezier(.2,.8,.2,1)}
+  .barra .cifra{font-family:"Space Mono",monospace;font-size:12.5px;font-weight:700;white-space:nowrap}
+  .barra.vazia .nome,.barra.vazia .cifra{opacity:.35}
+
+  .largo{grid-template-columns:1fr}
+  .largo .nome{white-space:normal;text-transform:none;letter-spacing:0;font-family:"DM Sans",sans-serif;font-size:14px;color:var(--papel);margin-bottom:4px}
+  .largo .linha-b{display:grid;grid-template-columns:1fr auto;align-items:center;gap:10px}
+
+  /* precos */
+  .precos{display:flex;flex-direction:column;gap:2px}
+  .preco-item{
+    display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;
+    padding:12px 0;border-bottom:1px solid #1a2029;
+  }
+  .preco-item:last-child{border-bottom:0}
+  .preco-item .prod{font-size:14.5px;line-height:1.3}
+  .preco-item .antes-depois{font-family:"Space Mono",monospace;font-size:12px;color:var(--escuro-fraco);margin-top:3px}
+  .preco-item .seta{padding:0 4px}
+  .pct{font-family:"Space Mono",monospace;font-weight:700;font-size:15px;white-space:nowrap;text-align:right}
+  .pct.sobe{color:#e2695f}
+  .pct.desce{color:var(--teal-claro)}
+  .selo{
+    display:inline-block;font-family:"Space Mono",monospace;font-size:10px;font-weight:700;
+    letter-spacing:.12em;text-transform:uppercase;padding:3px 8px;border-radius:3px;
+    border:1px solid currentColor;margin-bottom:12px;
+  }
+  .selo.sobe{color:var(--carimbo)}
+  .selo.desce{color:var(--teal)}
+
+  /* estados */
+  .aviso{
+    background:var(--papel);color:var(--tinta);padding:32px 24px;text-align:center;
+    max-width:460px;margin:56px auto;position:relative;
+  }
+  .aviso h2{font-family:"Fraunces",Georgia,serif;font-weight:500;font-size:24px;margin:0 0 10px}
+  .aviso p{margin:0 0 6px;font-size:15px;color:#3a4247}
+  .aviso a{color:var(--teal);font-weight:500}
+  .carregando{text-align:center;padding:70px 0;color:var(--escuro-fraco);font-family:"Space Mono",monospace;font-size:13px;letter-spacing:.1em;text-transform:uppercase}
+  .oculto{display:none !important}
+  .rodape{border-top:1px solid #1a2029;padding-top:20px;color:var(--escuro-fraco);font-size:12.5px;line-height:1.6}
+  .rodape code{font-family:"Space Mono",monospace;color:var(--teal-claro)}
+
+  /* impressao da fita */
+  @keyframes imprime{from{transform:translateY(-14px);opacity:0}to{transform:translateY(0);opacity:1}}
+  .anima{animation:imprime .5s cubic-bezier(.2,.8,.2,1) both}
+  @media (prefers-reduced-motion: reduce){
+    .anima{animation:none}
+    .barra .preenche{transition:none}
+  }
+  @media (max-width:420px){
+    .barra{grid-template-columns:48px 1fr auto;gap:8px}
+    .fita{padding:28px 16px}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div id="carregando" class="carregando">Lendo suas notas…</div>
+
+  <!-- ---------- erro ---------- -->
+  <div id="erro" class="aviso oculto">
+    <h2 id="erro-titulo"></h2>
+    <p id="erro-texto"></p>
+  </div>
+
+  <!-- ---------- painel ---------- -->
+  <main id="painel" class="oculto">
+
+    <header class="topo">
+      <div class="marca">
+        <img src="https://raw.githubusercontent.com/demek001/nfbot_website/main/notinha-icon.png" alt="">
+        <span>Notinha</span>
+      </div>
+      <nav class="anos" id="anos" aria-label="Escolher ano"></nav>
+    </header>
+
+    <h1 class="saudacao">Seu ano <em id="ano-titulo"></em>,<br>nota por nota.</h1>
+    <p class="sub" id="sub"></p>
+
+    <!-- fita resumo -->
+    <section class="fita anima" aria-label="Resumo do ano">
+      <h2>Resumo do ano</h2>
+      <div class="cupom-total">
+        <div class="rotulo">Total registrado</div>
+        <div class="valor" id="total"></div>
+      </div>
+      <hr class="serrilha">
+      <ul class="linhas" id="resumo"></ul>
+    </section>
+
+    <!-- precos: a tese -->
+    <section class="bloco" id="sec-precos">
+      <h3>O que mudou de preço</h3>
+      <p class="nota">Comparação do primeiro com o último preço que você pagou no ano, item por item.</p>
+      <div id="altas"></div>
+      <div id="quedas" style="margin-top:26px"></div>
+    </section>
+
+    <!-- meses -->
+    <section class="bloco">
+      <h3>Mês a mês</h3>
+      <p class="nota" id="nota-meses"></p>
+      <div class="barras" id="meses"></div>
+    </section>
+
+    <!-- categorias -->
+    <section class="bloco">
+      <h3>Para onde foi</h3>
+      <p class="nota">Somando o valor das notas por categoria.</p>
+      <div class="barras" id="categorias"></div>
+    </section>
+
+    <!-- recorrentes -->
+    <section class="bloco" id="sec-recorrentes">
+      <h3>O que você compra sempre</h3>
+      <p class="nota">Itens que apareceram em mais de uma nota no ano.</p>
+      <div class="barras" id="recorrentes"></div>
+    </section>
+
+    <!-- lojas -->
+    <section class="bloco">
+      <h3>Onde você mais comprou</h3>
+      <p class="nota">Por valor total, com o ticket médio de cada visita.</p>
+      <div class="barras" id="lojas"></div>
+    </section>
+
+    <footer class="rodape">
+      <p>Este link é só seu. Quem tiver o endereço vê estes números — guarde nos favoritos, não encaminhe.</p>
+      <p>Para trocar o link, mande <code>revogar painel</code> no WhatsApp da Notinha. O endereço antigo para de funcionar na hora.</p>
+    </footer>
+
+  </main>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var API = "https://xpzjwlhrlebdpcybxaxu.supabase.co/functions/v1/painel-cliente";
+
+  var MESES = ["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"];
+
+  var brl = new Intl.NumberFormat("pt-BR",{style:"currency",currency:"BRL"});
+  var brlCurto = new Intl.NumberFormat("pt-BR",{style:"currency",currency:"BRL",maximumFractionDigits:0});
+
+  var el = function(id){ return document.getElementById(id); };
+  function txt(s){ return String(s == null ? "" : s); }
+  function esc(s){
+    return txt(s).replace(/[&<>"']/g, function(c){
+      return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];
+    });
+  }
+  function titulo(s){
+    s = txt(s).toLowerCase().trim();
+    return s.replace(/(^|\s|\/)([a-zà-ú])/g, function(m,a,b){ return a + b.toUpperCase(); });
+  }
+  function dataBr(iso){
+    if(!iso) return "";
+    var p = String(iso).slice(0,10).split("-");
+    return p.length === 3 ? p[2] + "/" + p[1] : "";
+  }
+
+  // token vive so no fragmento da URL, nunca na query
+  var TOKEN = (location.hash || "").replace(/^#/,"");
+  if(TOKEN.indexOf("t=") === 0) TOKEN = TOKEN.slice(2);
+  TOKEN = decodeURIComponent(TOKEN);
+
+  function mostrarErro(titulo, texto){
+    el("carregando").classList.add("oculto");
+    el("painel").classList.add("oculto");
+    el("erro-titulo").textContent = titulo;
+    el("erro-texto").innerHTML = texto;
+    el("erro").classList.remove("oculto");
+  }
+
+  var ERROS = {
+    token_invalido: ["Link inválido ou já trocado",
+      "Mande <b>painel</b> no WhatsApp da Notinha para receber um link novo."],
+    sem_token: ["Falta o link completo",
+      "Abra o endereço exatamente como a Notinha enviou, sem cortar o final."],
+    nao_premium: ["Painel disponível no plano Premium",
+      "Seu plano atual não inclui o painel do ano. Mande <b>planos</b> no WhatsApp para ver as opções."],
+    pagamento_bloqueado: ["Assinatura pendente",
+      "Assim que o pagamento for confirmado, o painel volta. Mande <b>pagamento</b> no WhatsApp para ver a situação."],
+    muitas_tentativas: ["Muitas tentativas seguidas",
+      "Espere alguns minutos e recarregue a página."]
+  };
+
+  function barra(nome, valor, pct, cifra, vazia){
+    return '<div class="barra' + (vazia ? " vazia" : "") + '">' +
+      '<div class="nome" title="' + esc(nome) + '">' + esc(nome) + '</div>' +
+      '<div class="trilho"><div class="preenche" data-pct="' + pct + '"></div></div>' +
+      '<div class="cifra">' + esc(cifra != null ? cifra : brlCurto.format(valor)) + '</div>' +
+      '</div>';
+  }
+
+  function barraLarga(nome, legenda, pct, cifra){
+    return '<div class="barra largo">' +
+      '<div class="nome">' + esc(nome) + (legenda ? ' <span style="color:var(--escuro-fraco);font-size:12.5px">· ' + esc(legenda) + '</span>' : '') + '</div>' +
+      '<div class="linha-b">' +
+        '<div class="trilho"><div class="preenche" data-pct="' + pct + '"></div></div>' +
+        '<div class="cifra">' + esc(cifra) + '</div>' +
+      '</div></div>';
+  }
+
+  function listaPrecos(itens, sobe){
+    if(!itens || !itens.length) return "";
+    var classe = sobe ? "sobe" : "desce";
+    var rotulo = sobe ? "Subiu de preço" : "Baixou de preço";
+    var h = '<span class="selo ' + classe + '">' + rotulo + '</span><div class="precos">';
+    itens.forEach(function(p){
+      var sinal = p.variacao_pct > 0 ? "+" : "";
+      h += '<div class="preco-item">' +
+        '<div>' +
+          '<div class="prod">' + esc(titulo(p.nome)) + '</div>' +
+          '<div class="antes-depois">' +
+            esc(brl.format(p.preco_primeiro)) + ' <span class="seta">→</span> ' + esc(brl.format(p.preco_ultimo)) +
+            '  ·  ' + esc(dataBr(p.data_primeiro)) + ' a ' + esc(dataBr(p.data_ultimo)) +
+          '</div>' +
+        '</div>' +
+        '<div class="pct ' + classe + '">' + sinal + p.variacao_pct.toFixed(1).replace(".",",") + '%</div>' +
+      '</div>';
+    });
+    return h + '</div>';
+  }
+
+  function animarBarras(){
+    requestAnimationFrame(function(){
+      var bs = document.querySelectorAll(".preenche");
+      for(var i = 0; i < bs.length; i++){
+        bs[i].style.width = bs[i].getAttribute("data-pct") + "%";
+      }
+    });
+  }
+
+  function pintar(d){
+    var r = d.resumo;
+
+    el("ano-titulo").textContent = d.ano;
+    document.title = "Seu ano " + d.ano + " · Notinha";
+
+    var nome = (d.cliente.nome || "").split(" ")[0];
+    el("sub").textContent = (nome ? nome + ", você" : "Você") +
+      " registrou " + r.notas + (r.notas === 1 ? " nota" : " notas") +
+      " e " + r.itens + (r.itens === 1 ? " item" : " itens") + " em " + d.ano + ".";
+
+    el("total").textContent = brl.format(r.total);
+
+    var linhas = [
+      ["Notas enviadas", String(r.notas)],
+      ["Itens registrados", String(r.itens)],
+      ["Valor médio por nota", brl.format(r.ticket_medio)],
+      ["Média por mês com compra", brl.format(r.media_mensal)]
+    ];
+    el("resumo").innerHTML = linhas.map(function(l){
+      return '<li><span class="rot">' + esc(l[0]) + '</span><span class="pont"></span><span class="val">' + esc(l[1]) + '</span></li>';
+    }).join("");
+
+    // anos
+    el("anos").innerHTML = (d.anos_disponiveis || []).map(function(a){
+      return '<button class="ano-btn" data-ano="' + esc(a) + '" aria-pressed="' + (Number(a) === d.ano) + '">' + esc(a) + '</button>';
+    }).join("");
+    Array.prototype.forEach.call(el("anos").querySelectorAll(".ano-btn"), function(b){
+      b.addEventListener("click", function(){ carregar(Number(b.getAttribute("data-ano"))); });
+    });
+
+    // precos
+    var temPreco = (d.altas && d.altas.length) || (d.quedas && d.quedas.length);
+    if(temPreco){
+      el("sec-precos").classList.remove("oculto");
+      el("altas").innerHTML = listaPrecos(d.altas, true);
+      el("quedas").innerHTML = listaPrecos(d.quedas, false);
+    } else {
+      el("sec-precos").classList.add("oculto");
+    }
+
+    // meses
+    var maxMes = Math.max.apply(null, d.meses.concat([1]));
+    el("meses").innerHTML = d.meses.map(function(v,i){
+      return barra(MESES[i], v, maxMes > 0 ? (v / maxMes) * 100 : 0,
+                   v > 0 ? brlCurto.format(v) : "—", v === 0);
+    }).join("");
+    var ativos = d.meses.filter(function(v){ return v > 0; }).length;
+    el("nota-meses").textContent = ativos + (ativos === 1 ? " mês" : " meses") + " com notas registradas em " + d.ano + ".";
+
+    // categorias
+    var maxCat = d.categorias.length ? d.categorias[0].total : 1;
+    el("categorias").innerHTML = d.categorias.map(function(c){
+      return barra(c.nome, c.total, (c.total / maxCat) * 100,
+                   brlCurto.format(c.total) + "  " + c.pct.toFixed(0) + "%");
+    }).join("");
+
+    // recorrentes
+    if(d.recorrentes && d.recorrentes.length){
+      el("sec-recorrentes").classList.remove("oculto");
+      var maxRec = d.recorrentes[0].gasto || 1;
+      el("recorrentes").innerHTML = d.recorrentes.map(function(p){
+        return barraLarga(titulo(p.nome),
+          p.compras + (p.compras === 1 ? " compra" : " compras"),
+          (p.gasto / maxRec) * 100, brl.format(p.gasto));
+      }).join("");
+    } else {
+      el("sec-recorrentes").classList.add("oculto");
+    }
+
+    // lojas
+    var maxLoja = d.lojas.length ? d.lojas[0].total : 1;
+    el("lojas").innerHTML = d.lojas.map(function(l){
+      return barraLarga(titulo(l.nome),
+        l.visitas + (l.visitas === 1 ? " visita" : " visitas") + " · " + brl.format(l.ticket) + " por visita",
+        (l.total / maxLoja) * 100, brl.format(l.total));
+    }).join("");
+
+    el("carregando").classList.add("oculto");
+    el("erro").classList.add("oculto");
+    el("painel").classList.remove("oculto");
+    animarBarras();
+  }
+
+  function carregar(ano){
+    el("carregando").classList.remove("oculto");
+
+    if(!TOKEN){
+      mostrarErro(ERROS.sem_token[0], ERROS.sem_token[1]);
+      return;
+    }
+
+    var url = API + (ano ? "?ano=" + ano : "");
+
+    fetch(url, { headers: { "x-painel-token": TOKEN } })
+      .then(function(res){
+        return res.json().then(function(body){ return { status: res.status, body: body }; });
+      })
+      .then(function(r){
+        if(r.status === 200 && r.body.ok){ pintar(r.body); return; }
+        var e = ERROS[r.body.erro];
+        if(e) mostrarErro(e[0], e[1]);
+        else mostrarErro("Não deu para carregar agora",
+          "Tente de novo em alguns minutos. Se continuar, mande <b>ajuda</b> no WhatsApp da Notinha.");
+      })
+      .catch(function(){
+        mostrarErro("Sem conexão",
+          "Verifique sua internet e recarregue a página.");
+      });
+  }
+
+  carregar(null);
+})();
+</script>
+</body>
+</html>
