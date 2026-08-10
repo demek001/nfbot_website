@@ -98,10 +98,27 @@
   .barra .cifra{font-family:"Space Mono",monospace;font-size:12.5px;font-weight:700;white-space:nowrap}
   .barra.vazia .nome,.barra.vazia .cifra{opacity:.35}
 
-  .largo{grid-template-columns:1fr}
-  .largo .nome{white-space:normal;text-transform:none;letter-spacing:0;font-family:"DM Sans",sans-serif;font-size:14px;color:var(--papel);margin-bottom:5px}
+  .largo{grid-template-columns:1fr;gap:0}
+  .largo .nome{
+    white-space:normal;text-transform:none;letter-spacing:0;
+    font-family:"DM Sans",sans-serif;font-size:14.5px;color:var(--papel);
+    line-height:1.35;margin-bottom:2px;
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+  }
+  .largo .detalhe{
+    font-family:"Space Mono",monospace;font-size:11.5px;color:var(--escuro-fraco);
+    margin-bottom:7px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  }
   .largo .linha-b{display:grid;grid-template-columns:1fr auto;align-items:center;gap:10px}
-  .legenda{color:var(--escuro-fraco);font-size:12.5px}
+  .barra.extra{display:none}
+  .mostrar-tudo .barra.extra{display:grid}
+  .mostrar-tudo .ver-mais{display:none}
+  .ver-mais{
+    margin-top:12px;font-family:"Space Mono",monospace;font-weight:700;font-size:12px;
+    background:transparent;color:var(--teal-claro);border:1px solid #263041;border-radius:999px;
+    padding:7px 14px;cursor:pointer;align-self:flex-start;
+  }
+  .ver-mais:hover{border-color:var(--teal)}
 
   .precos{display:flex;flex-direction:column}
   .preco-item{
@@ -152,6 +169,7 @@
 
   @media (max-width:420px){
     .barra{grid-template-columns:44px 1fr auto;gap:8px}
+    .largo{grid-template-columns:1fr}
     .fita{padding:28px 16px}
     .pct{font-size:14px}
   }
@@ -336,14 +354,19 @@
       '</div>';
   }
 
-  function barraLarga(nome, legenda, pct, cifra){
-    return '<div class="barra largo">' +
-      '<div class="nome">' + esc(nome) +
-        (legenda ? ' <span class="legenda">· ' + esc(legenda) + '</span>' : '') + '</div>' +
+  function barraLarga(nome, detalhe, pct, cifra, extra){
+    return '<div class="barra largo' + (extra ? " extra" : "") + '">' +
+      '<div class="nome" title="' + esc(nome) + '">' + esc(nome) + '</div>' +
+      (detalhe ? '<div class="detalhe">' + esc(detalhe) + '</div>' : '') +
       '<div class="linha-b">' +
         '<div class="trilho"><div class="preenche" data-pct="' + pct + '"></div></div>' +
         '<div class="cifra">' + esc(cifra) + '</div>' +
       '</div></div>';
+  }
+
+  function verMais(total, alvo){
+    if(total <= 10) return "";
+    return '<button class="ver-mais" data-alvo="' + alvo + '">Ver todos os ' + total + '</button>';
   }
 
   function listaPrecos(itens, sobe){
@@ -481,24 +504,36 @@
 
     var rec = d.recorrentes || [];
     el("sec-recorrentes").classList.toggle("oculto", rec.length === 0);
+    el("recorrentes").classList.remove("mostrar-tudo");
     if(rec.length){
       var maxRec = rec[0].gasto || 1;
-      el("recorrentes").innerHTML = rec.map(function(p){
-        return barraLarga(titulo(p.nome),
-          p.compras + (p.compras === 1 ? " compra" : " compras"),
-          (p.gasto / maxRec) * 100, brl.format(p.gasto));
-      }).join("");
+      el("recorrentes").innerHTML = rec.map(function(p, i){
+        var det = p.compras + (p.compras === 1 ? " compra" : " compras");
+        if(p.preco_ultimo != null){
+          det += " · última a " + brl.format(p.preco_ultimo) + unid(p.unidade);
+        }
+        return barraLarga(titulo(p.nome), det,
+          (p.gasto / maxRec) * 100, brl.format(p.gasto), i >= 10);
+      }).join("") + verMais(rec.length, "recorrentes");
     }
 
     var lojas = d.lojas || [];
     var maxLoja = lojas.length ? lojas[0].total : 1;
+    el("lojas").classList.remove("mostrar-tudo");
     el("lojas").innerHTML = lojas.length
-      ? lojas.map(function(l){
-          var leg = l.visitas + (l.visitas === 1 ? " visita" : " visitas");
-          if(l.visitas > 1) leg += " · de " + brl.format(l.menor) + " a " + brl.format(l.maior);
-          return barraLarga(titulo(l.nome), leg, (l.total / maxLoja) * 100, brl.format(l.total));
-        }).join("")
+      ? lojas.map(function(l, i){
+          var det = l.visitas + (l.visitas === 1 ? " visita" : " visitas");
+          if(l.visitas > 1) det += " · de " + brl.format(l.menor) + " a " + brl.format(l.maior);
+          return barraLarga(titulo(l.nome), det, (l.total / maxLoja) * 100, brl.format(l.total), i >= 10);
+        }).join("") + verMais(lojas.length, "lojas")
       : '<p class="vazio">Sem lojas no período.</p>';
+
+    Array.prototype.forEach.call(document.querySelectorAll(".ver-mais"), function(b){
+      b.addEventListener("click", function(){
+        el(b.getAttribute("data-alvo")).classList.add("mostrar-tudo");
+        animarBarras();
+      });
+    });
 
     el("carregando").classList.add("oculto");
     el("erro").classList.add("oculto");
