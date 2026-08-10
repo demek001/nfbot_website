@@ -218,7 +218,7 @@ async function getOrCreateSheetMensal(token: string, cliente: any, dataISO: stri
   else await sbInsert("planilhas_mensais", { cliente_id: cliente.id, ano_mes: chave, sheet_id: sheetId });
   return sheetId;
 }
-const NF_PROMPT = `Voce le COMPROVANTES DE COMPRA brasileiros: cupom fiscal, NFC-e, NFe, DANFE, recibo, comprovante de cartao, orcamento ou pedido. ACEITE mesmo que diga sem valor fiscal. Devolva APENAS um JSON valido no formato exato: {\"tipo_documento\":\"nfce\",\"data\":\"dd/mm/aaaa\",\"hora\":\"hh:mm:ss\",\"estabelecimento\":\"...\",\"razao_social\":\"...\",\"cnpj\":\"...\",\"inscricao_estadual\":\"...\",\"endereco\":\"...\",\"numero_nf\":\"...\",\"serie\":\"...\",\"chave_acesso\":\"...\",\"valor_bruto\":0.00,\"valor_desconto\":0.00,\"valor_acrescimo\":0.00,\"valor_total\":0.00,\"valor_tributos\":0.00,\"saldo_voucher\":0.00,\"forma_pagamento\":\"...\",\"pagamentos\":[{\"forma\":\"...\",\"valor\":0.00}],\"categoria\":\"...\",\"tef\":{\"aut\":\"...\",\"nsu\":\"...\",\"doc\":\"...\",\"term\":\"...\",\"cartao_final\":\"...\",\"bandeira\":\"...\"},\"tributos\":{\"icms\":0.00,\"pis\":0.00,\"cofins\":0.00,\"ipi\":0.00,\"ii\":0.00,\"cbs\":0.00,\"ibs\":0.00,\"is\":0.00,\"total_aproximado\":0.00},\"itens\":[{\"descricao\":\"...\",\"quantidade\":0,\"unidade\":\"...\",\"valor_unitario\":0.00,\"valor_total\":0.00,\"desconto\":0.00,\"ean\":\"...\",\"ncm\":\"...\"}]}. Regras: tipo_documento nfce para cupom/NFC-e/NFe/DANFE; comprovante_pagamento quando for so comprovante de cartao (TEF/SiTef, NSU/DOC/AUT, sem itens nem chave). tef: extraia aut, nsu, doc, term (TERMINAL), cartao_final (4 ultimos), bandeira; null se nao aparecer, nunca invente. saldo_voucher: saldo disponivel de vale; senao null. pagamentos: se houver mais de uma forma, liste cada uma com valor; trate Credito Loja/Vale/Troca/Gift como forma de pagamento; se uma so, use []. categoria deve ser uma de: Alimentacao, Mercado, Farmacia, Combustivel, Transporte, Vestuario, Eletronicos, Casa, Saude, Lazer, Servicos, Outros. tributos: extraia os totais se aparecerem (icms,pis,cofins,ipi,ii notas modelo 55; cbs,ibs,is reforma 2026; total_aproximado = vTotTrib/Lei 12.741, fracao do total). NUNCA calcule nem estime tributos, e NUNCA use o total como tributo; so o que estiver escrito, senao null. itens: descricao, quantidade, unidade (un/kg/L), valor_unitario, valor_total, desconto, ean (8-14 digitos), ncm; se nao der pra ler, []. ITENS PESADOS (kg/g/L/ml): a linha traz PESO, PRECO POR QUILO/LITRO e VALOR PAGO -> quantidade=peso, valor_unitario=preco por kg/L, valor_total=valor pago; nunca ponha o peso em valor_unitario nem assuma quantidade=1. CONFERENCIA: quantidade x valor_unitario deve bater com valor_total; se nao bater, releia a linha. chave_acesso: 44 digitos ou null. NAO extraia CPF nem nome do consumidor; CNPJ/endereco/razao social sao do ESTABELECIMENTO. Use ponto decimal. Se um campo nao aparecer, null. So devolva {\"erro\":\"nao_e_nota_fiscal\"} se claramente nao for comprovante de compra.`;
+const NF_PROMPT = `Voce le COMPROVANTES DE COMPRA brasileiros: cupom fiscal, NFC-e, NFe, DANFE, recibo, comprovante de cartao, orcamento ou pedido. ACEITE mesmo que diga sem valor fiscal. Devolva APENAS um JSON valido no formato exato: {\"tipo_documento\":\"nfce\",\"data\":\"dd/mm/aaaa\",\"hora\":\"hh:mm:ss\",\"estabelecimento\":\"...\",\"razao_social\":\"...\",\"cnpj\":\"...\",\"inscricao_estadual\":\"...\",\"endereco\":\"...\",\"numero_nf\":\"...\",\"serie\":\"...\",\"chave_acesso\":\"...\",\"valor_bruto\":0.00,\"valor_desconto\":0.00,\"valor_acrescimo\":0.00,\"valor_total\":0.00,\"valor_tributos\":0.00,\"saldo_voucher\":0.00,\"forma_pagamento\":\"...\",\"pagamentos\":[{\"forma\":\"...\",\"valor\":0.00}],\"categoria\":\"...\",\"tef\":{\"aut\":\"...\",\"nsu\":\"...\",\"doc\":\"...\",\"term\":\"...\",\"cartao_final\":\"...\",\"bandeira\":\"...\"},\"tributos\":{\"icms\":0.00,\"pis\":0.00,\"cofins\":0.00,\"ipi\":0.00,\"ii\":0.00,\"cbs\":0.00,\"ibs\":0.00,\"is\":0.00,\"total_aproximado\":0.00},\"itens\":[{\"descricao\":\"...\",\"quantidade\":0,\"unidade\":\"...\",\"valor_unitario\":0.00,\"valor_total\":0.00,\"desconto\":0.00,\"ean\":\"...\",\"ncm\":\"...\"}]}. Regras: tipo_documento nfce para cupom/NFC-e/NFe/DANFE; comprovante_pagamento quando for so comprovante de cartao (TEF/SiTef, NSU/DOC/AUT, sem itens nem chave); transferencia para comprovante de Pix, TED ou DOC bancario (tem pagador e recebedor, sem itens e sem loja) - nesse caso estabelecimento = nome do RECEBEDOR do dinheiro e NUNCA extraia nome ou CPF do pagador. tef: extraia aut, nsu, doc, term (TERMINAL), cartao_final (4 ultimos), bandeira; null se nao aparecer, nunca invente. saldo_voucher: saldo disponivel de vale; senao null. pagamentos: se houver mais de uma forma, liste cada uma com valor; trate Credito Loja/Vale/Troca/Gift como forma de pagamento; se uma so, use []. categoria deve ser uma de: Alimentacao, Mercado, Farmacia, Combustivel, Transporte, Vestuario, Eletronicos, Casa, Saude, Lazer, Servicos, Outros. tributos: extraia os totais se aparecerem (icms,pis,cofins,ipi,ii notas modelo 55; cbs,ibs,is reforma 2026; total_aproximado = vTotTrib/Lei 12.741, fracao do total). NUNCA calcule nem estime tributos, e NUNCA use o total como tributo; so o que estiver escrito, senao null. itens: descricao, quantidade, unidade (un/kg/L), valor_unitario, valor_total, desconto, ean (8-14 digitos), ncm; se nao der pra ler, []. ITENS PESADOS (kg/g/L/ml): a linha traz PESO, PRECO POR QUILO/LITRO e VALOR PAGO -> quantidade=peso, valor_unitario=preco por kg/L, valor_total=valor pago; nunca ponha o peso em valor_unitario nem assuma quantidade=1. CONFERENCIA: quantidade x valor_unitario deve bater com valor_total; se nao bater, releia a linha. chave_acesso: 44 digitos ou null. NAO extraia CPF nem nome do consumidor; CNPJ/endereco/razao social sao do ESTABELECIMENTO. Use ponto decimal. Se um campo nao aparecer, null. So devolva {\"erro\":\"nao_e_nota_fiscal\"} se claramente nao for comprovante de compra nem de transferencia.`;
 function parseJSON(txt: string): any {
   const limpo = txt.replace(/```json/gi, "").replace(/```/g, "").trim();
   const ini = limpo.indexOf("{"); const fim = limpo.lastIndexOf("}");
@@ -376,11 +376,56 @@ async function registrarComprovanteComoGasto(cliente: any, phoneNumberId: string
   if (wamComp && notaRow?.id) await sbPatch(`notas_fiscais?id=eq.${notaRow.id}`, { wam_id: wamComp });
   if (notaRow?.id) await mostrarMenuPos(cliente, phoneNumberId, from, { k: "nota", id: notaRow.id, est: estab, val: valor });
 }
+async function finalizarTransferencia(cliente: any, phoneNumberId: string, from: string, pendId: string, destino: string, categoria: string) {
+  const pend = (await sbSelect(`pagamentos_pendentes?id=eq.${pendId}&select=*`))?.[0];
+  if (!pend) { await enviarWhats(phoneNumberId, from, "Nao achei o comprovante pra registrar. 🙂"); return; }
+  if (!cliente.drive_refresh_token) { await enviarWhats(phoneNumberId, from, "Sua conta ainda nao esta conectada ao Google Drive. Finalize o cadastro em usenotinha.com.br."); return; }
+  const token = await googleAccessToken(cliente.drive_refresh_token);
+  const dataISO = pend.data_compra ?? nowSP().iso;
+  const valor = parseValor(pend.valor);
+  const desc = pend.estabelecimento || "Transferência";
+  const am = anoMes(dataISO);
+  if (destino === "entrada") {
+    const cat = normalizarCategoriaEntrada(categoria);
+    const entRow = await registrarEntrada(cliente, token, valor, desc, dataISO, "transferencia", cat);
+    await sbDelete(`pagamentos_pendentes?id=eq.${pend.id}`);
+    const linhas = [ "✅ Recebimento registrado!", `🧾 ${desc}`, `📅 ${isoToBR(dataISO)}`, `💰 ${brl(valor)}`, `🏷️ ${cat}` ];
+    if (entRow?.sheet_id) linhas.push("", `📊 Planilha de ${am.amigavel}:`, `https://docs.google.com/spreadsheets/d/${entRow.sheet_id}/edit`);
+    await enviarWhats(phoneNumberId, from, linhas.join("\n"));
+    if (entRow?.id) await mostrarMenuPos(cliente, phoneNumberId, from, { k: "entrada", id: entRow.id, est: desc, val: valor });
+    return;
+  }
+  const cat = normalizarCategoria(categoria);
+  const nfCodigo = await gerarNfCodigo(cliente.id, dataISO);
+  const sheetId = await getOrCreateSheetMensal(token, cliente, dataISO);
+  const linkImg = pend.drive_file_id ? `https://drive.google.com/file/d/${pend.drive_file_id}/view` : "";
+  const sheetLinha = await appendLinhaAba(token, sheetId, [ isoToBR(dataISO), desc, "", cat, valor, 0, valor, "Pix", nfCodigo, "", "", "", "", "", "", "", "", "", linkImg ], ANCHOR_NOTAS);
+  const notaTransf = await sbInsert("notas_fiscais", { cliente_id: cliente.id, nf_codigo: nfCodigo, data_compra: dataISO, estabelecimento: desc, valor_bruto: valor, valor_total: valor, categoria: cat, forma_pagamento: "Pix", hora_compra: pend.hora_compra ?? null, tipo_documento: "transferencia", provider: "transferencia", drive_file_id: pend.drive_file_id ?? null, drive_pasta_id: pend.drive_pasta_id ?? null, sheet_id: sheetId, sheet_linha: sheetLinha });
+  await sbDelete(`pagamentos_pendentes?id=eq.${pend.id}`);
+  const linhaDataHora = pend.hora_compra ? `📅 ${isoToBR(dataISO)} às ${String(pend.hora_compra).slice(0, 5)}` : `📅 ${isoToBR(dataISO)}`;
+  const wamT = await enviarWhats(phoneNumberId, from, [ "✅ Gasto registrado!", `🏪 ${desc}`, linhaDataHora, `💰 ${brl(valor)}`, `🏷️ ${cat}`, "", `📊 Planilha de ${am.amigavel}:`, `https://docs.google.com/spreadsheets/d/${sheetId}/edit`, ...(linkImg ? ["", `📎 Comprovante: ${linkImg}`] : []) ].join("\n"));
+  if (wamT && notaTransf?.id) await sbPatch(`notas_fiscais?id=eq.${notaTransf.id}`, { wam_id: wamT });
+  if (notaTransf?.id) await mostrarMenuPos(cliente, phoneNumberId, from, { k: "nota", id: notaTransf.id, est: desc, val: valor });
+}
 async function tratarRespostaComprovante(cliente: any, phoneNumberId: string, from: string, texto: string): Promise<"registrado" | "ignore"> {
   const tl = texto.trim().toLowerCase();
+  const pend = (await sbSelect(`pagamentos_pendentes?id=eq.${cliente.aguardando_comprovante_pend}&select=*`))?.[0];
+  const ehTransf = pend && !pend.tef_aut && !pend.tef_nsu && !pend.tef_doc && String(pend.forma_pagamento ?? "") === "Pix";
+  if (ehTransf) {
+    const um = /^\s*1\s*$/.test(tl);
+    const dois = /^\s*2\s*$/.test(tl);
+    if (!um && !dois) return "ignore";
+    const destino = um ? "gasto" : "entrada";
+    const nomes = destino === "gasto" ? CATEGORIAS : CATEGORIAS_ENTRADA;
+    const lista = nomes.map((c, i) => `${i + 1} ${c}`).join("\n");
+    const ctx = { tipo: "transf_cat", pend: pend.id, destino };
+    await sbPatch(`clientes?id=eq.${cliente.id}`, { menu_ctx: ctx });
+    cliente.menu_ctx = ctx;
+    await enviarWhats(phoneNumberId, from, `👍 Entendi, vou registrar como *${destino === "gasto" ? "gasto" : "recebimento"}*.\n\n🏷️ Qual a categoria? Responde *só o número*:\n${lista}`);
+    return "registrado";
+  }
   const quer = /^\s*2\s*$/.test(tl) || /registrar mesmo assim/.test(tl) || /^n[ãa]o,?\s*registrar/.test(tl);
   if (!quer) return "ignore";
-  const pend = (await sbSelect(`pagamentos_pendentes?id=eq.${cliente.aguardando_comprovante_pend}&select=*`))?.[0];
   if (!pend) { await enviarWhats(phoneNumberId, from, "Nao achei o comprovante pra registrar. 🙂"); return "registrado"; }
   await registrarComprovanteComoGasto(cliente, phoneNumberId, from, pend);
   return "registrado";
@@ -526,6 +571,17 @@ async function processarNota(cliente: any, phoneNumberId: string, from: string, 
       if (raiz.recriada) await perguntarResync(cliente, phoneNumberId, from);
       return;
     }
+  }
+  const ehTransferencia = tipoDoc === "transferencia" && !chaveAcesso && itensArr.length === 0 && valorTotal > 0;
+  if (ehTransferencia) {
+    const dISO = dataISO ?? sp.iso;
+    const mesId = await garantirPastaMes(token, cliente, dISO);
+    const fileId = await subirImagem(token, mesId, `${dISO.replace(/-/g, "")}_${sp.hora}_PIX.${ext}`, bytes, mime);
+    const pend = await sbInsert("pagamentos_pendentes", { cliente_id: cliente.id, valor: valorTotal || null, cnpj: null, estabelecimento: estab, data_compra: dataISO, hora_compra: horaCompra, forma_pagamento: "Pix", drive_file_id: fileId, drive_pasta_id: mesId });
+    if (pend?.id) await sbPatch(`clientes?id=eq.${cliente.id}`, { aguardando_comprovante_pend: pend.id });
+    await enviarWhats(phoneNumberId, from, `💸 Recebi um comprovante de transferência${estab && estab !== "—" ? " para *" + estab + "*" : ""} (${brl(valorTotal)}). Quer que eu registre como *gasto*? Digite *1*. Agora, se foi um dinheiro que você *recebeu*, digite *2*. Se foi só transferência entre suas contas, ignora. 🙂`);
+    if (raiz.recriada) await perguntarResync(cliente, phoneNumberId, from);
+    return;
   }
   const ehComprovante = tipoDoc === "comprovante_pagamento" || (!chaveAcesso && itensArr.length === 0 && (tefAut || tefNsu || tefDoc) && valorTotal > 0);
   if (ehComprovante) {
@@ -858,6 +914,18 @@ async function tratarMenuNav(cliente: any, phoneNumberId: string, from: string, 
     await sbPatch(`clientes?id=eq.${cliente.id}`, { menu_ctx: null });
     cliente.menu_ctx = null;
     await enviarPlanilhaMes(cliente, phoneNumberId, from, String(lista[op - 1]));
+    return true;
+  }
+  if (ctx.tipo === "transf_cat") {
+    const nomes = ctx.destino === "gasto" ? CATEGORIAS : CATEGORIAS_ENTRADA;
+    if (op < 1 || op > nomes.length) {
+      const lista = nomes.map((c: string, i: number) => `${i + 1} ${c}`).join("\n");
+      await enviarWhats(phoneNumberId, from, `Esse número não está na lista. 🏷️ Qual a categoria? Responde *só o número*:\n${lista}`);
+      return true;
+    }
+    await sbPatch(`clientes?id=eq.${cliente.id}`, { menu_ctx: null });
+    cliente.menu_ctx = null;
+    await finalizarTransferencia(cliente, phoneNumberId, from, String(ctx.pend), String(ctx.destino), nomes[op - 1]);
     return true;
   }
   if (op < 1 || op > 14) return false;
