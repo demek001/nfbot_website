@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex, notranslate">
+<meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="bingbot" content="noindex, nofollow, noarchive, nosnippet">
+<meta name="referrer" content="no-referrer">
+<title>Notinha · painel de demonstração</title>
+<link rel="icon" href="https://raw.githubusercontent.com/demek001/nfbot_website/main/notinha-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=DM+Sans:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --fundo:#0d1117;
+    --papel:#f4f6f6;
+    --teal:#288A89;
+    --teal-claro:#3ea9a8;
+    --carimbo:#b8433a;
+    --tinta:#0d1117;
+    --tinta-fraca:#6b7280;
+    --escuro-fraco:#8b949e;
+    --borda:#1a2029;
+    --dente:9px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--fundo);
+    color:var(--papel);
+    font-family:"DM Sans",system-ui,sans-serif;
+    font-size:16px;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:680px;margin:0 auto;padding:24px 16px 56px}
+
+  .topo{display:flex;align-items:center;gap:10px;margin-bottom:22px}
+  .topo img{width:30px;height:30px;display:block}
+  .tag-demo{font-family:"Space Mono",monospace;font-size:9.5px;font-weight:700;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--teal-claro);
+    border:1px solid var(--teal);border-radius:3px;padding:2px 7px;margin-left:2px}
+  .topo span{font-family:"Plus Jakarta Sans","DM Sans",sans-serif;font-weight:700;letter-spacing:-.02em}
+
+  .filtros{display:flex;flex-direction:column;gap:8px;margin-bottom:26px}
+  .fila{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+  .fila-rot{font-family:"Space Mono",monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--escuro-fraco);min-width:34px}
+  .pill{
+    font-family:"Space Mono",monospace;font-weight:700;font-size:12.5px;
+    background:transparent;color:var(--escuro-fraco);
+    border:1px solid #263041;border-radius:999px;
+    padding:5px 11px;cursor:pointer;transition:.15s;line-height:1.2;margin:2px 0;
+  }
+  .pill:hover{border-color:var(--teal);color:var(--papel)}
+  .pill[aria-pressed="true"]{background:var(--teal);border-color:var(--teal);color:#fff}
+  .pill:focus-visible{outline:2px solid var(--teal-claro);outline-offset:2px}
+
+  .saudacao{font-family:"Fraunces",Georgia,serif;font-weight:500;font-size:clamp(26px,7vw,40px);line-height:1.12;letter-spacing:-.02em;margin:0 0 6px}
+  .saudacao em{font-style:normal;color:var(--teal-claro)}
+  .sub{color:var(--escuro-fraco);font-size:14px;margin:0 0 26px}
+
+  .fita{
+    position:relative;background:var(--papel);color:var(--tinta);
+    padding:30px 20px;margin:0 0 30px;max-width:520px;
+  }
+  .fita::before,.fita::after{
+    content:"";position:absolute;left:0;right:0;height:10px;pointer-events:none;
+    background-size:18px 18px;background-repeat:repeat-x;
+  }
+  .fita::before{top:0;background-image:radial-gradient(circle at 50% 0,var(--fundo) var(--dente),transparent calc(var(--dente) + .5px))}
+  .fita::after{bottom:0;background-image:radial-gradient(circle at 50% 100%,var(--fundo) var(--dente),transparent calc(var(--dente) + .5px))}
+
+  .fita h2{
+    font-family:"Space Mono",monospace;font-weight:700;font-size:12px;
+    letter-spacing:.16em;text-transform:uppercase;color:var(--tinta-fraca);
+    margin:0 0 18px;text-align:center;
+  }
+  .cupom-total{text-align:center;margin:0 0 22px}
+  .cupom-total .rotulo{font-family:"Space Mono",monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--tinta-fraca)}
+  .cupom-total .valor{font-family:"Fraunces",Georgia,serif;font-weight:700;font-size:clamp(36px,10vw,52px);line-height:1;letter-spacing:-.03em;margin-top:4px}
+
+  .linhas{list-style:none;margin:0;padding:0}
+  .linhas li{display:flex;align-items:baseline;gap:6px;padding:7px 0;font-family:"Space Mono",monospace;font-size:13.5px}
+  .linhas .rot{white-space:nowrap}
+  .linhas .pont{flex:1;border-bottom:1px dotted #b9c1c1;transform:translateY(-4px)}
+  .linhas .val{white-space:nowrap;font-weight:700}
+  .serrilha{border:0;border-top:1px dashed #c3caca;margin:20px 0}
+
+  .bloco{margin:0 0 34px}
+  .bloco h3{
+    font-family:"Fraunces",Georgia,serif;font-weight:500;font-size:clamp(20px,3.4vw,24px);
+    letter-spacing:-.01em;margin:0 0 4px;
+  }
+  .bloco p.nota{color:var(--escuro-fraco);font-size:13px;margin:0 0 16px;max-width:60ch}
+
+  .barras{display:flex;flex-direction:column;gap:9px}
+  .barra{display:grid;grid-template-columns:62px 1fr auto;align-items:center;gap:10px}
+  .barra .nome{font-family:"Space Mono",monospace;font-size:12px;color:var(--escuro-fraco);text-transform:uppercase;letter-spacing:.06em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .barra .trilho{background:#1a2029;border-radius:2px;height:22px;overflow:hidden}
+  .barra .preenche{background:var(--teal);height:100%;border-radius:2px;width:0;transition:width .7s cubic-bezier(.2,.8,.2,1)}
+  .barra .cifra{font-family:"Space Mono",monospace;font-size:12.5px;font-weight:700;white-space:nowrap}
+  .barra.vazia .nome,.barra.vazia .cifra{opacity:.35}
+
+  .largo{grid-template-columns:1fr;gap:0}
+  .largo .nome{
+    white-space:normal;text-transform:none;letter-spacing:0;
+    font-family:"DM Sans",sans-serif;font-size:14.5px;color:var(--papel);
+    line-height:1.35;margin-bottom:2px;
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+  }
+  .largo .detalhe{
+    font-family:"Space Mono",monospace;font-size:11.5px;color:var(--escuro-fraco);
+    margin-bottom:7px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  }
+  .largo .linha-b{display:grid;grid-template-columns:1fr auto;align-items:center;gap:10px}
+  .barra.extra{display:none}
+  .mostrar-tudo .barra.extra{display:grid}
+  .mostrar-tudo .ver-mais{display:none}
+  .ver-mais{
+    margin-top:12px;font-family:"Space Mono",monospace;font-weight:700;font-size:12px;
+    background:transparent;color:var(--teal-claro);border:1px solid #263041;border-radius:999px;
+    padding:7px 14px;cursor:pointer;align-self:flex-start;
+  }
+  .ver-mais:hover{border-color:var(--teal)}
+
+  .precos{display:flex;flex-direction:column}
+  .preco-item{
+    display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;
+    padding:13px 0;border-bottom:1px solid var(--borda);
+  }
+  .preco-item:last-child{border-bottom:0}
+  .preco-item .prod{font-size:14.5px;line-height:1.3}
+  .preco-item .antes-depois{font-family:"Space Mono",monospace;font-size:12.5px;color:var(--papel);margin-top:4px}
+  .preco-item .balcao{font-family:"Space Mono",monospace;font-size:11.5px;color:var(--escuro-fraco);margin-top:2px}
+  .preco-item .periodo{font-family:"Space Mono",monospace;font-size:11px;color:var(--escuro-fraco);margin-top:3px}
+  .seta{padding:0 3px;color:var(--escuro-fraco)}
+  .pct{font-family:"Space Mono",monospace;font-weight:700;font-size:15px;white-space:nowrap;text-align:right}
+  .pct.sobe{color:#e2695f}
+  .pct.desce{color:var(--teal-claro)}
+  .selo{
+    display:inline-block;font-family:"Space Mono",monospace;font-size:10px;font-weight:700;
+    letter-spacing:.12em;text-transform:uppercase;padding:3px 8px;border-radius:3px;
+    border:1px solid currentColor;margin-bottom:12px;
+  }
+  .selo.sobe{color:var(--carimbo)}
+  .selo.desce{color:var(--teal)}
+
+  .aviso{
+    background:var(--papel);color:var(--tinta);padding:32px 24px;text-align:center;
+    max-width:460px;margin:56px auto;
+  }
+  .aviso h2{font-family:"Fraunces",Georgia,serif;font-weight:500;font-size:24px;margin:0 0 10px}
+  .aviso p{margin:0 0 6px;font-size:15px;color:#3a4247}
+  .carregando{text-align:center;padding:70px 0;color:var(--escuro-fraco);font-family:"Space Mono",monospace;font-size:13px;letter-spacing:.1em;text-transform:uppercase}
+  .vazio{color:var(--escuro-fraco);font-size:14px;padding:8px 0}
+  .oculto{display:none !important}
+
+  .rodape{border-top:1px solid var(--borda);padding-top:22px;margin-top:8px;color:var(--escuro-fraco);font-size:12.5px;line-height:1.65}
+  .rodape h4{font-family:"Space Mono",monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--escuro-fraco);margin:0 0 10px;font-weight:700}
+  .rodape ul{margin:0 0 14px;padding-left:18px;max-width:70ch}
+  .rodape li{margin-bottom:5px}
+  .rodape p{max-width:70ch}
+  .rodape code{font-family:"Space Mono",monospace;color:var(--teal-claro)}
+  .rodape .privado{border-top:1px solid var(--borda);padding-top:14px;margin-top:14px}
+
+  @keyframes imprime{from{transform:translateY(-14px);opacity:0}to{transform:translateY(0);opacity:1}}
+  .anima{animation:imprime .5s cubic-bezier(.2,.8,.2,1) both}
+  @media (prefers-reduced-motion: reduce){
+    .anima{animation:none}
+    .barra .preenche{transition:none}
+  }
+
+  @media (max-width:420px){
+    .barra{grid-template-columns:44px 1fr auto;gap:8px}
+    .largo{grid-template-columns:1fr}
+    .fita{padding:28px 16px}
+    .pct{font-size:14px}
+  }
+  @media (min-width:768px){
+    .wrap{max-width:920px;padding:36px 28px 72px}
+    .filtros{flex-direction:row;gap:26px;align-items:flex-start;flex-wrap:wrap}
+    .sub{margin-bottom:32px}
+    .grade{display:grid;grid-template-columns:1fr 1fr;gap:0 44px;align-items:start}
+    .grade > .bloco{margin-bottom:38px}
+    .largura-total{grid-column:1 / -1}
+  }
+  @media (min-width:1180px){
+    .wrap{max-width:1120px}
+    .cabecalho{display:grid;grid-template-columns:1fr 500px;gap:56px;align-items:start}
+    .fita{margin-top:4px}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div id="carregando" class="carregando">Lendo suas notas…</div>
+
+  <div id="erro" class="aviso oculto">
+    <h2 id="erro-titulo"></h2>
+    <p id="erro-texto"></p>
+  </div>
+
+  <main id="painel" class="oculto">
+
+    <header class="topo">
+      <img src="https://raw.githubusercontent.com/demek001/nfbot_website/main/notinha-icon.png" alt="">
+      <span>Notinha</span><span class="tag-demo">demonstração</span>
+    </header>
+
+    <nav class="filtros" aria-label="Escolher período">
+      <div class="fila">
+        <span class="fila-rot">Ano</span>
+        <span id="anos"></span>
+      </div>
+      <div class="fila" id="fila-meses">
+        <span class="fila-rot">Mês</span>
+        <span id="meses-btn"></span>
+      </div>
+    </nav>
+
+    <div class="cabecalho">
+      <div>
+        <h1 class="saudacao">Seu <em id="periodo-titulo"></em>,<br>nota por nota.</h1>
+        <p class="sub" id="sub"></p>
+      </div>
+
+      <section class="fita anima" aria-label="Resumo do período">
+        <h2 id="fita-titulo">Resumo</h2>
+        <div class="cupom-total">
+          <div class="rotulo">Total registrado</div>
+          <div class="valor" id="total"></div>
+        </div>
+        <hr class="serrilha">
+        <ul class="linhas" id="resumo"></ul>
+      </section>
+    </div>
+
+    <section class="bloco largura-total" id="sec-precos">
+      <h3>O que mudou de preço</h3>
+      <p class="nota">Compara o primeiro com o último preço que você pagou no período. Produtos vendidos por peso ou volume aparecem no preço por quilo ou por litro, para dar pra comparar embalagens de tamanhos diferentes.</p>
+      <div id="altas"></div>
+      <div id="quedas" style="margin-top:26px"></div>
+    </section>
+
+    <div class="grade">
+      <section class="bloco">
+        <h3 id="titulo-tempo">Mês a mês</h3>
+        <p class="nota" id="nota-tempo"></p>
+        <div class="barras" id="tempo"></div>
+      </section>
+
+      <section class="bloco">
+        <h3>Para onde foi</h3>
+        <p class="nota">Somando o valor das notas por categoria.</p>
+        <div class="barras" id="categorias"></div>
+      </section>
+
+      <section class="bloco" id="sec-recorrentes">
+        <h3>O que você compra sempre</h3>
+        <p class="nota">Itens que apareceram em mais de uma nota.</p>
+        <div class="barras" id="recorrentes"></div>
+      </section>
+
+      <section class="bloco">
+        <h3>Onde você mais comprou</h3>
+        <p class="nota">Lojas da mesma empresa aparecem juntas, mesmo quando o nome vem escrito de formas diferentes nas notas.</p>
+        <div class="barras" id="lojas"></div>
+      </section>
+    </div>
+
+    <footer class="rodape">
+      <h4>Como ler estes números</h4>
+      <ul>
+        <li>O painel usa <b>só as notas que você enviou</b>. O que não passou pela Notinha não aparece aqui.</li>
+        <li>A leitura das notas é automática. Nome de loja, endereço, item e valor <b>podem sair errados</b>, principalmente em foto torta, amassada ou apagada.</li>
+        <li>Preço por quilo e por litro é <b>calculado</b> a partir do peso ou volume escrito na embalagem.</li>
+        <li>Estes números são <b>pessoais e só seus</b>. Não são documento contábil nem fiscal.</li>
+        <li>Achou erro? Responda a mensagem daquela nota no WhatsApp com a correção.</li>
+      </ul>
+      <div class="privado">
+        <p><b>Tela de demonstração.</b> Os números desta página são fictícios, gerados para ilustrar o produto. Não correspondem às compras de nenhuma pessoa real.</p>
+        <p>No painel de verdade, cada cliente vê apenas os próprios dados, por um link pessoal.</p>
+      </div>
+    </footer>
+
+  </main>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var MESES = ["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"];
+  var MESES_LONGO = ["janeiro","fevereiro","março","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"];
+
+  var brl = new Intl.NumberFormat("pt-BR",{style:"currency",currency:"BRL"});
+  var brlCurto = new Intl.NumberFormat("pt-BR",{style:"currency",currency:"BRL",maximumFractionDigits:0});
+
+  var el = function(id){ return document.getElementById(id); };
+  function txt(s){ return String(s == null ? "" : s); }
+  function esc(s){
+    return txt(s).replace(/[&<>"']/g, function(c){
+      return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];
+    });
+  }
+  function titulo(s){
+    s = txt(s).toLowerCase().trim();
+    return s.replace(/(^|\s|\/)([a-zà-ú])/g, function(m,a,b){ return a + b.toUpperCase(); });
+  }
+  function dataBr(iso){
+    if(!iso) return "";
+    var p = String(iso).slice(0,10).split("-");
+    return p.length === 3 ? p[2] + "/" + p[1] : "";
+  }
+  function unid(u){
+    if(!u) return "";
+    var s = String(u).toLowerCase();
+    if(s === "l") return "/L";
+    if(s === "kg") return "/kg";
+    if(s === "un" || s === "und" || s === "unid" || s === "pc") return " cada";
+    return "/" + s;
+  }
+
+  var TOKEN = (location.hash || "").replace(/^#/,"");
+  if(TOKEN.indexOf("t=") === 0) TOKEN = TOKEN.slice(2);
+  TOKEN = decodeURIComponent(TOKEN);
+
+  function mostrarErro(t, texto){
+    el("carregando").classList.add("oculto");
+    el("painel").classList.add("oculto");
+    el("erro-titulo").textContent = t;
+    el("erro-texto").innerHTML = texto;
+    el("erro").classList.remove("oculto");
+  }
+
+  var ERROS = {
+    token_invalido: ["Link inválido ou já trocado",
+      "Mande <b>painel</b> no WhatsApp da Notinha para receber um link novo."],
+    sem_token: ["Falta o link completo",
+      "Abra o endereço exatamente como a Notinha enviou, sem cortar o final."],
+    nao_premium: ["Painel disponível no plano Premium",
+      "Seu plano atual não inclui o painel. Mande <b>planos</b> no WhatsApp para ver as opções."],
+    pagamento_bloqueado: ["Assinatura pendente",
+      "Assim que o pagamento for confirmado, o painel volta. Mande <b>pagamento</b> no WhatsApp para ver a situação."],
+    muitas_tentativas: ["Muitas tentativas seguidas",
+      "Espere alguns minutos e recarregue a página."]
+  };
+
+  function barra(nome, pct, cifra, vazia){
+    return '<div class="barra' + (vazia ? " vazia" : "") + '">' +
+      '<div class="nome" title="' + esc(nome) + '">' + esc(nome) + '</div>' +
+      '<div class="trilho"><div class="preenche" data-pct="' + pct + '"></div></div>' +
+      '<div class="cifra">' + esc(cifra) + '</div>' +
+      '</div>';
+  }
+
+  function barraLarga(nome, detalhe, pct, cifra, extra){
+    return '<div class="barra largo' + (extra ? " extra" : "") + '">' +
+      '<div class="nome" title="' + esc(nome) + '">' + esc(nome) + '</div>' +
+      (detalhe ? '<div class="detalhe">' + esc(detalhe) + '</div>' : '') +
+      '<div class="linha-b">' +
+        '<div class="trilho"><div class="preenche" data-pct="' + pct + '"></div></div>' +
+        '<div class="cifra">' + esc(cifra) + '</div>' +
+      '</div></div>';
+  }
+
+  function verMais(total, alvo){
+    if(total <= 10) return "";
+    return '<button class="ver-mais" data-alvo="' + alvo + '">Ver todos os ' + total + '</button>';
+  }
+
+  function listaPrecos(itens, sobe){
+    if(!itens || !itens.length) return "";
+    var classe = sobe ? "sobe" : "desce";
+    var rotulo = sobe ? "Subiu de preço" : "Baixou de preço";
+    var h = '<span class="selo ' + classe + '">' + rotulo + '</span><div class="precos">';
+    itens.forEach(function(p){
+      var u = unid(p.unidade);
+      var sinal = p.variacao_pct > 0 ? "+" : "";
+      var balcao = "";
+      if(p.pago_primeiro != null && p.pago_ultimo != null){
+        balcao = '<div class="balcao">na etiqueta: ' +
+          esc(brl.format(p.pago_primeiro)) + ' <span class="seta">→</span> ' +
+          esc(brl.format(p.pago_ultimo)) + '</div>';
+      }
+      h += '<div class="preco-item">' +
+        '<div>' +
+          '<div class="prod">' + esc(titulo(p.nome)) + '</div>' +
+          '<div class="antes-depois">' +
+            esc(brl.format(p.preco_primeiro)) + esc(u) +
+            ' <span class="seta">→</span> ' +
+            esc(brl.format(p.preco_ultimo)) + esc(u) +
+          '</div>' +
+          balcao +
+          '<div class="periodo">' + esc(dataBr(p.data_primeiro)) + ' a ' + esc(dataBr(p.data_ultimo)) + '</div>' +
+        '</div>' +
+        '<div class="pct ' + classe + '">' + sinal + p.variacao_pct.toFixed(1).replace(".",",") + '%</div>' +
+      '</div>';
+    });
+    return h + '</div>';
+  }
+
+  function animarBarras(){
+    requestAnimationFrame(function(){
+      var bs = document.querySelectorAll(".preenche");
+      for(var i = 0; i < bs.length; i++){
+        bs[i].style.width = bs[i].getAttribute("data-pct") + "%";
+      }
+    });
+  }
+
+  function montarFiltros(d){
+    var anos = d.anos_disponiveis || [];
+    el("anos").innerHTML = anos.map(function(a){
+      return '<button class="pill" data-ano="' + esc(a) + '" aria-pressed="' +
+        (Number(a) === d.ano) + '">' + esc(a) + '</button>';
+    }).join(" ");
+
+    var meses = d.meses_disponiveis || [];
+    var h = '<button class="pill" data-mes="0" aria-pressed="' + (d.mes == null) + '">Ano todo</button> ';
+    h += meses.map(function(m){
+      return '<button class="pill" data-mes="' + esc(m) + '" aria-pressed="' +
+        (Number(m) === d.mes) + '">' + MESES[Number(m) - 1] + '</button>';
+    }).join(" ");
+    el("meses-btn").innerHTML = h;
+    el("fila-meses").classList.toggle("oculto", meses.length === 0);
+
+    Array.prototype.forEach.call(document.querySelectorAll("[data-ano]"), function(b){
+      b.addEventListener("click", function(){ carregar(Number(b.getAttribute("data-ano")), null); });
+    });
+    Array.prototype.forEach.call(document.querySelectorAll("[data-mes]"), function(b){
+      b.addEventListener("click", function(){
+        var m = Number(b.getAttribute("data-mes"));
+        carregar(d.ano, m > 0 ? m : null);
+      });
+    });
+  }
+
+  function pintar(d){
+    var r = d.resumo;
+
+    var rotuloPeriodo = d.mes ? (MESES_LONGO[d.mes - 1] + " de " + d.ano) : ("ano " + d.ano);
+    el("periodo-titulo").textContent = rotuloPeriodo;
+    document.title = "Notinha · " + rotuloPeriodo;
+    el("fita-titulo").textContent = d.mes ? "Resumo do mês" : "Resumo do ano";
+
+    var nome = (d.cliente.nome || "").split(" ")[0];
+    el("sub").textContent = (nome ? nome + ", você" : "Você") +
+      " registrou " + r.notas + (r.notas === 1 ? " nota" : " notas") +
+      " e " + r.itens + (r.itens === 1 ? " item" : " itens") + ".";
+
+    el("total").textContent = brl.format(r.total);
+
+    var linhas = [
+      ["Notas enviadas", String(r.notas)],
+      ["Itens registrados", String(r.itens)],
+      ["Menor compra", brl.format(r.menor_compra)],
+      ["Maior compra", brl.format(r.maior_compra)]
+    ];
+    if(!d.mes && r.meses_com_gasto > 1){
+      linhas.push(["Média por mês com compra", brl.format(r.media_mensal)]);
+    }
+    el("resumo").innerHTML = linhas.map(function(l){
+      return '<li><span class="rot">' + esc(l[0]) + '</span><span class="pont"></span><span class="val">' + esc(l[1]) + '</span></li>';
+    }).join("");
+
+    montarFiltros(d);
+
+    var temPreco = (d.altas && d.altas.length) || (d.quedas && d.quedas.length);
+    el("sec-precos").classList.toggle("oculto", !temPreco);
+    if(temPreco){
+      el("altas").innerHTML = listaPrecos(d.altas, true);
+      el("quedas").innerHTML = listaPrecos(d.quedas, false);
+    }
+
+    if(d.mes){
+      el("titulo-tempo").textContent = "Dia a dia";
+      var dias = d.dias || [];
+      var maxDia = Math.max.apply(null, dias.map(function(x){ return x.total; }).concat([1]));
+      el("tempo").innerHTML = dias.length
+        ? dias.map(function(x){
+            return barra(dataBr(x.dia), (x.total / maxDia) * 100, brlCurto.format(x.total));
+          }).join("")
+        : '<p class="vazio">Nenhuma nota registrada neste mês.</p>';
+      el("nota-tempo").textContent = dias.length + (dias.length === 1 ? " dia" : " dias") + " com compra.";
+    } else {
+      el("titulo-tempo").textContent = "Mês a mês";
+      var maxMes = Math.max.apply(null, d.meses.concat([1]));
+      el("tempo").innerHTML = d.meses.map(function(v,i){
+        return barra(MESES[i], maxMes > 0 ? (v / maxMes) * 100 : 0,
+                     v > 0 ? brlCurto.format(v) : "—", v === 0);
+      }).join("");
+      el("nota-tempo").textContent = r.meses_com_gasto +
+        (r.meses_com_gasto === 1 ? " mês" : " meses") + " com notas registradas.";
+    }
+
+    var maxCat = d.categorias.length ? d.categorias[0].total : 1;
+    el("categorias").innerHTML = d.categorias.length
+      ? d.categorias.map(function(c){
+          return barra(c.nome, (c.total / maxCat) * 100,
+                       brlCurto.format(c.total) + "  " + c.pct.toFixed(0) + "%");
+        }).join("")
+      : '<p class="vazio">Sem categorias no período.</p>';
+
+    var rec = d.recorrentes || [];
+    el("sec-recorrentes").classList.toggle("oculto", rec.length === 0);
+    el("recorrentes").classList.remove("mostrar-tudo");
+    if(rec.length){
+      var maxRec = rec[0].gasto || 1;
+      el("recorrentes").innerHTML = rec.map(function(p, i){
+        var det = p.compras + (p.compras === 1 ? " compra" : " compras");
+        if(p.preco_ultimo != null){
+          det += " · última a " + brl.format(p.preco_ultimo) + unid(p.unidade);
+        }
+        return barraLarga(titulo(p.nome), det,
+          (p.gasto / maxRec) * 100, brl.format(p.gasto), i >= 10);
+      }).join("") + verMais(rec.length, "recorrentes");
+    }
+
+    var lojas = d.lojas || [];
+    var maxLoja = lojas.length ? lojas[0].total : 1;
+    el("lojas").classList.remove("mostrar-tudo");
+    el("lojas").innerHTML = lojas.length
+      ? lojas.map(function(l, i){
+          var det = l.visitas + (l.visitas === 1 ? " visita" : " visitas");
+          if(l.visitas > 1) det += " · de " + brl.format(l.menor) + " a " + brl.format(l.maior);
+          return barraLarga(titulo(l.nome), det, (l.total / maxLoja) * 100, brl.format(l.total), i >= 10);
+        }).join("") + verMais(lojas.length, "lojas")
+      : '<p class="vazio">Sem lojas no período.</p>';
+
+    Array.prototype.forEach.call(document.querySelectorAll(".ver-mais"), function(b){
+      b.addEventListener("click", function(){
+        el(b.getAttribute("data-alvo")).classList.add("mostrar-tudo");
+        animarBarras();
+      });
+    });
+
+    el("carregando").classList.add("oculto");
+    el("erro").classList.add("oculto");
+    el("painel").classList.remove("oculto");
+    animarBarras();
+  }
+
+  var DEMO = {"ok": true, "cliente": {"nome": "Ana"}, "ano": 2026, "mes": null, "anos_disponiveis": ["2026"], "meses_disponiveis": ["01", "02", "03", "04", "05", "06", "07", "08"], "resumo": {"total": 12888.32, "notas": 119, "itens": 523, "menor_compra": 8.42, "maior_compra": 327.0, "media_mensal": 1611.04, "meses_com_gasto": 8}, "meses": [1251.06, 1029.32, 1186.71, 2148.49, 2295.78, 2053.54, 1991.13, 932.29, 0.0, 0.0, 0.0, 0.0], "dias": [], "categorias": [{"nome": "Mercado", "total": 8207.28, "pct": 63.68}, {"nome": "Alimentação", "total": 2044.28, "pct": 15.86}, {"nome": "Vestuário", "total": 1165.18, "pct": 9.04}, {"nome": "Farmácia", "total": 449.94, "pct": 3.49}, {"nome": "Casa", "total": 314.09, "pct": 2.44}, {"nome": "Combustível", "total": 306.82, "pct": 2.38}, {"nome": "Transporte", "total": 248.54, "pct": 1.93}, {"nome": "Lazer", "total": 152.19, "pct": 1.18}], "lojas": [{"nome": "CIA BRASILEIRA DE DISTRIBUICAO", "total": 5158.15, "visitas": 48, "menor": 23.08, "maior": 213.35, "variantes": 3}, {"nome": "ATACADAO S A", "total": 1567.92, "visitas": 10, "menor": 71.16, "maior": 251.68, "variantes": 1}, {"nome": "SONDA SUPERMERCADOS", "total": 1119.23, "visitas": 8, "menor": 81.84, "maior": 237.61, "variantes": 2}, {"nome": "OUTBACK STEAKHOUSE RESTAURANTES BRASIL S A", "total": 1064.47, "visitas": 6, "menor": 106.73, "maior": 206.28, "variantes": 2}, {"nome": "HORTUS COMERCIO DE ALIMENTOS S A", "total": 893.12, "visitas": 9, "menor": 37.77, "maior": 177.27, "variantes": 1}, {"nome": "LOJAS RENNER S A", "total": 638.04, "visitas": 3, "menor": 142.99, "maior": 327.0, "variantes": 1}, {"nome": "LOJAS RIACHUELO S A", "total": 527.14, "visitas": 2, "menor": 237.5, "maior": 289.64, "variantes": 1}, {"nome": "MERCEARIA FONSECA", "total": 361.98, "visitas": 12, "menor": 8.42, "maior": 70.85, "variantes": 1}, {"nome": "SANTOS D RAIA DROGASIL SA", "total": 325.46, "visitas": 4, "menor": 41.94, "maior": 180.44, "variantes": 1}, {"nome": "ZELO", "total": 314.09, "visitas": 1, "menor": 314.09, "maior": 314.09, "variantes": 1}, {"nome": "AUTO POSTO ESPUMAS LTDA", "total": 306.82, "visitas": 2, "menor": 143.0, "maior": 163.82, "variantes": 1}, {"nome": "ECOVIAS IMIGRANTES SP160 KM32 SUL", "total": 248.54, "visitas": 6, "menor": 31.11, "maior": 47.87, "variantes": 1}, {"nome": "PANIFICADORA ROXY LTDA", "total": 152.19, "visitas": 4, "menor": 23.99, "maior": 50.52, "variantes": 1}, {"nome": "FARMA CONDE S A", "total": 124.48, "visitas": 1, "menor": 124.48, "maior": 124.48, "variantes": 1}, {"nome": "STARBUCKS BRASIL", "total": 86.69, "visitas": 3, "menor": 25.43, "maior": 33.41, "variantes": 1}], "recorrentes": [{"nome": "QUEIJO MUSSARELA", "compras": 17, "gasto": 952.09, "unidade": "kg", "preco_primeiro": 46.23, "preco_ultimo": 48.05, "pago_primeiro": null, "pago_ultimo": null, "data_primeiro": "2026-03-22", "data_ultimo": "2026-08-10", "variacao_pct": 3.94}, {"nome": "ARROZ TIPO 1 5KG", "compras": 14, "gasto": 760.7, "unidade": "kg", "preco_primeiro": 7.44, "preco_ultimo": 7.19, "pago_primeiro": 37.2, "pago_ultimo": 35.95, "data_primeiro": "2026-04-18", "data_ultimo": "2026-08-09", "variacao_pct": -3.36}, {"nome": "PATINHO BOVINO", "compras": 15, "gasto": 676.64, "unidade": "kg", "preco_primeiro": 42.6, "preco_ultimo": 46.17, "pago_primeiro": null, "pago_ultimo": null, "data_primeiro": "2026-01-18", "data_ultimo": "2026-08-06", "variacao_pct": 8.38}, {"nome": "PAPEL HIGIENICO 12UN", "compras": 18, "gasto": 659.11, "unidade": "un", "preco_primeiro": 25.13, "preco_ultimo": 26.64, "pago_primeiro": null, "pago_ultimo": null, "data_primeiro": "2026-02-07", "data_ultimo": "2026-08-08", "variacao_pct": 6.01}, {"nome": "CAFE TORRADO 500G", "compras": 11, "gasto": 550.1, "unidade": "kg", "preco_primeiro": 79.57, "preco_ultimo": 92.68, "pago_primeiro": 39.78, "pago_ultimo": 46.34, "data_primeiro": "2026-01-17", "data_ultimo": "2026-08-08", "variacao_pct": 16.48}, {"nome": "SABAO EM PO 1KG", "compras": 21, "gasto": 476.8, "unidade": "kg", "preco_primeiro": 15.15, "preco_ultimo": 15.87, "pago_primeiro": null, "pago_ultimo": null, "data_primeiro": "2026-01-17", "data_ultimo": "2026-08-08", "variacao_pct": 4.75}, {"nome": "OVOS BRANCOS 12UN", "compras": 18, "gasto": 390.8, "unidade": "un", "preco_primeiro": 15.71, "preco_ultimo": 16.01, "pago_primeiro": null, "pago_ultimo": null, "data_primeiro": "2026-01-17", "data_ultimo": "2026-07-05", "variacao_pct": 1.91}, {"nome": "FEIJAO CARIOCA 1KG", "compras": 20, "gasto": 336.5, "unidade": "kg", "preco_primeiro": 9.78, "preco_ultimo": 10.43, "pago_primeiro": null, "pago_ultimo": null, "data_primeiro": "2026-01-25", "data_ultimo": "2026-08-09", "variacao_pct": 6.65}, {"nome": "REFRIGERANTE COLA 2L", "compras": 19, "gasto": 331.88, "unidade": "L", "preco_primeiro": 4.99, "preco_ultimo": 4.76, "pago_primeiro": 9.98, "pago_ultimo": 9.52, "data_primeiro": "2026-02-05", "data_ultimo": "2026-08-09", "variacao_pct": -4.61}, {"nome": "TOMATE ITALIANO", "compras": 24, "gasto": 313.73, "unidade": "kg", "preco_primeiro": 9.71, "preco_ultimo": 8.64, "pago_primeiro": null, "pago_ultimo": null, "data_primeiro": "2026-01-11", "data_ultimo": "2026-08-08", "variacao_pct": -11.02}, {"nome": "SHAMPOO 350ML", "compras": 16, "gasto": 301.95, "unidade": "L", "preco_primeiro": 41.5, "preco_ultimo": 42.0, "pago_primeiro": 14.52, "pago_ultimo": 14.7, "data_primeiro": "2026-02-03", "data_ultimo": "2026-08-08", "variacao_pct": 1.2}, {"nome": "SUCO DE LARANJA 1L", "compras": 14, "gasto": 301.26, "unidade": "L", "preco_primeiro": 10.15, "preco_ultimo": 10.36, "pago_primeiro": null, "pago_ultimo": null, "data_primeiro": "2026-01-24", "data_ultimo": "2026-08-08", "variacao_pct": 2.07}, {"nome": "MACA FUJI", "compras": 18, "gasto": 298.91, "unidade": "kg", "preco_primeiro": 12.54, "preco_ultimo": 12.98, "pago_primeiro": null, "pago_ultimo": null, "data_primeiro": "2026-01-24", "data_ultimo": "2026-08-08", "variacao_pct": 3.51}, {"nome": "MANTEIGA COM SAL 200G", "compras": 14, "gasto": 292.56, "unidade": "kg", "preco_primeiro": 57.21, "preco_ultimo": 60.09, "pago_primeiro": 11.44, "pago_ultimo": 12.02, "data_primeiro": "2026-01-11", "data_ultimo": "2026-08-08", "variacao_pct": 5.03}, {"nome": "BANANA PRATA", "compras": 26, "gasto": 272.16, "unidade": "kg", "preco_primeiro": 7.87, "preco_ultimo": 8.73, "pago_primeiro": null, "pago_ultimo": null, "data_primeiro": "2026-01-18", "data_ultimo": "2026-08-09", "variacao_pct": 10.93}, {"nome": "PAO FRANCES", "compras": 11, "gasto": 241.75, "unidade": "kg", "preco_primeiro": 19.29, "preco_ultimo": 18.93, "pago_primeiro": null, "pago_ultimo": null, "data_primeiro": "2026-02-05", "data_ultimo": "2026-07-25", "variacao_pct": -1.87}, {"nome": "PEITO DE FRANGO", "compras": 12, "gasto": 241.31, "unidade": "kg", "preco_primeiro": 18.62, "preco_ultimo": 20.19, "pago_primeiro": null, "pago_ultimo": null, "data_primeiro": "2026-01-17", "data_ultimo": "2026-08-02", "variacao_pct": 8.43}, {"nome": "FARINHA DE TRIGO 1KG", "compras": 19, "gasto": 190.45, "unidade": "kg", "preco_primeiro": 5.69, "preco_ultimo": 5.88, "pago_primeiro": null, "pago_ultimo": null, "data_primeiro": "2026-01-11", "data_ultimo": "2026-08-05", "variacao_pct": 3.34}, {"nome": "ACUCAR REFINADO 1KG", "compras": 21, "gasto": 178.19, "unidade": "kg", "preco_primeiro": 4.68, "preco_ultimo": 5.14, "pago_primeiro": null, "pago_ultimo": null, "data_primeiro": "2026-02-01", "data_ultimo": "2026-08-06", "variacao_pct": 9.83}, {"nome": "OLEO DE SOJA 900ML", "compras": 13, "gasto": 173.55, "unidade": "L", "preco_primeiro": 7.9, "preco_ultimo": 7.91, "pago_primeiro": 7.11, "pago_ultimo": 7.12, "data_primeiro": "2026-02-01", "data_ultimo": "2026-07-05", "variacao_pct": 0.13}, {"nome": "CEBOLA NACIONAL", "compras": 26, "gasto": 156.77, "unidade": "kg", "preco_primeiro": 4.72, "preco_ultimo": 4.72, "pago_primeiro": null, "pago_ultimo": null, "data_primeiro": "2026-01-25", "data_ultimo": "2026-08-10", "variacao_pct": 0.0}, {"nome": "BATATA LAVADA", "compras": 20, "gasto": 153.56, "unidade": "kg", "preco_primeiro": 5.93, "preco_ultimo": 6.18, "pago_primeiro": null, "pago_ultimo": null, "data_primeiro": "2026-01-11", "data_ultimo": "2026-08-08", "variacao_pct": 4.22}, {"nome": "CERVEJA LATA 350ML", "compras": 23, "gasto": 140.1, "unidade": "L", "preco_primeiro": 10.3, "preco_ultimo": 11.26, "pago_primeiro": 3.6, "pago_ultimo": 3.94, "data_primeiro": "2026-01-11", "data_ultimo": "2026-08-10", "variacao_pct": 9.32}, {"nome": "LEITE INTEGRAL 1L", "compras": 14, "gasto": 125.74, "unidade": "L", "preco_primeiro": 5.13, "preco_ultimo": 5.35, "pago_primeiro": null, "pago_ultimo": null, "data_primeiro": "2026-01-18", "data_ultimo": "2026-08-02", "variacao_pct": 4.29}, {"nome": "MACARRAO ESPAGUETE 500G", "compras": 14, "gasto": 125.62, "unidade": "kg", "preco_primeiro": 11.22, "preco_ultimo": 11.78, "pago_primeiro": 5.61, "pago_ultimo": 5.89, "data_primeiro": "2026-01-11", "data_ultimo": "2026-08-08", "variacao_pct": 4.99}], "altas": [{"nome": "CAFE TORRADO 500G", "compras": 11, "gasto": 550.1, "unidade": "kg", "preco_primeiro": 79.57, "preco_ultimo": 92.68, "pago_primeiro": 39.78, "pago_ultimo": 46.34, "data_primeiro": "2026-01-17", "data_ultimo": "2026-08-08", "variacao_pct": 16.48}, {"nome": "BANANA PRATA", "compras": 26, "gasto": 272.16, "unidade": "kg", "preco_primeiro": 7.87, "preco_ultimo": 8.73, "pago_primeiro": null, "pago_ultimo": null, "data_primeiro": "2026-01-18", "data_ultimo": "2026-08-09", "variacao_pct": 10.93}, {"nome": "ACUCAR REFINADO 1KG", "compras": 21, "gasto": 178.19, "unidade": "kg", "preco_primeiro": 4.68, "preco_ultimo": 5.14, "pago_primeiro": null, "pago_ultimo": null, "data_primeiro": "2026-02-01", "data_ultimo": "2026-08-06", "variacao_pct": 9.83}, {"nome": "CERVEJA LATA 350ML", "compras": 23, "gasto": 140.1, "unidade": "L", "preco_primeiro": 10.3, "preco_ultimo": 11.26, "pago_primeiro": 3.6, "pago_ultimo": 3.94, "data_primeiro": "2026-01-11", "data_ultimo": "2026-08-10", "variacao_pct": 9.32}, {"nome": "SALGADINHO MILHO 40G", "compras": 19, "gasto": 83.73, "unidade": "kg", "preco_primeiro": 65.62, "preco_ultimo": 71.35, "pago_primeiro": 2.62, "pago_ultimo": 2.85, "data_primeiro": "2026-02-22", "data_ultimo": "2026-08-08", "variacao_pct": 8.73}, {"nome": "PEITO DE FRANGO", "compras": 12, "gasto": 241.31, "unidade": "kg", "preco_primeiro": 18.62, "preco_ultimo": 20.19, "pago_primeiro": null, "pago_ultimo": null, "data_primeiro": "2026-01-17", "data_ultimo": "2026-08-02", "variacao_pct": 8.43}, {"nome": "PATINHO BOVINO", "compras": 15, "gasto": 676.64, "unidade": "kg", "preco_primeiro": 42.6, "preco_ultimo": 46.17, "pago_primeiro": null, "pago_ultimo": null, "data_primeiro": "2026-01-18", "data_ultimo": "2026-08-06", "variacao_pct": 8.38}, {"nome": "FEIJAO CARIOCA 1KG", "compras": 20, "gasto": 336.5, "unidade": "kg", "preco_primeiro": 9.78, "preco_ultimo": 10.43, "pago_primeiro": null, "pago_ultimo": null, "data_primeiro": "2026-01-25", "data_ultimo": "2026-08-09", "variacao_pct": 6.65}, {"nome": "BISCOITO RECHEADO 130G", "compras": 16, "gasto": 112.69, "unidade": "kg", "preco_primeiro": 30.32, "preco_ultimo": 32.24, "pago_primeiro": 3.94, "pago_ultimo": 4.19, "data_primeiro": "2026-02-07", "data_ultimo": "2026-08-09", "variacao_pct": 6.33}, {"nome": "PAPEL HIGIENICO 12UN", "compras": 18, "gasto": 659.11, "unidade": "un", "preco_primeiro": 25.13, "preco_ultimo": 26.64, "pago_primeiro": null, "pago_ultimo": null, "data_primeiro": "2026-02-07", "data_ultimo": "2026-08-08", "variacao_pct": 6.01}], "quedas": [{"nome": "TOMATE ITALIANO", "compras": 24, "gasto": 313.73, "unidade": "kg", "preco_primeiro": 9.71, "preco_ultimo": 8.64, "pago_primeiro": null, "pago_ultimo": null, "data_primeiro": "2026-01-11", "data_ultimo": "2026-08-08", "variacao_pct": -11.02}, {"nome": "IOGURTE NATURAL 170G", "compras": 17, "gasto": 97.49, "unidade": "kg", "preco_primeiro": 24.22, "preco_ultimo": 22.87, "pago_primeiro": 4.12, "pago_ultimo": 3.89, "data_primeiro": "2026-01-17", "data_ultimo": "2026-08-02", "variacao_pct": -5.57}, {"nome": "REFRIGERANTE COLA 2L", "compras": 19, "gasto": 331.88, "unidade": "L", "preco_primeiro": 4.99, "preco_ultimo": 4.76, "pago_primeiro": 9.98, "pago_ultimo": 9.52, "data_primeiro": "2026-02-05", "data_ultimo": "2026-08-09", "variacao_pct": -4.61}, {"nome": "SABONETE 90G", "compras": 23, "gasto": 112.4, "unidade": "un", "preco_primeiro": 3.32, "preco_ultimo": 3.19, "pago_primeiro": null, "pago_ultimo": null, "data_primeiro": "2026-01-11", "data_ultimo": "2026-08-10", "variacao_pct": -3.92}, {"nome": "ARROZ TIPO 1 5KG", "compras": 14, "gasto": 760.7, "unidade": "kg", "preco_primeiro": 7.44, "preco_ultimo": 7.19, "pago_primeiro": 37.2, "pago_ultimo": 35.95, "data_primeiro": "2026-04-18", "data_ultimo": "2026-08-09", "variacao_pct": -3.36}, {"nome": "PAO FRANCES", "compras": 11, "gasto": 241.75, "unidade": "kg", "preco_primeiro": 19.29, "preco_ultimo": 18.93, "pago_primeiro": null, "pago_ultimo": null, "data_primeiro": "2026-02-05", "data_ultimo": "2026-07-25", "variacao_pct": -1.87}]};
+
+  function carregar(ano, mes){
+    el("carregando").classList.remove("oculto");
+    setTimeout(function(){ pintar(DEMO); }, 220);
+    return;
+
+  }
+
+  carregar(null, null);
+})();
+</script>
+</body>
+</html>
