@@ -363,8 +363,8 @@
       </section>
 
       <section class="bloco">
-        <h3>Para onde foi</h3>
-        <p class="nota">Somando o valor das notas por categoria.</p>
+        <h3>Gasto por categoria</h3>
+        <p class="nota" id="cat-nota"></p>
         <div class="barras" id="categorias"></div>
       </section>
 
@@ -585,14 +585,16 @@
     var nota = el("rosca-nota");
     if(sobrou){
       nota.className = "nota";
-      nota.textContent = "Cada fatia é a parte do que você recebeu no período que foi para aquela categoria.";
+      nota.textContent = "Os percentuais abaixo são sobre os " + brl.format(base) +
+        " que entraram no período — quanto de cada real recebido foi para cada categoria.";
     } else if(r.recebido > 0){
       nota.className = "nota alerta";
-      nota.textContent = "Cada fatia é a parte do total gasto. Neste período o gasto passou do que entrou em " +
-        brl.format(Math.abs(r.saldo)) + ".";
+      nota.textContent = "Os percentuais abaixo são sobre os " + brl.format(base) +
+        " gastos no período. O gasto passou do que entrou em " + brl.format(Math.abs(r.saldo)) + ".";
     } else {
       nota.className = "nota";
-      nota.textContent = "Cada fatia é a parte do total gasto no período. Registre seus recebimentos para ver quanto do que entra vai para cada categoria.";
+      nota.textContent = "Os percentuais abaixo são sobre os " + brl.format(base) +
+        " gastos no período. Registre seus recebimentos para ver quanto do que entra vai para cada categoria.";
     }
 
     // anel: circunferencia 2*pi*r, r=45 -> 282.74. o min() impede a volta.
@@ -765,6 +767,12 @@
     }
 
     var maxCat = d.categorias.length ? d.categorias[0].total : 1;
+    var baseRosca = d.resumo.recebido > 0 && d.resumo.saldo >= 0;
+    el("cat-nota").textContent = baseRosca
+      ? "Aqui a base é o total gasto (" + brl.format(d.resumo.total) +
+        "). No gráfico acima a base é o que entrou, por isso os percentuais são diferentes."
+      : "Quanto cada categoria representa dentro do total gasto (" + brl.format(d.resumo.total) + ").";
+
     el("categorias").innerHTML = d.categorias.length
       ? d.categorias.map(function(c){
           return barraLarga(c.nome,
