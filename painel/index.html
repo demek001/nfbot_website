@@ -89,11 +89,12 @@
     letter-spacing:-.01em;margin:0 0 4px;
   }
   .bloco p.nota{color:var(--escuro-fraco);font-size:13px;margin:0 0 16px;max-width:60ch}
+  .bloco p.nota.alerta{color:#e2695f}
 
   .barras{display:flex;flex-direction:column;gap:9px}
   .barra{display:grid;grid-template-columns:62px 1fr auto;align-items:center;gap:10px}
-  .barra .nome{font-family:"Space Mono",monospace;font-size:12px;color:var(--escuro-fraco);text-transform:uppercase;letter-spacing:.06em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .barra .trilho{background:#1a2029;border-radius:2px;height:22px;overflow:hidden}
+  .barra .nome{font-family:"Space Mono",monospace;font-size:12px;color:var(--escuro-fraco);text-transform:uppercase;letter-spacing:.06em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+  .barra .trilho{background:#1a2029;border-radius:2px;height:22px;overflow:hidden;min-width:0}
   .barra .preenche{background:var(--teal);height:100%;border-radius:2px;width:0;transition:width .7s cubic-bezier(.2,.8,.2,1)}
   .barra .cifra{font-family:"Space Mono",monospace;font-size:12.5px;font-weight:700;white-space:nowrap}
   .barra.vazia .nome,.barra.vazia .cifra{opacity:.35}
@@ -102,16 +103,76 @@
   .largo .nome{
     white-space:normal;text-transform:none;letter-spacing:0;
     font-family:"DM Sans",sans-serif;font-size:14.5px;color:var(--papel);
-    line-height:1.35;margin-bottom:2px;
+    line-height:1.35;margin-bottom:2px;min-width:0;
     display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
   }
   .largo .detalhe{
     font-family:"Space Mono",monospace;font-size:11.5px;color:var(--escuro-fraco);
-    margin-bottom:7px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+    margin-bottom:7px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;
   }
-  .largo .linha-b{display:grid;grid-template-columns:1fr auto;align-items:center;gap:10px}
+  .largo .linha-b{display:grid;grid-template-columns:1fr auto;align-items:center;gap:10px;min-width:0}
   .barra.extra{display:none}
   .mostrar-tudo .barra.extra{display:grid}
+
+  /* saldo */
+  .saldo{text-align:center;padding:16px 0 4px;border-top:1px dashed #c3caca;margin-top:16px}
+  .saldo .rot{font-family:"Space Mono",monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--tinta-fraca)}
+  .saldo .num{font-family:"Fraunces",Georgia,serif;font-weight:700;font-size:clamp(28px,8vw,38px);line-height:1.05;letter-spacing:-.02em;margin-top:3px}
+  .saldo .num.pos{color:#1d6f6e}
+  .saldo .num.neg{color:var(--carimbo)}
+  .saldo .exp{font-family:"Space Mono",monospace;font-size:11.5px;color:var(--tinta-fraca);margin-top:5px;line-height:1.55}
+  .dica{
+    margin:14px auto 0;max-width:38ch;text-align:left;
+    border:1px solid #b7c6c5;border-left:3px solid var(--teal);
+    background:#eef3f2;border-radius:3px;padding:11px 13px;
+    font-size:12.5px;line-height:1.5;color:#2a3538;
+  }
+  .dica b{color:#1d6f6e}
+
+  /* entrou x saiu */
+  .fluxo{display:flex;flex-direction:column;gap:12px}
+  .fx{display:grid;grid-template-columns:44px 1fr;gap:10px;align-items:center}
+  .fx .mes{font-family:"Space Mono",monospace;font-size:12px;color:var(--escuro-fraco);text-transform:uppercase;letter-spacing:.06em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+  .fx .par{display:flex;flex-direction:column;gap:3px;min-width:0}
+  .fx .lin{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;min-width:0}
+  .fx .tr{background:#1a2029;border-radius:2px;height:13px;overflow:hidden;min-width:0}
+  .fx .pr{height:100%;border-radius:2px;width:0;transition:width .7s cubic-bezier(.2,.8,.2,1)}
+  .fx .pr.ent{background:#3ea9a8}
+  .fx .pr.sai{background:#6b4f78}
+  .fx .vl{font-family:"Space Mono",monospace;font-size:11px;white-space:nowrap;min-width:76px;text-align:right}
+  .fx .vl.ent{color:#3ea9a8}
+  .fx .vl.sai{color:#a78bb8}
+  .fx.neg .mes{color:#e2695f}
+  .chaves{display:flex;gap:16px;margin-bottom:14px;font-family:"Space Mono",monospace;font-size:11px;color:var(--escuro-fraco)}
+  .chave{display:flex;align-items:center;gap:6px}
+  .pt{width:9px;height:9px;border-radius:2px;display:inline-block}
+  .pt.ent{background:#3ea9a8}
+  .pt.sai{background:#6b4f78}
+
+  /* rosca */
+  .rosca-wrap{display:flex;flex-direction:column;gap:18px;align-items:center;min-width:0}
+  .rosca{position:relative;width:min(210px,58vw);height:min(210px,58vw);aspect-ratio:1;flex:0 0 auto}
+  .rosca svg{transform:rotate(-90deg);display:block;width:100%;height:100%}
+  .rosca .centro{
+    position:absolute;inset:0;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;text-align:center;pointer-events:none;
+  }
+  .rosca .centro .lbl{font-family:"Space Mono",monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--escuro-fraco)}
+  .rosca .centro .big{font-family:"Fraunces",Georgia,serif;font-weight:700;font-size:clamp(16px,4.6vw,22px);line-height:1.1;margin-top:2px;padding:0 10%;white-space:nowrap}
+  .fatias{width:100%;display:flex;flex-direction:column;gap:0}
+  .fatia{display:grid;grid-template-columns:11px 1fr auto auto;gap:9px;align-items:center;padding:8px 0;border-bottom:1px solid var(--borda)}
+  .fatia:last-child{border-bottom:0}
+  .fatia .cor{width:11px;height:11px;border-radius:2px;flex:0 0 auto}
+  .fatia .nm{
+    font-size:13.5px;line-height:1.3;min-width:0;overflow:hidden;
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
+    overflow-wrap:anywhere;
+  }
+  .fatia .pc{font-family:"Space Mono",monospace;font-weight:700;font-size:12.5px;min-width:44px;text-align:right;white-space:nowrap}
+  .fatia .vl{font-family:"Space Mono",monospace;font-size:11.5px;color:var(--escuro-fraco);min-width:78px;text-align:right;white-space:nowrap}
+  .fatia.sobrou .nm{color:#3ea9a8}
+  .fatia.estouro .nm{color:#e2695f}
+
   .mostrar-tudo .ver-mais{display:none}
   .ver-mais{
     margin-top:12px;font-family:"Space Mono",monospace;font-weight:700;font-size:12px;
@@ -172,6 +233,23 @@
     .largo{grid-template-columns:1fr}
     .fita{padding:28px 16px}
     .pct{font-size:14px}
+    .fatia{gap:7px}
+    .fatia .vl{min-width:74px}
+    .linhas li{font-size:12px;gap:5px}
+  }
+  @media (max-width:360px){
+    .wrap{padding:20px 12px 48px}
+    .fita{padding:26px 13px}
+    .linhas li{font-size:11px}
+    .fatia{grid-template-columns:10px 1fr auto auto;gap:6px}
+    .fatia .nm{font-size:12.5px}
+    .fatia .pc{font-size:11.5px;min-width:40px}
+    .fatia .vl{font-size:10.5px;min-width:66px}
+    .fx{grid-template-columns:36px 1fr;gap:7px}
+    .fx .vl{min-width:64px;font-size:10.5px}
+    .barra{grid-template-columns:38px 1fr auto;gap:7px}
+    .barra .cifra{font-size:11.5px}
+    .rosca{width:min(210px,64vw);height:min(210px,64vw)}
   }
   @media (min-width:768px){
     .wrap{max-width:920px;padding:36px 28px 72px}
@@ -180,6 +258,9 @@
     .grade{display:grid;grid-template-columns:1fr 1fr;gap:0 44px;align-items:start}
     .grade > .bloco{margin-bottom:38px}
     .largura-total{grid-column:1 / -1}
+    .rosca-wrap{flex-direction:row;align-items:center;gap:40px}
+    .rosca{width:264px;height:264px}
+    .fatias{flex:1 1 auto}
   }
   @media (min-width:1180px){
     .wrap{max-width:1120px}
@@ -231,8 +312,39 @@
         </div>
         <hr class="serrilha">
         <ul class="linhas" id="resumo"></ul>
+        <div class="saldo" id="saldo-bloco">
+          <div class="rot" id="saldo-rot">Sobrou</div>
+          <div class="num" id="saldo-num"></div>
+          <div class="exp" id="saldo-exp"></div>
+          <div class="dica oculto" id="saldo-dica"></div>
+        </div>
       </section>
     </div>
+
+    <section class="bloco largura-total" id="sec-rosca">
+      <h3 id="rosca-titulo">Para onde foi o que você recebeu</h3>
+      <p class="nota" id="rosca-nota"></p>
+      <div class="rosca-wrap">
+        <div class="rosca">
+          <svg viewBox="0 0 120 120" width="210" height="210" id="rosca-svg" aria-hidden="true"></svg>
+          <div class="centro">
+            <div class="lbl" id="rosca-lbl">Recebido</div>
+            <div class="big" id="rosca-big"></div>
+          </div>
+        </div>
+        <div class="fatias" id="fatias"></div>
+      </div>
+    </section>
+
+    <section class="bloco largura-total" id="sec-fluxo">
+      <h3 id="fluxo-titulo">Entrou e saiu</h3>
+      <p class="nota" id="fluxo-nota"></p>
+      <div class="chaves">
+        <span class="chave"><i class="pt ent"></i> Recebido</span>
+        <span class="chave"><i class="pt sai"></i> Gasto</span>
+      </div>
+      <div class="fluxo" id="fluxo"></div>
+    </section>
 
     <section class="bloco largura-total" id="sec-precos">
       <h3>O que mudou de preço</h3>
@@ -400,9 +512,163 @@
     return h + '</div>';
   }
 
+  var CORES = ["#288A89","#6b4f78","#c1743c","#3ea9a8","#8b5a7c","#5c7c8a",
+               "#a85f4d","#4a7a5e","#94734a","#7a5c8f","#556f8a","#8a6f55"];
+
+  // acima deste percentual do que entrou, o painel convida a conferir
+  var LIMITE_DICA = 20;
+
+  function periodoEmAndamento(d){
+    var hoje = new Date();
+    var anoHoje = hoje.getFullYear(), mesHoje = hoje.getMonth() + 1;
+    if(d.mes) return d.ano === anoHoje && d.mes === mesHoje;
+    return d.ano === anoHoje;
+  }
+
+  function pintarSaldo(d){
+    var r = d.resumo;
+    var temEntrada = r.recebido > 0;
+    el("saldo-bloco").classList.toggle("oculto", !temEntrada);
+    if(!temEntrada) return;
+
+    var s = r.saldo;
+    el("saldo-rot").textContent = s >= 0 ? "Sobrou" : "Ficou no vermelho";
+    var num = el("saldo-num");
+    num.textContent = brl.format(Math.abs(s));
+    num.className = "num " + (s >= 0 ? "pos" : "neg");
+
+    var pct = r.recebido > 0 ? Math.abs(s) / r.recebido * 100 : 0;
+    var pctTxt = pct.toFixed(1).replace(".", ",");
+    el("saldo-exp").innerHTML = s >= 0
+      ? esc(pctTxt) + "% do que entrou<br>" +
+        esc(brl.format(r.recebido)) + " recebido − " + esc(brl.format(r.total)) + " gasto"
+      : "Gasto " + esc(pctTxt) + "% acima do que entrou<br>" +
+        esc(brl.format(r.recebido)) + " recebido − " + esc(brl.format(r.total)) + " gasto";
+
+    // convite a conferir: so faz sentido em periodo fechado e com folga relevante
+    var dica = el("saldo-dica");
+    var mostra = s > 0 && pct >= LIMITE_DICA && !periodoEmAndamento(d);
+    dica.classList.toggle("oculto", !mostra);
+    if(!mostra) return;
+
+    var quanto = pct >= 45 ? "quase metade" : (pct >= 28 ? "quase um terço" : "boa parte");
+    dica.innerHTML =
+      "<b>Sobrou " + esc(quanto) + " do que entrou.</b> Antes de comemorar, confere: " +
+      "faltou mandar alguma nota do período? O que não passou pela Notinha não entra nesta conta.<br><br>" +
+      "Se não faltou nada, sobraram <b>" + esc(brl.format(s)) + "</b> de verdade. " +
+      "Esse dinheiro vai continuar parado na conta?";
+  }
+
+  function pintarRosca(d){
+    var r = d.resumo;
+    el("sec-rosca").classList.toggle("oculto", d.categorias.length === 0);
+    if(d.categorias.length === 0) return;
+
+    // base do anel: so usa o recebido quando ele cobre o gasto. se gastou mais
+    // do que entrou, as fatias sobre a receita passariam de 100% e o anel daria
+    // a volta pintando por cima de si mesmo.
+    var sobrou = r.recebido > 0 && r.saldo >= 0;
+    var base = sobrou ? r.recebido : r.total;
+
+    var fatias = d.categorias.map(function(c, i){
+      return { nome: c.nome, valor: c.total, cor: CORES[i % CORES.length],
+               pct: base > 0 ? (c.total / base) * 100 : 0, tipo: "" };
+    });
+    if(sobrou && r.saldo > 0){
+      fatias.push({ nome: "Sobrou", valor: r.saldo, cor: "#1f2a33",
+                    pct: (r.saldo / base) * 100, tipo: "sobrou" });
+    }
+
+    el("rosca-titulo").textContent = sobrou
+      ? "Para onde foi o que você recebeu"
+      : "Para onde foi o seu dinheiro";
+    el("rosca-lbl").textContent = sobrou ? "Recebido" : "Gasto";
+    el("rosca-big").textContent = brlCurto.format(base);
+
+    var nota = el("rosca-nota");
+    if(sobrou){
+      nota.className = "nota";
+      nota.textContent = "Cada fatia é a parte do que você recebeu no período que foi para aquela categoria.";
+    } else if(r.recebido > 0){
+      nota.className = "nota alerta";
+      nota.textContent = "Cada fatia é a parte do total gasto. Neste período o gasto passou do que entrou em " +
+        brl.format(Math.abs(r.saldo)) + ".";
+    } else {
+      nota.className = "nota";
+      nota.textContent = "Cada fatia é a parte do total gasto no período. Registre seus recebimentos para ver quanto do que entra vai para cada categoria.";
+    }
+
+    // anel: circunferencia 2*pi*r, r=45 -> 282.74. o min() impede a volta.
+    var C = 2 * Math.PI * 45, off = 0, svg = "";
+    svg += '<circle cx="60" cy="60" r="45" fill="none" stroke="#141a22" stroke-width="17"></circle>';
+    fatias.forEach(function(f){
+      var comp = Math.max(0, Math.min(C - off, (f.pct / 100) * C));
+      if(comp <= 0) return;
+      svg += '<circle cx="60" cy="60" r="45" fill="none" stroke="' + f.cor +
+             '" stroke-width="17" stroke-dasharray="' + comp.toFixed(2) + ' ' + (C - comp).toFixed(2) +
+             '" stroke-dashoffset="' + (-off).toFixed(2) + '"></circle>';
+      off += comp;
+    });
+    el("rosca-svg").innerHTML = svg;
+
+    el("fatias").innerHTML = fatias.map(function(f){
+      return '<div class="fatia ' + f.tipo + '">' +
+        '<span class="cor" style="background:' + f.cor + '"></span>' +
+        '<span class="nm">' + esc(f.nome) + '</span>' +
+        '<span class="pc">' + f.pct.toFixed(1).replace(".", ",") + '%</span>' +
+        '<span class="vl">' + esc(brl.format(f.valor)) + '</span>' +
+      '</div>';
+    }).join("");
+  }
+
+  function pintarFluxo(d){
+    var ent = d.meses_entrada || [];
+    var temEntrada = d.resumo.recebido > 0;
+    el("sec-fluxo").classList.toggle("oculto", !temEntrada);
+    if(!temEntrada) return;
+
+    var linhas, maxV = 1, rotulos;
+    if(d.mes){
+      var mapaG = {}, mapaE = {};
+      (d.dias || []).forEach(function(x){ mapaG[x.dia] = x.total; });
+      (d.dias_entrada || []).forEach(function(x){ mapaE[x.dia] = x.total; });
+      var chaves = Object.keys(mapaG).concat(Object.keys(mapaE))
+        .filter(function(v, i, a){ return a.indexOf(v) === i; }).sort();
+      rotulos = chaves.map(dataBr);
+      linhas = chaves.map(function(k){ return { e: mapaE[k] || 0, g: mapaG[k] || 0 }; });
+      el("fluxo-titulo").textContent = "Entrou e saiu, dia a dia";
+    } else {
+      rotulos = MESES;
+      linhas = d.meses.map(function(g, i){ return { e: ent[i] || 0, g: g }; });
+      el("fluxo-titulo").textContent = "Entrou e saiu, mês a mês";
+    }
+
+    linhas.forEach(function(l){ maxV = Math.max(maxV, l.e, l.g); });
+
+    var negativos = linhas.filter(function(l){ return l.e > 0 && l.g > l.e; }).length;
+    el("fluxo-nota").textContent = negativos === 0
+      ? "Em todo o período você gastou menos do que recebeu."
+      : negativos + (negativos === 1 ? " período" : " períodos") + " em que o gasto passou do que entrou.";
+
+    var h = "";
+    linhas.forEach(function(l, i){
+      if(l.e === 0 && l.g === 0) return;
+      var neg = l.e > 0 && l.g > l.e;
+      h += '<div class="fx' + (neg ? " neg" : "") + '">' +
+        '<div class="mes">' + esc(rotulos[i]) + '</div>' +
+        '<div class="par">' +
+          '<div class="lin"><div class="tr"><div class="pr ent" data-pct="' + (l.e / maxV * 100) + '"></div></div>' +
+            '<div class="vl ent">' + (l.e > 0 ? esc(brlCurto.format(l.e)) : "—") + '</div></div>' +
+          '<div class="lin"><div class="tr"><div class="pr sai" data-pct="' + (l.g / maxV * 100) + '"></div></div>' +
+            '<div class="vl sai">' + (l.g > 0 ? esc(brlCurto.format(l.g)) : "—") + '</div></div>' +
+        '</div></div>';
+    });
+    el("fluxo").innerHTML = h;
+  }
+
   function animarBarras(){
     requestAnimationFrame(function(){
-      var bs = document.querySelectorAll(".preenche");
+      var bs = document.querySelectorAll(".preenche, .pr");
       for(var i = 0; i < bs.length; i++){
         bs[i].style.width = bs[i].getAttribute("data-pct") + "%";
       }
@@ -457,12 +723,19 @@
       ["Menor compra", brl.format(r.menor_compra)],
       ["Maior compra", brl.format(r.maior_compra)]
     ];
+    if(r.recebido > 0){
+      linhas.unshift(["Recebido", brl.format(r.recebido)]);
+    }
     if(!d.mes && r.meses_com_gasto > 1){
-      linhas.push(["Média por mês com compra", brl.format(r.media_mensal)]);
+      linhas.push(["Média mensal", brl.format(r.media_mensal)]);
     }
     el("resumo").innerHTML = linhas.map(function(l){
       return '<li><span class="rot">' + esc(l[0]) + '</span><span class="pont"></span><span class="val">' + esc(l[1]) + '</span></li>';
     }).join("");
+
+    pintarSaldo(d);
+    pintarRosca(d);
+    pintarFluxo(d);
 
     montarFiltros(d);
 
