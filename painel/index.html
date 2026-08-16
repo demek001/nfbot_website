@@ -770,8 +770,9 @@
     var maxCat = d.categorias.length ? d.categorias[0].total : 1;
     el("categorias").innerHTML = d.categorias.length
       ? d.categorias.map(function(c){
-          return barra(c.nome, (c.total / maxCat) * 100,
-                       brlCurto.format(c.total) + "  " + c.pct.toFixed(0) + "%");
+          return barraLarga(c.nome,
+            c.pct.toFixed(1).replace(".", ",") + "% do total gasto",
+            (c.total / maxCat) * 100, brl.format(c.total));
         }).join("")
       : '<p class="vazio">Sem categorias no período.</p>';
 
