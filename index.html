@@ -581,7 +581,105 @@
   .social a { display:inline-flex; align-items:center; justify-content:center; width:38px; height:38px; border:1px solid var(--border); border-radius:50%; color:var(--muted); text-decoration:none; margin:0; transition:color .2s ease, border-color .2s ease; }
   .social a:hover { color:var(--brand); border-color:var(--brand); }
   .social svg { width:18px; height:18px; fill:currentColor; display:block; }
+
+  /* ---------- PLANOS ---------- */
+  .planos-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    max-width: 760px;
+    margin: 0 auto;
+    align-items: stretch;
+  }
+  .plano-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 32px 28px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .plano-card.destaque { border-color: var(--brand); }
+  .plano-tag {
+    position: absolute;
+    top: -12px;
+    left: 28px;
+    padding: 4px 12px;
+    background: var(--brand);
+    color: #fff;
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .plano-nome {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 22px;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .plano-preco {
+    font-family: 'Fraunces', serif;
+    font-weight: 800;
+    font-size: 34px;
+    color: var(--accent);
+    letter-spacing: -0.02em;
+    margin-bottom: 22px;
+  }
+  .plano-preco span { font-size: 15px; font-weight: 400; color: var(--muted); letter-spacing: 0; }
+  .plano-card ul { list-style: none; margin: 0 0 28px; padding: 0; flex: 1; }
+  .plano-card li {
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.5;
+    padding: 8px 0 8px 26px;
+    position: relative;
+  }
+  .plano-card li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--brand);
+    font-weight: 700;
+  }
+  .plano-card .cta { justify-content: center; width: 100%; }
+  @media (max-width: 720px) {
+    .planos-grid { grid-template-columns: 1fr; gap: 28px; }
+    .plano-card { padding: 28px 22px; }
+    .plano-preco { font-size: 30px; }
+  }
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "Notinha",
+  "description": "Controle de gastos pelo WhatsApp. Você manda foto da nota fiscal e o gasto aparece item por item na sua própria planilha, no seu Google Drive.",
+  "brand": { "@type": "Brand", "name": "Notinha" },
+  "url": "https://usenotinha.com.br/#planos",
+  "offers": [
+    {
+      "@type": "Offer",
+      "name": "Plano Pleno",
+      "price": "14.90",
+      "priceCurrency": "BRL",
+      "url": "https://usenotinha.com.br/assinar/",
+      "availability": "https://schema.org/InStock"
+    },
+    {
+      "@type": "Offer",
+      "name": "Plano Premium",
+      "price": "44.90",
+      "priceCurrency": "BRL",
+      "url": "https://usenotinha.com.br/assinar/",
+      "availability": "https://schema.org/InStock"
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
@@ -594,6 +692,7 @@
     <nav>
       <a href="#como-funciona">Como funciona</a>
       <a href="#por-que">Por que</a>
+      <a href="#planos">Planos</a>
       <a href="blog/">Caderninho</a>
       <a href="#faq">Dúvidas</a>
     </nav>
@@ -603,10 +702,9 @@
 <!-- HERO -->
 <section class="hero">
   <div class="wrap">
-    <div class="badge">● Lançamento em 31/08 · Lista de espera aberta</div>
     <h1>Foto da nota.<br>Relatório <em>na hora</em>.</h1>
-    <p class="lead">Notinha está chegando: você manda foto da nota fiscal no WhatsApp e seu controle financeiro se organiza sozinho. Entre na lista de espera e ganhe um presente no lançamento.</p>
-    <a href="#lista" class="cta">Garantir minha vaga →</a>
+    <p class="lead">Você manda foto da nota fiscal no WhatsApp e seus gastos aparecem item por item na sua própria planilha. Sem baixar aplicativo. Sem senha de banco.</p>
+    <a href="#planos" class="cta">Quero começar →</a>
     <div><a href="#como-funciona" class="cta-secondary">ver como funciona</a></div>
   </div>
 </section>
@@ -652,8 +750,8 @@
     </div>
 
     <div style="text-align: center; margin-top: 48px;">
-      <p style="color: var(--muted); font-size: 15px; margin-bottom: 18px;">Quem entra agora ganha um presente.</p>
-      <a href="#lista" class="cta">Entrar na lista →</a>
+      <p style="color: var(--muted); font-size: 15px; margin-bottom: 18px;">Custa menos que um lanche por mês. Comece pela próxima nota que você guardar no bolso.</p>
+      <a href="#planos" class="cta">Ver planos →</a>
     </div>
   </div>
 </section>
@@ -667,29 +765,29 @@
     <div class="compare">
       <div class="compare-card">
         <span class="compare-tag">Hoje você usa: planilha</span>
-        <h3>Sai da digitação manual</h3>
-        <p class="compare-problem">Você abre a planilha, digita item por item, esquece de atualizar por uma semana, perde o controle e acaba parando.</p>
+        <h3>Sua planilha tira 24h por semana da sua vida</h3>
+        <p class="compare-problem">Você perde um dia por semana digitando e conferindo item a item, nota por nota, extrato por extrato. Perde tempo com você mesmo, com a sua família e com os amigos.</p>
         <div class="compare-divider"></div>
         <div class="compare-arrow">Com Notinha</div>
-        <p class="compare-solution">Foto da nota. Tudo digitado, categorizado e somado automaticamente para você — sem precisar lembrar de nada.</p>
+        <p class="compare-solution">A gente te devolve o tempo perdido. Você continua contabilizando seus gastos, agora direto no WhatsApp, com as fotos salvas no seu Google Drive.</p>
       </div>
 
       <div class="compare-card">
         <span class="compare-tag">Hoje você usa: app de finanças</span>
-        <h3>Sem mais um app pra abrir</h3>
-        <p class="compare-problem">Mais um app pra baixar, mais um cadastro, mais uma senha. Pede acesso ao seu banco e exige que você abra todo dia pra atualizar.</p>
+        <h3>Aplicativos consomem ainda mais tempo</h3>
+        <p class="compare-problem">Mais tempo tentando entender um aplicativo novo, às vezes nada intuitivo. Configurando conexões com o banco que você nem sabe por que precisam existir.</p>
         <div class="compare-divider"></div>
         <div class="compare-arrow">Com Notinha</div>
-        <p class="compare-solution">Dentro do WhatsApp que você já usa. Não pede senha de banco. Funciona quando você manda a foto — não quando lembra de abrir.</p>
+        <p class="compare-solution">Você usa o que já conhece. Manda a nota fiscal pelo WhatsApp e pronto — sem precisar aprender um sistema novo.</p>
       </div>
 
       <div class="compare-card">
         <span class="compare-tag">Hoje você usa: app do banco</span>
-        <h3>Vê o que o extrato não mostra</h3>
-        <p class="compare-problem">O extrato mostra "MERCADO XYZ — R$ 287,40" e pronto. Você não sabe o que comprou, em que categoria entra, nem tem a nota guardada.</p>
+        <h3>O extrato te mostra metade da verdade</h3>
+        <p class="compare-problem">O extrato só mostra o total: "Pão de Açúcar — R$ 356,79", "Assaí — R$ 560,50". Você sabe onde comprou aquele café e quanto pagou nele?</p>
         <div class="compare-divider"></div>
         <div class="compare-arrow">Com Notinha</div>
-        <p class="compare-solution">Item por item da nota, categorizado, com foto arquivada no seu Drive. Inclusive a forma de pagamento.</p>
+        <p class="compare-solution">Você sabe quanto pagou em cada item. Item por item da nota, categorizado, com a foto arquivada no seu Google Drive. Até o preço daquele café.</p>
       </div>
     </div>
   </div>
@@ -734,63 +832,41 @@
   </div>
 </section>
 
-<!-- LISTA DE ESPERA -->
-<section id="lista">
+<!-- PLANOS -->
+<section id="planos">
   <div class="wrap">
-    <div class="lista-box">
-      <span class="lista-tag">Acesso antecipado</span>
-      <h2>Garanta seu lugar no lançamento</h2>
-      <p class="sub" style="margin-bottom: 0;">Notinha está em fase final de testes. Cadastre-se na lista de espera e seja avisado assim que abrir.</p>
+    <h2>Escolha seu plano</h2>
+    <p class="sub">Sem aplicativo pra baixar. Sem senha de banco. Cancele quando quiser.</p>
 
-      <div class="bonus">
-        <p><strong>Bônus exclusivo da lista:</strong> ganhe um presente ao se cadastrar.</p>
+    <div class="planos-grid">
+      <div class="plano-card">
+        <div class="plano-nome">Pleno</div>
+        <div class="plano-preco">R$ 14,90<span>/mês</span></div>
+        <ul>
+          <li>Acompanhamento de gastos no WhatsApp</li>
+          <li>Notas fiscais e planilhas mensais organizadas no seu Google Drive</li>
+          <li>Correção rápida de categoria pelo próprio WhatsApp</li>
+          <li>Registro de gasto por escrito, quando não tiver nota</li>
+          <li>Resumo do mês atual</li>
+          <li>Link da planilha de qualquer mês</li>
+        </ul>
+        <a href="/assinar/?plano=base" class="cta">Assinar o Pleno →</a>
       </div>
 
-      <form class="lista-form" id="lista-form" onsubmit="enviarLista(event)" novalidate>
-        <label>
-          Seu melhor e-mail *
-          <input type="email" name="email" required autocomplete="email" placeholder="voce@email.com">
-        </label>
-
-        <label>
-          Tem um código de indicação? (opcional)
-          <input type="text" name="indicado_por" id="lista-ref" autocomplete="off" maxlength="6" placeholder="Ex.: A2B3C4" style="text-transform: uppercase;">
-        </label>
-
-        <label>
-          Seu WhatsApp (opcional)
-          <input type="tel" name="telefone" id="lista-tel" autocomplete="tel" placeholder="11 9-9999-9999">
-        </label>
-
-        <label>
-          Nome (opcional)
-          <input type="text" name="nome" autocomplete="given-name" placeholder="Seu nome">
-        </label>
-
-        <label>
-          Sobrenome (opcional)
-          <input type="text" name="sobrenome" autocomplete="family-name" placeholder="Seu sobrenome">
-        </label>
-
-        <input type="text" name="website" class="honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
-
-        <div class="checkbox-row">
-          <input type="checkbox" name="aceite" id="aceite" required>
-          <label for="aceite" style="font-size: 13px; color: var(--muted);">
-            Concordo em receber e-mails e mensagens do Notinha e li a <a href="privacidade.html">Política de Privacidade</a>.
-          </label>
-        </div>
-
-        <button type="submit" id="lista-submit">Quero ser avisado →</button>
-
-        <div class="lista-msg" id="lista-msg"></div>
-      </form>
-
-      <div class="lista-sucesso" id="lista-sucesso">
-        <div class="check">✓</div>
-        <h3 id="lista-sucesso-h">Você está na lista!</h3>
-        <p id="lista-sucesso-p">A gente te avisa por e-mail e WhatsApp assim que o Notinha abrir.</p>
-        <a href="blog/">Enquanto isso, visite o Caderninho →</a>
+      <div class="plano-card destaque">
+        <span class="plano-tag">Mais completo</span>
+        <div class="plano-nome">Premium</div>
+        <div class="plano-preco">R$ 44,90<span>/mês</span></div>
+        <ul>
+          <li>Tudo do plano Pleno</li>
+          <li>Dashboard interativo pra ver no computador, tablet ou celular</li>
+          <li>Insights da semana, comparando com a semana anterior</li>
+          <li>Relatório mensal em PDF, com as fotos das notas e a tabela do mês</li>
+          <li>Comparação de preço por produto: onde saiu mais barato e onde subiu</li>
+          <li>Os produtos em que você mais gastou no mês</li>
+          <li>Acesso antecipado às funcionalidades novas</li>
+        </ul>
+        <a href="/assinar/?plano=premium" class="cta">Assinar o Premium →</a>
       </div>
     </div>
   </div>
@@ -847,8 +923,8 @@
       <details>
         <summary>O que o Notinha pode fazer por mim?</summary>
         <p>Bastante coisa — e tudo dentro do WhatsApp. Manda <strong>"menu"</strong> a qualquer momento pra ver a lista de comandos.</p>
-        <p><strong>No plano Base:</strong> mandar a foto da nota pra organizar automaticamente; registrar gasto por texto (<em>"gastei 50 mercado"</em>); registrar recebimento (<em>"recebi 500 consulta"</em>); ver o <strong>resumo</strong> do mês com gasto, recebido e saldo; <strong>top produtos</strong> e <strong>top lojas</strong>; saber se um produto subiu ou caiu de preço (<em>"preço café"</em>); pegar o link da sua <strong>planilha</strong>; e pedir <strong>suporte</strong>.</p>
-        <p><strong>No plano Premium:</strong> tudo do Base, mais o <strong>relatório em PDF</strong> do mês e <strong>insights automáticos</strong> toda semana — onde você gastou mais, alertas de preço e tendências dos seus produtos.</p>
+        <p><strong>No plano Pleno:</strong> mandar a foto da nota pra organizar automaticamente; registrar gasto por texto (<em>"gastei 50 mercado"</em>); registrar recebimento (<em>"recebi 500 consulta"</em>); ver o <strong>resumo</strong> do mês com gasto, recebido e saldo; <strong>top produtos</strong> e <strong>top lojas</strong>; saber se um produto subiu ou caiu de preço (<em>"preço café"</em>); pegar o link da sua <strong>planilha</strong>; e pedir <strong>suporte</strong>.</p>
+        <p><strong>No plano Premium:</strong> tudo do Pleno, mais o <strong>relatório em PDF</strong> do mês e <strong>insights automáticos</strong> toda semana — onde você gastou mais, alertas de preço e tendências dos seus produtos.</p>
       </details>
       <details>
         <summary>Como tirar uma boa foto da nota?</summary>
@@ -904,7 +980,7 @@
 <footer>
   <div class="wrap">
     <div class="footer-cta">
-      <a href="#lista" class="cta">Entrar na lista de espera →</a>
+      <a href="#planos" class="cta">Ver planos →</a>
     </div>
     <div class="links">
       <a href="blog/">Caderninho</a>
@@ -973,151 +1049,6 @@ function cookieEssenciais(){ localStorage.setItem('cookieConsent','essential'); 
     });
   }, { threshold: 0.5 });
   io.observe(v);
-})();
-</script>
-
-<!-- Lista de espera -> Supabase -->
-<script>
-const SUPABASE_URL = 'https://xpzjwlhrlebdpcybxaxu.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inhwemp3bGhybGViZHBjeWJ4YXh1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4MzAyMzQsImV4cCI6MjA5MzQwNjIzNH0.rR-XrG-cjdNtj7gYc6SuGxnudOXAGaIy52u3qofXJxM';
-
-async function enviarLista(e) {
-  e.preventDefault();
-  const form = document.getElementById('lista-form');
-  const btn = document.getElementById('lista-submit');
-  const msg = document.getElementById('lista-msg');
-  const sucesso = document.getElementById('lista-sucesso');
-
-  msg.textContent = '';
-  msg.className = 'lista-msg';
-
-  // honeypot: bot preencheu campo invisível
-  if (form.website.value) { sucesso.style.display = 'block'; form.style.display = 'none'; return; }
-
-  const email = form.email.value.trim().toLowerCase();
-  const telefone = form.telefone.value.replace(/\D/g, '');
-  const nome = form.nome.value.trim();
-  const sobrenome = form.sobrenome.value.trim();
-  const aceite = form.aceite.checked;
-
-  if (!email) {
-    msg.textContent = 'Preencha o e-mail.';
-    msg.className = 'lista-msg erro';
-    return;
-  }
-  if (!aceite) {
-    msg.textContent = 'Você precisa aceitar a Política de Privacidade.';
-    msg.className = 'lista-msg erro';
-    return;
-  }
-
-  btn.disabled = true;
-  btn.textContent = 'Enviando...';
-
-  // Captura parâmetros de campanha (Google Ads, orgânico, etc)
-  const _params = new URLSearchParams(location.search);
-  let _utmSource = (_params.get('utm_source') || '').trim().slice(0, 100);
-  let _gclid = (_params.get('gclid') || '').trim().slice(0, 200);
-  try {
-    if (!_gclid) _gclid = (sessionStorage.getItem('notinha_gclid') || '').slice(0, 200);
-    if (!_utmSource) _utmSource = (sessionStorage.getItem('notinha_utm_source') || '').slice(0, 100);
-  } catch(e) {}
-  // Define origem real: se veio do Google Ads (gclid ou utm_source=google), marca como tal
-  let _origem = 'site';
-  if (_gclid || _utmSource === 'google') _origem = 'google_ads';
-  else if (_utmSource) _origem = _utmSource;
-
-  const payload = {
-    email: email,
-    telefone: telefone || null,
-    nome: (nome + ' ' + sobrenome).trim() || null,
-    origem: _origem,
-    user_agent: navigator.userAgent.substring(0, 500),
-    referrer: document.referrer || null
-  };
-
-  // Código de indicação: só entra no payload se for válido (6 chars, sem 0/O/1/I/L)
-  const indicadoPor = (form.indicado_por.value || '').trim().toUpperCase();
-  if (/^[A-Z2-9]{6}$/.test(indicadoPor)) payload.indicado_por = indicadoPor;
-
-  try {
-    const res = await fetch(SUPABASE_URL + '/rest/v1/leads_interesse', {
-      method: 'POST',
-      headers: {
-        'apikey': SUPABASE_ANON_KEY,
-        'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
-        'Content-Type': 'application/json',
-        'Prefer': 'return=minimal'
-      },
-      body: JSON.stringify(payload)
-    });
-
-    if (res.status === 201 || res.status === 200 || res.status === 204) {
-      form.style.display = 'none';
-      sucesso.style.display = 'block';
-      if (typeof gtag !== 'undefined') {
-        gtag('event', 'signup_created', { method: 'lista_espera' });
-        gtag('event', 'lead_captured', { method: 'lista_espera' });
-        gtag('event', 'conversion', { send_to: 'AW-18331471265/OS6BCP70uNUcEKGbkKVE', value: 1.0, currency: 'BRL' });
-      }
-    } else if (res.status === 409) {
-      // email duplicado: trata como sucesso, com mensagem ajustada
-      document.getElementById('lista-sucesso-h').textContent = 'Você já está na lista!';
-      document.getElementById('lista-sucesso-p').textContent = 'Não precisa cadastrar de novo. A gente te avisa no lançamento.';
-      form.style.display = 'none';
-      sucesso.style.display = 'block';
-    } else {
-      const erro = await res.text();
-      console.error('Supabase erro:', res.status, erro);
-      throw new Error('Erro ao enviar');
-    }
-  } catch (err) {
-    msg.textContent = 'Ops, deu erro. Tenta de novo daqui a pouco.';
-    msg.className = 'lista-msg erro';
-    btn.disabled = false;
-    btn.textContent = 'Quero ser avisado →';
-  }
-}
-
-/* Persiste gclid/utm_source em sessionStorage no carregamento, pra
-   sobreviver à navegação antes do cadastro (mesmo padrão do ?ref=). */
-(function(){
-  try {
-    var p = new URLSearchParams(location.search);
-    var g = (p.get('gclid') || '').trim().slice(0, 200);
-    var u = (p.get('utm_source') || '').trim().slice(0, 100);
-    if (g) sessionStorage.setItem('notinha_gclid', g);
-    if (u) sessionStorage.setItem('notinha_utm_source', u);
-  } catch(e) {}
-})();
-
-/* Captura do ?ref= (link de indicação): preenche o campo e guarda em
-   sessionStorage pra sobreviver à navegação antes do cadastro. */
-(function(){
-  var campo = document.getElementById('lista-ref');
-  if (!campo) return;
-  var ref = (new URLSearchParams(location.search).get('ref') || '').trim().toUpperCase();
-  if (!/^[A-Z2-9]{6}$/.test(ref)) ref = '';
-  try {
-    if (ref) sessionStorage.setItem('notinha_ref', ref);
-    else ref = (sessionStorage.getItem('notinha_ref') || '').trim().toUpperCase();
-  } catch (e) {}
-  if (/^[A-Z2-9]{6}$/.test(ref)) campo.value = ref;
-})();
-</script>
-
-<script>
-/* Máscara WhatsApp — formato 11 9-9999-9999 (lista de espera) */
-(function(){
-  function mascaraTel(v){
-    v=(v||'').replace(/\D/g,'').slice(0,11);
-    if(v.length<=2) return v;
-    if(v.length<=3) return v.slice(0,2)+' '+v.slice(2);
-    if(v.length<=7) return v.slice(0,2)+' '+v.slice(2,3)+'-'+v.slice(3);
-    return v.slice(0,2)+' '+v.slice(2,3)+'-'+v.slice(3,7)+'-'+v.slice(7);
-  }
-  var t = document.getElementById('lista-tel');
-  if (t) t.addEventListener('input', function(){ this.value = mascaraTel(this.value); });
 })();
 </script>
 </body>
