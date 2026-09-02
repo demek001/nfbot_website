@@ -32,6 +32,25 @@
   gtag('config', 'AW-18331471265');
 </script>
 
+<!-- Notinha · atribuição persistente (gclid/utm) entre páginas -->
+<script>
+(function(){
+  var K=['gclid','gbraid','wbraid','utm_source','utm_medium','utm_campaign','utm_term','utm_content'];
+  try{
+    var p=new URLSearchParams(location.search);
+    K.forEach(function(k){
+      var v=(p.get(k)||'').trim().slice(0,200);
+      if(v) sessionStorage.setItem('notinha_'+k,v);
+    });
+  }catch(e){}
+  window.notinhaAtrib=function(){
+    var o={};
+    try{ K.forEach(function(k){ var v=sessionStorage.getItem('notinha_'+k); if(v) o[k]=v; }); }catch(e){}
+    return o;
+  };
+})();
+</script>
+
 <title>Assinar o Notinha — controle de gastos pelo WhatsApp</title>
 <meta name="description" content="Crie sua conta no Notinha. Você manda foto da nota fiscal no WhatsApp e o gasto aparece item por item na sua própria planilha.">
 <link rel="canonical" href="https://usenotinha.com.br/assinar/">
@@ -358,6 +377,20 @@
   // URL da Edge Function de onboarding
   const ONBOARDING_URL = "https://xpzjwlhrlebdpcybxaxu.supabase.co/functions/v1/onboarding";
 
+  // ── Funil Notinha ────────────────────────────────────────────
+  // TROCAR quando a ação "Assinatura iniciada" existir no Google Ads:
+  const ADS_ASSINATURA = "AW-18331471265/OS6BCP70uNUcEKGbkKVE";
+  const PRECO = { base: 14.90, premium: 44.90 };
+  const NOME  = { base: "Pleno", premium: "Premium" };
+  function ev(n, p) { if (typeof gtag === "function") gtag("event", n, p || {}); }
+  function planoAtual() {
+    var el = document.querySelector('input[name="plano"]:checked');
+    return el ? el.value : "base";
+  }
+  function itemPlano(pl) {
+    return { item_id: pl, item_name: NOME[pl], price: PRECO[pl], quantity: 1 };
+  }
+
   // plano vindo da URL (?plano=premium)
   (function(){
     try {
@@ -376,7 +409,16 @@
       document.querySelectorAll(".plano").forEach((p) => p.classList.remove("sel"));
       el.classList.add("sel");
       el.querySelector("input").checked = true;
+      ev("select_item", {
+        item_list_id: "checkout", item_list_name: "Checkout Notinha",
+        currency: "BRL", items: [itemPlano(el.querySelector("input").value)]
+      });
     });
+  });
+
+  // chegou no checkout
+  ev("begin_checkout", {
+    currency: "BRL", value: PRECO[planoAtual()], items: [itemPlano(planoAtual())]
   });
 
   const form = document.getElementById("form");
@@ -423,9 +465,33 @@
       if (j.payment_url) { document.getElementById("link-pagar").href = j.payment_url; }
       else { document.getElementById("link-pagar").parentElement.style.display = "none"; }
       document.getElementById("link-drive").href = j.oauth_url;
-      if (typeof gtag !== "undefined") {
-        gtag("event", "signup_created", { method: "checkout" });
-        gtag("event", "conversion", { send_to: "AW-18331471265/OS6BCP70uNUcEKGbkKVE", value: 1.0, currency: "BRL" });
+      const _pl = dados.plano;
+      ev("signup_created", { method: "checkout", plano: _pl });
+      ev("sign_up", { method: "checkout", plano: _pl });
+      ev("add_to_cart", {
+        currency: "BRL", value: PRECO[_pl], transaction_id: String(j.cliente_id || ""),
+        items: [itemPlano(_pl)]
+      });
+      ev("conversion", {
+        send_to: ADS_ASSINATURA, value: PRECO[_pl], currency: "BRL",
+        transaction_id: String(j.cliente_id || "")
+      });
+
+      // clique em "Pagar agora" → última etapa medível no site
+      var _pagar = document.getElementById("link-pagar");
+      if (_pagar) {
+        _pagar.addEventListener("click", function () {
+          ev("add_payment_info", {
+            currency: "BRL", value: PRECO[_pl], payment_type: "asaas",
+            transaction_id: String(j.cliente_id || ""), items: [itemPlano(_pl)]
+          });
+        }, { once: true });
+      }
+      var _drive = document.getElementById("link-drive");
+      if (_drive) {
+        _drive.addEventListener("click", function () {
+          ev("drive_conectar", { plano: _pl, transaction_id: String(j.cliente_id || "") });
+        }, { once: true });
       }
     } catch (err) {
       erro.textContent = "Erro de conexão. Tente novamente.";
