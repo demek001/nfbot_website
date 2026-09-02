@@ -37,6 +37,25 @@
   gtag('config', 'AW-18331471265');
 </script>
 
+<!-- Notinha · atribuição persistente (gclid/utm) entre páginas -->
+<script>
+(function(){
+  var K=['gclid','gbraid','wbraid','utm_source','utm_medium','utm_campaign','utm_term','utm_content'];
+  try{
+    var p=new URLSearchParams(location.search);
+    K.forEach(function(k){
+      var v=(p.get(k)||'').trim().slice(0,200);
+      if(v) sessionStorage.setItem('notinha_'+k,v);
+    });
+  }catch(e){}
+  window.notinhaAtrib=function(){
+    var o={};
+    try{ K.forEach(function(k){ var v=sessionStorage.getItem('notinha_'+k); if(v) o[k]=v; }); }catch(e){}
+    return o;
+  };
+})();
+</script>
+
 <title>Notinha — Controle financeiro pelo WhatsApp</title>
 <meta name="description" content="Mande foto da nota fiscal no WhatsApp. Notinha organiza tudo, salva no seu Drive e gera relatório dos seus gastos automaticamente.">
 <meta property="og:title" content="Notinha — Controle financeiro pelo WhatsApp">
@@ -1049,6 +1068,55 @@ function cookieEssenciais(){ localStorage.setItem('cookieConsent','essential'); 
     });
   }, { threshold: 0.5 });
   io.observe(v);
+})();
+</script>
+<!-- Notinha · funil de conversão -->
+<script>
+(function(){
+  var PRECO={base:14.90,premium:44.90}, NOME={base:'Pleno',premium:'Premium'};
+  function ev(n,p){ if(typeof gtag==='function') gtag('event',n,p||{}); }
+
+  // 1) chegou nos planos (topo do carrinho)
+  var sec=document.getElementById('planos');
+  if(sec && 'IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(!e.isIntersecting) return;
+        io.disconnect();
+        ev('view_item_list',{
+          item_list_id:'planos', item_list_name:'Planos Notinha', currency:'BRL',
+          items:[
+            {item_id:'base',item_name:'Pleno',price:PRECO.base,index:1,quantity:1},
+            {item_id:'premium',item_name:'Premium',price:PRECO.premium,index:2,quantity:1}
+          ]
+        });
+      });
+    },{threshold:0.3});
+    io.observe(sec);
+  }
+
+  // 2) clique em "Quero começar" / "Ver planos"
+  Array.prototype.forEach.call(document.querySelectorAll('a[href="#planos"]'),function(a){
+    a.addEventListener('click',function(){
+      var box=a.closest('section,header,footer');
+      ev('cta_planos',{
+        cta_texto:(a.textContent||'').replace(/\s+/g,' ').trim(),
+        cta_local:(box && (box.id || box.tagName.toLowerCase())) || 'desconhecido'
+      });
+    });
+  });
+
+  // 3) clique em "Assinar o Pleno" / "Assinar o Premium"
+  Array.prototype.forEach.call(document.querySelectorAll('a[href^="/assinar/"]'),function(a){
+    a.addEventListener('click',function(){
+      var m=(a.getAttribute('href')||'').match(/plano=(base|premium)/);
+      var pl=m?m[1]:'base';
+      ev('select_item',{
+        item_list_id:'planos', item_list_name:'Planos Notinha', currency:'BRL',
+        items:[{item_id:pl,item_name:NOME[pl],price:PRECO[pl],quantity:1}]
+      });
+    });
+  });
 })();
 </script>
 </body>
