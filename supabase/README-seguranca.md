@@ -61,10 +61,11 @@ cadastro novo. `conta` tem que sair junto com `processar-fila`, senão a troca
 de número trava.
 
 ## Pendências
-- **`TURNSTILE_SECRET` já criada no Supabase.** Falta a **sitekey nova** do widget
-  para substituir `0x4AAAAAADg8XhQoJhpFcb5w` em `assinar/index.html` e
-  `contato/index.html`. A `conta.html` fica com a sitekey antiga — aquela pertence
-  ao Supabase Auth. Depois de validar nos logs, setar `TURNSTILE_MODO=estrito`.
+- **Turnstile**: `TURNSTILE_SECRET` criada no Supabase. Widget "Notinha — formulários
+  públicos", sitekey `0x4AAAAAAEmLqsLsblMemLoi`, já aplicada em `assinar/index.html`
+  e `contato/index.html`. A `conta.html` segue com `0x4AAAAAADg8XhQoJhpFcb5w`, que
+  pertence ao widget do Supabase Auth — não mexer. `TURNSTILE_MODO` sem valor
+  (permissivo) até os logs confirmarem que os tokens chegam; depois `estrito`.
 - **`emails-recuperacao` v4** monta `state: clienteId` em `linkOauthDrive` (e-mail R3).
   Depois do passo 4, esse link vira `erro=link`. Só afeta cliente pagante ativado
   sem Drive — hoje, ninguém. Corrigir antes do primeiro cliente nessa situação.
