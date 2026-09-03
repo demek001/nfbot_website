@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
 <!-- Google Consent Mode v2: padrão negado até o usuário consentir -->
 <script>
@@ -219,6 +220,8 @@
 
   .honeypot { position: absolute; left: -9999px; opacity: 0; pointer-events: none; }
 
+  .turn { display: flex; justify-content: center; margin: 6px 0 2px; }
+  #contato-submit[disabled] { opacity: .55; cursor: not-allowed; }
   .form-msg { font-size: 14px; padding: 4px 0 0; color: var(--muted); }
   .form-msg.erro { color: var(--danger); }
 
@@ -361,7 +364,9 @@
           </label>
         </div>
 
-        <button type="submit" id="contato-submit">Enviar mensagem →</button>
+        <div class="turn cf-turnstile" data-sitekey="0x4AAAAAADg8XhQoJhpFcb5w" data-callback="onTurnContato" data-expired-callback="onTurnContatoExp" data-error-callback="onTurnContatoExp"></div>
+
+        <button type="submit" id="contato-submit" disabled>Enviar mensagem →</button>
 
         <div class="form-msg" id="contato-msg"></div>
       </form>
@@ -457,8 +462,27 @@ function cookieEssenciais(){ localStorage.setItem('cookieConsent','essential'); 
 
 <!-- Envio: Supabase (primário) + Zoho Forms (redundância) -->
 <script>
-const SUPABASE_URL = 'https://xpzjwlhrlebdpcybxaxu.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inhwemp3bGhybGViZHBjeWJ4YXh1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4MzAyMzQsImV4cCI6MjA5MzQwNjIzNH0.rR-XrG-cjdNtj7gYc6SuGxnudOXAGaIy52u3qofXJxM';
+const CONTATO_URL = 'https://xpzjwlhrlebdpcybxaxu.supabase.co/functions/v1/contato';
+
+// Turnstile: o botão só libera quando o desafio devolve o token.
+var turnContato = '';
+window.onTurnContato = function (t) {
+  turnContato = t || '';
+  var b = document.getElementById('contato-submit');
+  if (b) b.disabled = !turnContato;
+};
+window.onTurnContatoExp = function () {
+  turnContato = '';
+  var b = document.getElementById('contato-submit');
+  if (b) b.disabled = true;
+};
+function resetTurnContato() {
+  turnContato = '';
+  var b = document.getElementById('contato-submit');
+  if (b) b.disabled = true;
+  if (window.turnstile) window.turnstile.reset();
+}
+
 async function enviarContato(e){
   e.preventDefault();
   const form = document.getElementById('contato-form');
@@ -504,35 +528,31 @@ async function enviarContato(e){
     origem_url: window.location.href,
     indicado_por: p.get('ref') || null,
     user_agent: navigator.userAgent.substring(0,500),
-    referrer: document.referrer || null
+    referrer: document.referrer || null,
+    turnstile: turnContato
   };
 
   try {
-    const res = await fetch(SUPABASE_URL + '/rest/v1/mensagens_contato', {
+    const res = await fetch(CONTATO_URL, {
       method: 'POST',
-      headers: {
-        'apikey': SUPABASE_ANON_KEY,
-        'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
-        'Content-Type': 'application/json',
-        'Prefer': 'return=minimal'
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     });
 
-    if (res.status === 201 || res.status === 200 || res.status === 204) {
+    if (res.ok) {
       form.style.display = 'none';
       sucesso.style.display = 'block';
       if (typeof gtag !== 'undefined') { gtag('event', 'contato_enviado', { method: 'site_contato' }); }
     } else {
       const erro = await res.text();
-      console.error('Supabase erro:', res.status, erro);
+      console.error('contato erro:', res.status, erro);
       throw new Error('Erro ao enviar');
     }
   } catch (err) {
     msg.textContent = 'Ops, deu erro. Tenta de novo daqui a pouco ou escreva pra suporte@usenotinha.com.br.';
     msg.className = 'form-msg erro';
-    btn.disabled = false;
     btn.textContent = 'Enviar mensagem →';
+    resetTurnContato();
   }
 }
 </script>
