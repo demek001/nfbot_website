@@ -56,9 +56,15 @@ function json(req: Request, obj: unknown, status = 200) {
   return new Response(JSON.stringify(obj), { status, headers: { ...cors(req), "Content-Type": "application/json" } });
 }
 
+// Ordem importa: atrás do Worker da Cloudflare o x-forwarded-for vira o IP do
+// proxy e o rate limit passaria a bloquear todo mundo junto.
 function ipDaReq(req: Request): string {
+  const real = (req.headers.get("x-real-ip") ?? "").trim();
+  if (real) return real;
+  const cf = (req.headers.get("cf-connecting-ip") ?? "").trim();
+  if (cf) return cf;
   const xff = req.headers.get("x-forwarded-for") ?? "";
-  return (xff.split(",")[0] ?? "").trim() || req.headers.get("cf-connecting-ip") || "desconhecido";
+  return (xff.split(",")[0] ?? "").trim() || "desconhecido";
 }
 
 // Turnstile: valida o token do formulário. Devolve true/false.

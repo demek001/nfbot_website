@@ -10,6 +10,25 @@ Drive conectado, 147 / 68 / 36 / 11 notas.
 - `ativacao_rate_hit()`, `signup_rate_hit()`, `purgar_webhook_events_desconhecidos()`
 - Cron `purga-webhook-desconhecidos` às 03:20 UTC
 
+## Fase A2 — aplicada (fecha o que a Fase A abriu)
+- `ativacao_tentativas` e `signup_tentativas` nasceram sem RLS na Fase A. Corrigido:
+  RLS ligado, sem policy, e `revoke all` de `anon`/`authenticated`.
+- `ativacao_rate_hit`, `signup_rate_hit`, `painel_rate_hit` e
+  `purgar_webhook_events_desconhecidos` tinham EXECUTE herdado de `PUBLIC`.
+  Revogado de `PUBLIC`; `service_role` mantido por grant explícito.
+- Conferido: nenhuma tabela do schema `public` está sem RLS.
+- Baseline do §3 rodada depois: idêntica.
+
+**Regra do protocolo, daqui em diante:** toda tabela nova em `public` nasce com
+`enable row level security` na mesma migration; toda função `security definer`
+nasce com `revoke execute ... from public` e `grant execute ... to service_role`.
+
+### F3 — pendente, premissa da spec estava errada
+`leads_interesse` tem a policy `leads_interesse_insert_only` (anon, authenticated,
+INSERT). A spec diz que o formulário saiu, mas `oferta-51e6138a.html` ainda faz
+`POST /rest/v1/leads_interesse` com a chave anon. Dropar a policy quebra essa
+página. Depende da decisão do D.3.
+
 ## Deployado
 - `codigo-ativacao` v1 (`verify_jwt = false`) — função nova, não afeta fluxo existente
 
@@ -41,9 +60,10 @@ cadastro novo. `conta` tem que sair junto com `processar-fila`, senão a troca
 de número trava.
 
 ## Pendências
-- **Secret `TURNSTILE_SECRET`** ainda não criada. Sem ela, `onboarding` e
-  `contato` logam falha e deixam passar (modo permissivo). Depois de criada e
-  validada nos logs, setar `TURNSTILE_MODO=estrito`.
+- **`TURNSTILE_SECRET` já criada no Supabase.** Falta a **sitekey nova** do widget
+  para substituir `0x4AAAAAADg8XhQoJhpFcb5w` em `assinar/index.html` e
+  `contato/index.html`. A `conta.html` fica com a sitekey antiga — aquela pertence
+  ao Supabase Auth. Depois de validar nos logs, setar `TURNSTILE_MODO=estrito`.
 - **`emails-recuperacao` v4** monta `state: clienteId` em `linkOauthDrive` (e-mail R3).
   Depois do passo 4, esse link vira `erro=link`. Só afeta cliente pagante ativado
   sem Drive — hoje, ninguém. Corrigir antes do primeiro cliente nessa situação.
