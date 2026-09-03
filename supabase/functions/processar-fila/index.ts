@@ -1105,14 +1105,39 @@ async function tratarCorrecaoData(cliente: any, phoneNumberId: string, from: str
   }
   return "applied";
 }
+// Mensagem única para toda recusa de ativação: código inexistente, já usado,
+// expirado, de conta ativa em outro número ou número já vinculado. Diferenciar
+// os casos transformaria o bot em oráculo de códigos válidos.
+const MSG_ATIVACAO_RECUSADA = "Código inválido ou expirado. Confira o link do seu cadastro ou fale com a gente em usenotinha.com.br/contato.";
+const ATIVACAO_JANELA_MS = 30 * 24 * 60 * 60 * 1000; // 30 dias
+const ATIVACAO_MAX_HORA = 5;
 async function tentarAtivar(phoneNumberId: string, from: string, texto: string): Promise<boolean> {
   const m = texto.trim().match(/^ativar\s+([a-z0-9]+)/i);
   if (!m) return false;
   const codigo = m[1].toUpperCase();
-  const achados = await sbSelect(`clientes?codigo_ativacao=eq.${codigo}&select=id,nome,ativado`);
-  if (!achados || achados.length === 0) { await enviarWhats(phoneNumberId, from, "Codigo de ativacao invalido. Confira o link enviado no seu cadastro."); return true; }
-  const c = achados[0];
-  await sbPatch(`clientes?id=eq.${c.id}`, { telefone: from, ativado: true, ativado_em: new Date().toISOString() });
+  const recusar = async () => { await enviarWhats(phoneNumberId, from, MSG_ATIVACAO_RECUSADA); return true; };
+
+  // 1) rate limit por número, antes de qualquer consulta a clientes
+  const tentativas = await sbRpc("ativacao_rate_hit", { p_telefone: from });
+  if (typeof tentativas === "number" && tentativas > ATIVACAO_MAX_HORA) return await recusar();
+
+  const achados = await sbSelect(`clientes?codigo_ativacao=eq.${codigo}&select=id,nome,ativado,telefone,codigo_usado_em,codigo_gerado_em`);
+  const c = achados?.[0];
+
+  // 2) código inexistente, já queimado ou fora da janela de 30 dias
+  if (!c) return await recusar();
+  if (c.codigo_usado_em) return await recusar();
+  if (c.codigo_gerado_em && (Date.now() - new Date(c.codigo_gerado_em).getTime()) > ATIVACAO_JANELA_MS) return await recusar();
+
+  // 3) conta ativa não muda de número por aqui — a troca legítima passa pela
+  //    função `conta`, que zera ativado/codigo_usado_em antes de dar o código novo
+  if (c.ativado === true && c.telefone && c.telefone !== from) return await recusar();
+
+  // 4) este número já pertence a outro cliente
+  const outro = await sbSelect(`clientes?telefone=eq.${from}&id=neq.${c.id}&select=id&limit=1`);
+  if (Array.isArray(outro) && outro.length > 0) return await recusar();
+
+  await sbPatch(`clientes?id=eq.${c.id}`, { telefone: from, ativado: true, ativado_em: new Date().toISOString(), codigo_usado_em: new Date().toISOString() });
   await enviarWhats(phoneNumberId, from, `🎉 Tudo pronto${c.nome ? ", " + c.nome.split(" ")[0] : ""}! Sua conta esta ativa. Manda a foto ou PDF das suas notas que eu organizo no seu Drive.`);
   return true;
 }

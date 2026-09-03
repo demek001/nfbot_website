@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
 <!-- Consent Mode v2 (antes do gtag.js) -->
 <script>
@@ -198,6 +199,7 @@
   .cta:hover:not(:disabled) { background: var(--brand-hover); transform: translateY(-1px); }
   .cta:disabled { opacity: 0.6; cursor: not-allowed; }
 
+  .turn { display: flex; justify-content: center; margin: 18px 0 4px; }
   .msg { font-size: 14px; padding-top: 12px; color: var(--muted); text-align: center; }
   .msg.erro { color: var(--danger); }
 
@@ -332,7 +334,9 @@
           <a href="/privacidade.html" target="_blank" rel="noopener">Política de Privacidade</a>.</span>
         </div>
 
-        <button type="submit" class="cta" id="enviar">Criar conta →</button>
+        <div class="turn cf-turnstile" data-sitekey="0x4AAAAAADg8XhQoJhpFcb5w" data-callback="onTurnCadastro" data-expired-callback="onTurnExpirado" data-error-callback="onTurnExpirado"></div>
+
+        <button type="submit" class="cta" id="enviar" disabled>Criar conta →</button>
         <div class="msg" id="erro"></div>
       </form>
 
@@ -421,6 +425,27 @@
     currency: "BRL", value: PRECO[planoAtual()], items: [itemPlano(planoAtual())]
   });
 
+  // Turnstile: o botão só libera quando o desafio devolve o token.
+  var turnToken = "";
+  window.onTurnCadastro = function (t) {
+    turnToken = t || "";
+    var b = document.getElementById("enviar");
+    if (b) b.disabled = !turnToken;
+  };
+  window.onTurnExpirado = function () {
+    turnToken = "";
+    var b = document.getElementById("enviar");
+    if (b) b.disabled = true;
+  };
+
+  // Token do Turnstile é de uso único: falhou o envio, refaz o desafio.
+  function resetTurn() {
+    turnToken = "";
+    var b = document.getElementById("enviar");
+    if (b) b.disabled = true;
+    if (window.turnstile) window.turnstile.reset();
+  }
+
   const form = document.getElementById("form");
   const erro = document.getElementById("erro");
   const btn  = document.getElementById("enviar");
@@ -438,6 +463,7 @@
       nascimento: document.getElementById("nascimento").value || null,
       plano: document.querySelector('input[name="plano"]:checked').value,
       consent: document.getElementById("consent").checked,
+      turnstile: turnToken,
     };
 
     if (!dados.nome || !dados.cpf || !dados.email || !dados.whatsapp || !dados.consent) {
@@ -458,6 +484,7 @@
         erro.textContent = "Não foi possível criar a conta. (" + (j.error || r.status) + ")";
         erro.className = "msg erro";
         btn.disabled = false; btn.textContent = "Criar conta →";
+        resetTurn();
         return;
       }
       form.style.display = "none";
@@ -497,6 +524,7 @@
       erro.textContent = "Erro de conexão. Tente novamente.";
       erro.className = "msg erro";
       btn.disabled = false; btn.textContent = "Criar conta →";
+      resetTurn();
     }
   });
 </script>

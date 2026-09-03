@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+<script>
+  // Captura o token de ativação do fragment e limpa a URL antes de qualquer
+  // script de analytics ler location.href.
+  window.__t = (location.hash.match(/[#&]t=([^&]+)/) || [])[1] || "";
+  if (window.__t) history.replaceState(null, "", location.pathname);
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
@@ -92,10 +98,9 @@
 <script>
   const BOT_WHATSAPP = "5513996286090";
   const params = new URLSearchParams(location.search);
-  const code = params.get("code");
-  const email = params.get("email");
   const erro = params.get("erro");
   const box = document.getElementById("box");
+  const CODIGO_URL = "https://xpzjwlhrlebdpcybxaxu.supabase.co/functions/v1/codigo-ativacao";
 
   const ERROS = {
     cancelado: "Você cancelou a autorização do Google. Sem isso, o Notinha não consegue guardar suas notas no seu Drive.",
@@ -104,23 +109,53 @@
     inesperado: "Algo deu errado por aqui. Tente novamente em instantes.",
   };
 
-  if (code) {
-    const wa = "https://wa.me/" + BOT_WHATSAPP + "?text=" + encodeURIComponent("ATIVAR " + code);
+  function esc(v) {
+    return String(v).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+
+  function sucesso(codigo, email, wa) {
     box.innerHTML =
       '<div class="check">&#10003;</div>' +
       '<h1>Drive conectado!</h1>' +
       '<p>Criamos a pasta <b>Notinha</b> e a planilha no seu Google Drive' +
-        (email ? ' (<b>' + email + '</b>)' : '') + '.</p>' +
+        (email ? ' (<b>' + esc(email) + '</b>)' : '') + '.</p>' +
       '<p>Último passo: toque no botão e <b>envie a mensagem</b> que abrir, pra ativar seu WhatsApp.</p>' +
-      '<a class="cta" href="' + wa + '">Ativar no WhatsApp →</a>' +
-      '<div class="codigo">Código de ativação: <b>' + code + '</b></div>';
-  } else {
-    const msg = ERROS[erro] || ERROS.inesperado;
+      '<a class="cta" href="' + esc(wa) + '">Ativar no WhatsApp →</a>' +
+      '<div class="codigo">Código de ativação: <b>' + esc(codigo) + '</b></div>';
+  }
+
+  function falha(chave) {
     box.innerHTML =
       '<div class="check err">!</div>' +
       '<h1>Não deu pra conectar</h1>' +
-      '<p>' + msg + '</p>' +
+      '<p>' + (ERROS[chave] || ERROS.inesperado) + '</p>' +
       '<a class="cta" href="index.html">Voltar ao início →</a>';
+  }
+
+  // Fluxo novo: token de uso único no fragment, trocado pelo código no servidor.
+  // Fallback: ?code= do formato antigo, pra quem já estava no meio do fluxo.
+  const codeLegado = params.get("code");
+
+  if (window.__t) {
+    box.innerHTML = '<h1>Conectando…</h1><p>Só um instante.</p>';
+    fetch(CODIGO_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ t: window.__t }),
+    })
+      .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+      .then(function (j) {
+        sucesso(j.codigo, j.email, j.wa_url ||
+          "https://wa.me/" + BOT_WHATSAPP + "?text=" + encodeURIComponent("ATIVAR " + j.codigo));
+      })
+      .catch(function () { falha("link"); });
+  } else if (codeLegado) {
+    sucesso(codeLegado, params.get("email"),
+      "https://wa.me/" + BOT_WHATSAPP + "?text=" + encodeURIComponent("ATIVAR " + codeLegado));
+  } else {
+    falha(erro);
   }
 </script>
 
