@@ -118,7 +118,7 @@ async function sbInsert(table: string, body: unknown) {
   const j = await r.json();
   return Array.isArray(j) ? j[0] : j;
 }
-// ── State opaco do OAuth: uso único, 30 min, resolvido pelo oauth-callback ──
+// ── State opaco do OAuth: uso único, resolvido pelo oauth-callback ──
 async function sha256hex(v: string): Promise<string> {
   const b = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(v));
   return Array.from(new Uint8Array(b)).map((x) => x.toString(16).padStart(2, "0")).join("");

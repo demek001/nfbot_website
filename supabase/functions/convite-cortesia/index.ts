@@ -90,7 +90,7 @@ async function gerarCodigoUnico(): Promise<string | null> {
   return null;
 }
 
-// ── State opaco do OAuth: uso único, 30 min, resolvido pelo oauth-callback ──
+// ── State opaco do OAuth: uso único, resolvido pelo oauth-callback ──
 async function sha256hex(s: string): Promise<string> {
   const b = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s));
   return Array.from(new Uint8Array(b)).map((x) => x.toString(16).padStart(2, "0")).join("");
