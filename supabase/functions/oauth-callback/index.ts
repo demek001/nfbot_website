@@ -90,7 +90,8 @@ Deno.serve(async (req) => {
   if (!code || !state) return redir("erro=link");
 
   try {
-    // 0) valida o state pela tabela (uso único, 30 min)
+    // 0) valida o state pela tabela: precisa existir, estar dentro da validade
+    //    que quem criou definiu, e nunca ter sido usado
     const clienteId = await resolverState(state);
     if (!clienteId) return redir("erro=link");
 

@@ -34,6 +34,8 @@ a policy `leads_interesse_insert_only` foi dropada e o INSERT revogado de
 - `codigo-ativacao` v1 (`verify_jwt = false`) — função nova, não afeta fluxo existente
 - `contato` v1 (`verify_jwt = false`) — deployada isolada, antes do merge, para o
   formulário não ficar morto entre o merge e o deploy
+- `onboarding` v16, `convite-cortesia` v5, `emails-recuperacao` v6 e
+  `oauth-callback` v19 — deployados juntos: separar quebraria cadastro novo
 - Branch mesclada em `main` (merge `284f8d2`): publica `conectado.html` com os dois
   formatos, o widget Turnstile em `assinar/` e `contato/`, o `contato/` chamando a
   função nova, e remove as duas páginas órfãs
