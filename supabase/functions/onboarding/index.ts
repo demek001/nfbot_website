@@ -97,6 +97,19 @@ async function signupRateHit(ip: string): Promise<number | null> {
   }
 }
 
+// Asaas 4xx = dado que o cliente digitou (CPF inválido, e-mail malformado).
+// A descrição vem pronta e legível — repassa. 5xx e resposta sem corpo são
+// falha de infraestrutura, aí sim 502.
+function erroAsaas(res: Response, data: any): { status: number; body: Record<string, unknown> } {
+  const desc = data?.errors?.[0]?.description;
+  const code = data?.errors?.[0]?.code ?? null;
+  if (desc && res.status >= 400 && res.status < 500) {
+    // `error` carrega a frase porque é o campo que a página de cadastro exibe
+    return { status: 400, body: { error: String(desc), error_code: "dados_invalidos", asaas_code: code } };
+  }
+  return { status: 502, body: { error: "asaas_indisponivel", error_code: "infra", detalhe: data } };
+}
+
 async function sbInsert(table: string, body: unknown) {
   const r = await fetch(`${SUPABASE_URL}/rest/v1/${table}`, {
     method: "POST", headers: sbHeaders({ Prefer: "return=representation" }), body: JSON.stringify(body),
@@ -115,11 +128,15 @@ function novoToken(): string {
   crypto.getRandomValues(b);
   return btoa(String.fromCharCode(...b)).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
 }
-async function criarState(clienteId: string): Promise<string | null> {
+// O default da tabela é 30 minutos, que serve para um clique imediato no
+// navegador. Link que viaja por e-mail precisa de janela maior, senão chega
+// morto — por isso a validade é sempre explícita aqui.
+async function criarState(clienteId: string, horas: number): Promise<string | null> {
   const t = novoToken();
+  const expira = new Date(Date.now() + horas * 3600 * 1000).toISOString();
   const r = await fetch(`${SUPABASE_URL}/rest/v1/oauth_states`, {
     method: "POST", headers: sbHeaders(),
-    body: JSON.stringify({ state_hash: await sha256hex(t), cliente_id: clienteId }),
+    body: JSON.stringify({ state_hash: await sha256hex(t), cliente_id: clienteId, expira_em: expira }),
   });
   if (!r.ok) { console.error("oauth_states insert", await r.text()); return null; }
   return t;
@@ -178,7 +195,11 @@ Deno.serve(async (req) => {
       body: JSON.stringify({ name: nome, cpfCnpj: cpf, email, mobilePhone: tel.slice(2), externalReference: cli.id }),
     });
     const cust = await custRes.json();
-    if (!cust.id) { console.error("asaas customer", JSON.stringify(cust)); return json(req, { error: "asaas_customer", detalhe: cust }, 502); }
+    if (!cust.id) {
+      console.error("asaas customer", custRes.status, JSON.stringify(cust));
+      const e = erroAsaas(custRes, cust);
+      return json(req, e.body, e.status);
+    }
 
     // 3) assinatura mensal
     const hoje = new Intl.DateTimeFormat("sv-SE", { timeZone: "America/Sao_Paulo" }).format(new Date());
@@ -190,7 +211,11 @@ Deno.serve(async (req) => {
       }),
     });
     const sub = await subRes.json();
-    if (!sub.id) { console.error("asaas sub", JSON.stringify(sub)); return json(req, { error: "asaas_subscription", detalhe: sub }, 502); }
+    if (!sub.id) {
+      console.error("asaas sub", subRes.status, JSON.stringify(sub));
+      const e = erroAsaas(subRes, sub);
+      return json(req, e.body, e.status);
+    }
 
     // 4) link de pagamento da 1ª cobrança
     let paymentUrl: string | null = null;
@@ -202,7 +227,7 @@ Deno.serve(async (req) => {
     await sbPatch(`clientes?id=eq.${cli.id}`, { asaas_customer_id: cust.id, asaas_subscription_id: sub.id });
 
     // 6) URL de conexão do Drive (OAuth) — state opaco, nunca o cliente_id cru
-    const stateToken = await criarState(cli.id);
+    const stateToken = await criarState(cli.id, 24);  // clique vem logo depois do cadastro
     if (!stateToken) return json(req, { error: "falha_state", cliente_id: cli.id }, 500);
 
     const oauthUrl = "https://accounts.google.com/o/oauth2/v2/auth?" + new URLSearchParams({

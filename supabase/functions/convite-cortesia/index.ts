@@ -102,11 +102,15 @@ function novoToken(): string {
   return btoa(String.fromCharCode(...b)).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
 }
 
-async function criarState(clienteId: string): Promise<string | null> {
+// O default da tabela é 30 minutos, que serve para um clique imediato no
+// navegador. Link que viaja por e-mail precisa de janela maior, senão chega
+// morto — por isso a validade é sempre explícita aqui.
+async function criarState(clienteId: string, horas: number): Promise<string | null> {
   const t = novoToken();
+  const expira = new Date(Date.now() + horas * 3600 * 1000).toISOString();
   const r = await fetch(`${SUPABASE_URL}/rest/v1/oauth_states`, {
     method: "POST", headers: sb(),
-    body: JSON.stringify({ state_hash: await sha256hex(t), cliente_id: clienteId }),
+    body: JSON.stringify({ state_hash: await sha256hex(t), cliente_id: clienteId, expira_em: expira }),
   });
   if (!r.ok) {
     console.error("oauth_states insert", await r.text());
@@ -310,7 +314,7 @@ Deno.serve(async (req) => {
     }
 
     // 3. URL de conexão do Drive (state opaco, nunca o cliente_id cru)
-    const stateToken = await criarState(cli.id);
+    const stateToken = await criarState(cli.id, 24 * 7);  // convite vai por e-mail
     if (!stateToken) return json({ ok: false, erro: "falha_state", cliente_id: cli.id }, 500);
 
     const oauthUrl = "https://accounts.google.com/o/oauth2/v2/auth?" + new URLSearchParams({
