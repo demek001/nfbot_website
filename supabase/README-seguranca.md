@@ -23,11 +23,12 @@ Drive conectado, 147 / 68 / 36 / 11 notas.
 `enable row level security` na mesma migration; toda função `security definer`
 nasce com `revoke execute ... from public` e `grant execute ... to service_role`.
 
-### F3 — pendente, premissa da spec estava errada
-`leads_interesse` tem a policy `leads_interesse_insert_only` (anon, authenticated,
-INSERT). A spec diz que o formulário saiu, mas `oferta-51e6138a.html` ainda faz
-`POST /rest/v1/leads_interesse` com a chave anon. Dropar a policy quebra essa
-página. Depende da decisão do D.3.
+### F3 — resolvido junto com o D.3
+A spec dizia que o formulário da lista de espera tinha saído. Não tinha:
+`oferta-51e6138a.html` ainda fazia `POST /rest/v1/leads_interesse` com a chave anon.
+Por decisão do Yoseff, a página foi removida do repo (junto com `cadastro-a7f3#9.html`),
+a policy `leads_interesse_insert_only` foi dropada e o INSERT revogado de
+`anon`/`authenticated`. Conferido: 0 policies, `anon` sem INSERT.
 
 ## Deployado
 - `codigo-ativacao` v1 (`verify_jwt = false`) — função nova, não afeta fluxo existente
@@ -69,12 +70,11 @@ de número trava.
   sem Drive — hoje, ninguém. Corrigir antes do primeiro cliente nessa situação.
 - **C.5** (dropar policy `mensagens_contato_insert_only` e revogar INSERT de `anon`)
   só depois do passo 6 testado.
+- **D.3**: feito — as duas páginas órfãs saíram do repo.
 - **D.1**: `zoho-token-setup`, `zoho-token-helper`, `teste-bv` sem nenhuma referência
   no repo — liberadas para deleção quando você autorizar.
 - **D.2**: `ASAAS_BASE_URL` — o default no código de `onboarding` é sandbox.
   Conferir se a secret existe em produção.
-- **D.3**: `oferta-51e6138a.html` e `cadastro-a7f3#9.html` continuam no repo.
-  `cadastro-a7f3#9.html` também chama `onboarding` e vai bater no CORS travado.
 - **§5.1**: reenvio do convite da Denise, quando você confirmar.
 
 ## Auditados (Fase E) — nenhuma alteração necessária
