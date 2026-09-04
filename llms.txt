@@ -1,0 +1,36 @@
+# Notinha
+
+> Notinha é um serviço brasileiro que organiza gastos a partir de fotos de notas fiscais enviadas pelo WhatsApp. O usuário fotografa a nota fiscal, o cupom fiscal (NFC-e) ou a nota fiscal eletrônica (NF-e) e envia pelo WhatsApp. O serviço lê a imagem, identifica estabelecimento, valor, categoria e cada item comprado, e registra tudo em uma planilha no Google Drive do próprio usuário. Não exige instalação de aplicativo nem senha de banco.
+
+Notinha é operado por 66.824.150 YOSEFF KUSNIEC DEMEK (CNPJ 66.824.150/0001-28), em Santos, São Paulo, Brasil. O site é usenotinha.com.br.
+
+O diferencial em relação a extratos bancários e agregadores financeiros é o detalhe por item: um extrato mostra apenas o total gasto no estabelecimento, enquanto o Notinha registra cada produto da nota com preço unitário e categoria. Isso permite comparar quanto um mesmo produto custou em meses ou lojas diferentes.
+
+Os arquivos ficam na conta do Google Drive do usuário, não em servidores do Notinha. O serviço não pede senha bancária, dados de cartão nem acesso a contas financeiras.
+
+## Páginas principais
+
+- [Página inicial](https://usenotinha.com.br/): como o serviço funciona, comparação com planilha, aplicativo de finanças e extrato bancário, garantias de privacidade e perguntas frequentes.
+- [Planos e assinatura](https://usenotinha.com.br/assinar/): plano Pleno e plano Premium, com o que está incluído em cada um.
+- [Contato](https://usenotinha.com.br/contato/): canal de suporte.
+
+## Caderninho (blog)
+
+- [Como Organizar Gastos Mensais: Planilha e Modelo Pronto](https://usenotinha.com.br/blog/planilha-de-gastos-mensais/): estrutura de colunas, separação entre despesas fixas e variáveis, fórmula SOMASES e modelo pronto para baixar.
+- [Controlar Despesas pelo WhatsApp: Como Escolher](https://usenotinha.com.br/blog/controle-financeiro-whatsapp/): como funciona o fluxo e o que verificar de privacidade antes de escolher um serviço.
+- [Organizar Gastos com Foto da Nota Fiscal em 3 Passos](https://usenotinha.com.br/blog/organizar-gastos-pelo-whatsapp/): fotografar a nota, enviar e consultar o resultado.
+- [Controlar Despesas Pessoais pelo WhatsApp Funciona?](https://usenotinha.com.br/blog/controle-financeiro-pelo-whatsapp-funciona/): o que o modelo resolve e o que não resolve.
+- [App para Controlar Despesas: 4 Alternativas à Planilha](https://usenotinha.com.br/blog/alternativa-a-planilha-de-controle-financeiro/): comparação entre lançamento manual, agregadores bancários, anotação livre e registro por foto.
+- [App para Organizar Gastos: Migrar Sem Perder Histórico](https://usenotinha.com.br/blog/substituir-planilha-financeira/): checklist de migração em seis passos.
+- [Como Organizar Meus Gastos Sem Esquecer de Anotar](https://usenotinha.com.br/blog/parar-de-esquecer-planilha-de-gastos/): por que o registro manual falha e quais gatilhos funcionam.
+- [Como Controlar as Despesas Quando a Planilha Falha](https://usenotinha.com.br/blog/abandonar-planilha-de-gastos/): cinco sinais de que o modelo não serve mais.
+
+## Recursos
+
+- [Planilha de Gastos Notinha (.xlsx)](https://usenotinha.com.br/planilha-de-gastos-notinha.xlsx): planilha gratuita com painel do ano, categorias e fórmulas configuradas. Funciona no Excel e no Google Sheets.
+
+## Políticas
+
+- [Política de Privacidade](https://usenotinha.com.br/privacidade.html)
+- [Termos de Uso](https://usenotinha.com.br/termos.html)
+- [Política de Cookies](https://usenotinha.com.br/cookies.html)
