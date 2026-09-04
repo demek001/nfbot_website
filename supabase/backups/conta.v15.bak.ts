@@ -24,24 +24,6 @@ const WA_NUMERO = Deno.env.get("NOTINHA_WA_NUMERO") ?? "5513996286090";
 // Asaas: produção. Se usar sandbox, troque para sandbox.asaas.com.
 const ASAAS_BASE = "https://api.asaas.com/v3";
 
-// Alfabeto sem caracteres ambíguos (0/O, 1/I) — código é ditado por WhatsApp
-const ALFABETO = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-function sortearCodigo(): string {
-  const b = new Uint8Array(6);
-  crypto.getRandomValues(b);
-  return Array.from(b, (n) => ALFABETO[n % ALFABETO.length]).join("");
-}
-
-// codigo_ativacao é UNIQUE. Sorteia até achar um livre no banco.
-async function gerarCodigoUnico(sb: any): Promise<string | null> {
-  for (let i = 0; i < 6; i++) {
-    const c = sortearCodigo();
-    const { data } = await sb.from("clientes").select("id").eq("codigo_ativacao", c).limit(1);
-    if (!data || data.length === 0) return c;
-  }
-  return null;
-}
-
 // Preços dos planos (mensal)
 const PRECO_PREMIUM = 44.90;
 const PRECO_BASE = 14.90;
@@ -199,27 +181,10 @@ Deno.serve(async (req) => {
     // Gera novo código e desliga a ativação. O número novo é revinculado
     // quando ENVIAR "ATIVAR {codigo}" pelo WhatsApp (o webhook regrava telefone).
     if (acao === "trocar_telefone") {
-      // codigo_usado_em volta a null: o ATIVAR do número novo aceita este código
-      // uma vez. codigo_gerado_em reabre a janela de 30 dias.
-      // A checagem prévia não fecha a corrida: colisão (23505/409) → sorteia outro.
-      let codigo: string | null = null;
-      for (let i = 0; i < 5; i++) {
-        const tentativa = await gerarCodigoUnico(sb);
-        if (!tentativa) break;
-        const { error: upErr } = await sb.from("clientes")
-          .update({
-            codigo_ativacao: tentativa,
-            ativado: false,
-            codigo_usado_em: null,
-            codigo_gerado_em: new Date().toISOString(),
-          })
-          .eq("id", cliente.id);
-        if (!upErr) { codigo = tentativa; break; }
-        if (upErr.code !== "23505") {
-          return json({ erro: "erro_update", detalhe: upErr.message }, 500);
-        }
-      }
-      if (!codigo) return json({ erro: "falha_gerar_codigo" }, 500);
+      const codigo = "NT" + Math.random().toString(36).slice(2, 8).toUpperCase();
+      await sb.from("clientes")
+        .update({ codigo_ativacao: codigo, ativado: false })
+        .eq("id", cliente.id);
       const link = WA_NUMERO
         ? `https://wa.me/${WA_NUMERO}?text=${encodeURIComponent("ATIVAR " + codigo)}`
         : null;
