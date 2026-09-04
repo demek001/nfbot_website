@@ -32,14 +32,25 @@ a policy `leads_interesse_insert_only` foi dropada e o INSERT revogado de
 
 ## Deployado
 - `codigo-ativacao` v1 (`verify_jwt = false`) — função nova, não afeta fluxo existente
+- `conta` v15 → **v16** (`verify_jwt = true`) — 04/09/2026
+  `ezbr_sha256` `eea149a7a60e747a8156d2743836d9d8f25b5e75d93fad40e46c9db3caac76d4`
+  → `d99f83625f5fbe56cb65ec294be16ae4ac2b51b0122446010f8d3d94952f7672`
+- `processar-fila` v44 → **v45** (`verify_jwt = false`) — 04/09/2026
+  `ezbr_sha256` `04e48b365d180f7871d313f7dc967e2090f3a19e0d1a0a8f3648468bfa785109`
+  → `2d4a0b6c14b98aab8737915877cdef4f3d6abe22d409bd513e06ba408f619e9b`
+
+Testado em produção depois do deploy: nota processada normalmente e gravada na
+planilha; `ATIVAR` com código inexistente devolve a mensagem única; rate limit
+corta a partir da 6ª tentativa na hora, com as tentativas registradas em
+`ativacao_tentativas`. A regra do número já vinculado a outro cliente fica
+verificada pelo diff — testá-la em produção exigiria o código de um cadastro
+real. Troca de telefone ponta a ponta ainda não exercitada.
 
 ## Pronto na branch, aguardando deploy
 | Alvo | Mudança |
 |---|---|
 | `oauth-callback` | state opaco, não sobrescreve código, entrega por `#t=` |
 | `conectado.html` | aceita `#t=`, mantém fallback `?code=` |
-| `processar-fila` | ATIVAR com rate limit, uso único, janela 30d, recusa genérica |
-| `conta` | troca de telefone com código por crypto + libera uso único |
 | `convite-cortesia`, `onboarding` | state opaco em `oauth_states` |
 | `asaas-webhook` | código por `crypto.getRandomValues` |
 | `pixel` | `?r=wa` sem `?text=` |
@@ -53,12 +64,17 @@ a policy `leads_interesse_insert_only` foi dropada e o INSERT revogado de
 2. Merge da branch em `main` (publica `conectado.html` com os dois formatos)
 3. `onboarding` + `convite-cortesia` — passam a gravar `oauth_states`
 4. `oauth-callback` — passa a exigir `oauth_states`
-5. `processar-fila` pelo Dashboard (106 KB, não vai por MCP) + `conta`
+5. `conta` por MCP (`verify_jwt: true`), **depois** `processar-fila` pelo
+   Dashboard (106 KB, não vai por MCP) ✅ feito
 6. `asaas-webhook`, `pixel`, `whatsapp-webhook`, `contato`
 
 `onboarding` e `oauth-callback` são o mesmo passo lógico: separá-los quebra
 cadastro novo. `conta` tem que sair junto com `processar-fila`, senão a troca
-de número trava.
+de número trava — e nesta ordem, `conta` primeiro. O `conta` novo grava
+`codigo_usado_em: null`, campo que o `processar-fila` v44 nem lê, então a janela
+entre os dois é inofensiva. Na ordem inversa trava: o `conta` v15 não zera
+`codigo_usado_em`, e os 4 ativos têm o campo preenchido desde o backfill da
+Fase A — o `tentarAtivar` novo recusaria a troca legítima.
 
 ## Pendências
 - **Turnstile**: `TURNSTILE_SECRET` criada no Supabase. Widget "Notinha — formulários
@@ -77,6 +93,12 @@ de número trava.
 - **D.2**: `ASAAS_BASE_URL` — o default no código de `onboarding` é sandbox.
   Conferir se a secret existe em produção.
 - **§5.1**: reenvio do convite da Denise, quando você confirmar.
+- **`codigo_gerado_em` null**: o `tentarAtivar` v45 aceita código com
+  `codigo_gerado_em` null — a janela de 30 dias só vale quando o campo está
+  preenchido. Ficou assim de propósito: o `garantirCodigo` do `asaas-webhook`
+  v14 grava só `codigo_ativacao`, então recusar null travaria o primeiro cliente
+  pagante. Passar a recusar null junto com o deploy do `asaas-webhook` (passo 6),
+  que já grava `codigo_gerado_em`.
 
 ## Auditados (Fase E) — nenhuma alteração necessária
 - `gerar-planilha-anual` v7 — `x-planilha-token` + premium + pagamento. OK.
