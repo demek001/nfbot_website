@@ -875,7 +875,7 @@ async function enviarPlanilhaMes(cliente: any, phoneNumberId: string, from: stri
   await enviarWhats(phoneNumberId, from, `📊 *Planilha de ${labelMes(anoMesStr)}*\nhttps://docs.google.com/spreadsheets/d/${melhor}/edit`);
 }
 function montarMenuCompleto(): string {
-  return [ "📋 *Notinha — Menu completo*", "Responde *só o número*:", "", "*Base*", "1) 📸 *Enviar foto/PDF* → eu leio e organizo sozinho", "2) ✍️ *registrar gasto* → ex: gastei 50 mercado", "3) 💰 *registrar recebimento* → ex: recebi 500 salário", "4) 📊 *resumo* → gasto, recebido e saldo do mês atual", "5) 📅 *resumo mês passado* → mesmo resumo do mês anterior", "6) 📄 *relatório* → PDF do mês", "7) 📊 *Planilha do mês* → link para acesso das suas planilhas", "", "*Premium*", "8) 📅 *Painel do ano* → seu resumo anual em uma página", "9) ✨ *insights* → comparativo personalizado da semana", "10) 🔎 *buscar* → acha lançamentos por termo (ex: mercado)", "11) 🧠 *maiores gastos* → top 5 do mês por valor", "12) 🧾 *relatório com fotos* → PDF do mês + notas anexadas", "13) 📈 *preço* → compara um produto entre lugares", "", "*Ajuda*", "14) ❓ *ajuda* → abre o FAQ; se não resolver, fala com a gente" ].join("\n");
+  return [ "📋 *Notinha — Menu completo*", "Responde *só o número*:", "", "*Base*", "1) 📸 *Enviar foto/PDF* → eu leio e organizo sozinho", "2) ✍️ *registrar gasto* → ex: gastei 50 mercado", "3) 💰 *registrar recebimento* → ex: recebi 500 salário", "4) 📊 *resumo* → gasto, recebido e saldo do mês atual", "5) 📅 *resumo mês passado* → mesmo resumo do mês anterior", "6) 📄 *relatório* → PDF do mês", "7) 📊 *Planilha do mês* → link para acesso das suas planilhas", "", "*Premium*", "8) 📅 *Painel do ano* → seu resumo anual em uma página", "9) ✨ *insights* → comparativo personalizado da semana", "10) 🔎 *buscar* → acha lançamentos por termo (ex: mercado)", "11) 🧠 *maiores gastos* → top 5 do mês por valor", "12) 🧾 *relatório com fotos* → PDF do mês + notas anexadas", "13) 📈 *preço* → compara um produto entre lugares", "14) 🛒 *onde comprar* → onde o produto está mais barato na sua região", "", "*Ajuda*", "15) ❓ *ajuda* → abre o FAQ; se não resolver, fala com a gente" ].join("\n");
 }
 function montarMenuPos(): string {
   return [ "Posso te ajudar em algo? Responde *só o número*:", "", "1️⃣ Resumo do mês", "2️⃣ Alterar categoria", "3️⃣ Apagar última nota", "4️⃣ Relatório PDF (em breve)", "5️⃣ Menu" ].join("\n");
@@ -928,7 +928,7 @@ async function tratarMenuNav(cliente: any, phoneNumberId: string, from: string, 
     await finalizarTransferencia(cliente, phoneNumberId, from, String(ctx.pend), String(ctx.destino), nomes[op - 1]);
     return true;
   }
-  if (op < 1 || op > 14) return false;
+  if (op < 1 || op > 15) return false;
   await sbPatch(`clientes?id=eq.${cliente.id}`, { menu_ctx: null });
   cliente.menu_ctx = null;
   const EMBREVE = "🔧 Esse recurso está chegando. Por ora, manda *resumo* ou *menu*. 🙂";
@@ -945,7 +945,8 @@ async function tratarMenuNav(cliente: any, phoneNumberId: string, from: string, 
   if (op === 11) { await tratarComando(cliente, phoneNumberId, from, "maiores gastos"); return true; }
   if (op === 12) { await pedirRelatorioFotos(cliente, phoneNumberId, from); return true; }
   if (op === 13) { await listarProdutosPreco(cliente, phoneNumberId, from); return true; }
-  if (op === 14) { await tratarComando(cliente, phoneNumberId, from, "ajuda"); return true; }
+  if (op === 14) { if (!ehPremium(cliente)) { await avisarPremium(phoneNumberId, from); return true; } await enviarWhats(phoneNumberId, from, [ "🛒 *Onde comprar*", "", "Esse recurso compara o preço do mesmo produto entre as lojas da sua região, usando as notas de quem compra por perto.", "", "Ele liga sozinho quando houver notas suficientes na sua cidade. Quanto mais gente registrando por aí, mais cedo isso acontece.", "", "_Enquanto isso, manda *preço* que eu comparo os preços que você já pagou._" ].join("\n")); return true; }
+  if (op === 15) { await tratarComando(cliente, phoneNumberId, from, "ajuda"); return true; }
   await enviarWhats(phoneNumberId, from, EMBREVE);
   return true;
 }
