@@ -1,0 +1,63 @@
+name: Corrigir tracking Google Ads
+
+on:
+  push:
+    paths:
+      - ".github/workflows/fix-ads-tracking.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  corrigir:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Corrigir checkout
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('assinar/index.html')
+          s = p.read_text(encoding='utf-8')
+
+          s = s.replace('''  // TROCAR quando a ação "Assinatura iniciada" existir no Google Ads:\n  const ADS_ASSINATURA = "AW-18331471265/OS6BCP70uNUcEKGbkKVE";\n''', '')
+
+          old = '''  const form = document.getElementById("form");\n  const erro = document.getElementById("erro");\n  const btn  = document.getElementById("enviar");\n\n  form.addEventListener("submit", async (e) => {'''
+          new = '''  const form = document.getElementById("form");\n  const erro = document.getElementById("erro");\n  const btn  = document.getElementById("enviar");\n\n  // Marca início real do preenchimento uma única vez.\n  let formStarted = false;\n  form.addEventListener("input", function () {\n    if (formStarted) return;\n    formStarted = true;\n    ev("form_start", { form_id: "checkout_notinha", form_name: "Checkout Notinha" });\n  });\n\n  form.addEventListener("submit", async (e) => {'''
+          if old not in s: raise SystemExit('bloco form não encontrado')
+          s = s.replace(old, new, 1)
+
+          old = '''      turnstile: turnToken,\n    };\n\n    if (!dados.nome'''
+          new = '''      turnstile: turnToken,\n    };\n\n    // Leva a atribuição do clique até o cliente criado no Supabase.\n    if (window.notinhaAtrib) Object.assign(dados, window.notinhaAtrib());\n    try {\n      var origem = new URLSearchParams(location.search).get("origem");\n      if (origem) dados.criado_via = origem.slice(0, 60);\n    } catch(e) {}\n\n    if (!dados.nome'''
+          if old not in s: raise SystemExit('bloco dados não encontrado')
+          s = s.replace(old, new, 1)
+
+          old = '''      ev("signup_created", { method: "checkout", plano: _pl });\n      ev("sign_up", { method: "checkout", plano: _pl });\n      ev("add_to_cart", {'''
+          new = '''      ev("form_submit", { form_id: "checkout_notinha", form_name: "Checkout Notinha", plano: _pl });\n      ev("generate_lead", { currency: "BRL", value: PRECO[_pl], plano: _pl });\n      ev("signup_created", { method: "checkout", plano: _pl });\n      ev("sign_up", { method: "checkout", plano: _pl });\n      ev("add_to_cart", {'''
+          if old not in s: raise SystemExit('bloco sucesso não encontrado')
+          s = s.replace(old, new, 1)
+
+          old = '''      ev("conversion", {\n        send_to: ADS_ASSINATURA, value: PRECO[_pl], currency: "BRL",\n        transaction_id: String(j.cliente_id || "")\n      });\n\n'''
+          if old not in s: raise SystemExit('conversão antiga não encontrada')
+          s = s.replace(old, '', 1)
+
+          p.write_text(s, encoding='utf-8')
+          PY
+
+      - name: Validar
+        run: |
+          grep -F 'Object.assign(dados, window.notinhaAtrib())' assinar/index.html
+          grep -F 'ev("form_start"' assinar/index.html
+          grep -F 'ev("form_submit"' assinar/index.html
+          grep -F 'ev("generate_lead"' assinar/index.html
+          ! grep -F 'ADS_ASSINATURA' assinar/index.html
+
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assinar/index.html
+          git commit -m "fix: preserva atribuição e corrige eventos do checkout"
+          git push
