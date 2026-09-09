@@ -12,8 +12,7 @@ jobs:
   aplicar:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Aplicar melhorias
         shell: bash
@@ -22,29 +21,22 @@ jobs:
           from pathlib import Path
           import re
 
-          INSTAGRAM = "https://www.instagram.com/usenotinha/"
-          TIKTOK = "https://www.tiktok.com/@usenotinha"
-          ORG_ID = "https://usenotinha.com.br/#organization"
+          IG = "https://www.instagram.com/usenotinha/"
+          TT = "https://www.tiktok.com/@usenotinha"
+          ORG = "https://usenotinha.com.br/#organization"
           LOGO = "https://usenotinha.com.br/notinha-icon.png"
 
-          # 1) Reforça a entidade Notinha na home com os perfis oficiais.
+          # Home: conecta a entidade Notinha aos perfis oficiais.
           p = Path("index.html")
-          text = p.read_text(encoding="utf-8")
-          old = '      "description": "Controle financeiro pelo WhatsApp: você manda a foto da nota fiscal e o Notinha organiza tudo, salva no seu Google Drive e gera relatórios automáticos."\n'
-          new = (
-              '      "description": "Controle financeiro pelo WhatsApp: você manda a foto da nota fiscal e o Notinha organiza tudo, salva no seu Google Drive e gera relatórios automáticos.",\n'
-              '      "sameAs": [\n'
-              f'        "{INSTAGRAM}",\n'
-              f'        "{TIKTOK}"\n'
-              '      ]\n'
-          )
-          if '"sameAs"' not in text:
-              if old not in text:
-                  raise SystemExit("Bloco Organization da home nao encontrado")
-              text = text.replace(old, new, 1)
-          p.write_text(text, encoding="utf-8")
+          t = p.read_text(encoding="utf-8")
+          if '"sameAs"' not in t.split('</script>', 1)[0]:
+              needle = '      "description": "Controle financeiro pelo WhatsApp: você manda a foto da nota fiscal e o Notinha organiza tudo, salva no seu Google Drive e gera relatórios automáticos."'
+              repl = needle[:-1] + ',"\n      "sameAs": [\n        "' + IG + '",\n        "' + TT + '"\n      ]'
+              if needle not in t:
+                  raise SystemExit("Organization da home nao encontrado")
+              t = t.replace(needle, repl, 1)
+          p.write_text(t, encoding="utf-8")
 
-          # 2) Completa a entidade Organization usada como author/publisher em todos os artigos.
           articles = [
               "blog/planilha-de-gastos-mensais/index.html",
               "blog/alternativa-a-planilha-de-controle-financeiro/index.html",
@@ -56,121 +48,101 @@ jobs:
               "blog/abandonar-planilha-de-gastos/index.html",
           ]
 
-          author_pattern = re.compile(
-              r'  "author": \{\n'
-              r'    "@type": "Organization",\n'
-              r'    "name": "Notinha",\n'
-              r'    "url": "https://usenotinha\.com\.br"\n'
-              r'  \},'
-          )
-          publisher_pattern = re.compile(
-              r'  "publisher": \{\n'
-              r'    "@type": "Organization",\n'
-              r'    "name": "Notinha",\n'
-              r'    "logo": \{\n'
-              r'      "@type": "ImageObject",\n'
-              r'      "url": "https://usenotinha\.com\.br/notinha-icon\.png"\n'
-              r'    \}\n'
-              r'  \},'
-          )
+          def enrich_article_schema(path):
+              p = Path(path)
+              t = p.read_text(encoding="utf-8")
 
-          author_replacement = f'''  "author": {{
-            "@type": "Organization",
-            "@id": "{ORG_ID}",
-            "name": "Notinha",
-            "url": "https://usenotinha.com.br/",
-            "logo": {{
-              "@type": "ImageObject",
-              "url": "{LOGO}"
-            }},
-            "sameAs": [
-              "{INSTAGRAM}",
-              "{TIKTOK}"
-            ]
-          }},'''
-
-          publisher_replacement = f'''  "publisher": {{
-            "@type": "Organization",
-            "@id": "{ORG_ID}",
-            "name": "Notinha",
-            "url": "https://usenotinha.com.br/",
-            "logo": {{
-              "@type": "ImageObject",
-              "url": "{LOGO}"
-            }},
-            "sameAs": [
-              "{INSTAGRAM}",
-              "{TIKTOK}"
-            ]
-          }},'''
-
-          for path in articles:
-              fp = Path(path)
-              t = fp.read_text(encoding="utf-8")
-              if f'"@id": "{ORG_ID}"' not in t:
-                  t, n1 = author_pattern.subn(author_replacement, t, count=1)
-                  t, n2 = publisher_pattern.subn(publisher_replacement, t, count=1)
-                  if n1 != 1 or n2 != 1:
-                      raise SystemExit(f"Schema Article inesperado em {path}: author={n1}, publisher={n2}")
-              fp.write_text(t, encoding="utf-8")
-
-          # 3) Reforça links contextuais para URLs que o Google ainda nao indexou.
-          def add_reading_links(path, links):
-              fp = Path(path)
-              t = fp.read_text(encoding="utf-8")
-              m = re.search(r'(<div class="leia-mais">.*?<ul>)(.*?)(</ul>)', t, flags=re.S)
+              # Author Organization
+              m = re.search(r'("author"\s*:\s*\{.*?\})(\s*,\s*"publisher")', t, flags=re.S)
               if not m:
-                  raise SystemExit(f"Bloco leia-mais nao encontrado em {path}")
-              body = m.group(2)
-              additions = []
-              for href, label in links:
-                  if href not in t:
-                      additions.append(f'\n        <li><a href="{href}">{label}</a></li>')
-              if additions:
-                  t = t[:m.start(3)] + ''.join(additions) + '\n      ' + t[m.start(3):]
-              fp.write_text(t, encoding="utf-8")
+                  raise SystemExit(f"author nao encontrado em {path}")
+              block = m.group(1)
+              if f'"@id": "{ORG}"' not in block:
+                  block = block.replace(
+                      '"@type": "Organization",',
+                      '"@type": "Organization",\n    "@id": "' + ORG + '",',
+                      1,
+                  )
+              if '"logo"' not in block:
+                  block = block.replace(
+                      '"url": "https://usenotinha.com.br"',
+                      '"url": "https://usenotinha.com.br/",\n    "logo": {\n      "@type": "ImageObject",\n      "url": "' + LOGO + '"\n    },\n    "sameAs": [\n      "' + IG + '",\n      "' + TT + '"\n    ]',
+                      1,
+                  )
+              t = t[:m.start(1)] + block + t[m.end(1):]
 
-          add_reading_links(
-              "blog/controle-financeiro-whatsapp/index.html",
-              [
-                  ("../controle-financeiro-pelo-whatsapp-funciona/", "Controle financeiro pelo WhatsApp funciona? O que considerar"),
-                  ("../abandonar-planilha-de-gastos/", "Como controlar as despesas quando a planilha falha"),
-              ],
-          )
-          add_reading_links(
-              "blog/planilha-de-gastos-mensais/index.html",
-              [
-                  ("../parar-de-esquecer-planilha-de-gastos/", "Como organizar os gastos sem esquecer de anotar"),
-                  ("../abandonar-planilha-de-gastos/", "Como controlar as despesas quando a planilha falha"),
-              ],
-          )
-          add_reading_links(
-              "blog/organizar-gastos-pelo-whatsapp/index.html",
-              [
-                  ("../controle-financeiro-pelo-whatsapp-funciona/", "Controle financeiro pelo WhatsApp funciona? O que considerar"),
-              ],
-          )
-          add_reading_links(
-              "blog/alternativa-a-planilha-de-controle-financeiro/index.html",
-              [
-                  ("../parar-de-esquecer-planilha-de-gastos/", "Como organizar os gastos sem esquecer de anotar"),
-              ],
-          )
+              # Publisher Organization
+              m = re.search(r'("publisher"\s*:\s*\{.*?\})(\s*,\s*"mainEntityOfPage")', t, flags=re.S)
+              if not m:
+                  raise SystemExit(f"publisher nao encontrado em {path}")
+              block = m.group(1)
+              if f'"@id": "{ORG}"' not in block:
+                  block = block.replace(
+                      '"@type": "Organization",',
+                      '"@type": "Organization",\n    "@id": "' + ORG + '",',
+                      1,
+                  )
+              if '"url": "https://usenotinha.com.br/"' not in block:
+                  block = block.replace('"name": "Notinha",', '"name": "Notinha",\n    "url": "https://usenotinha.com.br/",', 1)
+              if '"sameAs"' not in block:
+                  # inclui sameAs depois do logo completo
+                  pos = block.rfind('}')
+                  block = block[:pos].rstrip()
+                  if block.endswith('}'):
+                      block += ','
+                  block += '\n    "sameAs": [\n      "' + IG + '",\n      "' + TT + '"\n    ]\n  }'
+              t = t[:m.start(1)] + block + t[m.end(1):]
+              p.write_text(t, encoding="utf-8")
 
-          # Link direto do hub indexado para a pagina de assinatura.
+          for a in articles:
+              enrich_article_schema(a)
+
+          def add_related(path, links):
+              p = Path(path)
+              t = p.read_text(encoding="utf-8")
+              missing = [(h,l) for h,l in links if h not in t]
+              if not missing:
+                  return
+              items = ''.join(f'\n        <li><a href="{h}">{l}</a></li>' for h,l in missing)
+              m = re.search(r'(<div class="leia-mais">.*?<ul>)(.*?)(</ul>)', t, flags=re.S)
+              if m:
+                  t = t[:m.start(3)] + items + '\n      ' + t[m.start(3):]
+              else:
+                  nav = '\n    <nav class="leia-mais" aria-label="Continue lendo">\n      <h3>Continue lendo</h3>\n      <ul>' + items + '\n      </ul>\n    </nav>\n'
+                  if '</article>' not in t:
+                      raise SystemExit(f"article nao encontrado em {path}")
+                  t = t.replace('</article>', nav + '\n  </article>', 1)
+              p.write_text(t, encoding="utf-8")
+
+          add_related("blog/controle-financeiro-whatsapp/index.html", [
+              ("../controle-financeiro-pelo-whatsapp-funciona/", "Controle financeiro pelo WhatsApp funciona? O que considerar"),
+              ("../abandonar-planilha-de-gastos/", "Como controlar as despesas quando a planilha falha"),
+          ])
+          add_related("blog/planilha-de-gastos-mensais/index.html", [
+              ("../parar-de-esquecer-planilha-de-gastos/", "Como organizar os gastos sem esquecer de anotar"),
+              ("../abandonar-planilha-de-gastos/", "Como controlar as despesas quando a planilha falha"),
+          ])
+          add_related("blog/organizar-gastos-pelo-whatsapp/index.html", [
+              ("../controle-financeiro-pelo-whatsapp-funciona/", "Controle financeiro pelo WhatsApp funciona? O que considerar"),
+          ])
+          add_related("blog/alternativa-a-planilha-de-controle-financeiro/index.html", [
+              ("../parar-de-esquecer-planilha-de-gastos/", "Como organizar os gastos sem esquecer de anotar"),
+          ])
+
+          # Link direto do hub indexado para /assinar/.
           p = Path("blog/index.html")
-          text = p.read_text(encoding="utf-8")
-          marker = '      <a href="/#faq">Dúvidas</a>'
-          if 'href="/assinar/"' not in text:
-              if marker not in text:
-                  raise SystemExit("Navegacao do Caderninho nao encontrada")
-              text = text.replace(marker, marker + '\n      <a href="/assinar/">Assinar</a>', 1)
-          p.write_text(text, encoding="utf-8")
+          t = p.read_text(encoding="utf-8")
+          if 'href="/assinar/"' not in t:
+              marker = '      <a href="/#faq">Dúvidas</a>'
+              if marker not in t:
+                  raise SystemExit("nav do blog nao encontrado")
+              t = t.replace(marker, marker + '\n      <a href="/assinar/">Assinar</a>', 1)
+          p.write_text(t, encoding="utf-8")
 
-          # Atualiza lastmod das paginas diretamente alteradas no sitemap.
+          # Marca as paginas alteradas no sitemap.
           p = Path("sitemap.xml")
           s = p.read_text(encoding="utf-8")
-          changed_urls = [
+          urls = [
               "https://usenotinha.com.br/",
               "https://usenotinha.com.br/blog/",
               "https://usenotinha.com.br/blog/planilha-de-gastos-mensais/",
@@ -182,23 +154,23 @@ jobs:
               "https://usenotinha.com.br/blog/parar-de-esquecer-planilha-de-gastos/",
               "https://usenotinha.com.br/blog/abandonar-planilha-de-gastos/",
           ]
-          for url in changed_urls:
-              pattern = re.compile(r'(<loc>' + re.escape(url) + r'</loc>\s*<lastmod>)\d{4}-\d{2}-\d{2}(</lastmod>)')
-              s, n = pattern.subn(r'\g<1>2026-09-09\2', s, count=1)
+          for url in urls:
+              pat = re.compile(r'(<loc>' + re.escape(url) + r'</loc>\s*<lastmod>)\d{4}-\d{2}-\d{2}(</lastmod>)')
+              s, n = pat.subn(r'\g<1>2026-09-09\2', s, count=1)
               if n != 1:
-                  raise SystemExit(f"URL nao encontrada no sitemap: {url}")
+                  raise SystemExit(f"sitemap sem {url}")
           p.write_text(s, encoding="utf-8")
           PY
 
-      - name: Validar alteracoes
+      - name: Validar
         run: |
-          grep -F '"sameAs": [' index.html
-          grep -F '"@id": "https://usenotinha.com.br/#organization"' blog/planilha-de-gastos-mensais/index.html
+          grep -F 'https://www.instagram.com/usenotinha/' index.html
+          grep -F 'https://usenotinha.com.br/#organization' blog/planilha-de-gastos-mensais/index.html
           grep -F '../controle-financeiro-pelo-whatsapp-funciona/' blog/controle-financeiro-whatsapp/index.html
           grep -F '../parar-de-esquecer-planilha-de-gastos/' blog/planilha-de-gastos-mensais/index.html
           grep -F 'href="/assinar/"' blog/index.html
 
-      - name: Commitar e enviar
+      - name: Commitar
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
