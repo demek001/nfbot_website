@@ -1,0 +1,54 @@
+name: Sincronizar atribuição do onboarding
+
+on:
+  push:
+    paths:
+      - ".github/workflows/sync-onboarding-attribution.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Aplicar persistência de atribuição
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('supabase/functions/onboarding/index.ts')
+          s=p.read_text(encoding='utf-8')
+
+          if 'function lim(v: unknown' not in s:
+            old='''function json(req: Request, obj: unknown, status = 200) {\n  return new Response(JSON.stringify(obj), { status, headers: { ...cors(req), "Content-Type": "application/json" } });\n}\n'''
+            new=old+'''function lim(v: unknown, max = 200): string | null {\n  const s = String(v ?? "").trim();\n  return s ? s.slice(0, max) : null;\n}\n'''
+            if old not in s: raise SystemExit('json helper não encontrado')
+            s=s.replace(old,new,1)
+
+          marker='''  const consent = !!b.consent;\n\n  if (!nome || !cpf || !email || !tel || !consent)'''
+          if 'const gclid' not in s:
+            repl='''  const consent = !!b.consent;\n\n  // Atribuição de aquisição vinda do site/Google Ads.\n  const gclid        = lim(b.gclid, 200);\n  const utm_source   = lim(b.utm_source, 100);\n  const utm_medium   = lim(b.utm_medium, 100);\n  const utm_campaign = lim(b.utm_campaign, 150);\n  const criado_via   = lim(b.criado_via, 60) ?? "site";\n\n  if (!nome || !cpf || !email || !tel || !consent)'''
+            if marker not in s: raise SystemExit('bloco de consent não encontrado')
+            s=s.replace(marker,repl,1)
+
+          old='''      versao_termos_aceitos: "1.0", pais: "BR", pagamento_status: "pendente",\n    });'''
+          new='''      versao_termos_aceitos: "1.0", pais: "BR", pagamento_status: "pendente",\n      gclid, utm_source, utm_medium, utm_campaign, criado_via,\n    });'''
+          if 'gclid, utm_source, utm_medium, utm_campaign, criado_via' not in s:
+            if old not in s: raise SystemExit('insert de clientes não encontrado')
+            s=s.replace(old,new,1)
+
+          p.write_text(s,encoding='utf-8')
+          PY
+      - name: Validar
+        run: |
+          grep -F 'const gclid' supabase/functions/onboarding/index.ts
+          grep -F 'gclid, utm_source, utm_medium, utm_campaign, criado_via' supabase/functions/onboarding/index.ts
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add supabase/functions/onboarding/index.ts
+          git commit -m "fix: persiste gclid e utms no onboarding"
+          git push
