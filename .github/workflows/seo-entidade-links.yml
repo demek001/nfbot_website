@@ -1,4 +1,4 @@
-name: Aplicar melhorias SEO de entidade e links
+name: Corrigir JSON-LD SEO
 
 on:
   push:
@@ -9,171 +9,44 @@ permissions:
   contents: write
 
 jobs:
-  aplicar:
+  corrigir:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Aplicar melhorias
+      - name: Corrigir e validar JSON-LD
         shell: bash
         run: |
           python - <<'PY'
           from pathlib import Path
-          import re
+          import json, re
 
-          IG = "https://www.instagram.com/usenotinha/"
-          TT = "https://www.tiktok.com/@usenotinha"
-          ORG = "https://usenotinha.com.br/#organization"
-          LOGO = "https://usenotinha.com.br/notinha-icon.png"
+          p = Path('index.html')
+          t = p.read_text(encoding='utf-8')
+          bad = 'automáticos.,"\n      "sameAs"'
+          good = 'automáticos.",\n      "sameAs"'
+          if bad in t:
+              t = t.replace(bad, good, 1)
+          p.write_text(t, encoding='utf-8')
 
-          # Home: conecta a entidade Notinha aos perfis oficiais.
-          p = Path("index.html")
-          t = p.read_text(encoding="utf-8")
-          if '"sameAs"' not in t.split('</script>', 1)[0]:
-              needle = '      "description": "Controle financeiro pelo WhatsApp: você manda a foto da nota fiscal e o Notinha organiza tudo, salva no seu Google Drive e gera relatórios automáticos."'
-              repl = needle[:-1] + ',"\n      "sameAs": [\n        "' + IG + '",\n        "' + TT + '"\n      ]'
-              if needle not in t:
-                  raise SystemExit("Organization da home nao encontrado")
-              t = t.replace(needle, repl, 1)
-          p.write_text(t, encoding="utf-8")
-
-          articles = [
-              "blog/planilha-de-gastos-mensais/index.html",
-              "blog/alternativa-a-planilha-de-controle-financeiro/index.html",
-              "blog/controle-financeiro-whatsapp/index.html",
-              "blog/organizar-gastos-pelo-whatsapp/index.html",
-              "blog/substituir-planilha-financeira/index.html",
-              "blog/controle-financeiro-pelo-whatsapp-funciona/index.html",
-              "blog/parar-de-esquecer-planilha-de-gastos/index.html",
-              "blog/abandonar-planilha-de-gastos/index.html",
-          ]
-
-          def enrich_article_schema(path):
-              p = Path(path)
-              t = p.read_text(encoding="utf-8")
-
-              # Author Organization
-              m = re.search(r'("author"\s*:\s*\{.*?\})(\s*,\s*"publisher")', t, flags=re.S)
-              if not m:
-                  raise SystemExit(f"author nao encontrado em {path}")
-              block = m.group(1)
-              if f'"@id": "{ORG}"' not in block:
-                  block = block.replace(
-                      '"@type": "Organization",',
-                      '"@type": "Organization",\n    "@id": "' + ORG + '",',
-                      1,
-                  )
-              if '"logo"' not in block:
-                  block = block.replace(
-                      '"url": "https://usenotinha.com.br"',
-                      '"url": "https://usenotinha.com.br/",\n    "logo": {\n      "@type": "ImageObject",\n      "url": "' + LOGO + '"\n    },\n    "sameAs": [\n      "' + IG + '",\n      "' + TT + '"\n    ]',
-                      1,
-                  )
-              t = t[:m.start(1)] + block + t[m.end(1):]
-
-              # Publisher Organization
-              m = re.search(r'("publisher"\s*:\s*\{.*?\})(\s*,\s*"mainEntityOfPage")', t, flags=re.S)
-              if not m:
-                  raise SystemExit(f"publisher nao encontrado em {path}")
-              block = m.group(1)
-              if f'"@id": "{ORG}"' not in block:
-                  block = block.replace(
-                      '"@type": "Organization",',
-                      '"@type": "Organization",\n    "@id": "' + ORG + '",',
-                      1,
-                  )
-              if '"url": "https://usenotinha.com.br/"' not in block:
-                  block = block.replace('"name": "Notinha",', '"name": "Notinha",\n    "url": "https://usenotinha.com.br/",', 1)
-              if '"sameAs"' not in block:
-                  # inclui sameAs depois do logo completo
-                  pos = block.rfind('}')
-                  block = block[:pos].rstrip()
-                  if block.endswith('}'):
-                      block += ','
-                  block += '\n    "sameAs": [\n      "' + IG + '",\n      "' + TT + '"\n    ]\n  }'
-              t = t[:m.start(1)] + block + t[m.end(1):]
-              p.write_text(t, encoding="utf-8")
-
-          for a in articles:
-              enrich_article_schema(a)
-
-          def add_related(path, links):
-              p = Path(path)
-              t = p.read_text(encoding="utf-8")
-              missing = [(h,l) for h,l in links if h not in t]
-              if not missing:
-                  return
-              items = ''.join(f'\n        <li><a href="{h}">{l}</a></li>' for h,l in missing)
-              m = re.search(r'(<div class="leia-mais">.*?<ul>)(.*?)(</ul>)', t, flags=re.S)
-              if m:
-                  t = t[:m.start(3)] + items + '\n      ' + t[m.start(3):]
-              else:
-                  nav = '\n    <nav class="leia-mais" aria-label="Continue lendo">\n      <h3>Continue lendo</h3>\n      <ul>' + items + '\n      </ul>\n    </nav>\n'
-                  if '</article>' not in t:
-                      raise SystemExit(f"article nao encontrado em {path}")
-                  t = t.replace('</article>', nav + '\n  </article>', 1)
-              p.write_text(t, encoding="utf-8")
-
-          add_related("blog/controle-financeiro-whatsapp/index.html", [
-              ("../controle-financeiro-pelo-whatsapp-funciona/", "Controle financeiro pelo WhatsApp funciona? O que considerar"),
-              ("../abandonar-planilha-de-gastos/", "Como controlar as despesas quando a planilha falha"),
-          ])
-          add_related("blog/planilha-de-gastos-mensais/index.html", [
-              ("../parar-de-esquecer-planilha-de-gastos/", "Como organizar os gastos sem esquecer de anotar"),
-              ("../abandonar-planilha-de-gastos/", "Como controlar as despesas quando a planilha falha"),
-          ])
-          add_related("blog/organizar-gastos-pelo-whatsapp/index.html", [
-              ("../controle-financeiro-pelo-whatsapp-funciona/", "Controle financeiro pelo WhatsApp funciona? O que considerar"),
-          ])
-          add_related("blog/alternativa-a-planilha-de-controle-financeiro/index.html", [
-              ("../parar-de-esquecer-planilha-de-gastos/", "Como organizar os gastos sem esquecer de anotar"),
-          ])
-
-          # Link direto do hub indexado para /assinar/.
-          p = Path("blog/index.html")
-          t = p.read_text(encoding="utf-8")
-          if 'href="/assinar/"' not in t:
-              marker = '      <a href="/#faq">Dúvidas</a>'
-              if marker not in t:
-                  raise SystemExit("nav do blog nao encontrado")
-              t = t.replace(marker, marker + '\n      <a href="/assinar/">Assinar</a>', 1)
-          p.write_text(t, encoding="utf-8")
-
-          # Marca as paginas alteradas no sitemap.
-          p = Path("sitemap.xml")
-          s = p.read_text(encoding="utf-8")
-          urls = [
-              "https://usenotinha.com.br/",
-              "https://usenotinha.com.br/blog/",
-              "https://usenotinha.com.br/blog/planilha-de-gastos-mensais/",
-              "https://usenotinha.com.br/blog/alternativa-a-planilha-de-controle-financeiro/",
-              "https://usenotinha.com.br/blog/controle-financeiro-whatsapp/",
-              "https://usenotinha.com.br/blog/organizar-gastos-pelo-whatsapp/",
-              "https://usenotinha.com.br/blog/substituir-planilha-financeira/",
-              "https://usenotinha.com.br/blog/controle-financeiro-pelo-whatsapp-funciona/",
-              "https://usenotinha.com.br/blog/parar-de-esquecer-planilha-de-gastos/",
-              "https://usenotinha.com.br/blog/abandonar-planilha-de-gastos/",
-          ]
-          for url in urls:
-              pat = re.compile(r'(<loc>' + re.escape(url) + r'</loc>\s*<lastmod>)\d{4}-\d{2}-\d{2}(</lastmod>)')
-              s, n = pat.subn(r'\g<1>2026-09-09\2', s, count=1)
-              if n != 1:
-                  raise SystemExit(f"sitemap sem {url}")
-          p.write_text(s, encoding="utf-8")
+          # Valida todos os blocos JSON-LD do site após as mudanças.
+          checked = 0
+          for html in Path('.').rglob('*.html'):
+              text = html.read_text(encoding='utf-8')
+              for raw in re.findall(r'<script\s+type="application/ld\+json">(.*?)</script>', text, flags=re.S):
+                  json.loads(raw)
+                  checked += 1
+          print(f'JSON-LD validado: {checked} blocos')
           PY
-
-      - name: Validar
-        run: |
-          grep -F 'https://www.instagram.com/usenotinha/' index.html
-          grep -F 'https://usenotinha.com.br/#organization' blog/planilha-de-gastos-mensais/index.html
-          grep -F '../controle-financeiro-pelo-whatsapp-funciona/' blog/controle-financeiro-whatsapp/index.html
-          grep -F '../parar-de-esquecer-planilha-de-gastos/' blog/planilha-de-gastos-mensais/index.html
-          grep -F 'href="/assinar/"' blog/index.html
 
       - name: Commitar
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add index.html blog/index.html blog/*/index.html sitemap.xml
-          git commit -m "seo: reforca entidade Notinha e links internos"
-          git push
+          git add index.html
+          if git diff --cached --quiet; then
+            echo "Nenhuma correcao pendente"
+          else
+            git commit -m "fix: corrige JSON-LD da entidade Notinha"
+            git push
+          fi
