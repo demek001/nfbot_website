@@ -1,0 +1,93 @@
+name: Aplicar teste SEO de titulos
+
+on:
+  push:
+    paths:
+      - ".github/workflows/seo-titulos-teste.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  aplicar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Aplicar alteracoes de SEO
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          def replace_all(path, old, new):
+              p = Path(path)
+              text = p.read_text(encoding="utf-8")
+              if old not in text:
+                  raise SystemExit(f"Texto esperado nao encontrado em {path}: {old}")
+              p.write_text(text.replace(old, new), encoding="utf-8")
+
+          # Home: mantemos o <title> atual como controle e tornamos o H1 mais explicito para a busca-alvo.
+          replace_all(
+              "index.html",
+              '<h1>Foto da nota.<br>Relatório <em>na hora</em>.</h1>',
+              '<h1>Controle de gastos pelo WhatsApp.<br>Foto da nota, planilha <em>na hora</em>.</h1>'
+          )
+
+          # Hub do Caderninho: titulo e H1 passam a declarar claramente o tema do site.
+          replace_all(
+              "blog/index.html",
+              'Caderninho — O blog do Notinha',
+              'Controle de Gastos e Finanças no WhatsApp | Caderninho Notinha'
+          )
+          replace_all(
+              "blog/index.html",
+              '<h1>Finanças simples,<br>sem complicação</h1>',
+              '<h1>Controle de gastos e<br>finanças no WhatsApp</h1>'
+          )
+
+          # Pagina da planilha gratuita: alinha titulo, OG/Twitter, schema headline e H1
+          # com a intencao de busca "planilha de gastos gratis".
+          replace_all(
+              "blog/planilha-de-gastos-mensais/index.html",
+              'Como Organizar Gastos Mensais: Planilha e Modelo Pronto',
+              'Planilha de Gastos Grátis 2026: Modelo Pronto para Baixar'
+          )
+          replace_all(
+              "blog/planilha-de-gastos-mensais/index.html",
+              '"dateModified": "2026-06-27"',
+              '"dateModified": "2026-09-08"'
+          )
+
+          # Atualiza lastmod apenas das paginas alteradas.
+          sitemap = Path("sitemap.xml")
+          text = sitemap.read_text(encoding="utf-8")
+          blocks = [
+              "https://usenotinha.com.br/",
+              "https://usenotinha.com.br/blog/",
+              "https://usenotinha.com.br/blog/planilha-de-gastos-mensais/",
+          ]
+          for url in blocks:
+              old = f"<loc>{url}</loc>\n    <lastmod>2026-09-04</lastmod>"
+              new = f"<loc>{url}</loc>\n    <lastmod>2026-09-08</lastmod>"
+              if old not in text:
+                  raise SystemExit(f"Bloco do sitemap nao encontrado: {url}")
+              text = text.replace(old, new, 1)
+          sitemap.write_text(text, encoding="utf-8")
+          PY
+
+      - name: Validar alteracoes
+        run: |
+          grep -F "Controle de gastos pelo WhatsApp." index.html
+          grep -F "Controle de Gastos e Finanças no WhatsApp | Caderninho Notinha" blog/index.html
+          grep -F "Planilha de Gastos Grátis 2026: Modelo Pronto para Baixar" blog/planilha-de-gastos-mensais/index.html
+          grep -F '"dateModified": "2026-09-08"' blog/planilha-de-gastos-mensais/index.html
+
+      - name: Commitar e enviar
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html blog/index.html blog/planilha-de-gastos-mensais/index.html sitemap.xml
+          git commit -m "seo: testa titulos focados em busca organica"
+          git push
