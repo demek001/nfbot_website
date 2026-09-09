@@ -55,6 +55,10 @@ function sbHeaders(extra: Record<string, string> = {}) {
 function json(req: Request, obj: unknown, status = 200) {
   return new Response(JSON.stringify(obj), { status, headers: { ...cors(req), "Content-Type": "application/json" } });
 }
+function lim(v: unknown, max = 200): string | null {
+  const s = String(v ?? "").trim();
+  return s ? s.slice(0, max) : null;
+}
 
 // Ordem importa: atrás do Worker da Cloudflare o x-forwarded-for vira o IP do
 // proxy e o rate limit passaria a bloquear todo mundo junto.
@@ -160,6 +164,13 @@ Deno.serve(async (req) => {
   const plano = b.plano === "premium" ? "premium" : "base";
   const consent = !!b.consent;
 
+  // Atribuição de aquisição vinda do site/Google Ads.
+  const gclid        = lim(b.gclid, 200);
+  const utm_source   = lim(b.utm_source, 100);
+  const utm_medium   = lim(b.utm_medium, 100);
+  const utm_campaign = lim(b.utm_campaign, 150);
+  const criado_via   = lim(b.criado_via, 60) ?? "site";
+
   if (!nome || !cpf || !email || !tel || !consent) return json(req, { error: "campos_obrigatorios" }, 400);
   if (!tel.startsWith("55")) tel = "55" + tel;          // formato wa_id
 
@@ -169,6 +180,7 @@ Deno.serve(async (req) => {
       nome, email, telefone: tel, data_nascimento: nascimento,
       plano_tier: plano, aceitou_termos: true, data_aceite: new Date().toISOString(),
       versao_termos_aceitos: "1.0", pais: "BR", pagamento_status: "pendente",
+      gclid, utm_source, utm_medium, utm_campaign, criado_via,
     });
     if (!cli) return json(req, { error: "cliente_ja_existe_ou_falhou" }, 409);
 
