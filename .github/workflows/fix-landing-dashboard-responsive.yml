@@ -1,0 +1,64 @@
+name: Ajustar dashboard da landing
+on:
+  push:
+    paths:
+      - '.github/workflows/fix-landing-dashboard-responsive.yml'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Ajustar painel responsivo
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('controle-gastos-whatsapp/index.html')
+          s = p.read_text()
+
+          old_css = ".dash-shell{border:1px solid var(--line);border-radius:24px;background:#06100f;padding:14px;box-shadow:0 24px 80px rgba(0,0,0,.3)}.dash-shell iframe{display:block;width:100%;height:680px;border:0;border-radius:15px;background:white}.badge-premium"
+          new_css = ".dash-shell{border:1px solid var(--line);border-radius:24px;background:#06100f;padding:14px;box-shadow:0 24px 80px rgba(0,0,0,.3)}.dash-shell iframe{display:block;width:100%;height:720px;border:0;border-radius:15px;background:white}.dash-fallback{text-align:center;padding:10px 4px 0}.dash-open{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;color:var(--brand2);font-weight:800;font-size:14px}.dash-mobile{display:none}.dash-mobile-card{border:1px solid var(--line);background:var(--surface);border-radius:20px;padding:24px;text-align:center}.dash-mobile-card strong{display:block;font:700 24px 'Fraunces',serif;margin-bottom:8px}.dash-mobile-card p{margin:0;color:var(--muted)}.dash-mobile-card .dash-open{margin-top:18px;padding:13px 16px;border:1px solid var(--brand);border-radius:10px;width:100%}.badge-premium"
+          if old_css not in s:
+              raise SystemExit('CSS alvo não encontrado')
+          s = s.replace(old_css, new_css, 1)
+
+          old_media = "@media(max-width:820px){.hero{padding-top:20px}.hero-grid,.demo-grid{grid-template-columns:1fr}.hero-grid{gap:42px}.hero-copy{text-align:center}.lead{margin-left:auto;margin-right:auto}.steps,.plans{grid-template-columns:1fr}.phone{max-width:310px}.section{padding:68px 0}.dash-shell iframe{height:600px}.proofbar .wrap{justify-content:flex-start}.final{padding:72px 0}.cta{width:100%;max-width:420px}}"
+          new_media = "@media(max-width:820px){.hero{padding-top:20px}.hero-grid,.demo-grid{grid-template-columns:1fr}.hero-grid{gap:42px}.hero-copy{text-align:center}.lead{margin-left:auto;margin-right:auto}.steps,.plans{grid-template-columns:1fr}.phone{max-width:310px}.section{padding:68px 0}.dash-desktop{display:none}.dash-mobile{display:block}.proofbar .wrap{justify-content:flex-start}.final{padding:72px 0}.cta{width:100%;max-width:420px}}"
+          if old_media not in s:
+              raise SystemExit('Media query alvo não encontrada')
+          s = s.replace(old_media, new_media, 1)
+
+          old_block = '''    <div class="dash-shell" id="dashboard-demo">
+      <iframe loading="lazy" src="/painel/demo-k7x2m9.html" title="Demonstração do painel Premium do Notinha"></iframe>
+    </div>'''
+          new_block = '''    <div class="dash-shell dash-desktop" id="dashboard-demo">
+      <iframe loading="lazy" src="/painel/demo-k7x2m9.html" title="Demonstração do painel Premium do Notinha"></iframe>
+      <div class="dash-fallback"><a class="dash-open js-dashboard-open" href="/painel/demo-k7x2m9.html" target="_blank" rel="noopener">Abrir painel em tela cheia ↗</a></div>
+    </div>
+    <div class="dash-mobile" id="dashboard-demo-mobile">
+      <div class="dash-mobile-card">
+        <strong>O painel fica melhor em tela cheia.</strong>
+        <p>No celular, em vez de encaixar o painel dentro da página, abrimos a demonstração em uma tela própria.</p>
+        <a class="dash-open js-dashboard-open" href="/painel/demo-k7x2m9.html" target="_blank" rel="noopener">Ver demonstração do painel ↗</a>
+      </div>
+    </div>'''
+          if old_block not in s:
+              raise SystemExit('Bloco do dashboard não encontrado')
+          s = s.replace(old_block, new_block, 1)
+
+          old_js = "  var dash=document.getElementById('dashboard-demo');"
+          new_js = "  document.querySelectorAll('.js-dashboard-open').forEach(function(a){a.addEventListener('click',function(){ev('dashboard_demo_open',{page:'ads_lp',device:window.matchMedia('(max-width:820px)').matches?'mobile':'desktop'});});});\n  var dash=document.getElementById('dashboard-demo');"
+          if old_js not in s:
+              raise SystemExit('JS alvo não encontrado')
+          s = s.replace(old_js, new_js, 1)
+          p.write_text(s)
+          PY
+      - name: Remover workflow temporário e publicar
+        run: |
+          rm .github/workflows/fix-landing-dashboard-responsive.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add controle-gastos-whatsapp/index.html .github/workflows/fix-landing-dashboard-responsive.yml
+          git commit -m 'fix: painel responsivo na landing de Ads'
+          git push
