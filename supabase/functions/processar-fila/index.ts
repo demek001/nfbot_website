@@ -1,3 +1,4 @@
+import { comandoPiloto } from './commands.ts';
 import { encodeBase64 } from "https://deno.land/std@0.224.0/encoding/base64.ts";
 const GRAPH = "https://graph.facebook.com/v23.0";
 const WHATSAPP_TOKEN       = Deno.env.get("WHATSAPP_TOKEN")!;
@@ -1164,7 +1165,7 @@ async function processarMensagem(value: any, msg: any) {
   const tipo = msg.type;
   const textoMsg = tipo === "text" ? (msg.text?.body ?? "") : "";
   if (await tentarAtivar(phoneNumberId, from, textoMsg)) return;
-  const clientes = await sbSelect(`clientes?telefone=eq.${from}&select=id,nome,ativado,plano_tier,aguardando_data_nf,aguardando_resync,aguardando_categoria_nf,aguardando_categoria_entrada,aguardando_comprovante_pend,drive_refresh_token,drive_folder_id,sheet_id,pagamento_status,trial_termina_em,menu_ctx`);
+  const clientes = await sbSelect(`clientes?telefone=eq.${from}&select=id,telefone,nome,ativado,plano_tier,aguardando_data_nf,aguardando_resync,aguardando_categoria_nf,aguardando_categoria_entrada,aguardando_comprovante_pend,drive_refresh_token,drive_folder_id,sheet_id,pagamento_status,trial_termina_em,menu_ctx`);
   const cliente = clientes?.[0];
   if (!cliente || !cliente.ativado) { await enviarWhats(phoneNumberId, from, "Ola! Nao reconheco esse numero. Para usar o Notinha, faca seu cadastro em usenotinha.com.br e ative pelo link que voce vai receber."); return; }
   try {
@@ -1197,6 +1198,7 @@ async function processarMensagem(value: any, msg: any) {
       else { const legenda = (msg.document?.caption ?? "").toLowerCase(); if (/receb|entrada/.test(legenda)) await processarRecebimentoImagem(cliente, phoneNumberId, from, msg.document.id); else await processarNota(cliente, phoneNumberId, from, msg.document.id, msg.id ?? null); }
     } else if (tipo === "text") {
       if (cliente.aguardando_data_nf) { const r = await tratarCorrecaoData(cliente, phoneNumberId, from, textoMsg); if (r === "applied" || r === "skip") { await sbPatch(`clientes?id=eq.${cliente.id}`, { aguardando_data_nf: null }); return; } if (r === "need_date") return; }
+      if (await comandoPiloto(cliente, textoMsg, sbRpc, (s) => enviarWhats(phoneNumberId, from, s))) return;
       if (await tratarMenuNav(cliente, phoneNumberId, from, textoMsg)) return;
       if (await tratarMenuPos(cliente, phoneNumberId, from, textoMsg)) return;
       if (!(await tratarComando(cliente, phoneNumberId, from, textoMsg))) { await processarGastoTexto(cliente, phoneNumberId, from, textoMsg); }
