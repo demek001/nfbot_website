@@ -1,4 +1,5 @@
 import { comandoPiloto } from './commands.ts';
+import { querLembrete } from './reminders.ts';
 import { encodeBase64 } from "https://deno.land/std@0.224.0/encoding/base64.ts";
 const GRAPH = "https://graph.facebook.com/v23.0";
 const WHATSAPP_TOKEN       = Deno.env.get("WHATSAPP_TOKEN")!;
@@ -1169,6 +1170,7 @@ async function processarMensagem(value: any, msg: any) {
   const cliente = clientes?.[0];
   if (!cliente || !cliente.ativado) { await enviarWhats(phoneNumberId, from, "Ola! Nao reconheco esse numero. Para usar o Notinha, faca seu cadastro em usenotinha.com.br e ative pelo link que voce vai receber."); return; }
   try {
+    if (tipo === "text" && querLembrete(textoMsg) && await comandoPiloto(cliente, textoMsg, sbRpc, (s) => enviarWhats(phoneNumberId, from, s), {wam_id:msg.id,timestamp:msg.timestamp})) return;
     if (tipo === "text" && msg?.context?.id) { if (await tratarRespostaCitada(cliente, phoneNumberId, from, msg, textoMsg)) return; }
     if (tipo === "text" && cliente.aguardando_resync) {
       if (RE_SIM.test(textoMsg)) { await ressincronizar(cliente, phoneNumberId, from); return; }
@@ -1233,3 +1235,4 @@ Deno.serve(async (req) => {
   }
   return new Response(JSON.stringify({ processados }), { status: 200, headers: { "Content-Type": "application/json" } });
 });
+

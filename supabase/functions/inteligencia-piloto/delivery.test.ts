@@ -10,6 +10,7 @@ globalThis.fetch=async(input:any,init:any)=>{
   const u=String(input);calls.push(u);
   const c={cliente_id:'pilot',telefone:'pilot',email:'test@example.invalid',email_verificado:true,phone_number_id:'business',whatsapp_gratis_ate:new Date(Date.now()+86400000).toISOString(),ultimo_inbound_em:mode==='email'?null:new Date().toISOString()};
   if(u.includes('inteligencia_preparar_piloto'))return reply({status:'pronto',contexto:c,itens:[{id:'insight',titulo:'Teste',dados:{}}],entrega_id:'delivery'});
+  if(u.includes('inteligencia_preparar_lembrete_piloto'))return reply({status:'pronto',contexto:c,itens:[{id:'reminder',titulo:'Corte de cabelo',dados:{devido_em:'2026-09-12T13:00:00Z'}}],entrega_id:'reminder-delivery',classe:'lembrete'});
   if(u.includes('inteligencia_contexto_piloto'))return reply(c);
   if(u.includes('inteligencia_entregas')){updates.push(JSON.parse(init.body));return reply({});}
   if(u.includes('graph.facebook.com')){
@@ -32,4 +33,12 @@ test('outside window sends through existing Zoho only',async()=>{
 test('fresh window sends only freeform WhatsApp',async()=>{mode='whatsapp';await handler(request());assert.equal(updates[0].canal,'whatsapp');assert.ok(!calls.some(x=>x.includes('zoho.com')));});
 test('explicit WhatsApp rejection uses email',async()=>{mode='reject';await handler(request());assert.equal(updates[0].canal,'email');assert.equal(updates[0].status,'aceito');});
 test('uncertain WhatsApp acceptance never falls back or retries',async()=>{mode='unknown';await handler(request());assert.equal(updates[0].status,'incerto');assert.ok(!calls.some(x=>x.includes('zoho.com')));});
+test('scheduled reminder uses its independent queue and delivery path',async()=>{
+  mode='whatsapp';
+  const r=await handler(new Request('https://worker.invalid',{method:'POST',headers:{'x-worker-secret':'test-secret'},body:JSON.stringify({acao:'lembretes'})}));
+  assert.equal((await r.json()).status,'aceito');
+  assert.ok(calls.some(x=>x.includes('inteligencia_preparar_lembrete_piloto')));
+  assert.ok(!calls.some(x=>x.includes('/rpc/inteligencia_preparar_piloto')));
+  assert.equal(updates[0].canal,'whatsapp');
+});
 

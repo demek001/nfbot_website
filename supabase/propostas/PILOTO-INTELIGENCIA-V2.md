@@ -16,13 +16,23 @@ O destinatário precisa estar ativado, ter aceitado termos, não estar cancelado
 - Janela: 24 horas, com margem de dois minutos. Sem timestamp confiável, não envia WhatsApp.
 - Revisão de tarifa obrigatória em 01/10/2026 UTC: a elegibilidade WhatsApp expira nessa data; depois disso, o piloto usa e-mail até revisão explícita. Essa é uma salvaguarda de configuração, não afirmação de gratuidade permanente.
 - E-mail: mesma conta Zoho e mecanismo OAuth já usados no projeto; destinatário vem do cadastro e precisa coincidir com o Google conectado. Nenhum novo serviço contratado.
-- Limite: uma reserva de resumo por dia em America/Sao_Paulo, até cinco itens. Não é um agendador de lembretes urgentes com entrega exata no horário.
+- Limite dos insights: uma reserva de resumo por dia em America/Sao_Paulo, até cinco itens. Lembretes explicitamente pedidos pelo usuário têm fila independente, verificada a cada minuto, e não consomem esse limite.
 - Deduplicação: ID do insight + hash dos dados, ou ID do lembrete + vencimento. Só lembretes com autorização externa explícita entram; candidatos automáticos não ganham essa autorização.
 - Concorrência: bloqueio transacional e unicidade por cliente/dia. Uma resposta incerta ou reserva interrompida bloqueia envios até reconciliação manual. Não há retry cego após timeout. Falhas explícitas podem ser tentadas no dia seguinte.
 - Se o WhatsApp rejeitar explicitamente, tenta e-mail. Timeout/resposta ambígua não dispara fallback, para evitar duas entregas.
 - `aceito` significa aceitação pelo provedor, não comprovação de recebimento ou leitura pelo cliente.
 
 ## Segurança e custos
+
+### Cadastro de lembretes pelo WhatsApp
+
+O piloto agora reconhece pedidos como `Me lembre que amanhã às 10hs da manhã tenho corte de cabelo`. O parser determinístico suporta hoje/amanhã e datas DD/MM ou DD/MM/AAAA, com horas/minutos e manhã/tarde/noite. Datas relativas usam a data da mensagem recebida em São Paulo, não a hora de um eventual retry. Pedidos incompletos, múltiplos horários ou recorrência ainda não suportada recebem pedido de esclarecimento e não caem no registro de gastos.
+
+A RPC exige evento original autenticado, vínculo com o piloto ativo e data futura em até 366 dias. Criações repetidas do mesmo compromisso/horário são deduplicadas. O limite é de 50 lembretes ativos. A confirmação inclui data e hora locais e só acontece após persistência. `meus lembretes` mostra também o horário.
+
+O job `notinha-piloto-lembretes-minuto` verifica vencimentos a cada minuto e invoca o dispatcher somente se há um lembrete elegível. Lembretes usam a mesma política de WhatsApp gratuito/e-mail existente, mas reserva própria, independente do resumo diário. Após aceitação do provedor, o lembrete é concluído. Falhas explícitas têm até três tentativas, espaçadas por pelo menos cinco minutos; respostas incertas não são reenviadas automaticamente.
+
+Validação: a mensagem real anteriormente não reconhecida foi reprocessada pelo worker atualizado, que persistiu o compromisso correto com envio externo ativo. 24 testes locais passaram, incluindo a frase exata, virada de dia/mês/ano, horários inválidos, criação autenticada e despacho de lembrete. Testes de banco com rollback cobriram deduplicação, evento inválido, não enviar cedo, independência do limite diário e conclusão após aceitação. Migration `pilot_natural_language_reminders`; SQL-fonte em `piloto-lembretes-schema.sql` e `piloto-lembretes-digest.sql`.
 
 ### Correção após feedback real
 

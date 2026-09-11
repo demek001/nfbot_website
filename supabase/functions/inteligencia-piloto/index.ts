@@ -70,16 +70,19 @@ Deno.serve(async req=>{
       return out({ok:true,zoho_pronto:mail,whatsapp_token_presente:!!Deno.env.get('WHATSAPP_TOKEN'),
         meta_secret_presente:!!(Deno.env.get('META_APP_SECRET')||Deno.env.get('META_APP_SECRET_KEY')||Deno.env.get('WHATSAPP_APP_SECRET')||Deno.env.get('APP_SECRET'))});
     }
-    if(!['preview','enviar'].includes(body.acao)) return out({erro:'acao'},400);
-    const p=await rpc('inteligencia_preparar_piloto',{p_reservar:body.acao==='enviar'});
+    if(!['preview','enviar','lembretes','preview_lembretes'].includes(body.acao)) return out({erro:'acao'},400);
+    const lembrete=body.acao==='lembretes'||body.acao==='preview_lembretes';
+    const preview=body.acao==='preview'||body.acao==='preview_lembretes';
+    const p=await rpc(lembrete?'inteligencia_preparar_lembrete_piloto':'inteligencia_preparar_piloto',{p_reservar:!preview});
     if(p.status!=='pronto') return out({status:p.status});
     let c=await rpc('inteligencia_contexto_piloto'); // Recheck eligibility and window immediately before sending.
     let canal=canalAlerta(c);
-    if(body.acao==='preview') return out({status:p.status,canal,itens:p.itens.length,texto:textoAlerta(p.itens)});
+    const texto=lembrete?`⏰ Lembrete: ${p.itens[0].titulo}\n${new Date(p.itens[0].dados.devido_em).toLocaleString('pt-BR',{timeZone:'America/Sao_Paulo',dateStyle:'short',timeStyle:'short'})} (horário de São Paulo).`:textoAlerta(p.itens);
+    if(preview) return out({status:p.status,canal,itens:p.itens.length,texto});
     if(!canal || !c || c.cliente_id!==p.contexto.cliente_id) {
       await finish(p.entrega_id,'falhou',null,'sem_canal_elegivel');return out({status:'sem_canal_elegivel'});
     }
-    const text=textoAlerta(p.itens);
+    const text=texto;
     let status=canal==='whatsapp'?await whatsapp(c,text):await email(c,text);
     // Only an explicit rejection allows fallback. Ambiguous acceptance is quarantined.
     if(status==='falhou' && canal==='whatsapp' && c.email_verificado) {
