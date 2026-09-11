@@ -61,9 +61,12 @@ jobs:
               parts = sorted(staged.glob(pattern))
               if not parts:
                   raise SystemExit(f'No staged parts found for {output}')
-              encoded = ''.join(p.read_text().strip() for p in parts)
-              encoded += '=' * ((4 - len(encoded) % 4) % 4)
-              Path(output).write_bytes(base64.b64decode(encoded, validate=True))
+              chunks = []
+              for part in parts:
+                  encoded = part.read_text().strip()
+                  encoded += '=' * ((4 - len(encoded) % 4) % 4)
+                  chunks.append(base64.b64decode(encoded, validate=True))
+              Path(output).write_bytes(b''.join(chunks))
 
           decode_parts('planilha-*.txt', 'notinha-planilha-automatica.mp4')
           decode_parts('relatorio-*.txt', 'notinha-relatorio-pdf-whatsapp.mp4')
