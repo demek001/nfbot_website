@@ -57,19 +57,16 @@ jobs:
           if wanted - extracted:
               raise SystemExit('Could not reconstruct the WhatsApp menu demo')
 
-          def decode_parts(pattern, output):
+          def decode_joined(pattern, output):
               parts = sorted(staged.glob(pattern))
               if not parts:
                   raise SystemExit(f'No staged parts found for {output}')
-              chunks = []
-              for part in parts:
-                  encoded = part.read_text().strip()
-                  encoded += '=' * ((4 - len(encoded) % 4) % 4)
-                  chunks.append(base64.b64decode(encoded, validate=True))
-              Path(output).write_bytes(b''.join(chunks))
+              encoded = ''.join(p.read_text().strip() for p in parts)
+              encoded += '=' * ((4 - len(encoded) % 4) % 4)
+              Path(output).write_bytes(base64.b64decode(encoded, validate=True))
 
-          decode_parts('planilha-*.txt', 'notinha-planilha-automatica.mp4')
-          decode_parts('relatorio-*.txt', 'notinha-relatorio-pdf-whatsapp.mp4')
+          decode_joined('planilha-*.txt', 'notinha-planilha-automatica.mp4')
+          decode_joined('report-*.txt', 'notinha-relatorio-pdf-whatsapp.mp4')
 
           videos = [
               Path('notinha-planilha-automatica.mp4'),
@@ -99,16 +96,16 @@ jobs:
                 .notinha-extra-demos-head p{margin:0;color:var(--muted,#8b949e);font-size:16px}
                 .notinha-extra-demos-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;align-items:start}
                 .notinha-extra-demo-card{background:var(--surface,#161b22);border:1px solid var(--border,var(--line,#30363d));border-radius:18px;padding:18px;min-width:0}
-                .notinha-extra-demo-phone{width:min(100%,260px);margin:0 auto 17px;background:#050808;border:8px solid #1f2630;border-radius:30px;overflow:hidden;box-shadow:0 18px 45px rgba(0,0,0,.28)}
+                .notinha-extra-demo-phone{width:min(100%,240px);margin:0 auto 17px;background:#050808;border:8px solid #1f2630;border-radius:30px;overflow:hidden;box-shadow:0 18px 45px rgba(0,0,0,.28)}
                 .notinha-extra-demo-phone video{display:block;width:100%;aspect-ratio:288/622;object-fit:cover;background:#000}
                 .notinha-extra-demo-card h4{font-family:'Plus Jakarta Sans','DM Sans',sans-serif;font-size:17px;line-height:1.25;margin:0 0 7px;color:var(--accent,var(--ink,#f0f6fc))}
                 .notinha-extra-demo-card p{font-size:14px;line-height:1.5;color:var(--muted,#8b949e);margin:0}
                 .notinha-extra-demos-section{border-top:1px solid var(--border,var(--line,#30363d))}
                 @media(max-width:760px){
                   .notinha-extra-demos-grid{display:flex;overflow-x:auto;gap:14px;scroll-snap-type:x mandatory;padding:2px 4px 14px;margin:0 -4px;-webkit-overflow-scrolling:touch}
-                  .notinha-extra-demo-card{flex:0 0 min(82vw,310px);scroll-snap-align:center}
+                  .notinha-extra-demo-card{flex:0 0 min(82vw,300px);scroll-snap-align:center}
                   .notinha-extra-demos-head{text-align:left}
-                  .notinha-extra-demo-phone{max-width:245px}
+                  .notinha-extra-demo-phone{max-width:225px}
                 }
               `;
               document.head.appendChild(style);
@@ -160,11 +157,9 @@ jobs:
               workflow.unlink()
           PY
 
-          if command -v ffprobe >/dev/null 2>&1; then
-            for video in notinha-planilha-automatica.mp4 notinha-menu-whatsapp.mp4 notinha-relatorio-pdf-whatsapp.mp4; do
-              ffprobe -v error -select_streams v:0 -show_entries stream=codec_name,width,height -show_entries format=duration,size -of default=noprint_wrappers=1 "$video"
-            done
-          fi
+          for video in notinha-planilha-automatica.mp4 notinha-menu-whatsapp.mp4 notinha-relatorio-pdf-whatsapp.mp4; do
+            ffprobe -v error -select_streams v:0 -show_entries stream=codec_name,width,height -show_entries format=duration,size -of default=noprint_wrappers=1 "$video"
+          done
 
           grep -q 'landing-product-videos.js' index.html
           grep -q 'landing-product-videos.js' controle-gastos-whatsapp/index.html
