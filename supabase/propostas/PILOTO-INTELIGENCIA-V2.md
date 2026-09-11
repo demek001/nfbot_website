@@ -6,7 +6,7 @@ Implementado em produção em 11/09/2026. Destinatário e ID do cliente ficam so
 
 O cadastro ativo do piloto recebe os comandos `inteligencia`, `assinaturas`, `recorrencias`, `meus lembretes`, `posso gastar 500` e `pausar alertas`. O processador verifica a configuração privada e o vínculo exato entre ID e telefone. Cadastro antigo inativo não participa. Flag global de comandos permanece false.
 
-As NFs continuam entrando pelo processador existente e alimentam as mesmas tabelas usadas pelo motor v2. O job `notinha-piloto-alertas-15min` atualiza a análise do piloto a cada 15 minutos; os comandos também atualizam a análise. Não foram criadas notas fictícias. O teste real de nova NF enviada pelo aparelho fica pendente da próxima mensagem do usuário.
+As NFs continuam entrando pelo processador existente e alimentam as mesmas tabelas usadas pelo motor v2. O job `notinha-piloto-alertas-15min` atualiza a análise do piloto a cada 15 minutos; os comandos também atualizam a análise. Não foram criadas notas fictícias. Durante a validação, uma NF real enviada pelo usuário foi processada com quatro itens, aumentando o histórico em uma nota. O evento teve assinatura validada e a análise v2 executada com os dados atualizados terminou sem erros.
 
 O destinatário precisa estar ativado, ter aceitado termos, não estar cancelado/anonimizado, ter pagamento ativo ou cortesia válida e ter inteligência/proatividade habilitadas. Uma tabela singleton permite somente um piloto, com restrição de banco mantendo `global_habilitado=false`.
 
@@ -40,7 +40,7 @@ Fontes: [tarifas oficiais Meta](https://business.whatsapp.com/products/platform-
 
 Também foram verificados: sintaxe TypeScript das funções; RPCs e privilégios reais; reserva/antiduplicidade/pausa em transação com rollback; atualização da janela somente para eventos marcados como autenticados em transação com rollback; health Zoho; primeiro resumo real aceito por e-mail; tentativa seguinte bloqueada; exatamente um cliente proativo, configuração global false. O webhook rejeitou POST sem assinatura em produção.
 
-Não houve envio real de WhatsApp nesta validação porque a janela estava fechada. Isso será exercitado após uma nova mensagem legítima do usuário e um novo alerta elegível, respeitado o limite diário. O texto de padrões de compra foi ajustado para não tratar ausência de nova compra como dívida.
+O primeiro alerta proativo foi por e-mail porque a janela estava fechada. Depois, uma NF legítima abriu a janela autenticada e o fluxo atual concluiu seu processamento. Não houve segundo alerta proativo por WhatsApp, respeitando o limite diário; esse caminho permanece validado por testes controlados. O texto de padrões de compra foi ajustado para não tratar ausência de nova compra como dívida.
 
 ## Operação e reversão
 
