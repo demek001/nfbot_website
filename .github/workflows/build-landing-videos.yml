@@ -19,28 +19,23 @@ jobs:
           ref: feat/landing-product-videos-20260910
           fetch-depth: 0
 
-      - name: Rebuild videos and update both landing pages
+      - name: Rebuild, validate and publish landing videos
         shell: bash
         run: |
+          set -euo pipefail
           python3 - <<'PY'
           from pathlib import Path
           import base64, shutil
 
-          root = Path('.')
-          staged = root / '.tmp-video-parts'
+          staged = Path('.tmp-video-parts')
 
-          # The first staging set already contains two complete MP4s followed by
-          # the beginning of the third. Decode only the complete tar members.
+          # Recover the WhatsApp menu demo from the original staged tar.
           b64 = ''.join((staged / f'part-{i:02d}.txt').read_text().strip() for i in range(8))
           b64 += '=' * ((4 - len(b64) % 4) % 4)
           raw = base64.b64decode(b64)
-
-          wanted = {
-              'notinha-menu-whatsapp.mp4',
-              'notinha-relatorio-pdf-whatsapp.mp4',
-          }
-          offset = 0
+          wanted = {'notinha-menu-whatsapp.mp4'}
           extracted = set()
+          offset = 0
           while offset + 512 <= len(raw):
               header = raw[offset:offset + 512]
               name = header[:100].split(b'\0', 1)[0].decode('utf-8', 'ignore')
@@ -59,15 +54,19 @@ jobs:
                   Path(name).write_bytes(raw[start:end])
                   extracted.add(name)
               offset = start + ((size + 511) // 512) * 512
+          if wanted - extracted:
+              raise SystemExit('Could not reconstruct the WhatsApp menu demo')
 
-          missing = wanted - extracted
-          if missing:
-              raise SystemExit(f'Missing staged video(s): {sorted(missing)}')
+          def decode_parts(pattern, output):
+              parts = sorted(staged.glob(pattern))
+              if not parts:
+                  raise SystemExit(f'No staged parts found for {output}')
+              encoded = ''.join(p.read_text().strip() for p in parts)
+              encoded += '=' * ((4 - len(encoded) % 4) % 4)
+              Path(output).write_bytes(base64.b64decode(encoded, validate=True))
 
-          # The planilha video is staged separately as a compact web version.
-          planilha_b64 = ''.join(p.read_text().strip() for p in sorted(staged.glob('planilha-*.txt')))
-          planilha_b64 += '=' * ((4 - len(planilha_b64) % 4) % 4)
-          Path('notinha-planilha-automatica.mp4').write_bytes(base64.b64decode(planilha_b64))
+          decode_parts('planilha-*.txt', 'notinha-planilha-automatica.mp4')
+          decode_parts('relatorio-*.txt', 'notinha-relatorio-pdf-whatsapp.mp4')
 
           videos = [
               Path('notinha-planilha-automatica.mp4'),
@@ -157,6 +156,16 @@ jobs:
           if workflow.exists():
               workflow.unlink()
           PY
+
+          if command -v ffprobe >/dev/null 2>&1; then
+            for video in notinha-planilha-automatica.mp4 notinha-menu-whatsapp.mp4 notinha-relatorio-pdf-whatsapp.mp4; do
+              ffprobe -v error -select_streams v:0 -show_entries stream=codec_name,width,height -show_entries format=duration,size -of default=noprint_wrappers=1 "$video"
+            done
+          fi
+
+          grep -q 'landing-product-videos.js' index.html
+          grep -q 'landing-product-videos.js' controle-gastos-whatsapp/index.html
+          grep -q 'Veja o que acontece depois da nota' landing-product-videos.js
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
