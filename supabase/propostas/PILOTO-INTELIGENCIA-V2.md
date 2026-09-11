@@ -24,6 +24,12 @@ O destinatário precisa estar ativado, ter aceitado termos, não estar cancelado
 
 ## Segurança e custos
 
+### Correção após feedback real
+
+O usuário identificou que duas previsões de ausência eram compras de mercado, não contas recorrentes. O detector agora exclui categorias Mercado/Supermercado/Supermercados da inferência de contas. Os candidatos de mercado do piloto foram ignorados e os falsos insights descartados, preservando NFs e histórico de entregas. Alertas de atraso e projeção de obrigações futuras exigem recorrência confirmada. Compras de mercado continuam alimentando totais, categorias e variações de preço.
+
+Verificação após a correção: zero alertas de recorrência pendente e um insight de preço no feed; reprocessamento não recria os falsos alertas. Teste transacional adicional confirma que candidata não gera atraso/previsão, enquanto uma conta confirmada ainda gera o alerta esperado. Migration: `exclude_groceries_from_recurring_bills`.
+
 As duas novas tabelas têm RLS e não permitem leitura/escrita a anon/authenticated. As RPCs novas são SECURITY INVOKER, têm search_path fixo e EXECUTE somente para service_role. A Edge Function requer x-worker-secret em todos os caminhos, incluindo health. Não aceita telefone/e-mail arbitrário no corpo.
 
 Health verificou autenticação Zoho e presença dos recursos de WhatsApp/HMAC, retornando apenas booleanos. Requisições reais sem autenticação ao dispatcher e sem assinatura ao webhook retornaram 401. Nenhuma credencial foi incluída em código, logs novos ou documentação. Tokens Zoho são enviados no corpo OAuth, não na URL.
