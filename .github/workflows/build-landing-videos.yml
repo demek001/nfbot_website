@@ -1,0 +1,165 @@
+name: Build landing product videos
+
+on:
+  push:
+    branches:
+      - feat/landing-product-videos-20260910
+    paths:
+      - .github/workflows/build-landing-videos.yml
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feat/landing-product-videos-20260910
+          fetch-depth: 0
+
+      - name: Rebuild videos and update both landing pages
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import base64, shutil
+
+          root = Path('.')
+          staged = root / '.tmp-video-parts'
+
+          # The first staging set already contains two complete MP4s followed by
+          # the beginning of the third. Decode only the complete tar members.
+          b64 = ''.join((staged / f'part-{i:02d}.txt').read_text().strip() for i in range(8))
+          b64 += '=' * ((4 - len(b64) % 4) % 4)
+          raw = base64.b64decode(b64)
+
+          wanted = {
+              'notinha-menu-whatsapp.mp4',
+              'notinha-relatorio-pdf-whatsapp.mp4',
+          }
+          offset = 0
+          extracted = set()
+          while offset + 512 <= len(raw):
+              header = raw[offset:offset + 512]
+              name = header[:100].split(b'\0', 1)[0].decode('utf-8', 'ignore')
+              if not name:
+                  break
+              size_raw = header[124:136].strip(b'\0 ')
+              try:
+                  size = int(size_raw or b'0', 8)
+              except ValueError:
+                  break
+              start = offset + 512
+              end = start + size
+              if end > len(raw):
+                  break
+              if name in wanted:
+                  Path(name).write_bytes(raw[start:end])
+                  extracted.add(name)
+              offset = start + ((size + 511) // 512) * 512
+
+          missing = wanted - extracted
+          if missing:
+              raise SystemExit(f'Missing staged video(s): {sorted(missing)}')
+
+          # The planilha video is staged separately as a compact web version.
+          planilha_b64 = ''.join(p.read_text().strip() for p in sorted(staged.glob('planilha-*.txt')))
+          planilha_b64 += '=' * ((4 - len(planilha_b64) % 4) % 4)
+          Path('notinha-planilha-automatica.mp4').write_bytes(base64.b64decode(planilha_b64))
+
+          videos = [
+              Path('notinha-planilha-automatica.mp4'),
+              Path('notinha-menu-whatsapp.mp4'),
+              Path('notinha-relatorio-pdf-whatsapp.mp4'),
+          ]
+          for video in videos:
+              data = video.read_bytes()
+              if len(data) < 10_000 or data[4:8] != b'ftyp':
+                  raise SystemExit(f'Invalid MP4 generated: {video} ({len(data)} bytes)')
+
+          js = r'''(function(){
+            const cards = [
+              {src:'/notinha-planilha-automatica.mp4', title:'Planilha atualizada automaticamente', text:'Cada nota vira informação organizada, sem você digitar compra por compra.', label:'Demonstração da planilha do Notinha sendo atualizada automaticamente'},
+              {src:'/notinha-menu-whatsapp.mp4', title:'Tudo pelo WhatsApp', text:'Consulte resumo, gastos, recebimentos, preços e outras funções sem aprender um app novo.', label:'Demonstração do menu de recursos do Notinha no WhatsApp'},
+              {src:'/notinha-relatorio-pdf-whatsapp.mp4', title:'Relatório em PDF no WhatsApp', text:'Peça o relatório e receba o PDF do período direto na conversa.', label:'Demonstração do relatório em PDF enviado pelo Notinha no WhatsApp'}
+            ];
+
+            function addStyles(){
+              if(document.getElementById('notinha-extra-demos-style')) return;
+              const style=document.createElement('style');
+              style.id='notinha-extra-demos-style';
+              style.textContent=`
+                .notinha-extra-demos{margin-top:52px}
+                .notinha-extra-demos-head{text-align:center;max-width:720px;margin:0 auto 30px}
+                .notinha-extra-demos-head h3{font-family:'Fraunces',serif;font-size:clamp(27px,3.2vw,40px);line-height:1.08;margin:0 0 10px;color:var(--accent,var(--ink,#f0f6fc))}
+                .notinha-extra-demos-head p{margin:0;color:var(--muted,#8b949e);font-size:16px}
+                .notinha-extra-demos-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;align-items:start}
+                .notinha-extra-demo-card{background:var(--surface,#161b22);border:1px solid var(--border,var(--line,#30363d));border-radius:18px;padding:18px;min-width:0}
+                .notinha-extra-demo-phone{width:min(100%,260px);margin:0 auto 17px;background:#050808;border:8px solid #1f2630;border-radius:30px;overflow:hidden;box-shadow:0 18px 45px rgba(0,0,0,.28)}
+                .notinha-extra-demo-phone video{display:block;width:100%;aspect-ratio:288/622;object-fit:cover;background:#000}
+                .notinha-extra-demo-card h4{font-family:'Plus Jakarta Sans','DM Sans',sans-serif;font-size:17px;line-height:1.25;margin:0 0 7px;color:var(--accent,var(--ink,#f0f6fc))}
+                .notinha-extra-demo-card p{font-size:14px;line-height:1.5;color:var(--muted,#8b949e);margin:0}
+                .notinha-extra-demos-section{border-top:1px solid var(--border,var(--line,#30363d))}
+                @media(max-width:760px){
+                  .notinha-extra-demos-grid{display:flex;overflow-x:auto;gap:14px;scroll-snap-type:x mandatory;padding:2px 4px 14px;margin:0 -4px;-webkit-overflow-scrolling:touch}
+                  .notinha-extra-demo-card{flex:0 0 min(82vw,310px);scroll-snap-align:center}
+                  .notinha-extra-demos-head{text-align:left}
+                  .notinha-extra-demo-phone{max-width:245px}
+                }
+              `;
+              document.head.appendChild(style);
+            }
+
+            function markup(){
+              return `<div class="notinha-extra-demos-head"><h3>Veja o que acontece depois da nota</h3><p>Além de registrar a compra, o Notinha mantém tudo acessível pelo WhatsApp.</p></div><div class="notinha-extra-demos-grid">${cards.map(c=>`<article class="notinha-extra-demo-card"><div class="notinha-extra-demo-phone"><video controls playsinline preload="none" aria-label="${c.label}"><source src="${c.src}" type="video/mp4"></video></div><h4>${c.title}</h4><p>${c.text}</p></article>`).join('')}</div>`;
+            }
+
+            function insert(){
+              if(document.querySelector('.notinha-extra-demos')) return;
+              addStyles();
+              if(location.pathname.indexOf('/controle-gastos-whatsapp')===0){
+                const demoVideo=document.getElementById('video-nota-2') || document.getElementById('video-nota');
+                const currentSection=demoVideo && demoVideo.closest('section');
+                if(!currentSection) return;
+                const section=document.createElement('section');
+                section.className='section notinha-extra-demos-section';
+                section.innerHTML=`<div class="wrap notinha-extra-demos">${markup()}</div>`;
+                currentSection.insertAdjacentElement('afterend',section);
+              } else {
+                const demo=document.querySelector('#como-funciona .demo');
+                if(!demo) return;
+                const block=document.createElement('div');
+                block.className='notinha-extra-demos';
+                block.innerHTML=markup();
+                demo.insertAdjacentElement('afterend',block);
+              }
+            }
+
+            if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',insert,{once:true});
+            else insert();
+          })();'''
+          Path('landing-product-videos.js').write_text(js, encoding='utf-8')
+
+          tag = '<script src="/landing-product-videos.js" defer></script>'
+          for rel in ('index.html', 'controle-gastos-whatsapp/index.html'):
+              path = Path(rel)
+              text = path.read_text(encoding='utf-8')
+              if tag not in text:
+                  if '</body>' not in text:
+                      raise SystemExit(f'No </body> found in {rel}')
+                  text = text.replace('</body>', tag + '\n</body>', 1)
+                  path.write_text(text, encoding='utf-8')
+
+          shutil.rmtree(staged)
+          workflow = Path('.github/workflows/build-landing-videos.yml')
+          if workflow.exists():
+              workflow.unlink()
+          PY
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Add product demo videos to landing pages"
+          git push origin HEAD:feat/landing-product-videos-20260910
