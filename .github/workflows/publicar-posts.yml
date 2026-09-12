@@ -13,6 +13,7 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
   publicar:
@@ -20,6 +21,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Configurar Python
         uses: actions/setup-python@v5
@@ -35,11 +38,37 @@ jobs:
         if: github.event.inputs.dry_run != 'true'
         run: python scripts/publicar-agendados.py
 
-      - name: Commitar e enviar
+      - name: Criar branch e enviar alterações
+        id: branch
         if: steps.publicar.outputs.houve_publicacao == 'true'
+        shell: bash
         run: |
+          set -euo pipefail
+          BRANCH="automation/publicar-posts-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c "$BRANCH"
           git add -A
           git commit -m "post: publica ${{ steps.publicar.outputs.publicados }}"
-          git push
+          git push --set-upstream origin "$BRANCH"
+          echo "branch=$BRANCH" >> "$GITHUB_OUTPUT"
+
+      - name: Criar Pull Request e fazer squash merge
+        if: steps.publicar.outputs.houve_publicacao == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BRANCH: ${{ steps.branch.outputs.branch }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          PR_URL=$(gh pr create \
+            --repo "$GITHUB_REPOSITORY" \
+            --base main \
+            --head "$BRANCH" \
+            --title "post: publica ${{ steps.publicar.outputs.publicados }}" \
+            --body "Publicação automática do blog/caderninho pelo workflow Publicar posts agendados.")
+
+          gh pr merge "$PR_URL" \
+            --repo "$GITHUB_REPOSITORY" \
+            --squash \
+            --delete-branch
