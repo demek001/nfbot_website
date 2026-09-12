@@ -81,7 +81,7 @@ async function enfileirar(wamId: string, telefone: string, payload: unknown): Pr
   const r = await fetch(`${SUPABASE_URL}/rest/v1/webhook_events`, {
     method: "POST",
     headers: sbHeaders({ Prefer: "return=minimal" }),
-    body: JSON.stringify({ wam_id: wamId, telefone, payload }),
+    body: JSON.stringify({ wam_id: wamId, telefone, payload, meta_verificado: !!META_APP_SECRET }),
   });
   if (r.status === 409) return "duplicado";              // reentrega do WhatsApp → já está na fila
   if (!r.ok) { console.error("enfileirar erro", r.status, await r.text().catch(() => "")); return "erro"; }
