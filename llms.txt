@@ -16,6 +16,7 @@ Os arquivos ficam na conta do Google Drive do usuário, não em servidores do No
 
 ## Caderninho (blog)
 
+- [Comprovante Pix: Onde Encontrar e Como Guardar](https://usenotinha.com.br/blog/comprovante-pix/): onde localizar o comprovante no banco, como salvar e como organizar para encontrar quando precisar.
 - [Como Organizar Gastos Mensais: Planilha e Modelo Pronto](https://usenotinha.com.br/blog/planilha-de-gastos-mensais/): estrutura de colunas, separação entre despesas fixas e variáveis, fórmula SOMASES e modelo pronto para baixar.
 - [Controlar Despesas pelo WhatsApp: Como Escolher](https://usenotinha.com.br/blog/controle-financeiro-whatsapp/): como funciona o fluxo e o que verificar de privacidade antes de escolher um serviço.
 - [Organizar Gastos com Foto da Nota Fiscal em 3 Passos](https://usenotinha.com.br/blog/organizar-gastos-pelo-whatsapp/): fotografar a nota, enviar e consultar o resultado.
