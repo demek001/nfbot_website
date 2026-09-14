@@ -115,7 +115,7 @@ gtag('config','AW-18331471265');
     <div>
       <div class="phone">
         <video id="video-completo" controls playsinline preload="metadata">
-          <source src="/notinha-como-usar-web.mp4" type="video/mp4">
+          <source src="/Envio-nf_menu_drive.mp4" type="video/mp4">
         </video>
       </div>
       <div class="caption">Vídeo completo: veja o Notinha funcionando na prática.</div>
@@ -138,13 +138,13 @@ gtag('config','AW-18331471265');
     <div>
       <div class="dash-shell dashboard-video" id="dashboard-video-wrap">
         <video id="video-dashboard" controls playsinline preload="metadata">
-          <source src="/Post02_Painel-exemplo.mp4" type="video/mp4">
+          <source src="/dashboard-web.mp4" type="video/mp4">
         </video>
       </div>
       <div class="dash-shell dashboard-interactive" id="dashboard-demo">
         <iframe loading="lazy" src="/painel/demo-k7x2m9.html" title="Demonstração do painel Premium do Notinha"></iframe>
       </div>
-      <div class="caption dashboard-video">16 segundos: veja o painel Premium em ação.</div>
+      <div class="caption dashboard-video">Veja o painel Premium em ação.</div>
     </div>
   </div>
 </section>
@@ -204,9 +204,15 @@ gtag('config','AW-18331471265');
     });
   });
   document.querySelectorAll('video').forEach(function(v){
-    var started=false;
-    v.addEventListener('play',function(){if(started)return;started=true;ev('product_demo_video_start',{video_id:v.id});});
-    v.addEventListener('ended',function(){ev('product_demo_video_complete',{video_id:v.id});});
+    var started=false, milestones={25:false,50:false,75:false};
+    function base(){return {video_id:v.id,traffic_source:window.notinhaOrigem?window.notinhaOrigem():'landing'};}
+    v.addEventListener('play',function(){if(started)return;started=true;ev('product_demo_video_start',base());});
+    v.addEventListener('timeupdate',function(){
+      if(!v.duration||!isFinite(v.duration))return;
+      var pct=Math.floor((v.currentTime/v.duration)*100);
+      [25,50,75].forEach(function(m){if(pct>=m&&!milestones[m]){milestones[m]=true;var d=base();d.percent=m;ev('product_demo_video_progress',d);}});
+    });
+    v.addEventListener('ended',function(){ev('product_demo_video_complete',base());});
   });
   var dashboardVideo=document.getElementById('video-dashboard');
   if(dashboardVideo){
