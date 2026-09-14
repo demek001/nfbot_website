@@ -17,6 +17,58 @@ function gtag(){dataLayer.push(arguments);}
 gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied',functionality_storage:'granted',security_storage:'granted',wait_for_update:500});
 try{if(localStorage.getItem('cookieConsent')==='all'){gtag('consent','update',{ad_storage:'granted',ad_user_data:'granted',ad_personalization:'granted',analytics_storage:'granted'});}}catch(e){}
 </script>
+
+<!-- Normaliza e preserva a origem antes do GA4 ler a URL -->
+<script>
+(function(){
+  var K=['gclid','gbraid','wbraid','ttclid','fbclid','msclkid','utm_source','utm_medium','utm_campaign','utm_term','utm_content'];
+  try{
+    var p=new URLSearchParams(location.search);
+    var fromTikTok=!!p.get('ttclid');
+    try{if(!fromTikTok&&/tiktok/i.test(document.referrer||''))fromTikTok=true;}catch(e){}
+
+    // TikTok Promote pode chegar sem UTM. Se houver ttclid/referrer do TikTok,
+    // acrescentamos UTMs sem redirecionar para o GA4 atribuir a sessão corretamente.
+    if(fromTikTok&&!p.get('utm_source')){
+      p.set('utm_source','tiktok');
+      p.set('utm_medium','paid_social');
+      if(!p.get('utm_campaign'))p.set('utm_campaign','tiktok_promote');
+      var qs=p.toString();
+      history.replaceState({},'',location.pathname+(qs?'?'+qs:'')+location.hash);
+    }
+
+    K.forEach(function(k){
+      var v=(p.get(k)||'').trim().slice(0,300);
+      if(v)sessionStorage.setItem('notinha_'+k,v);
+    });
+    if(fromTikTok)sessionStorage.setItem('notinha_origem','tiktok');
+  }catch(e){}
+
+  window.notinhaAtrib=function(){
+    var o={};
+    try{K.forEach(function(k){var v=sessionStorage.getItem('notinha_'+k);if(v)o[k]=v;});}catch(e){}
+    return o;
+  };
+  window.notinhaOrigem=function(){
+    var a=window.notinhaAtrib();
+    var src=(a.utm_source||'').toLowerCase();
+    try{if(sessionStorage.getItem('notinha_origem')==='tiktok')return 'tiktok';}catch(e){}
+    if(a.ttclid||src.indexOf('tiktok')!==-1)return 'tiktok';
+    if(a.gclid||a.gbraid||a.wbraid||src.indexOf('google')!==-1)return 'google_ads';
+    try{if(/tiktok/i.test(document.referrer||''))return 'tiktok';}catch(e){}
+    return 'landing';
+  };
+  window.checkoutUrl=function(plano){
+    var p=new URLSearchParams();
+    p.set('origem',window.notinhaOrigem());
+    if(plano)p.set('plano',plano);
+    var a=window.notinhaAtrib();
+    Object.keys(a).forEach(function(k){p.set(k,a[k]);});
+    return '/assinar/?'+p.toString();
+  };
+})();
+</script>
+
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-FC1XHM57Z6"></script>
 <script>
 gtag('js',new Date());
@@ -24,29 +76,6 @@ gtag('set','url_passthrough',true);
 gtag('set','ads_data_redaction',true);
 gtag('config','G-FC1XHM57Z6');
 gtag('config','AW-18331471265');
-</script>
-
-<!-- Preserva a origem até o checkout -->
-<script>
-(function(){
-  var K=['gclid','gbraid','wbraid','utm_source','utm_medium','utm_campaign','utm_term','utm_content'];
-  try{var p=new URLSearchParams(location.search);K.forEach(function(k){var v=(p.get(k)||'').trim().slice(0,200);if(v)sessionStorage.setItem('notinha_'+k,v);});}catch(e){}
-  window.notinhaAtrib=function(){var o={};try{K.forEach(function(k){var v=sessionStorage.getItem('notinha_'+k);if(v)o[k]=v;});}catch(e){}return o;};
-  window.notinhaOrigem=function(){
-    var a=window.notinhaAtrib();
-    var src=(a.utm_source||'').toLowerCase();
-    if(src.indexOf('tiktok')!==-1)return 'tiktok';
-    if(a.gclid||a.gbraid||a.wbraid||src.indexOf('google')!==-1)return 'google_ads';
-    try{if(/tiktok/i.test(document.referrer))return 'tiktok';}catch(e){}
-    return 'landing';
-  };
-  window.checkoutUrl=function(plano){
-    var p=new URLSearchParams(); p.set('origem',window.notinhaOrigem());
-    if(plano)p.set('plano',plano);
-    var a=window.notinhaAtrib(); Object.keys(a).forEach(function(k){p.set(k,a[k]);});
-    return '/assinar/?'+p.toString();
-  };
-})();
 </script>
 
 <style>
@@ -192,10 +221,50 @@ gtag('config','AW-18331471265');
 
 <footer class="footer"><div class="wrap"><span>© 2026 Notinha</span><nav><a href="/privacidade.html">Privacidade</a><a href="/termos.html">Termos</a><a href="/">Site principal</a></nav></div></footer>
 
+<!-- Banner de Cookies LGPD: mesmo padrão do site principal -->
+<div id="cookieBanner" style="display:none;position:fixed;bottom:0;left:0;right:0;background:#0f1d1b;border-top:1px solid #24413d;padding:18px 20px;z-index:9999;font-family:'DM Sans',sans-serif;color:#f6f4ee;box-shadow:0 -12px 34px rgba(0,0,0,.28)">
+  <div style="max-width:1120px;margin:0 auto;display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between">
+    <p style="font-size:13px;line-height:1.5;flex:1;min-width:260px;margin:0;color:#acbab6">Usamos <a href="/cookies.html" style="color:#73d2cc;text-decoration:underline">cookies</a> para melhorar sua experiência. Cookies analíticos e de publicidade dependem do seu consentimento. Veja nossa <a href="/privacidade.html" style="color:#73d2cc;text-decoration:underline">Política de Privacidade</a>.</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button type="button" onclick="cookieEssenciais()" style="padding:10px 16px;background:transparent;color:#acbab6;border:1px solid #24413d;border-radius:100px;cursor:pointer;font-family:inherit;font-size:13px">Apenas essenciais</button>
+      <button type="button" onclick="cookieAceitar()" style="padding:10px 16px;background:#2aa6a2;color:#fff;border:none;border-radius:100px;cursor:pointer;font-family:inherit;font-weight:700;font-size:13px">Aceitar todos</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  try{var c=localStorage.getItem('cookieConsent');if(!c){var b=document.getElementById('cookieBanner');if(b)b.style.display='block';}}catch(e){}
+})();
+function cookieConsentUpdate(v){
+  var s=v==='all'?'granted':'denied';
+  gtag('consent','update',{analytics_storage:s,ad_storage:s,ad_user_data:s,ad_personalization:s});
+}
+function cookieAceitar(){
+  try{localStorage.setItem('cookieConsent','all');}catch(e){}
+  cookieConsentUpdate('all');
+  var b=document.getElementById('cookieBanner');if(b)b.style.display='none';
+  if(typeof gtag==='function')gtag('event','cookie_consent_update',{consent_choice:'all'});
+}
+function cookieEssenciais(){
+  try{localStorage.setItem('cookieConsent','essential');}catch(e){}
+  cookieConsentUpdate('essential');
+  var b=document.getElementById('cookieBanner');if(b)b.style.display='none';
+}
+</script>
+
 <script>
 (function(){
   function ev(n,p){if(typeof gtag==='function')gtag('event',n,p||{});}
-  ev('landing_ads_view',{landing_page:'controle_gastos_whatsapp',traffic_source:window.notinhaOrigem?window.notinhaOrigem():'landing'});
+  var atrib=window.notinhaAtrib?window.notinhaAtrib():{};
+  ev('landing_ads_view',{
+    landing_page:'controle_gastos_whatsapp',
+    traffic_source:window.notinhaOrigem?window.notinhaOrigem():'landing',
+    campaign_source:atrib.utm_source||'',
+    campaign_medium:atrib.utm_medium||'',
+    campaign_name:atrib.utm_campaign||'',
+    ttclid_present:atrib.ttclid?'yes':'no'
+  });
   document.querySelectorAll('.js-cta').forEach(function(a){
     a.addEventListener('click',function(){
       var plano=a.dataset.plano||'';
@@ -204,8 +273,8 @@ gtag('config','AW-18331471265');
     });
   });
   document.querySelectorAll('video').forEach(function(v){
-    var started=false, milestones={25:false,50:false,75:false};
-    function base(){return {video_id:v.id,traffic_source:window.notinhaOrigem?window.notinhaOrigem():'landing'};}
+    var started=false,milestones={25:false,50:false,75:false};
+    function base(){return{video_id:v.id,traffic_source:window.notinhaOrigem?window.notinhaOrigem():'landing'};}
     v.addEventListener('play',function(){if(started)return;started=true;ev('product_demo_video_start',base());});
     v.addEventListener('timeupdate',function(){
       if(!v.duration||!isFinite(v.duration))return;
@@ -223,7 +292,7 @@ gtag('config','AW-18331471265');
   }
   var dash=document.getElementById('dashboard-demo');
   if(dash&&'IntersectionObserver' in window){
-    var seen=false,io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting&&!seen){seen=true;ev('dashboard_demo_view',{page:'ads_lp'});io.disconnect();}});},{threshold:.35});io.observe(dash);
+    var seen=false,io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting&&!seen){seen=true;ev('dashboard_demo_view',{page:'ads_lp',traffic_source:window.notinhaOrigem?window.notinhaOrigem():'landing'});io.disconnect();}});},{threshold:.35});io.observe(dash);
   }
 })();
 </script>
