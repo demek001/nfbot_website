@@ -1,0 +1,49 @@
+name: Exibir video do dashboard no desktop
+
+on:
+  push:
+    paths:
+      - ".github/workflows/fix-dashboard-video-desktop.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  corrigir:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+
+      - name: Exibir video do dashboard em todas as telas
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          p = Path('controle-gastos-whatsapp/index.html')
+          s = p.read_text(encoding='utf-8')
+
+          old = '.dashboard-video{display:none}.dashboard-video video{display:block;width:100%;border-radius:15px;background:#000;max-height:76vh}'
+          new = '.dashboard-video{display:block}.dashboard-interactive{display:none}.dashboard-video-fallback .dashboard-video{display:none}.dashboard-video-fallback .dashboard-interactive{display:block}.dashboard-video video{display:block;width:100%;border-radius:15px;background:#000;max-height:76vh}'
+
+          if old not in s:
+              raise SystemExit('CSS original do dashboard não encontrado')
+
+          s = s.replace(old, new, 1)
+          p.write_text(s, encoding='utf-8')
+          PY
+
+      - name: Validar
+        run: |
+          grep -F '.dashboard-video{display:block}.dashboard-interactive{display:none}' controle-gastos-whatsapp/index.html
+          grep -F '/Post02_Painel-exemplo(1).mp4' controle-gastos-whatsapp/index.html
+
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add controle-gastos-whatsapp/index.html
+          git commit -m "fix: exibe video do dashboard no desktop"
+          git push origin HEAD:${GITHUB_REF_NAME}
