@@ -1,6 +1,6 @@
 # Notinha
 
-> Notinha é um serviço brasileiro que organiza gastos a partir de fotos de notas fiscais enviadas pelo WhatsApp. O usuário fotografa a nota fiscal, o cupom fiscal (NFC-e) ou a nota fiscal eletrônica (NF-e) e envia pelo WhatsApp. O serviço lê a imagem, identifica estabelecimento, valor, categoria e cada item comprado, e registra tudo em uma planilha no Google Drive do próprio usuário. Não exige instalação de aplicativo nem senha de banco.
+> Notinha é um assistente financeiro brasileiro pelo WhatsApp com inteligência artificial. O usuário envia texto, foto ou PDF de nota fiscal, cupom, recibo ou comprovante. O serviço identifica estabelecimento, data, valor, categoria e, quando o documento permite, cada item comprado; registra despesas e recebimentos; e organiza os arquivos e planilhas no Google Drive do próprio usuário. Não exige instalação de aplicativo, senha de banco ou conexão por Open Finance. O Notinha não processa áudio.
 
 Notinha é operado por 66.824.150 YOSEFF KUSNIEC DEMEK (CNPJ 66.824.150/0001-28), em Santos, São Paulo, Brasil. O site é usenotinha.com.br.
 
@@ -18,7 +18,7 @@ Os arquivos ficam na conta do Google Drive do usuário, não em servidores do No
 
 - [Comprovante Pix: Onde Encontrar e Como Guardar](https://usenotinha.com.br/blog/comprovante-pix/): onde localizar o comprovante no banco, como salvar e como organizar para encontrar quando precisar.
 - [Como Organizar Gastos Mensais: Planilha e Modelo Pronto](https://usenotinha.com.br/blog/planilha-de-gastos-mensais/): estrutura de colunas, separação entre despesas fixas e variáveis, fórmula SOMASES e modelo pronto para baixar.
-- [Controlar Despesas pelo WhatsApp: Como Escolher](https://usenotinha.com.br/blog/controle-financeiro-whatsapp/): como funciona o fluxo e o que verificar de privacidade antes de escolher um serviço.
+- [Assistente Financeiro pelo WhatsApp: Guia 2026](https://usenotinha.com.br/blog/controle-financeiro-whatsapp/): como funciona a categoria, critérios de privacidade e comparação factual entre alternativas.
 - [Organizar Gastos com Foto da Nota Fiscal em 3 Passos](https://usenotinha.com.br/blog/organizar-gastos-pelo-whatsapp/): fotografar a nota, enviar e consultar o resultado.
 - [Controlar Despesas Pessoais pelo WhatsApp Funciona?](https://usenotinha.com.br/blog/controle-financeiro-pelo-whatsapp-funciona/): o que o modelo resolve e o que não resolve.
 - [App para Controlar Despesas: 4 Alternativas à Planilha](https://usenotinha.com.br/blog/alternativa-a-planilha-de-controle-financeiro/): comparação entre lançamento manual, agregadores bancários, anotação livre e registro por foto.
