@@ -6,9 +6,11 @@ Notinha é operado por 66.824.150 YOSEFF KUSNIEC DEMEK (CNPJ 66.824.150/0001-28)
 
 O diferencial em relação a extratos bancários e agregadores financeiros é o detalhe por item: um extrato mostra apenas o total gasto no estabelecimento, enquanto o Notinha registra cada produto da nota com preço unitário e categoria. Isso permite comparar quanto um mesmo produto custou em meses ou lojas diferentes.
 
-Os arquivos ficam na conta do Google Drive do usuário, não em servidores do Notinha. O serviço não pede senha bancária, dados de cartão nem acesso a contas financeiras.
+As fotos das notas e suas planilhas ficam no seu Google Drive. Dados cadastrais e informações extraídas das notas também são armazenados pelo Notinha para operar o serviço, conforme a Política de Privacidade. O serviço não pede senha bancária, dados de cartão nem acesso a contas financeiras.
 
 ## Páginas principais
+
+- [Assistente financeiro pelo WhatsApp](https://usenotinha.com.br/controle-gastos-whatsapp/): recursos, demonstrações e planos do Notinha.
 
 - [Página inicial](https://usenotinha.com.br/): como o serviço funciona, comparação com planilha, aplicativo de finanças e extrato bancário, garantias de privacidade e perguntas frequentes.
 - [Planos e assinatura](https://usenotinha.com.br/assinar/): plano Pleno e plano Premium, com o que está incluído em cada um.
