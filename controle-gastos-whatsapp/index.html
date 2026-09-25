@@ -103,32 +103,52 @@ gtag('config','AW-18331471265');
     },
     {
       "@type": ["SoftwareApplication", "Product"],
-      "@id": "https://usenotinha.com.br/controle-gastos-whatsapp/#product",
+      "@id": "https://usenotinha.com.br/#product",
       "name": "Notinha",
       "alternateName": "Notinha — Assistente Financeiro pelo WhatsApp",
       "url": "https://usenotinha.com.br/controle-gastos-whatsapp/",
       "description": "Assistente financeiro pelo WhatsApp com inteligência artificial que registra despesas e recebimentos por texto, lê fotos e PDFs de notas e comprovantes, categoriza os dados e organiza os arquivos no Google Drive do usuário.",
       "applicationCategory": "FinanceApplication",
       "applicationSubCategory": "Personal Finance",
-      "operatingSystem": "WhatsApp Web, Android e iOS",
+      "operatingSystem": "Android, iOS e navegadores web",
+      "image": "https://usenotinha.com.br/og-image.png",
       "inLanguage": "pt-BR",
       "brand": {"@id": "https://usenotinha.com.br/#organization"},
-      "offers": {
-        "@type": "AggregateOffer",
-        "priceCurrency": "BRL",
-        "lowPrice": "14.90",
-        "highPrice": "44.90",
-        "offerCount": "2",
-        "url": "https://usenotinha.com.br/assinar/"
-      },
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "Plano Pleno",
+          "price": "14.90",
+          "priceCurrency": "BRL",
+          "url": "https://usenotinha.com.br/assinar/?plano=base",
+          "priceSpecification": {
+            "@type": "UnitPriceSpecification",
+            "price": "14.90",
+            "priceCurrency": "BRL",
+            "billingDuration": "P1M"
+          }
+        },
+        {
+          "@type": "Offer",
+          "name": "Plano Premium",
+          "price": "44.90",
+          "priceCurrency": "BRL",
+          "url": "https://usenotinha.com.br/assinar/?plano=premium",
+          "priceSpecification": {
+            "@type": "UnitPriceSpecification",
+            "price": "44.90",
+            "priceCurrency": "BRL",
+            "billingDuration": "P1M"
+          }
+        }
+      ],
       "featureList": [
         "Registro de despesas e recebimentos por texto no WhatsApp",
         "Leitura de fotos e PDFs de notas fiscais e comprovantes",
         "Categorização automática de gastos",
         "Detalhamento de itens da nota fiscal",
         "Arquivos organizados no Google Drive do usuário",
-        "Dashboard financeiro no plano Premium",
-        "Lembretes de vencimento"
+        "Dashboard financeiro no plano Premium"
       ]
     },
     {
@@ -136,9 +156,9 @@ gtag('config','AW-18331471265');
       "@id": "https://usenotinha.com.br/controle-gastos-whatsapp/#webpage",
       "url": "https://usenotinha.com.br/controle-gastos-whatsapp/",
       "name": "Assistente Financeiro pelo WhatsApp com IA | Notinha",
-      "about": {"@id": "https://usenotinha.com.br/controle-gastos-whatsapp/#product"},
+      "about": {"@id": "https://usenotinha.com.br/#product"},
       "isPartOf": {"@id": "https://usenotinha.com.br/#website"},
-      "dateModified": "2026-09-20"
+      "dateModified": "2026-09-25"
     }
   ]
 }
@@ -198,6 +218,7 @@ gtag('config','AW-18331471265');
     <div>
       <span class="kicker">Definição direta</span>
       <h2>O que é o Notinha?</h2>
+    <p class="intro">Operado por 66.824.150 YOSEFF KUSNIEC DEMEK, CNPJ 66.824.150/0001-28. Consulte os <a href="/termos.html">Termos de Uso</a> e fale com a equipe pela <a href="/contato/">página de contato</a>.</p>
       <p class="entity-definition"><strong>Notinha é um assistente financeiro pelo WhatsApp com inteligência artificial.</strong> Você envia uma foto da nota, um comprovante, um PDF ou escreve o gasto. O Notinha identifica os dados, categoriza despesas e recebimentos e mantém sua organização financeira atualizada.</p>
       <p class="intro">Ele foi criado para quem quer controlar gastos sem preencher planilha e sem entregar senha de banco. Leia também o <a class="guide-link" href="/blog/controle-financeiro-whatsapp/">guia completo de assistentes financeiros no WhatsApp</a>.</p>
     </div>
@@ -233,6 +254,7 @@ gtag('config','AW-18331471265');
   <div class="wrap">
     <span class="kicker">Escolha consciente</span>
     <h2>Quando o Notinha é a melhor escolha?</h2>
+    <p class="intro">As fotos das notas e suas planilhas ficam no seu Google Drive. Dados cadastrais e informações extraídas das notas também são armazenados pelo Notinha para operar o serviço, conforme a Política de Privacidade. Veja a <a href="/privacidade.html">política completa</a>.</p>
     <p class="intro">Assistentes financeiros pelo WhatsApp não são todos iguais. O Notinha prioriza documentos, propriedade dos arquivos e uso sem conexão bancária.</p>
     <table class="fit-table">
       <thead><tr><th>Se você procura</th><th>Como o Notinha resolve</th></tr></thead>

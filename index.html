@@ -119,8 +119,8 @@
     {"@type":"Question","name":"Quanto tempo demora pra processar uma nota?","acceptedAnswer":{"@type":"Answer","text":"Segundos. Você manda a foto e recebe a confirmação com o resumo já categorizado. Se algo parecer estranho durante o processamento da foto, o Notinha vai te avisar."}},
     {"@type":"Question","name":"Como recebo os relatórios?","acceptedAnswer":{"@type":"Answer","text":"O resumo mensal chega pelo WhatsApp. A planilha completa fica no seu Drive, atualizada a cada nota que você manda. No plano Premium, você ainda recebe um PDF mensal pronto pra arquivar ou prestar contas."}},
     {"@type":"Question","name":"Posso cancelar quando quiser?","acceptedAnswer":{"@type":"Answer","text":"Sim. Sem multa, sem fidelidade, sem letrinha miúda. Você cancela pelo WhatsApp ou e-mail e a assinatura encerra no fim do ciclo já pago."}},
-    {"@type":"Question","name":"O Notinha salva meus dados?","acceptedAnswer":{"@type":"Answer","text":"As fotos das notas fiscais e suas planilhas ficam guardadas no seu próprio Google Drive — não nos nossos servidores. Você é o dono dos arquivos. Se cancelar, leva tudo com você."}},
-    {"@type":"Question","name":"Meus dados ficam seguros?","acceptedAnswer":{"@type":"Answer","text":"Sim. Todos os dados são criptografados e os servidores respeitam as normas da LGPD. Não vendemos dados pessoais e não pedimos senha de banco ou de cartão."}},
+    {"@type":"Question","name":"O Notinha salva meus dados?","acceptedAnswer":{"@type":"Answer","text":"As fotos das notas e suas planilhas ficam no seu Google Drive. Dados cadastrais e informações extraídas das notas também são armazenados pelo Notinha para operar o serviço, conforme a Política de Privacidade."}},
+    {"@type":"Question","name":"Meus dados ficam seguros?","acceptedAnswer":{"@type":"Answer","text":"Não pedimos senha de banco. A Política de Privacidade descreve o tratamento dos dados, as medidas de proteção e os canais para exercer seus direitos."}},
     {"@type":"Question","name":"O que o Notinha pode fazer por mim?","acceptedAnswer":{"@type":"Answer","text":"Tudo dentro do WhatsApp: mandar a foto da nota pra organizar automaticamente; registrar gasto por texto (\"gastei 50 mercado\"); registrar recebimento (\"recebi 500 consulta\"); ver o resumo do mês com gasto, recebido e saldo; top produtos e top lojas; comparar preço de produtos; pegar o link da sua planilha; e pedir suporte. No plano Premium, ainda tem relatório em PDF do mês e insights automáticos toda semana. Manda \"menu\" a qualquer momento pra ver a lista de comandos."}},
     {"@type":"Question","name":"Como tirar uma boa foto da nota?","acceptedAnswer":{"@type":"Answer","text":"Idealmente em lugar bem iluminado, nota apoiada em superfície lisa, câmera reta — de cima pra baixo. Tente pegar a nota inteira, do CNPJ no topo até o total no rodapé. Também é possível enviar uma foto segurando a nota em ambientes com pouca luz; você será avisado caso a imagem não possa ser lida."}},
     {"@type":"Question","name":"Posso mandar áudio?","acceptedAnswer":{"@type":"Answer","text":"Não. Áudios não são processados pelo Notinha. Use sempre texto ou foto. Se quiser registrar um gasto sem ter a nota, basta digitar — por exemplo: gastei 50 mercado."}},
@@ -679,6 +679,8 @@
 {
   "@context": "https://schema.org",
   "@type": "Product",
+  "@id": "https://usenotinha.com.br/#product",
+  "image": "https://usenotinha.com.br/og-image.png",
   "name": "Notinha",
   "description": "Controle de gastos pelo WhatsApp. Você manda foto da nota fiscal e o gasto aparece item por item na sua própria planilha, no seu Google Drive.",
   "brand": { "@type": "Brand", "name": "Notinha" },
@@ -736,6 +738,7 @@
 <section id="como-funciona">
   <div class="wrap">
     <h2>Como funciona</h2>
+    <p>Conheça os recursos, os planos e as demonstrações do nosso <a href="/controle-gastos-whatsapp/">assistente financeiro pelo WhatsApp</a>.</p>
     <p class="sub">Três passos. Zero esforço.</p>
     <div class="steps">
       <div class="step">
@@ -788,8 +791,8 @@
     <div class="compare">
       <div class="compare-card">
         <span class="compare-tag">Hoje você usa: planilha</span>
-        <h3>Sua planilha tira 24h por semana da sua vida</h3>
-        <p class="compare-problem">Você perde um dia por semana digitando e conferindo item a item, nota por nota, extrato por extrato. Perde tempo com você mesmo, com a sua família e com os amigos.</p>
+        <h3>Menos digitação, mais organização</h3>
+        <p class="compare-problem">Registrar e conferir cada compra manualmente exige atenção. Enviar a foto da nota pelo WhatsApp reduz a necessidade de digitar os itens um a um.</p>
         <div class="compare-divider"></div>
         <div class="compare-arrow">Com Notinha</div>
         <p class="compare-solution">A gente te devolve o tempo perdido. Você continua contabilizando seus gastos, agora direto no WhatsApp, com as fotos salvas no seu Google Drive.</p>
@@ -797,8 +800,8 @@
 
       <div class="compare-card">
         <span class="compare-tag">Hoje você usa: app de finanças</span>
-        <h3>Aplicativos consomem ainda mais tempo</h3>
-        <p class="compare-problem">Mais tempo tentando entender um aplicativo novo, às vezes nada intuitivo. Configurando conexões com o banco que você nem sabe por que precisam existir.</p>
+        <h3>Uma rotina dentro do WhatsApp</h3>
+        <p class="compare-problem">Cada aplicativo tem seu próprio fluxo de registro. Se você prefere usar o WhatsApp, pode organizar as notas na conversa, sem instalar outro aplicativo ou conectar sua conta bancária.</p>
         <div class="compare-divider"></div>
         <div class="compare-arrow">Com Notinha</div>
         <p class="compare-solution">Você usa o que já conhece. Manda a nota fiscal pelo WhatsApp e pronto — sem precisar aprender um sistema novo.</p>
@@ -826,7 +829,7 @@
       <div class="trust-card">
         <div class="trust-icon">D</div>
         <div>
-          <h3>Tudo no seu próprio Drive</h3>
+          <h3>Notas e planilhas no seu Drive</h3>
           <p>Notas e planilhas ficam guardadas no seu próprio Google Drive. Você é o dono dos arquivos. Se cancelar, leva tudo.</p>
         </div>
       </div>
@@ -840,15 +843,15 @@
       <div class="trust-card">
         <div class="trust-icon">C</div>
         <div>
-          <h3>Tudo criptografado</h3>
-          <p>Todos os dados são criptografados. Salvos no seu próprio Google Drive, com conexão segura ponta a ponta.</p>
+          <h3>Como os dados são usados</h3>
+          <p>As fotos das notas e suas planilhas ficam no seu Google Drive. Dados cadastrais e informações extraídas das notas também são armazenados pelo Notinha para operar o serviço, conforme a Política de Privacidade.</p>
         </div>
       </div>
       <div class="trust-card">
         <div class="trust-icon">L</div>
         <div>
-          <h3>Em conformidade com a LGPD</h3>
-          <p>Os servidores possuem alto padrão de proteção e as informações são protegidas e criptografadas, respeitando as normas da LGPD.</p>
+          <h3>Privacidade e seus direitos</h3>
+          <p>Consulte nossa <a href="/privacidade.html">Política de Privacidade</a> para entender o tratamento dos dados e os canais para solicitar acesso, correção ou exclusão.</p>
         </div>
       </div>
     </div>
@@ -933,11 +936,11 @@
       </details>
       <details>
         <summary>O Notinha salva meus dados?</summary>
-        <p>As fotos das notas fiscais e suas planilhas ficam guardadas no seu próprio Google Drive — não nos nossos servidores. Você é o dono dos arquivos. Se cancelar, leva tudo com você.</p>
+        <p>As fotos das notas e suas planilhas ficam no seu Google Drive. Dados cadastrais e informações extraídas das notas também são armazenados pelo Notinha para operar o serviço, conforme a Política de Privacidade.</p>
       </details>
       <details>
         <summary>Meus dados ficam seguros?</summary>
-        <p>Sim. Todos os dados são criptografados e os servidores respeitam as normas da LGPD. Não vendemos dados pessoais e não pedimos senha de banco ou de cartão.</p>
+        <p>Não pedimos senha de banco. A Política de Privacidade descreve o tratamento dos dados, as medidas de proteção e os canais para exercer seus direitos.</p>
       </details>
     </div>
 
