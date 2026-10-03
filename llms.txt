@@ -48,3 +48,15 @@ O posicionamento do Notinha é "Completo por dentro. Simples por fora." O produt
 - [Notinha vs ZapGastos](https://usenotinha.com.br/comparar/notinha-vs-zapgastos/)
 - [Notinha vs PouPig](https://usenotinha.com.br/comparar/notinha-vs-poupig/)
 - [Notinha vs OIKO](https://usenotinha.com.br/comparar/notinha-vs-oiko/)
+
+
+## Páginas por intenção de busca
+
+Estas páginas explicam usos específicos do Notinha. O Notinha é completo por dentro e simples por fora: o usuário registra e acompanha a vida financeira pelo WhatsApp enquanto categorização, documentos, orçamento, alertas, lembretes, resumos e organização trabalham por trás.
+
+- [assistente financeiro pelo WhatsApp](https://usenotinha.com.br/assistente-financeiro-whatsapp/): Use um assistente financeiro pelo WhatsApp para registrar gastos, ler notas e comprovantes, acompanhar orçamento, alertas e resumos sem aprender outro app.
+- [acompanhamento de gastos pelo WhatsApp](https://usenotinha.com.br/acompanhamento-de-gastos-whatsapp/): Acompanhe gastos pelo WhatsApp com categorias, orçamento mensal, alertas, resumos e histórico. Envie texto, nota ou comprovante e deixe o Notinha organizar.
+- [organizar gastos pelo WhatsApp](https://usenotinha.com.br/organizar-gastos-pelo-whatsapp/): Organize gastos pelo WhatsApp sem preencher planilha. Envie texto, foto de nota ou comprovante e o Notinha categoriza e mantém seu histórico financeiro organizado.
+- [extrair dados de nota fiscal pelo WhatsApp](https://usenotinha.com.br/extrair-dados-nota-fiscal-whatsapp/): Envie foto ou PDF da nota fiscal pelo WhatsApp. O Notinha identifica valor, data, estabelecimento, categoria e itens quando disponíveis e organiza os dados.
+- [organizar comprovantes pelo WhatsApp](https://usenotinha.com.br/organizar-comprovantes-whatsapp/): Envie comprovantes pelo WhatsApp e organize seu histórico financeiro no Google Drive. O Notinha lê, categoriza e mantém os documentos associados aos seus registros.
+- [controle financeiro para autônomos](https://usenotinha.com.br/controle-financeiro-para-autonomos/): Controle recebimentos e gastos de autônomo pelo WhatsApp. Registre entradas, despesas, comprovantes e acompanhe o mês sem preencher planilhas manualmente.
