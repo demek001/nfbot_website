@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" viewBox="0 -200 1200 1200" role="img" aria-labelledby="title desc">
+<title id="title">Fatura do cartão consome o salário: organização do orçamento</title>
+<desc id="desc">Ilustração editorial de cartão de crédito, fatura com lançamentos, calendário de vencimentos e orçamento doméstico.</desc>
+<defs>
+<radialGradient id="back" cx="30%" cy="32%" r="86%"><stop offset="0" stop-color="#173b3c"/><stop offset=".45" stop-color="#101d27"/><stop offset="1" stop-color="#0b1119"/></radialGradient>
+<linearGradient id="card" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2e9b99"/><stop offset="1" stop-color="#145b63"/></linearGradient>
+<linearGradient id="sheet" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f7faf9"/><stop offset="1" stop-color="#dfece9"/></linearGradient>
+<filter id="shadow" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="22" stdDeviation="22" flood-color="#000" flood-opacity=".4"/></filter>
+</defs>
+<rect x="0" y="-200" width="1200" height="1200" fill="url(#back)"/>
+<circle cx="970" cy="140" r="280" fill="#288A89" opacity=".09"/>
+<circle cx="130" cy="650" r="290" fill="#288A89" opacity=".08"/>
+<path d="M-30 615 Q310 390 650 590 T1230 490" fill="none" stroke="#288A89" stroke-width="2" opacity=".18"/>
+<path d="M-30 660 Q310 435 650 635 T1230 535" fill="none" stroke="#288A89" stroke-width="2" opacity=".1"/>
+<!-- Financial calendar in the background -->
+<g transform="translate(860 86) rotate(7)" opacity=".8">
+<rect x="0" y="0" width="225" height="205" rx="24" fill="#1c3540" stroke="#396b70" stroke-width="3"/>
+<rect x="0" y="0" width="225" height="55" rx="24" fill="#276b6e"/>
+<path d="M0 38 H225" stroke="#276b6e" stroke-width="34"/>
+<path d="M45 14 v-26 M176 14 v-26" stroke="#a3e0d8" stroke-width="12" stroke-linecap="round"/>
+<g fill="#9bb8bd"><circle cx="53" cy="91" r="8"/><circle cx="112" cy="91" r="8"/><circle cx="172" cy="91" r="8"/><circle cx="53" cy="139" r="8"/><circle cx="112" cy="139" r="8"/><circle cx="172" cy="139" r="8"/></g>
+<circle cx="172" cy="139" r="23" fill="none" stroke="#f2b66d" stroke-width="6"/>
+</g>
+<!-- Card -->
+<g transform="translate(135 218) rotate(-8 270 175)" filter="url(#shadow)">
+<rect x="0" y="0" width="560" height="335" rx="38" fill="url(#card)" stroke="#7bd3c8" stroke-width="3"/>
+<path d="M-4 235 C150 128 285 440 562 120" fill="none" stroke="#b9f1e7" stroke-width="36" opacity=".08"/>
+<rect x="54" y="64" width="88" height="61" rx="12" fill="#c7e9dd" opacity=".9"/>
+<path d="M54 94 H142 M96 64 V125" stroke="#83b6ae" stroke-width="4"/>
+<g fill="#e9fffa" opacity=".88"><circle cx="68" cy="229" r="7"/><circle cx="92" cy="229" r="7"/><circle cx="116" cy="229" r="7"/><circle cx="140" cy="229" r="7"/><circle cx="210" cy="229" r="7"/><circle cx="234" cy="229" r="7"/><circle cx="258" cy="229" r="7"/><circle cx="282" cy="229" r="7"/></g>
+<rect x="54" y="275" width="178" height="12" rx="6" fill="#d8f6ef" opacity=".4"/>
+<circle cx="449" cy="273" r="29" fill="#d1f4ea" opacity=".7"/><circle cx="480" cy="273" r="29" fill="#86d7c9" opacity=".8"/>
+</g>
+<!-- Invoice -->
+<g transform="translate(644 268) rotate(7 220 240)" filter="url(#shadow)">
+<path d="M0 0 H406 Q424 0 424 18 V467 L403 451 L382 467 L361 451 L340 467 L319 451 L298 467 L277 451 L256 467 L235 451 L214 467 L193 451 L172 467 L151 451 L130 467 L109 451 L88 467 L67 451 L46 467 L25 451 L0 467 V18 Q0 0 18 0 Z" fill="url(#sheet)"/>
+<rect x="38" y="38" width="230" height="21" rx="10" fill="#265f65"/>
+<rect x="38" y="82" width="328" height="6" rx="3" fill="#9bbab9"/>
+<g fill="#9cb9b7"><rect x="38" y="132" width="182" height="12" rx="6"/><rect x="38" y="179" width="245" height="12" rx="6"/><rect x="38" y="226" width="160" height="12" rx="6"/></g>
+<g fill="#547c7d"><rect x="308" y="132" width="59" height="12" rx="6"/><rect x="308" y="179" width="59" height="12" rx="6"/><rect x="308" y="226" width="59" height="12" rx="6"/></g>
+<path d="M38 290 H367" stroke="#9cbab9" stroke-width="3" stroke-dasharray="9 10"/>
+<rect x="38" y="319" width="194" height="20" rx="10" fill="#225c62"/>
+<rect x="282" y="319" width="85" height="20" rx="10" fill="#e09a65"/>
+<rect x="38" y="377" width="329" height="32" rx="14" fill="#d2e5e1"/>
+</g>
+<!-- Motion / attention accent -->
+<g transform="translate(533 488)">
+<circle r="54" fill="#112d33" stroke="#86e2d2" stroke-width="4"/>
+<path d="M-22 5 L-1 25 L30 -18" fill="none" stroke="#91e8d9" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+</svg>
