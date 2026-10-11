@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0d1117">
+
+  <title>Notinha | Entenda para onde vai seu dinheiro</title>
+  <meta name="description" content="Descubra como organizar seus gastos pelo WhatsApp. Envie notas fiscais, acompanhe despesas e tenha mais clareza financeira com o Notinha.">
+
+  <link rel="icon" href="https://usenotinha.com.br/favicon-32.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            dark: "#0d1117",
+            surface: "#161d25",
+            teal: "#288A89",
+            tealLight: "#44bab0",
+            cream: "#f6f3ec",
+            gold: "#d8ae74"
+          },
+          fontFamily: {
+            sans: ["DM Sans", "sans-serif"],
+            display: ["Fraunces", "serif"],
+            brand: ["Plus Jakarta Sans", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    html { scroll-behavior: smooth; }
+    body {
+      background: #0d1117;
+      color: #f4f7fa;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container-custom {
+      max-width: 1120px;
+      margin-inline: auto;
+      padding-inline: 22px;
+    }
+
+    .section-space {
+      padding-block: clamp(68px, 9vw, 112px);
+    }
+
+    .heading {
+      font-family: "Fraunces", serif;
+      font-weight: 600;
+      letter-spacing: -.035em;
+      line-height: 1.13;
+    }
+
+    .eyebrow {
+      color: #65c7c0;
+      text-transform: uppercase;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .17em;
+    }
+
+    .muted { color: #b5c0cb; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 52px;
+      padding: 14px 25px;
+      border-radius: 999px;
+      font-size: 15px;
+      font-weight: 700;
+      text-align: center;
+      transition: background .2s, transform .2s;
+      text-decoration: none;
+    }
+
+    .btn:hover { transform: translateY(-2px); }
+
+    .btn-primary {
+      background: #50d1c1;
+      color: #062724;
+    }
+
+    .btn-primary:hover { background: #83e7da; }
+
+    .btn-outline {
+      border: 1px solid #52606b;
+      color: white;
+    }
+
+    .btn-outline:hover { border-color: #50d1c1; }
+
+    .panel {
+      background: #171e27;
+      border: 1px solid #33404c;
+      border-radius: 22px;
+    }
+
+    .light-section {
+      background: #f6f3ec;
+      color: #14232d;
+    }
+
+    .light-section .eyebrow { color: #176b68; }
+    .light-muted { color: #50616b; }
+
+    .media-frame {
+      background: #111820;
+      border: 1px solid #33434e;
+      border-radius: 20px;
+      padding: 8px;
+      overflow: hidden;
+    }
+
+    video {
+      display: block;
+      width: 100%;
+      border-radius: 14px;
+      background: #101820;
+    }
+
+    .quote-mark {
+      font-family: "Fraunces", serif;
+      font-size: 72px;
+      color: #288a89;
+      line-height: .8;
+    }
+
+    details summary { cursor: pointer; }
+    details summary::-webkit-details-marker { display: none; }
+
+    details[open] summary .plus { transform: rotate(45deg); }
+
+    .reveal {
+      animation: fade-up .6s ease-out both;
+    }
+
+    @keyframes fade-up {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .reveal { animation: none; }
+      .btn { transition: none; }
+    }
+
+    @media (max-width: 640px) {
+      .btn { width: 100%; }
+      .container-custom { padding-inline: 20px; }
+      .section-space { padding-block: 66px; }
+    }
+  </style>
+</head>
+
+<body class="font-sans">
+
+  <!-- HEADER -->
+  <header class="sticky top-0 z-50 border-b border-white/10 bg-dark/95 backdrop-blur-md">
+    <div class="container-custom flex items-center justify-between py-4 gap-3">
+      <a href="https://usenotinha.com.br/" class="flex items-center gap-3" aria-label="Notinha - início">
+        <img
+          src="https://usenotinha.com.br/notinha-icon.png"
+          alt="Logo Notinha"
+          width="39"
+          height="39"
+          class="h-10 w-10 object-contain"
+        >
+        <span class="font-brand text-[23px] font-semibold tracking-tight">
+          Notinha
+        </span>
+      </a>
+
+      <a href="#planos" class="rounded-full border border-tealLight/50 px-4 py-2.5 text-xs sm:text-sm font-semibold text-tealLight hover:bg-teal/15 transition">
+        Começar agora <span aria-hidden="true">→</span>
+      </a>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="relative overflow-hidden section-space">
+      <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse at 75% 15%,rgba(40,138,137,.19),transparent 55%)"></div>
+
+      <div class="container-custom relative grid lg:grid-cols-2 items-center gap-12 lg:gap-16">
+        <div class="reveal">
+          <p class="eyebrow mb-6">Seu dinheiro merece clareza</p>
+
+          <h1 class="heading text-[43px] sm:text-5xl lg:text-[61px]">
+            O dinheiro não desaparece.
+            <span class="text-tealLight">
+              Mas para onde ele vai?
+            </span>
+          </h1>
+
+          <p class="mt-7 text-lg leading-relaxed muted max-w-xl">
+            Você trabalha, recebe, paga suas contas e, quando percebe, já não sabe quanto pode gastar.
+          </p>
+
+          <p class="mt-4 text-base leading-relaxed muted max-w-xl">
+            O Notinha ajuda você a organizar suas despesas pelo WhatsApp, sem precisar preencher planilhas manualmente.
+          </p>
+
+          <div class="mt-9 flex flex-col sm:flex-row gap-3">
+            <a href="#descoberta" class="btn btn-primary">
+              Quero entender meus gastos <span aria-hidden="true">→</span>
+            </a>
+          </div>
+
+          <p class="mt-5 text-sm text-slate-400">
+            Sem instalar outro aplicativo. A partir de R$ 14,90/mês.
+          </p>
+        </div>
+
+        <div class="relative">
+          <div class="media-frame shadow-2xl shadow-black/40">
+            <video
+              controls
+              playsinline
+              preload="metadata"
+              poster="https://usenotinha.com.br/notinha-demo-poster.jpg"
+              aria-label="Demonstração do Notinha pelo WhatsApp"
+            >
+              <source src="https://usenotinha.com.br/notinha-enviando-nota-fiscal.mp4" type="video/mp4">
+              Seu navegador não suporta vídeo HTML5.
+            </video>
+          </div>
+
+          <div class="mt-4 flex items-center justify-center gap-2 text-sm text-slate-400">
+            <span class="h-2 w-2 bg-tealLight rounded-full"></span>
+            Veja uma nota fiscal sendo organizada
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- IDENTIFICAÇÃO -->
+    <section id="descoberta" class="light-section section-space">
+      <div class="container-custom max-w-4xl text-center">
+        <p class="eyebrow mb-5">Uma pergunta simples</p>
+
+        <h2 class="heading text-3xl sm:text-4xl lg:text-5xl">
+          Você sabe quanto realmente gastou no mês passado?
+        </h2>
+
+        <p class="mt-6 light-muted text-lg leading-relaxed">
+          Não quanto pagou de aluguel ou de contas fixas.
+          Quanto gastou no supermercado, na farmácia, no delivery
+          e nas pequenas compras que quase ninguém lembra?
+        </p>
+
+        <div class="mt-10 grid sm:grid-cols-3 gap-3" role="group" aria-label="Quanto você conhece seus gastos">
+          <button type="button" data-answer="yes" class="answer-btn min-h-16 rounded-2xl border-2 border-slate-200 bg-white px-5 py-4 font-semibold hover:border-teal transition">
+            Sei exatamente
+          </button>
+          <button type="button" data-answer="maybe" class="answer-btn min-h-16 rounded-2xl border-2 border-slate-200 bg-white px-5 py-4 font-semibold hover:border-teal transition">
+            Tenho uma ideia
+          </button>
+          <button type="button" data-answer="no" class="answer-btn min-h-16 rounded-2xl border-2 border-slate-200 bg-white px-5 py-4 font-semibold hover:border-teal transition">
+            Não faço ideia
+          </button>
+        </div>
+
+        <div id="answer-result" class="hidden mt-7 rounded-2xl border border-teal/30 bg-white p-6 text-left" aria-live="polite">
+          <p class="font-semibold text-lg" id="answer-title"></p>
+          <p class="mt-2 light-muted leading-relaxed" id="answer-text"></p>
+        </div>
+
+        <p class="mt-9 text-lg leading-relaxed light-muted">
+          Cada compra conta uma parte da história.
+          <strong class="text-slate-900">
+            O desafio é conseguir enxergar a história inteira.
+          </strong>
+        </p>
+      </div>
+    </section>
+
+    <!-- PROBLEMA -->
+    <section class="section-space">
+      <div class="container-custom">
+        <div class="max-w-3xl mx-auto text-center">
+          <p class="eyebrow mb-5">O que passa despercebido</p>
+
+          <h2 class="heading text-3xl sm:text-4xl lg:text-5xl">
+            Existe uma diferença entre pagar suas contas e controlar seu dinheiro.
+          </h2>
+
+          <p class="mt-6 muted text-lg leading-relaxed">
+            Pagar suas contas é cumprir compromissos.
+            Controlar seu dinheiro é entender o que acontece entre
+            o momento em que ele entra e o momento em que sai.
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-5 mt-12">
+
+          <article class="panel p-7">
+            <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-teal/20 text-tealLight text-2xl mb-6" aria-hidden="true">
+              01
+            </div>
+            <h3 class="font-display text-2xl mb-3">
+              Os pequenos gastos
+            </h3>
+            <p class="muted leading-relaxed">
+              Um café aqui, um delivery ali. Separadamente parecem pouco, mas juntos podem representar uma parte importante do mês.
+            </p>
+          </article>
+
+          <article class="panel p-7">
+            <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-teal/20 text-tealLight text-2xl mb-6" aria-hidden="true">
+              02
+            </div>
+            <h3 class="font-display text-2xl mb-3">
+              O extrato incompleto
+            </h3>
+            <p class="muted leading-relaxed">
+              O banco mostra o valor de uma compra, mas não necessariamente quanto você gastou em cada produto.
+            </p>
+          </article>
+
+          <article class="panel p-7">
+            <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-teal/20 text-tealLight text-2xl mb-6" aria-hidden="true">
+              03
+            </div>
+            <h3 class="font-display text-2xl mb-3">
+              A planilha abandonada
+            </h3>
+            <p class="muted leading-relaxed">
+              Você começa a registrar tudo, a rotina aperta e o controle financeiro vira mais uma obrigação.
+            </p>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- TRANSIÇÃO -->
+    <section class="light-section section-space">
+      <div class="container-custom max-w-4xl text-center">
+        <p class="eyebrow mb-5">Uma nova perspectiva</p>
+
+        <h2 class="heading text-3xl sm:text-4xl lg:text-5xl">
+          Talvez você esteja tentando controlar seu dinheiro da maneira mais difícil.
+        </h2>
+
+        <p class="mt-8 text-lg leading-relaxed light-muted">
+          Por muito tempo, organizar as finanças significou abrir aplicativos,
+          digitar valores, escolher categorias e preencher planilhas.
+        </p>
+
+        <p class="mt-5 text-lg leading-relaxed light-muted">
+          Mas depois de um dia inteiro de trabalho,
+          nem sempre você quer passar mais tempo organizando números.
+        </p>
+
+        <p class="mt-9 font-display text-2xl sm:text-3xl font-semibold text-teal">
+          Talvez a solução não seja fazer mais. Seja precisar fazer menos.
+        </p>
+      </div>
+    </section>
+
+    <!-- SOLUÇÃO -->
+    <section id="solucao" class="section-space">
+      <div class="container-custom grid lg:grid-cols-2 items-center gap-12">
+        <div>
+          <p class="eyebrow mb-5">Conheça uma maneira mais simples</p>
+
+          <h2 class="heading text-3xl sm:text-4xl lg:text-5xl">
+            E se o controle financeiro começasse com uma foto?
+          </h2>
+
+          <p class="mt-6 text-lg leading-relaxed muted">
+            Imagine sair do supermercado, abrir o WhatsApp
+            e enviar a foto da sua nota fiscal.
+          </p>
+
+          <p class="mt-4 text-lg leading-relaxed muted">
+            O Notinha identifica as informações e organiza
+            suas compras em registros financeiros, por categoria.
+          </p>
+
+          <p class="mt-6 font-display text-2xl text-tealLight">
+            Sem digitar produto por produto.
+          </p>
+
+          <a href="#planos" class="btn btn-primary mt-8">
+            Quero conhecer o Notinha <span aria-hidden="true">→</span>
+          </a>
+        </div>
+
+        <div class="media-frame">
+          <video
+            controls
+            playsinline
+            preload="metadata"
+            poster="https://usenotinha.com.br/notinha-demo-poster.jpg"
+            aria-label="Tutorial do Notinha"
+          >
+            <source src="https://usenotinha.com.br/notinha-como-usar-web.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </section>
+
+    <!-- BENEFÍCIOS -->
+    <section class="light-section section-space">
+      <div class="container-custom">
+        <div class="text-center max-w-3xl mx-auto">
+          <p class="eyebrow mb-5">Três mudanças importantes</p>
+          <h2 class="heading text-3xl sm:text-4xl lg:text-5xl">
+            Menos trabalho para registrar. Mais clareza para decidir.
+          </h2>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-5 mt-12">
+
+          <article class="bg-white rounded-[22px] p-7 shadow-sm">
+            <div class="text-teal text-4xl font-display mb-5">01.</div>
+            <h3 class="text-xl font-bold mb-3">Registre com facilidade</h3>
+            <p class="light-muted leading-relaxed">
+              Envie uma nota ou registre uma despesa pelo WhatsApp, sem precisar preencher tudo à mão.
+            </p>
+          </article>
+
+          <article class="bg-white rounded-[22px] p-7 shadow-sm">
+            <div class="text-teal text-4xl font-display mb-5">02.</div>
+            <h3 class="text-xl font-bold mb-3">Entenda suas compras</h3>
+            <p class="light-muted leading-relaxed">
+              Consulte gastos organizados por categoria e acompanhe melhor seus hábitos de consumo.
+            </p>
+          </article>
+
+          <article class="bg-white rounded-[22px] p-7 shadow-sm">
+            <div class="text-teal text-4xl font-display mb-5">03.</div>
+            <h3 class="text-xl font-bold mb-3">Decida com clareza</h3>
+            <p class="light-muted leading-relaxed">
+              Use seu histórico de despesas para identificar padrões e planejar melhor seu orçamento.
+            </p>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- PROVA SOCIAL -->
+    <section id="experiencias" class="section-space">
+      <div class="container-custom max-w-4xl">
+        <div class="text-center mb-11">
+          <p class="eyebrow mb-5">Experiências com o Notinha</p>
+          <h2 class="heading text-3xl sm:text-4xl">
+            A experiência de quem utiliza o Notinha
+          </h2>
+        </div>
+
+        <article class="panel p-7 sm:p-10">
+          <div class="grid sm:grid-cols-[100px_1fr] items-start gap-6">
+            <div class="h-24 w-24 rounded-full bg-slate-700 flex items-center justify-center overflow-hidden border border-slate-500">
+              <img
+                src="https://usenotinha.com.br/notinha-icon.png"
+                alt="Espaço para fotografia autorizada do cliente"
+                class="h-14 w-14 object-contain"
+                loading="lazy"
+              >
+            </div>
+
+            <div>
+              <div class="quote-mark" aria-hidden="true">“</div>
+
+              <blockquote class="text-xl sm:text-2xl font-display leading-relaxed">
+                Espaço reservado para uma avaliação autêntica de um cliente, com autorização para publicação.
+              </blockquote>
+
+              <div class="mt-7 pt-5 border-t border-white/10">
+                <p class="font-bold text-white">Nome do cliente</p>
+                <p class="text-sm muted mt-1">Cliente Notinha</p>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <p class="text-center text-sm muted mt-6">
+          A experiência com o Notinha pode variar conforme os registros enviados e os recursos do plano contratado.
+        </p>
+      </div>
+    </section>
+
+    <!-- DEMONSTRAÇÃO DO PREMIUM -->
+    <section id="dashboard" class="light-section section-space">
+      <div class="container-custom grid lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <p class="eyebrow mb-5">Notinha Premium</p>
+
+          <h2 class="heading text-3xl sm:text-4xl lg:text-5xl">
+            Seu mês inteiro em uma tela.
+          </h2>
+
+          <p class="mt-6 text-lg leading-relaxed light-muted">
+            Quando suas despesas estão organizadas,
+            os números começam a contar uma história.
+          </p>
+
+          <p class="mt-4 text-lg leading-relaxed light-muted">
+            Com o dashboard Premium, você acompanha categorias,
+            evolução dos gastos e padrões de consumo com mais detalhes.
+          </p>
+
+          <a href="/assinar/?plano=premium" class="btn btn-primary mt-8">
+            Conhecer o Premium <span aria-hidden="true">→</span>
+          </a>
+        </div>
+
+        <div class="media-frame shadow-xl">
+          <video
+            controls
+            playsinline
+            preload="metadata"
+            poster="https://usenotinha.com.br/dashboard-demo-poster.jpg"
+            aria-label="Demonstração do dashboard Premium"
+          >
+            <source src="https://usenotinha.com.br/dashboard-demo.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </section>
+
+    <!-- PLANOS -->
+    <section id="planos" class="section-space">
+      <div class="container-custom">
+        <div class="max-w-3xl mx-auto text-center">
+          <p class="eyebrow mb-5">Escolha seu plano</p>
+          <h2 class="heading text-3xl sm:text-4xl lg:text-5xl">
+            Comece a entender seu dinheiro de um jeito mais simples.
+          </h2>
+
+          <p class="mt-5 text-lg muted">
+            Uma assinatura acessível para transformar registros soltos em informações organizadas.
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto mt-12">
+
+          <article class="panel p-8 flex flex-col">
+            <p class="eyebrow mb-4">Para começar</p>
+            <h3 class="font-display text-3xl">Pleno</h3>
+
+            <p class="mt-5 text-5xl font-bold">
+              R$ 14,90
+              <span class="text-base font-normal muted">/mês</span>
+            </p>
+
+            <p class="muted mt-5 leading-relaxed">
+              Organize seu dia a dia sem precisar preencher planilhas manualmente.
+            </p>
+
+            <ul class="mt-7 space-y-4 muted flex-1">
+              <li>✓ Controle pelo WhatsApp</li>
+              <li>✓ Leitura e organização de notas</li>
+              <li>✓ Registros automáticos em planilha</li>
+              <li>✓ Arquivos organizados no Google Drive</li>
+            </ul>
+
+            <a href="/assinar/?plano=base" class="btn btn-outline mt-9">
+              Assinar Pleno <span aria-hidden="true">→</span>
+            </a>
+          </article>
+
+          <article class="relative panel p-8 flex flex-col border-tealLight">
+            <div class="absolute -top-3 right-7 bg-tealLight text-dark text-xs font-bold px-4 py-1.5 rounded-full">
+              Visão mais completa
+            </div>
+
+            <p class="eyebrow mb-4">Para aprofundar</p>
+            <h3 class="font-display text-3xl">Premium</h3>
+
+            <p class="mt-5 text-5xl font-bold">
+              R$ 44,90
+              <span class="text-base font-normal muted">/mês</span>
+            </p>
+
+            <p class="muted mt-5 leading-relaxed">
+              Transforme seus registros em análises para compreender melhor seus gastos.
+            </p>
+
+            <ul class="mt-7 space-y-4 muted flex-1">
+              <li>✓ Todos os recursos do Pleno</li>
+              <li>✓ Dashboard mensal e anual</li>
+              <li>✓ Insights e visão por categorias</li>
+              <li>✓ Evolução e comparação de preços</li>
+            </ul>
+
+            <a href="/assinar/?plano=premium" class="btn btn-primary mt-9">
+              Assinar Premium <span aria-hidden="true">→</span>
+            </a>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="light-section section-space">
+      <div class="container-custom max-w-3xl">
+        <div class="text-center mb-10">
+          <p class="eyebrow mb-4">Antes de começar</p>
+          <h2 class="heading text-3xl sm:text-4xl">Perguntas frequentes</h2>
+        </div>
+
+        <div class="space-y-3">
+          <details class="bg-white rounded-2xl p-5 sm:p-6">
+            <summary class="flex justify-between items-center gap-4 font-bold">
+              Preciso instalar outro aplicativo?
+              <span class="plus text-2xl text-teal transition">+</span>
+            </summary>
+            <p class="light-muted mt-4 leading-relaxed">
+              Não. O registro das despesas acontece pelo WhatsApp.
+            </p>
+          </details>
+
+          <details class="bg-white rounded-2xl p-5 sm:p-6">
+            <summary class="flex justify-between items-center gap-4 font-bold">
+              Preciso digitar cada produto?
+              <span class="plus text-2xl text-teal transition">+</span>
+            </summary>
+            <p class="light-muted mt-4 leading-relaxed">
+              Não. O Notinha pode identificar os itens da nota fiscal e organizar os registros automaticamente.
+            </p>
+          </details>
+
+          <details class="bg-white rounded-2xl p-5 sm:p-6">
+            <summary class="flex justify-between items-center gap-4 font-bold">
+              Posso registrar um gasto sem nota?
+              <span class="plus text-2xl text-teal transition">+</span>
+            </summary>
+            <p class="light-muted mt-4 leading-relaxed">
+              Sim. Você pode informar suas despesas por mensagem no WhatsApp.
+            </p>
+          </details>
+
+          <details class="bg-white rounded-2xl p-5 sm:p-6">
+            <summary class="flex justify-between items-center gap-4 font-bold">
+              O dashboard está em todos os planos?
+              <span class="plus text-2xl text-teal transition">+</span>
+            </summary>
+            <p class="light-muted mt-4 leading-relaxed">
+              Não. O dashboard demonstrado nesta página faz parte do plano Premium.
+            </p>
+          </details>
+
+          <details class="bg-white rounded-2xl p-5 sm:p-6">
+            <summary class="flex justify-between items-center gap-4 font-bold">
+              Preciso conectar minha conta bancária?
+              <span class="plus text-2xl text-teal transition">+</span>
+            </summary>
+            <p class="light-muted mt-4 leading-relaxed">
+              Não. O Notinha organiza as informações que você envia, sem precisar acessar sua conta bancária.
+            </p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA FINAL -->
+    <section class="py-20 sm:py-28 bg-teal">
+      <div class="container-custom text-center max-w-4xl">
+        <p class="text-xs tracking-[.2em] uppercase font-bold text-white/85 mb-5">
+          Comece pela próxima compra
+        </p>
+
+        <h2 class="heading text-4xl sm:text-5xl lg:text-6xl text-white">
+          Seu dinheiro já faz parte da sua rotina. Seu controle financeiro também deveria fazer.
+        </h2>
+
+        <p class="mt-7 text-lg text-white/90 leading-relaxed max-w-2xl mx-auto">
+          Não espere o próximo mês. Comece a organizar suas despesas
+          com uma simples mensagem no WhatsApp.
+        </p>
+
+        <a href="#planos" class="btn mt-9 bg-white text-[#124a49] hover:bg-cream shadow-xl">
+          Quero começar com o Notinha <span aria-hidden="true">→</span>
+        </a>
+
+        <p class="mt-5 text-sm text-white/80">
+          Planos a partir de R$ 14,90 por mês.
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-[#0a0e13] border-t border-white/10 py-12">
+    <div class="container-custom">
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+        <div>
+          <a href="https://usenotinha.com.br/" class="flex items-center gap-3">
+            <img
+              src="https://usenotinha.com.br/notinha-icon.png"
+              alt="Notinha"
+              width="35"
+              height="35"
+              class="h-9 w-9 object-contain"
+            >
+            <span class="font-brand text-xl font-semibold">Notinha</span>
+          </a>
+          <p class="mt-3 text-sm muted">
+            Seu dinheiro mais claro. Sua rotina mais simples.
+          </p>
+        </div>
+
+        <nav aria-label="Links institucionais" class="flex flex-wrap gap-x-6 gap-y-3 text-sm muted">
+          <a class="hover:text-white" href="https://usenotinha.com.br/">Site principal</a>
+          <a class="hover:text-white" href="https://usenotinha.com.br/privacidade.html">Privacidade</a>
+          <a class="hover:text-white" href="https://usenotinha.com.br/termos.html">Termos de uso</a>
+          <a class="hover:text-white" href="https://usenotinha.com.br/contato/">Contato</a>
+        </nav>
+      </div>
+
+      <div class="border-t border-white/10 mt-9 pt-7 text-sm text-slate-500">
+        © 2026 Notinha. Todos os direitos reservados.
+      </div>
+    </div>
+  </footer>
+
+  <!-- INTERAÇÃO LEVE: DIAGNÓSTICO -->
+  <script>
+    const responses = {
+      yes: {
+        title: "Ótimo. Você já tem um bom ponto de partida.",
+        text: "O próximo passo é entender os detalhes: quais categorias pesam mais, como os preços evoluem e o que seus hábitos revelam."
+      },
+      maybe: {
+        title: "Ter uma ideia é diferente de ter clareza.",
+        text: "Quando seus registros ficam organizados, você deixa de depender de estimativas e pode consultar as despesas com mais precisão."
+      },
+      no: {
+        title: "Esse pode ser o melhor momento para começar.",
+        text: "Você não precisa reconstruir todos os meses anteriores. Pode começar a formar seu histórico financeiro a partir da próxima compra."
+      }
+    };
+
+    const answerButtons = document.querySelectorAll(".answer-btn");
+    const result = document.getElementById("answer-result");
+
+    answerButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        answerButtons.forEach((item) => {
+          item.classList.remove("border-teal", "bg-teal/10");
+          item.classList.add("border-slate-200", "bg-white");
+          item.setAttribute("aria-pressed", "false");
+        });
+
+        button.classList.remove("border-slate-200", "bg-white");
+        button.classList.add("border-teal", "bg-teal/10");
+        button.setAttribute("aria-pressed", "true");
+
+        const response = responses[button.dataset.answer];
+
+        document.getElementById("answer-title").textContent = response.title;
+        document.getElementById("answer-text").textContent = response.text;
+
+        result.classList.remove("hidden");
+      });
+    });
+  </script>
+
+</body>
+</html>
