@@ -37,8 +37,10 @@ def log(msg):
 
 
 def montar_card(p):
+    img = p.get("img", f"img/{p['slug']}.webp")
+    w, h = p.get("img_w", 1536), p.get("img_h", 1024)
     return f'''      <a href="{p['slug']}/" class="post-card">
-        <img src="img/{p['slug']}.webp" alt="{p['alt']}" class="post-card-image" loading="lazy" width="1536" height="1024">
+        <img src="{img}" alt="{p['alt']}" class="post-card-image" loading="lazy" width="{w}" height="{h}">
         <div class="post-card-body">
           <span class="post-card-tag">{p['tag']}</span>
           <h2>{p['titulo']}</h2>
@@ -56,7 +58,7 @@ def inserir_no_indice(p):
     if f'href="{p["slug"]}/"' in s:
         log(f'  · card já existe no índice, pulando')
         return s
-    ancora = '    <div class="posts">'
+    ancora = '<div class="posts">'
     if ancora not in s:
         raise SystemExit('ERRO: <div class="posts"> não encontrado em blog/index.html')
     s = s.replace(ancora, ancora + "\n\n" + montar_card(p), 1)
