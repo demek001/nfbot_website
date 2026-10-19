@@ -42,8 +42,17 @@
 <link rel="icon" type="image/png" sizes="64x64" href="favicon-64.png">
 <link rel="apple-touch-icon" href="notinha-icon.png">
 
-<!-- Cloudflare Turnstile -->
-<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<!-- Cloudflare Turnstile em modo explícito: os widgets são desenhados pelo script
+     do formulário (abaixo), depois que os callbacks existem. No modo automático, o
+     api.js podia desenhar antes e descartar os callbacks (o token nunca chegava). -->
+<script>
+  (function () {
+    var fila = [], pronto = false;
+    window.onTurnstilePronto = function () { pronto = true; fila.splice(0).forEach(function (f) { f(); }); };
+    window.__turnQuandoPronto = function (f) { if (pronto) f(); else fila.push(f); };
+  })();
+</script>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=onTurnstilePronto" async defer></script>
 
 <!-- Supabase JS -->
 <script type="module">
@@ -357,7 +366,7 @@
       <label>Senha
         <input id="login-senha" type="password" autocomplete="current-password" placeholder="••••••••">
       </label>
-      <div class="turn cf-turnstile" data-sitekey="0x4AAAAAADg8XhQoJhpFcb5w" data-callback="onTurnLogin"></div>
+      <div class="turn" id="turn-login"></div>
       <button class="cta" id="btn-login">Entrar →</button>
       <div class="msg" id="login-msg"></div>
       <div class="links">
@@ -377,7 +386,7 @@
       <label>Criar senha <span style="font-weight:400">(mín. 8 caracteres)</span>
         <input id="su-senha" type="password" autocomplete="new-password" placeholder="••••••••">
       </label>
-      <div class="turn cf-turnstile" data-sitekey="0x4AAAAAADg8XhQoJhpFcb5w" data-callback="onTurnSignup"></div>
+      <div class="turn" id="turn-signup"></div>
       <button class="cta" id="btn-signup">Criar acesso →</button>
       <div class="msg" id="su-msg"></div>
       <div class="links"><a onclick="mostrar('view-login')">Já tenho acesso</a></div>
@@ -391,7 +400,7 @@
       <label>E-mail
         <input id="rs-email" type="email" autocomplete="email" placeholder="voce@email.com">
       </label>
-      <div class="turn cf-turnstile" data-sitekey="0x4AAAAAADg8XhQoJhpFcb5w" data-callback="onTurnReset"></div>
+      <div class="turn" id="turn-reset"></div>
       <button class="cta" id="btn-reset">Enviar link →</button>
       <div class="msg" id="rs-msg"></div>
       <div class="links"><a onclick="mostrar('view-login')">Voltar</a></div>
@@ -614,10 +623,64 @@
 
   function limpar(el) { el.className = "msg"; el.textContent = ""; }
 
-  const turn = { login: "", signup: "", reset: "" };
-  window.onTurnLogin  = (t) => { turn.login = t;  limpar($("login-msg")); };
-  window.onTurnSignup = (t) => { turn.signup = t; limpar($("su-msg")); };
-  window.onTurnReset  = (t) => { turn.reset = t;  limpar($("rs-msg")); };
+  // ── Turnstile: um widget por formulário, cada um com id e callbacks próprios ──
+  const TURNSTILE_SITEKEY = "0x4AAAAAADg8XhQoJhpFcb5w";
+  const MSG_ROBO = "Não deu para confirmar que você não é um robô. Marque a caixa acima e tente de novo.";
+  const turn = {
+    login:  { el: "turn-login",  msg: "login-msg", id: null, token: "", espera: null, avisando: false },
+    signup: { el: "turn-signup", msg: "su-msg",    id: null, token: "", espera: null, avisando: false },
+    reset:  { el: "turn-reset",  msg: "rs-msg",    id: null, token: "", espera: null, avisando: false },
+  };
+  function novoToken(w, t) {
+    w.token = t;
+    // Só apaga a mensagem que o próprio Turnstile causou ("Verificando…" ou o erro de robô),
+    // nunca o resultado de um envio (ex.: "Acesso criado!").
+    if (w.avisando) { limpar($(w.msg)); w.avisando = false; }
+    if (w.espera) { const entregar = w.espera; w.espera = null; entregar(t); }
+  }
+  window.__turnQuandoPronto(() => {
+    for (const w of Object.values(turn)) {
+      w.id = window.turnstile.render("#" + w.el, {
+        sitekey: TURNSTILE_SITEKEY,
+        size: window.innerWidth < 400 ? "compact" : "normal",  // o normal (300 px) passa do cartão no celular
+        callback: (t) => novoToken(w, t),
+        "expired-callback": () => { w.token = ""; },
+        "timeout-callback": () => { w.token = ""; },
+        "error-callback": () => { w.token = ""; },
+      });
+    }
+  });
+
+  // Token do widget deste formulário. Vazio ou vencido: reseta só este widget e espera
+  // o token novo (o widget pode pedir para marcar a caixa) antes de mostrar erro.
+  function tokenTurnstile(chave, ms = 20000) {
+    const w = turn[chave];
+    if (w.id !== null) {
+      const atual = w.token || window.turnstile.getResponse(w.id) || "";
+      if (atual && !window.turnstile.isExpired(w.id)) return Promise.resolve(atual);
+    }
+    w.token = "";
+    w.avisando = true;
+    show($(w.msg), true, "Verificando que você não é um robô… Se aparecer uma caixa, marque-a.");
+    return new Promise((res) => {
+      const desistir = setTimeout(() => { if (w.espera === entregar) { w.espera = null; res(""); } }, ms);
+      const entregar = (t) => { clearTimeout(desistir); res(t); };
+      w.espera = entregar;
+      if (w.id !== null) window.turnstile.reset(w.id);
+    });
+  }
+  // Depois de cada envio (com sucesso ou erro): o token já foi usado, então reseta
+  // este widget (e só ele) para o próximo envio ter um token novo.
+  function tokenUsado(chave) {
+    const w = turn[chave];
+    w.token = "";
+    if (w.id !== null) window.turnstile.reset(w.id);
+  }
+  function erroRobo(chave) {
+    const w = turn[chave];
+    show($(w.msg), false, MSG_ROBO);
+    w.avisando = true;
+  }
 
   window.mostrar = (id) => {
     ["view-login","view-signup","view-reset","view-painel"].forEach(v => $(v).classList.add("hidden"));
@@ -625,17 +688,17 @@
   };
 
   function show(el, ok, txt) { el.className = "msg " + (ok ? "ok" : "err"); el.textContent = txt; }
-  function resetTurn() { if (window.turnstile) window.turnstile.reset(); }
 
   // ── LOGIN ──
   $("btn-login").onclick = async () => {
     const email = $("login-email").value.trim();
     const password = $("login-senha").value;
-    if (!turn.login) return show($("login-msg"), false, "Confirme que você não é um robô.");
     $("btn-login").disabled = true;
-    const { error } = await sb().auth.signInWithPassword({ email, password, options: { captchaToken: turn.login } });
+    const captchaToken = await tokenTurnstile("login");
+    if (!captchaToken) { $("btn-login").disabled = false; return erroRobo("login"); }
+    const { error } = await sb().auth.signInWithPassword({ email, password, options: { captchaToken } });
     $("btn-login").disabled = false;
-    resetTurn(); turn.login = "";
+    tokenUsado("login");
     if (error) return show($("login-msg"), false, "E-mail ou senha incorretos.");
     carregarPainel();
   };
@@ -644,12 +707,13 @@
   $("btn-signup").onclick = async () => {
     const email = $("su-email").value.trim();
     const password = $("su-senha").value;
-    if (!turn.signup) return show($("su-msg"), false, "Confirme que você não é um robô.");
     if (password.length < 8) return show($("su-msg"), false, "Senha de no mínimo 8 caracteres.");
     $("btn-signup").disabled = true;
-    const { data, error } = await sb().auth.signUp({ email, password, options: { captchaToken: turn.signup } });
+    const captchaToken = await tokenTurnstile("signup");
+    if (!captchaToken) { $("btn-signup").disabled = false; return erroRobo("signup"); }
+    const { data, error } = await sb().auth.signUp({ email, password, options: { captchaToken } });
     $("btn-signup").disabled = false;
-    resetTurn(); turn.signup = "";
+    tokenUsado("signup");
     if (error) return show($("su-msg"), false, error.message);
     // Anti-enumeração do Supabase: e-mail já existente volta com identities vazio.
     if (data?.user && Array.isArray(data.user.identities) && data.user.identities.length === 0) {
@@ -664,14 +728,15 @@
   // ── RESET ──
   $("btn-reset").onclick = async () => {
     const email = $("rs-email").value.trim();
-    if (!turn.reset) return show($("rs-msg"), false, "Confirme que você não é um robô.");
     $("btn-reset").disabled = true;
+    const captchaToken = await tokenTurnstile("reset");
+    if (!captchaToken) { $("btn-reset").disabled = false; return erroRobo("reset"); }
     const { error } = await sb().auth.resetPasswordForEmail(email, {
-      captchaToken: turn.reset,
+      captchaToken,
       redirectTo: "https://usenotinha.com.br/conta.html",
     });
     $("btn-reset").disabled = false;
-    resetTurn(); turn.reset = "";
+    tokenUsado("reset");
     if (error) return show($("rs-msg"), false, error.message);
     show($("rs-msg"), true, "Se o e-mail existir, enviamos um link.");
   };
