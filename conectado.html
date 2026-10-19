@@ -102,11 +102,27 @@
   const box = document.getElementById("box");
   const CODIGO_URL = "https://xpzjwlhrlebdpcybxaxu.supabase.co/functions/v1/codigo-ativacao";
 
+  // Chaves vindas do oauth-callback (?erro=). Nas falhas que dá para repetir, o mesmo
+  // link do e-mail continua valendo.
+  const DE_NOVO = ' Para tentar de novo, volte ao e-mail e toque outra vez em <b>Conectar meu Google Drive</b>.';
+  const SUPORTE = ' Fale com a gente em <a href="contato/" style="color:var(--brand-hover)">usenotinha.com.br/contato</a>';
   const ERROS = {
-    cancelado: "Você cancelou a autorização do Google. Sem isso, o Notinha não consegue guardar suas notas no seu Drive.",
-    link: "O link de conexão veio incompleto. Volte ao cadastro e tente conectar o Drive novamente.",
-    token: "Não foi possível concluir o acesso ao seu Drive. Tente conectar novamente.",
+    cancelado: "Você cancelou a autorização do Google. Sem ela, o Notinha não consegue guardar suas notas no seu Drive." + DE_NOVO,
+    permissao: "Na tela do Google, a caixa de acesso ao <b>Google Drive</b> ficou desmarcada. Sem ela, o Notinha não consegue criar sua pasta." + DE_NOVO + " Desta vez, marque essa caixa.",
+    drive: "O Google não deixou criar a pasta Notinha no seu Drive." + DE_NOVO + " Se continuar," + SUPORTE.replace(" Fale", " fale") + ".",
+    token: "Não foi possível concluir o acesso ao seu Drive." + DE_NOVO,
+    google: "O Google não respondeu como esperado." + DE_NOVO,
+    banco: "Algo deu errado do nosso lado." + DE_NOVO,
+    expirado: "Este link de conexão expirou." + SUPORTE + " e enviamos um novo.",
+    limite: "Este link teve muitas tentativas e foi desativado por segurança." + SUPORTE + " e enviamos um novo.",
+    pagamento: "Sua conta ainda não está liberada para conectar o Drive. Se você já pagou," + SUPORTE.replace(" Fale", " fale") + ".",
+    link: "O link de conexão veio incompleto. Volte ao e-mail e toque outra vez em <b>Conectar meu Google Drive</b>.",
     inesperado: "Algo deu errado por aqui. Tente novamente em instantes.",
+  };
+  // Não são falhas: o Drive já está (ou está sendo) conectado.
+  const AVISOS = {
+    usado: ["Seu Google Drive já está conectado", "Este link já foi usado. É só mandar a foto ou o PDF da sua nota no WhatsApp do Notinha."],
+    andamento: ["Estamos concluindo a conexão", "Em instantes você recebe um e-mail de confirmação. Não precisa tentar de novo."],
   };
 
   function esc(v) {
@@ -127,6 +143,13 @@
   }
 
   function falha(chave) {
+    if (AVISOS[chave]) {
+      box.innerHTML =
+        '<div class="check">&#10003;</div>' +
+        '<h1>' + AVISOS[chave][0] + '</h1>' +
+        '<p>' + AVISOS[chave][1] + '</p>';
+      return;
+    }
     box.innerHTML =
       '<div class="check err">!</div>' +
       '<h1>Não deu pra conectar</h1>' +
