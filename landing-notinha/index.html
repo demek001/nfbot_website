@@ -118,6 +118,42 @@
       line-height: .8;
     }
 
+    /* Galeria de feedbacks: carrossel no celular, grade de 3 colunas a partir de 768px */
+    .feedback-gallery {
+      display: flex;
+      gap: 14px;
+      margin-inline: -22px;
+      padding-inline: 22px;
+      scroll-padding-inline: 22px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      overscroll-behavior-x: contain;
+      scrollbar-width: none;
+    }
+
+    .feedback-gallery::-webkit-scrollbar { display: none; }
+
+    .feedback-gallery li {
+      flex: 0 0 80vw;
+      scroll-snap-align: start;
+    }
+
+    .feedback-gallery img {
+      width: 100%;
+      border-radius: 18px;
+    }
+
+    @media (min-width: 768px) {
+      .feedback-gallery {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 24px;
+        margin-inline: 0;
+        padding-inline: 0;
+        overflow: visible;
+      }
+    }
+
     details summary { cursor: pointer; }
     details summary::-webkit-details-marker { display: none; }
 
@@ -142,6 +178,7 @@
       .btn { width: 100%; }
       .container-custom { padding-inline: 20px; }
       .section-space { padding-block: 66px; }
+      .feedback-gallery { margin-inline: -20px; padding-inline: 20px; scroll-padding-inline: 20px; }
     }
   </style>
 </head>
@@ -438,7 +475,7 @@
 
     <!-- PROVA SOCIAL -->
     <section id="experiencias" class="section-space">
-      <div class="container-custom max-w-4xl">
+      <div class="container-custom">
         <div class="text-center mb-11">
           <p class="eyebrow mb-5">Experiências com o Notinha</p>
           <h2 class="heading text-3xl sm:text-4xl">
@@ -446,33 +483,74 @@
           </h2>
         </div>
 
-        <article class="panel p-7 sm:p-10">
-          <div class="grid sm:grid-cols-[100px_1fr] items-start gap-6">
-            <div class="h-24 w-24 rounded-full bg-slate-700 flex items-center justify-center overflow-hidden border border-slate-500">
-              <img
-                src="https://usenotinha.com.br/notinha-icon.png"
-                alt="Espaço para fotografia autorizada do cliente"
-                class="h-14 w-14 object-contain"
-                loading="lazy"
-              >
-            </div>
-
-            <div>
-              <div class="quote-mark" aria-hidden="true">“</div>
-
-              <blockquote class="text-xl sm:text-2xl font-display leading-relaxed">
-                Espaço reservado para uma avaliação autêntica de um cliente, com autorização para publicação.
-              </blockquote>
-
-              <div class="mt-7 pt-5 border-t border-white/10">
-                <p class="font-bold text-white">Nome do cliente</p>
-                <p class="text-sm muted mt-1">Cliente Notinha</p>
-              </div>
-            </div>
-          </div>
-        </article>
+        <ul class="feedback-gallery">
+          <li>
+            <img
+              src="/blog/img/feedback-lucas-b.webp"
+              alt="Feedback de Lucas B. no WhatsApp: &quot;Achei muito bom. Gostei porque até quando não tenho nota eu consigo registrar pelo WhatsApp. Isso me ajudou muito com gastos do dia a dia. Fica tudo centralizado e mais fácil de acompanhar. Bem prático mesmo.&quot;"
+              width="670"
+              height="837"
+              loading="lazy"
+              decoding="async"
+            >
+          </li>
+          <li>
+            <img
+              src="/blog/img/feedback-bianca-a.webp"
+              alt="Feedback de Bianca A. no WhatsApp: &quot;Eu sempre comprava no mercado e não sabia pra onde o dinheiro ia. Mandei a nota e já ficou tudo separado certinho. Foi a primeira vez que eu consegui ver meus gastos por categoria. Agora entendi o quanto vai pra supermercado e farmácia. Isso ajuda muito no fim do mês.&quot;"
+              width="670"
+              height="837"
+              loading="lazy"
+              decoding="async"
+            >
+          </li>
+          <li>
+            <img
+              src="/blog/img/feedback-rafael-m.webp"
+              alt="Feedback de Rafael M. no WhatsApp: &quot;Eu já tinha tentado planilha várias vezes. Sempre começava animado e depois largava. Com o Notinha no WhatsApp ficou muito mais fácil. Agora eu registro na hora e não esqueço mais. Praticidade total.&quot;"
+              width="670"
+              height="837"
+              loading="lazy"
+              decoding="async"
+            >
+          </li>
+          <li>
+            <img
+              src="/blog/img/feedback-juliana-p.webp"
+              alt="Feedback de Juliana P. no WhatsApp: &quot;O resumo do mês me ajudou demais. Antes eu só olhava o saldo da conta e ficava perdida. Agora consigo entender melhor onde estou gastando. Supermercado, transporte e farmácia ficaram muito mais claros. Adorei mesmo.&quot;"
+              width="670"
+              height="837"
+              loading="lazy"
+              decoding="async"
+            >
+          </li>
+          <li>
+            <img
+              src="/blog/img/feedback-priscila-a.webp"
+              alt="Feedback de Priscila A. no WhatsApp: &quot;Eu estava precisando de algo para organizar melhor o orçamento da casa. Gostei porque ficou fácil registrar e acompanhar tudo. Já senti mais clareza e menos bagunça nas contas. Deu até mais paz pra olhar os gastos.&quot;"
+              width="670"
+              height="837"
+              loading="lazy"
+              decoding="async"
+            >
+          </li>
+          <li>
+            <img
+              src="/blog/img/feedback-fernanda-l.webp"
+              alt="Feedback de Fernanda L. no WhatsApp: &quot;Aqui em casa eu sempre precisava organizar as compras do mês. Com o Notinha ficou bem mais fácil acompanhar mercado e farmácia. Gostei porque tudo vai ficando organizado sem trabalho manual. Me ajudou bastante no planejamento da casa.&quot;"
+              width="670"
+              height="837"
+              loading="lazy"
+              decoding="async"
+            >
+          </li>
+        </ul>
 
         <p class="text-center text-sm muted mt-6">
+          Feedbacks de pessoas que testaram o Notinha por 2 meses antes do lançamento, publicados com autorização. Arte recriada a partir das conversas originais.
+        </p>
+
+        <p class="text-center text-sm muted mt-2">
           A experiência com o Notinha pode variar conforme os registros enviados e os recursos do plano contratado.
         </p>
       </div>
