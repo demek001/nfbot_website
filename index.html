@@ -862,9 +862,9 @@
     <p class="sub">Sem aplicativo pra baixar. Sem senha de banco. Cancele quando quiser.</p>
 
     <div class="planos-grid">
-      <div class="plano-card">
+      <div class="plano-card" data-cortesia="card">
         <div class="plano-nome">Pleno</div>
-        <div class="plano-preco">R$ 27,90<span>/mês</span></div>
+        <div class="plano-preco" data-cortesia="preco">R$ 27,90<span>/mês</span></div>
         <ul>
           <li>Acompanhamento de gastos no WhatsApp</li>
           <li>Notas fiscais e planilhas mensais organizadas no seu Google Drive</li>
@@ -873,7 +873,7 @@
           <li>Resumo do mês atual</li>
           <li>Link da planilha de qualquer mês</li>
         </ul>
-        <a href="/assinar/?plano=base" class="cta">Assinar o Pleno →</a>
+        <a href="/assinar/?plano=base" class="cta" data-cortesia="cta">Assinar o Pleno →</a>
       </div>
 
       <div class="plano-card destaque">
@@ -1147,5 +1147,6 @@ function cookieEssenciais(){ localStorage.setItem('cookieConsent','essential'); 
   });
 })();
 </script>
+<script src="/cortesia-card.js" defer></script>
 </body>
 </html>

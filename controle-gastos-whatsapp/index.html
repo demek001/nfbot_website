@@ -300,10 +300,10 @@ gtag('config','AW-18331471265');
     <span class="kicker">Oferta simples</span>
     <h2>Escolha quanto você quer enxergar.</h2>
     <div class="plans">
-      <article class="plan">
-        <h3>Pleno</h3><div class="price">R$ 27,90 <small>/ mês</small></div>
+      <article class="plan" data-cortesia="card">
+        <h3>Pleno</h3><div class="price" data-cortesia="preco">R$ 27,90 <small>/ mês</small></div>
         <ul><li>✓ Controle pelo WhatsApp</li><li>✓ Leitura e organização das notas</li><li>✓ Planilha e registros automáticos</li><li>✓ Arquivos organizados no Drive</li></ul>
-        <a class="cta js-cta" data-place="plano_base" data-plano="base" href="/assinar/?origem=landing&plano=base">Começar com Pleno →</a>
+        <a class="cta js-cta" data-place="plano_base" data-plano="base" data-cortesia="cta" href="/assinar/?origem=landing&plano=base">Começar com Pleno →</a>
       </article>
       <article class="plan featured">
         <h3>Premium</h3><div class="price">R$ 47,90 <small>/ mês</small></div>
@@ -425,5 +425,6 @@ function cookieEssenciais(){
   }
 })();
 </script>
+<script src="/cortesia-card.js" defer></script>
 </body>
 </html>

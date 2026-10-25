@@ -611,11 +611,11 @@
 
         <div class="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto mt-12">
 
-          <article class="panel p-8 flex flex-col">
+          <article class="panel p-8 flex flex-col" data-cortesia="card">
             <p class="eyebrow mb-4">Para começar</p>
             <h3 class="font-display text-3xl">Pleno</h3>
 
-            <p class="mt-5 text-5xl font-bold">
+            <p class="mt-5 text-5xl font-bold" data-cortesia="preco">
               R$ 27,90
               <span class="text-base font-normal muted">/mês</span>
             </p>
@@ -631,7 +631,7 @@
               <li>✓ Arquivos organizados no Google Drive</li>
             </ul>
 
-            <a href="/assinar/?plano=base" class="btn btn-outline mt-9">
+            <a href="/assinar/?plano=base" class="btn btn-outline mt-9" data-cortesia="cta">
               Assinar Pleno <span aria-hidden="true">→</span>
             </a>
           </article>
@@ -835,5 +835,6 @@
     });
   </script>
 
+<script src="/cortesia-card.js" defer></script>
 </body>
 </html>
