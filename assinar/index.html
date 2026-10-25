@@ -51,8 +51,8 @@
 <label class="field">WhatsApp (com DDD)<input type="tel" id="whatsapp" autocomplete="tel" placeholder="11 9-9999-9999" required></label>
 <label class="field">Data de nascimento<input type="date" id="nascimento"></label>
 <div class="field" style="gap:8px"><span>Plano</span><div class="planos">
-<label class="plano sel"><input type="radio" name="plano" value="base" checked><b>Pleno</b><small>R$ 14,90/mês</small><ul class="plano-feats"><li>Acompanhamento de gastos no WhatsApp</li><li>Notas fiscais e planilhas mensais no seu Google Drive</li><li>Correção de categoria pelo WhatsApp</li><li>Registro de gasto por escrito</li><li>Resumo do mês atual</li><li>Link da planilha de qualquer mês</li></ul></label>
-<label class="plano"><input type="radio" name="plano" value="premium"><b>Premium</b><small>R$ 44,90/mês</small><ul class="plano-feats"><li>Tudo do plano Pleno</li><li>Dashboard interativo</li><li>Insights semanais</li><li>Relatório mensal em PDF</li><li>Comparação de preço por produto</li><li>Top produtos do mês</li><li>Acesso antecipado a novidades</li></ul></label>
+<label class="plano sel"><input type="radio" name="plano" value="base" checked><b>Pleno</b><small>R$ 27,90/mês</small><ul class="plano-feats"><li>Acompanhamento de gastos no WhatsApp</li><li>Notas fiscais e planilhas mensais no seu Google Drive</li><li>Correção de categoria pelo WhatsApp</li><li>Registro de gasto por escrito</li><li>Resumo do mês atual</li><li>Link da planilha de qualquer mês</li></ul></label>
+<label class="plano"><input type="radio" name="plano" value="premium"><b>Premium</b><small>R$ 47,90/mês</small><ul class="plano-feats"><li>Tudo do plano Pleno</li><li>Dashboard interativo</li><li>Insights semanais</li><li>Relatório mensal em PDF</li><li>Comparação de preço por produto</li><li>Top produtos do mês</li><li>Acesso antecipado a novidades</li></ul></label>
 </div></div>
 <div class="checkbox-row"><input type="checkbox" id="consent" required><span>Autorizo o Notinha a tratar meus dados conforme a <a href="/privacidade.html" target="_blank" rel="noopener">Política de Privacidade</a>.</span></div>
 <div class="turn cf-turnstile" data-sitekey="0x4AAAAAAEmLqsLsblMemLoi" data-callback="onTurnCadastro" data-expired-callback="onTurnExpirado" data-error-callback="onTurnExpirado"></div>
@@ -69,7 +69,7 @@
 <script>
 const ONBOARDING_URL="https://xpzjwlhrlebdpcybxaxu.supabase.co/functions/v1/onboarding";
 const PREPARAR_CONVERSAO_URL="https://xpzjwlhrlebdpcybxaxu.supabase.co/functions/v1/preparar-conversao";
-const PRECO={base:14.90,premium:44.90},NOME={base:"Pleno",premium:"Premium"};
+const PRECO={base:27.90,premium:47.90},NOME={base:"Pleno",premium:"Premium"};
 function ev(n,p){if(typeof gtag==="function")gtag("event",n,p||{})}function planoAtual(){var el=document.querySelector('input[name="plano"]:checked');return el?el.value:"base"}function itemPlano(pl){return{item_id:pl,item_name:NOME[pl],price:PRECO[pl],quantity:1}}
 (function(){try{var q=new URLSearchParams(location.search).get("plano");if(q!=="premium"&&q!=="base")return;document.querySelectorAll(".plano").forEach(function(p){var input=p.querySelector("input"),sel=input.value===q;p.classList.toggle("sel",sel);input.checked=sel})}catch(e){}})();
 document.querySelectorAll(".plano").forEach(function(el){el.addEventListener("click",function(){document.querySelectorAll(".plano").forEach(function(p){p.classList.remove("sel")});el.classList.add("sel");el.querySelector("input").checked=true;var pl=el.querySelector("input").value;ev("select_item",{item_list_id:"checkout",item_list_name:"Checkout Notinha",currency:"BRL",items:[itemPlano(pl)]})})});

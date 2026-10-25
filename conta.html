@@ -780,10 +780,15 @@
   });
   $("conta-back").onclick = () => { _conta().classList.remove("show-detail"); window.scrollTo({ top: 0, behavior: "smooth" }); };
 
+  // Preço mensal de cada plano (config_privada, via função conta): mostrado antes de confirmar a troca.
+  let precos = null;
+  const reais = (n) => "R$ " + Number(n).toFixed(2).replace(".", ",");
+
   async function carregarPainel() {
     mostrar("view-painel");
     const r = await api("perfil");
     if (r.erro) return show($("p-msg"), false, "Não achamos sua conta. Fale com o suporte.");
+    precos = r.precos ?? null;
     const c = r.cliente;
     const tier = ((c.plano_tier ?? "base") === "base" ? "pleno" : c.plano_tier).toUpperCase(); // "base" é o nome interno; para o cliente é "Pleno"
     $("p-nome").textContent = c.nome ?? "—";
@@ -802,6 +807,8 @@
   }
 
   $("btn-upgrade").onclick = async () => {
+    const valor = precos?.premium ? ` O valor da sua assinatura passa a ser ${reais(precos.premium)} por mês.` : "";
+    if (!confirm(`Mudar para o plano Premium?${valor}`)) return;
     $("btn-upgrade").disabled = true;
     const r = await api("upgrade");
     $("btn-upgrade").disabled = false;
@@ -810,7 +817,8 @@
   };
 
   $("btn-downgrade").onclick = async () => {
-    if (!confirm("Voltar para o plano Pleno? Você perde os recursos Premium: painel do ano, insights, busca de lançamentos, maiores gastos, relatório com fotos e comparação de preços.")) return;
+    const valor = precos?.base ? ` O valor da sua assinatura passa a ser ${reais(precos.base)} por mês.` : "";
+    if (!confirm(`Voltar para o plano Pleno? Você perde os recursos Premium: painel do ano, insights, busca de lançamentos, maiores gastos, relatório com fotos e comparação de preços.${valor}`)) return;
     $("btn-downgrade").disabled = true;
     const r = await api("downgrade");
     $("btn-downgrade").disabled = false;
