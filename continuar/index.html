@@ -184,7 +184,7 @@ footer{padding:32px 0;border-top:1px solid var(--border);color:var(--muted);font
   post({acao:"estado"}).then(function(j){
     if(j.situacao==="invalido"||j.__status===404){invalido();return}
     if(j.situacao==="pago"){pago();return}
-    if(j.situacao==="cortesia"){info("Cortesia","Sua cortesia vai até "+j.ate,"No dia, enviamos o link por e-mail e WhatsApp. Até lá, é só continuar usando o Notinha.","Abrir o WhatsApp",WHATS);return}
+    if(j.situacao==="cortesia"){info("Cortesia","Sua cortesia vai até "+j.ate,"No dia, enviamos o link por e-mail. Até lá, é só continuar usando o Notinha.","Abrir o WhatsApp",WHATS);return}
     if(j.situacao==="pix_pendente"){
       ver("v-pixpend");
       $("pp-sub").textContent=(j.primeiro_nome?"Oi, "+j.primeiro_nome+". ":"")+"A cobrança trimestral do Notinha "+j.plano+", de "+reais(j.valor)+", vence em "+j.vencimento+".";
