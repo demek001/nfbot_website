@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" width="1200" height="675">
+<defs><radialGradient id="g" cx="20%" cy="0%" r="80%"><stop offset="0" stop-color="#288A89" stop-opacity=".28"/><stop offset="1" stop-color="#0d1117" stop-opacity="0"/></radialGradient></defs>
+<rect width="1200" height="675" fill="#0d1117"/><rect width="1200" height="675" fill="url(#g)"/>
+<rect x="80" y="90" width="170" height="40" rx="20" fill="#288A8922" stroke="#288A89"/>
+<text x="165" y="117" text-anchor="middle" font-family="DM Sans,Arial,sans-serif" font-size="18" font-weight="600" fill="#288A89">CADERNINHO</text>
+<text x="80" y="290" font-family="Fraunces,Georgia,serif" font-size="86" font-weight="700" fill="#f0f6fc">Orçamento com</text>
+<text x="80" y="390" font-family="Fraunces,Georgia,serif" font-size="86" font-weight="700" fill="#288A89">renda variável</text>
+<rect x="80" y="450" width="120" height="6" rx="3" fill="#288A89"/>
+<text x="80" y="580" font-family="Plus Jakarta Sans,Arial,sans-serif" font-size="30" font-weight="600" fill="#8b949e">Notinha · usenotinha.com.br</text>
+</svg>
