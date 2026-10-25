@@ -546,6 +546,7 @@
               <button class="cta" id="btn-upgrade">Fazer upgrade para Premium →</button>
               <button class="cta ghost" id="btn-downgrade">Voltar para o plano Pleno</button>
             </div>
+            <div class="pane-sub hidden" id="p-plano-nota" style="margin-top:12px"></div>
           </div>
 
           <!-- NOME -->
@@ -781,7 +782,8 @@
   $("conta-back").onclick = () => { _conta().classList.remove("show-detail"); window.scrollTo({ top: 0, behavior: "smooth" }); };
 
   // Preço mensal de cada plano (config_privada, via função conta): mostrado antes de confirmar a troca.
-  let precos = null;
+  // No Pix trimestral, o valor de 3 meses (precos_pix).
+  let precos = null, precosPix = null, cli = null;
   const reais = (n) => "R$ " + Number(n).toFixed(2).replace(".", ",");
 
   async function carregarPainel() {
@@ -789,15 +791,36 @@
     const r = await api("perfil");
     if (r.erro) return show($("p-msg"), false, "Não achamos sua conta. Fale com o suporte.");
     precos = r.precos ?? null;
+    precosPix = r.precos_pix ?? null;
     const c = r.cliente;
+    cli = c;
     const tier = ((c.plano_tier ?? "base") === "base" ? "pleno" : c.plano_tier).toUpperCase(); // "base" é o nome interno; para o cliente é "Pleno"
     $("p-nome").textContent = c.nome ?? "—";
     $("conta-avatar").textContent = iniciais(c.nome);
     $("p-plano").textContent = tier;
     $("p-plano2").textContent = tier;
     $("p-tel").textContent = formatTel(c.telefone);
-    $("p-pgto").textContent = c.cancelado_em ? "Cancelado" : (c.pagamento_status ?? "ativo");
-    if (c.plano_tier === "premium") {
+    $("p-pgto").textContent = c.cancelado_em ? "Cancelado"
+      : (c.pagamento_status === "cortesia" && c.cortesia_ate) ? `Cortesia até ${c.cortesia_ate}`
+      : (c.pagamento_status ?? "ativo");
+    // Cortesia de 7 dias: o plano é o Pleno até o fim. Pix trimestral com volta ao Pleno agendada:
+    // o Premium vale até o fim do trimestre pago, e dá para desistir da troca.
+    const nota = $("p-plano-nota");
+    const voltaAgendada = c.forma_pagamento === "pix_trimestral" && c.plano_tier === "premium" && c.plano_tier_proximo === "base";
+    nota.classList.add("hidden");
+    $("btn-upgrade").textContent = "Fazer upgrade para Premium →";
+    if (c.premium_bloqueado) {
+      $("btn-upgrade").classList.add("hidden");
+      $("btn-downgrade").classList.add("hidden");
+      nota.textContent = "Durante a cortesia, o plano é o Pleno.";
+      nota.classList.remove("hidden");
+    } else if (voltaAgendada) {
+      $("btn-upgrade").textContent = "Continuar no Premium →";
+      $("btn-upgrade").classList.remove("hidden");
+      $("btn-downgrade").classList.add("hidden");
+      nota.textContent = "Você continua no Premium até o fim do trimestre pago. Depois, o plano passa a ser o Pleno.";
+      nota.classList.remove("hidden");
+    } else if (c.plano_tier === "premium") {
       $("btn-upgrade").classList.add("hidden");
       $("btn-downgrade").classList.remove("hidden");
     } else {
@@ -805,10 +828,13 @@
       $("btn-downgrade").classList.add("hidden");
     }
   }
+  const trimestral = () => cli?.forma_pagamento === "pix_trimestral";
 
   $("btn-upgrade").onclick = async () => {
-    const valor = precos?.premium ? ` O valor da sua assinatura passa a ser ${reais(precos.premium)} por mês.` : "";
-    if (!confirm(`Mudar para o plano Premium?${valor}`)) return;
+    const valor = trimestral()
+      ? (precosPix?.premium ? ` A próxima cobrança trimestral passa a ser de ${reais(precosPix.premium)} (3 meses).` : "")
+      : (precos?.premium ? ` O valor da sua assinatura passa a ser ${reais(precos.premium)} por mês.` : "");
+    if (!confirm(`${cli?.plano_tier === "premium" ? "Continuar no plano Premium?" : "Mudar para o plano Premium?"}${valor}`)) return;
     $("btn-upgrade").disabled = true;
     const r = await api("upgrade");
     $("btn-upgrade").disabled = false;
@@ -817,7 +843,9 @@
   };
 
   $("btn-downgrade").onclick = async () => {
-    const valor = precos?.base ? ` O valor da sua assinatura passa a ser ${reais(precos.base)} por mês.` : "";
+    const valor = trimestral()
+      ? (precosPix?.base ? ` Você continua no Premium até o fim do trimestre pago; a próxima cobrança será de ${reais(precosPix.base)} (3 meses).` : "")
+      : (precos?.base ? ` O valor da sua assinatura passa a ser ${reais(precos.base)} por mês.` : "");
     if (!confirm(`Voltar para o plano Pleno? Você perde os recursos Premium: painel do ano, insights, busca de lançamentos, maiores gastos, relatório com fotos e comparação de preços.${valor}`)) return;
     $("btn-downgrade").disabled = true;
     const r = await api("downgrade");
@@ -841,6 +869,8 @@
 
   $("btn-pgto").onclick = async () => {
     const r = await api("trocar_pagamento");
+    // Modelo novo: página /continuar/ (cartão ou Pix), na mesma aba. Assinatura antiga: fatura do Asaas.
+    if (r.url) { location.href = r.url; return; }
     if (r.invoiceUrl) { window.open(r.invoiceUrl, "_blank"); return; }
     show($("p-msg"), false, "Nenhuma fatura pendente no momento.");
   };
