@@ -35,6 +35,19 @@
   gtag('set', 'ads_data_redaction', true);
   gtag('config', 'G-FC1XHM57Z6');
 </script>
+<!-- Microsoft Clarity: só usa cookies depois de "Aceitar todos" -->
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "z3y43khxpg");
+    (function(){
+        var s = 'denied';
+        try { if (localStorage.getItem('cookieConsent') === 'all') s = 'granted'; } catch(e) {}
+        clarity('consentv2', {ad_Storage: s, analytics_Storage: s});
+    })();
+</script>
 
 <title>Minha conta — Notinha</title>
 <meta name="robots" content="noindex">
@@ -361,7 +374,7 @@
       <h1>Entrar</h1>
       <p class="hint">Acesse para gerenciar seu plano e seu WhatsApp.</p>
       <label>E-mail
-        <input id="login-email" type="email" autocomplete="email" placeholder="voce@email.com">
+        <input id="login-email" type="email" data-clarity-mask="True" autocomplete="email" placeholder="voce@email.com">
       </label>
       <label>Senha
         <input id="login-senha" type="password" autocomplete="current-password" placeholder="••••••••">
@@ -381,7 +394,7 @@
       <h1>Criar <em>acesso</em></h1>
       <p class="hint">Use o mesmo e-mail do seu cadastro no Notinha.</p>
       <label>E-mail
-        <input id="su-email" type="email" autocomplete="email" placeholder="voce@email.com">
+        <input id="su-email" type="email" data-clarity-mask="True" autocomplete="email" placeholder="voce@email.com">
       </label>
       <label>Criar senha <span style="font-weight:400">(mín. 8 caracteres)</span>
         <input id="su-senha" type="password" autocomplete="new-password" placeholder="••••••••">
@@ -398,7 +411,7 @@
       <h1>Esqueci a <em>senha</em></h1>
       <p class="hint">Enviamos um link de redefinição para o seu e-mail.</p>
       <label>E-mail
-        <input id="rs-email" type="email" autocomplete="email" placeholder="voce@email.com">
+        <input id="rs-email" type="email" data-clarity-mask="True" autocomplete="email" placeholder="voce@email.com">
       </label>
       <div class="turn" id="turn-reset"></div>
       <button class="cta" id="btn-reset">Enviar link →</button>
@@ -412,7 +425,7 @@
 
         <!-- LADO ESQUERDO: navegacao -->
         <aside class="conta-side">
-          <div class="conta-prof">
+          <div class="conta-prof" data-clarity-mask="True">
             <div class="conta-avatar" id="conta-avatar">N</div>
             <div>
               <div class="conta-hello">Olá</div>
@@ -560,7 +573,7 @@
           <div class="pane hidden" data-pane="pagamento">
             <div class="pane-tit">Forma de pagamento</div>
             <div class="pane-sub">Gerencie como sua assinatura é cobrada.</div>
-            <div class="info-row"><div class="k">Status</div><div class="v" id="p-pgto">—</div></div>
+            <div class="info-row"><div class="k">Status</div><div class="v" id="p-pgto" data-clarity-mask="True">—</div></div>
             <div class="actions"><button class="cta ghost" id="btn-pgto">Trocar forma de pagamento</button></div>
           </div>
 
@@ -568,7 +581,7 @@
           <div class="pane hidden" data-pane="numero">
             <div class="pane-tit">Número de WhatsApp</div>
             <div class="pane-sub">É por aqui que o Notinha fala com você.</div>
-            <div class="info-row"><div class="k">Número cadastrado</div><div class="v" id="p-tel">—</div></div>
+            <div class="info-row"><div class="k">Número cadastrado</div><div class="v" id="p-tel" data-clarity-mask="True">—</div></div>
             <div class="actions"><button class="cta ghost" id="btn-tel">Trocar número de WhatsApp</button></div>
           </div>
 
@@ -591,9 +604,9 @@
 <div class="modal-ov" id="modal-ov">
   <div class="modal" role="dialog" aria-modal="true">
     <div class="modal-tit" id="modal-tit">—</div>
-    <div class="modal-body" id="modal-body">—</div>
+    <div class="modal-body" id="modal-body" data-clarity-mask="True">—</div>
     <div class="modal-alert" id="modal-alert"><span class="ic">🔒</span><span id="modal-alert-txt">—</span></div>
-    <textarea id="modal-input" class="hidden" placeholder="Conta pra gente o motivo (opcional)"></textarea>
+    <textarea id="modal-input" data-clarity-mask="True" class="hidden" placeholder="Conta pra gente o motivo (opcional)"></textarea>
     <div class="modal-acts">
       <button class="cta ghost" id="modal-cancel">Voltar</button>
       <button class="cta" id="modal-ok">Confirmar</button>

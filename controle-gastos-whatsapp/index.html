@@ -86,6 +86,19 @@ gtag('set','url_passthrough',true);
 gtag('config','G-FC1XHM57Z6');
 gtag('config','AW-18331471265');
 </script>
+<!-- Microsoft Clarity: só usa cookies depois de "Aceitar todos" -->
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "z3y43khxpg");
+    (function(){
+        var s = 'denied';
+        try { if (localStorage.getItem('cookieConsent') === 'all') s = 'granted'; } catch(e) {}
+        clarity('consentv2', {ad_Storage: s, analytics_Storage: s});
+    })();
+</script>
 
 <script type="application/ld+json">
 {
@@ -372,6 +385,7 @@ function cookieConsentUpdate(v){
 function cookieAceitar(){
   try{localStorage.setItem('cookieConsent','all');}catch(e){}
   cookieConsentUpdate('all');
+  if(window.clarity)clarity('consentv2',{ad_Storage:'granted',analytics_Storage:'granted'});
   var b=document.getElementById('cookieBanner');if(b)b.style.display='none';
   if(typeof gtag==='function')gtag('event','cookie_consent_update',{consent_choice:'all'});
 }
