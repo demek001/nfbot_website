@@ -10,6 +10,19 @@ if(localStorage.getItem('cookieConsent')==='all'){gtag('consent','update',{analy
 </script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-FC1XHM57Z6"></script>
 <script>gtag('js',new Date());gtag('config','G-FC1XHM57Z6');</script>
+<!-- Microsoft Clarity: só usa cookies depois de "Aceitar todos" -->
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "z3y43khxpg");
+    (function(){
+        var s = 'denied';
+        try { if (localStorage.getItem('cookieConsent') === 'all') s = 'granted'; } catch(e) {}
+        clarity('consentv2', {ad_Storage: s, analytics_Storage: s});
+    })();
+</script>
 <title>Golpe no Pix: como pedir devolução pelo MED | Notinha</title>
 <meta name="description" content="Caiu em um golpe no Pix? Veja como funciona o MED, o prazo de até 80 dias, quando ele pode ser usado e o que fazer logo após identificar a fraude.">
 <meta property="og:title" content="Golpe no Pix: como pedir devolução pelo MED">
@@ -134,5 +147,5 @@ footer{padding:40px 0;margin-top:80px;border-top:1px solid var(--border);color:v
 </article></div>
 <footer><div class="wrap"><div><a href="/">Início</a><a href="../">Caderninho</a><a href="../../privacidade.html">Privacidade</a><a href="../../termos.html">Termos</a><a href="../../cookies.html">Cookies</a><a href="../../contato/">Contato</a></div><p>© 2026 Notinha · CNPJ 66.824.150/0001-28</p></div></footer>
 <div id="cookieBanner" style="display:none;position:fixed;bottom:0;left:0;right:0;background:#161b22;border-top:1px solid #30363d;padding:20px 24px;z-index:9999;font-family:'DM Sans',sans-serif;color:#e6edf3"><div style="max-width:980px;margin:0 auto;display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between"><p style="font-size:14px;line-height:1.5;flex:1;min-width:280px;margin:0">Usamos cookies para melhorar sua experiência. Cookies analíticos dependem do seu consentimento.</p><div><button onclick="cookieEssenciais()">Apenas essenciais</button><button onclick="cookieAceitar()">Aceitar todos</button></div></div></div>
-<script>(function(){var c=localStorage.getItem('cookieConsent');if(!c){document.getElementById('cookieBanner').style.display='block'}})();function cookieConsentUpdate(v){var s=v==='all'?'granted':'denied';gtag('consent','update',{analytics_storage:s,ad_storage:s,ad_user_data:s,ad_personalization:s})}function cookieAceitar(){localStorage.setItem('cookieConsent','all');cookieConsentUpdate('all');document.getElementById('cookieBanner').style.display='none'}function cookieEssenciais(){localStorage.setItem('cookieConsent','essential');cookieConsentUpdate('essential');document.getElementById('cookieBanner').style.display='none'}</script>
+<script>(function(){var c=localStorage.getItem('cookieConsent');if(!c){document.getElementById('cookieBanner').style.display='block'}})();function cookieConsentUpdate(v){var s=v==='all'?'granted':'denied';gtag('consent','update',{analytics_storage:s,ad_storage:s,ad_user_data:s,ad_personalization:s})}function cookieAceitar(){localStorage.setItem('cookieConsent','all');cookieConsentUpdate('all');if(window.clarity)clarity('consentv2',{ad_Storage:'granted',analytics_Storage:'granted'});document.getElementById('cookieBanner').style.display='none'}function cookieEssenciais(){localStorage.setItem('cookieConsent','essential');cookieConsentUpdate('essential');document.getElementById('cookieBanner').style.display='none'}</script>
 </body></html>

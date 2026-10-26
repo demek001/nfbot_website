@@ -33,6 +33,19 @@
   gtag('js', new Date());
   gtag('config', 'G-FC1XHM57Z6');
 </script>
+<!-- Microsoft Clarity: só usa cookies depois de "Aceitar todos" -->
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "z3y43khxpg");
+    (function(){
+        var s = 'denied';
+        try { if (localStorage.getItem('cookieConsent') === 'all') s = 'granted'; } catch(e) {}
+        clarity('consentv2', {ad_Storage: s, analytics_Storage: s});
+    })();
+</script>
 
 <title>App para Controlar Despesas: 4 Alternativas à Planilha | Notinha</title>
 <meta name="description" content="App para controlar despesas ou planilha? Comparamos lançamento manual, agregadores bancários, anotação livre e registro por foto da nota fiscal.">
@@ -777,7 +790,7 @@ function cookieConsentUpdate(v){
     ad_personalization: s
   });
 }
-function cookieAceitar(){ localStorage.setItem('cookieConsent','all'); cookieConsentUpdate('all'); document.getElementById('cookieBanner').style.display='none'; }
+function cookieAceitar(){ localStorage.setItem('cookieConsent','all'); cookieConsentUpdate('all'); if (window.clarity) clarity('consentv2', {ad_Storage:'granted', analytics_Storage:'granted'}); document.getElementById('cookieBanner').style.display='none'; }
 function cookieEssenciais(){ localStorage.setItem('cookieConsent','essential'); cookieConsentUpdate('essential'); document.getElementById('cookieBanner').style.display='none'; }
 </script>
 

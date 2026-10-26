@@ -18,6 +18,19 @@
   gtag('config','G-FC1XHM57Z6');
   gtag('config','AW-18331471265');
 </script>
+<!-- Microsoft Clarity: só usa cookies depois de "Aceitar todos" -->
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "z3y43khxpg");
+    (function(){
+        var s = 'denied';
+        try { if (localStorage.getItem('cookieConsent') === 'all') s = 'granted'; } catch(e) {}
+        clarity('consentv2', {ad_Storage: s, analytics_Storage: s});
+    })();
+</script>
 <script>
 (function(){
   var K=['gclid','gbraid','wbraid','utm_source','utm_medium','utm_campaign','utm_term','utm_content'];
@@ -44,7 +57,7 @@
 <span class="tag">Criar conta</span>
 <h1>Comece a organizar suas notas</h1>
 <p class="sub" id="sub-topo">Cadastre-se, escolha cartão de crédito ou Pix e ative o Notinha no WhatsApp. O Google Drive só é conectado depois da confirmação do pagamento.</p>
-<form id="form" novalidate>
+<form id="form" novalidate data-clarity-mask="True">
 <label class="field">Nome completo<input type="text" id="nome" autocomplete="name" maxlength="120" required></label>
 <label class="field">CPF<input type="text" id="cpf" inputmode="numeric" placeholder="000.000.000-00" required></label>
 <label class="field">E-mail<input type="email" id="email" autocomplete="email" maxlength="254" required></label>

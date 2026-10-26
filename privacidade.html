@@ -32,6 +32,19 @@
   gtag('js', new Date());
   gtag('config', 'G-FC1XHM57Z6');
 </script>
+<!-- Microsoft Clarity: só usa cookies depois de "Aceitar todos" -->
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "z3y43khxpg");
+    (function(){
+        var s = 'denied';
+        try { if (localStorage.getItem('cookieConsent') === 'all') s = 'granted'; } catch(e) {}
+        clarity('consentv2', {ad_Storage: s, analytics_Storage: s});
+    })();
+</script>
 <title>Política de Privacidade — Notinha</title>
 <meta name="description" content="Política de Privacidade do Notinha em conformidade com a LGPD.">
 <meta name="robots" content="noindex, nofollow">
@@ -114,7 +127,7 @@
 <main>
   <div class="wrap">
     <h1>Política de Privacidade</h1>
-    <p class="meta">Vigente desde 17/05/2026 · Em conformidade com a Lei nº 13.709/2018 (LGPD) e Resoluções CD/ANPD nº 15/2024, 18/2024 e 19/2024</p>
+    <p class="meta">Vigente desde 26/10/2026 · Em conformidade com a Lei nº 13.709/2018 (LGPD) e Resoluções CD/ANPD nº 15/2024, 18/2024 e 19/2024</p>
 
     <div class="highlight">
       <p><strong>Resumo em uma linha:</strong> O Notinha trata o mínimo de dados pessoais necessários para organizar suas notas fiscais, salva tudo no <em>seu próprio</em> Google Drive e nunca vende seus dados pessoais.</p>
@@ -221,7 +234,7 @@
     <p>Compartilharemos dados se obrigados por lei, decisão judicial ou requisição formal de autoridade competente.</p>
 
     <h2>7. Transferência internacional</h2>
-    <p>Alguns operadores (Meta, Google, Anthropic, OpenAI) estão sediados fora do Brasil. As transferências internacionais respeitam o Capítulo V da LGPD e a Resolução CD/ANPD nº 19/2024, mediante adoção de <strong>cláusulas-padrão contratuais</strong> e demais garantias previstas no art. 33 da LGPD.</p>
+    <p>Alguns operadores (Meta, Google, Anthropic, OpenAI, Microsoft) estão sediados fora do Brasil. As transferências internacionais respeitam o Capítulo V da LGPD e a Resolução CD/ANPD nº 19/2024, mediante adoção de <strong>cláusulas-padrão contratuais</strong> e demais garantias previstas no art. 33 da LGPD.</p>
 
     <h2>8. Tratamento automatizado e direito à revisão</h2>
     <p>O Notinha utiliza processos automatizados (IA) para leitura, categorização e geração de insights. Conforme art. 20 da LGPD, você tem direito a:</p>
@@ -273,9 +286,18 @@
     <p>O site usa três categorias de cookies:</p>
     <ul>
       <li><strong>Estritamente necessários:</strong> essenciais para o funcionamento do site (sessão, segurança). Não exigem consentimento.</li>
-      <li><strong>Analíticos:</strong> medição de tráfego e comportamento (Google Analytics), usados de forma agregada. Exigem consentimento.</li>
+      <li><strong>Analíticos:</strong> medição de tráfego e comportamento (Google Analytics e Microsoft Clarity), usados de forma agregada. Exigem consentimento.</li>
       <li><strong>Funcionais:</strong> memorizam preferências (idioma, tema). Exigem consentimento.</li>
     </ul>
+
+    <h3>13.1. Microsoft Clarity</h3>
+    <p>Usamos o <strong>Microsoft Clarity</strong>, da Microsoft, para entender como as pessoas usam o site: cliques, rolagem, movimentos do mouse, páginas visitadas e dados técnicos do aparelho (tipo, navegador, tamanho da tela). Esses dados podem ser vistos como gravações da navegação e mapas de calor, que usamos para achar erros e partes confusas do site.</p>
+    <ul>
+      <li><strong>O que não vai para o Clarity:</strong> o que você digita nos campos (nome, e-mail, telefone, CPF, endereço, senha) e os dados da sua conta na página Minha conta são mascarados no seu navegador, antes de qualquer envio. O código dos links de pagamento também não é enviado.</li>
+      <li><strong>Sem o seu consentimento:</strong> o Clarity funciona sem cookies. Cada página vista recebe um identificador próprio, e as visitas não são ligadas entre si.</li>
+      <li><strong>Com "Aceitar todos":</strong> o Clarity passa a usar cookies (do Notinha e da Microsoft) para reconhecer o mesmo navegador entre páginas e visitas.</li>
+    </ul>
+    <p>Você pode retirar o consentimento a qualquer momento em "Gerenciar cookies", no <a href="cookies.html">Aviso de Cookies</a>. A Microsoft trata esses dados conforme a <a href="https://privacy.microsoft.com/pt-br/privacystatement" target="_blank" rel="noopener noreferrer">Declaração de Privacidade da Microsoft</a>.</p>
     <p>Nenhum cookie é usado para publicidade comportamental ou perfilamento publicitário. Você pode gerenciar suas preferências a qualquer momento pelo banner exibido no site ou pelas configurações do seu navegador.</p>
     <p>Detalhes técnicos no <a href="cookies.html">Aviso de Cookies</a>.</p>
 
@@ -344,7 +366,7 @@ function cookieConsentUpdate(v){
     ad_personalization: s
   });
 }
-function cookieAceitar(){ localStorage.setItem('cookieConsent','all'); cookieConsentUpdate('all'); document.getElementById('cookieBanner').style.display='none'; }
+function cookieAceitar(){ localStorage.setItem('cookieConsent','all'); cookieConsentUpdate('all'); if (window.clarity) clarity('consentv2', {ad_Storage:'granted', analytics_Storage:'granted'}); document.getElementById('cookieBanner').style.display='none'; }
 function cookieEssenciais(){ localStorage.setItem('cookieConsent','essential'); cookieConsentUpdate('essential'); document.getElementById('cookieBanner').style.display='none'; }
 </script>
 
