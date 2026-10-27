@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<!-- Link do e-mail "Foi você?": /confirmar-ativacao/#t={token}. O token fica no fragmento
+     (não vai a servidores nem ao Referer) e sai da barra de endereço ao abrir.
+     Abrir a página só consulta (acao "estado"); a ativação acontece apenas no botão
+     (acao "confirmar", POST com Turnstile), porque scanners de e-mail abrem links sozinhos.
+     Sem Analytics nem Clarity nesta página. -->
+<title>Confirmar ativação · Notinha</title>
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="apple-touch-icon" href="/notinha-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=DM+Sans:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<style>
+:root{--bg:#0d1117;--surface:#161b22;--border:#30363d;--brand:#288A89;--brand-hover:#2EA09E;--text:#e6edf3;--muted:#8b949e;--accent:#f0f6fc;--danger:#f85149}
+*{margin:0;padding:0;box-sizing:border-box}body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;line-height:1.65;min-height:100vh}body::before{content:'';position:fixed;inset:0;background:radial-gradient(800px circle at 20% 0%,rgba(40,138,137,.08),transparent 40%);pointer-events:none;z-index:0}
+.wrap{max-width:560px;margin:0 auto;padding:0 24px;position:relative;z-index:1}header{padding:20px 0;border-bottom:1px solid var(--border)}header .wrap{max-width:980px;display:flex;justify-content:center}.logo{display:inline-flex;align-items:center;gap:10px;text-decoration:none}.logo img{height:34px;width:auto}.logo-text{font-family:'Plus Jakarta Sans',sans-serif;font-weight:500;font-size:24px;color:var(--accent)}
+main{padding:48px 0 80px}.box{background:var(--surface);border:1px solid var(--brand);border-radius:20px;padding:36px}.tag{display:inline-block;padding:4px 12px;background:var(--brand);color:#fff;border-radius:100px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:18px}
+h1{font-family:'Fraunces',serif;font-weight:600;font-size:28px;line-height:1.2;color:var(--accent);margin-bottom:10px}.sub{color:var(--muted);font-size:15px;margin-bottom:18px}.sub b{color:var(--text);font-weight:600}
+.cta{display:flex;align-items:center;justify-content:center;width:100%;padding:16px 24px;background:var(--brand);color:#fff;text-decoration:none;font-weight:600;font-size:16px;border:0;border-radius:100px;cursor:pointer;font-family:inherit;text-align:center}.cta:hover:not(:disabled){background:var(--brand-hover)}.cta:disabled{opacity:.6;cursor:not-allowed}
+.turn{display:flex;justify-content:center;margin:8px 0 14px;min-height:65px}
+.msg{font-size:14px;padding-top:10px;color:var(--muted);text-align:center}.msg.erro{color:var(--danger)}.nota{color:var(--muted);font-size:13px;margin-top:18px}.nota a,.sub a{color:var(--brand)}.hidden{display:none}
+footer{padding:32px 0;border-top:1px solid var(--border);color:var(--muted);font-size:13px;text-align:center}footer a{color:var(--muted);text-decoration:none;margin:0 8px}
+@media(max-width:560px){.box{padding:26px 20px}h1{font-size:24px}}
+</style>
+</head>
+<body>
+<header><div class="wrap"><a href="/" class="logo"><img src="/notinha-icon.png" alt="Notinha"><span class="logo-text">Notinha</span></a></div></header>
+<main><div class="wrap"><div class="box">
+<p class="sub" id="carregando">Carregando…</p>
+
+<div id="v-valido" class="hidden">
+  <span class="tag">Ativação</span>
+  <h1>Foi você?</h1>
+  <p class="sub">Olá, <b id="nome" data-clarity-mask="True"></b>.</p>
+  <p class="sub">Recebemos um pedido para ativar seu Notinha pelo WhatsApp do número <b id="telefone"></b>, diferente do informado no cadastro.</p>
+  <p class="sub">Se foi você, toque no botão abaixo. A conta será ativada nesse número e você vai receber a mensagem de boas-vindas no WhatsApp.</p>
+  <div class="turn cf-turnstile" data-sitekey="0x4AAAAAAEmLqsLsblMemLoi" data-callback="onTurnAtivacao" data-expired-callback="onTurnAtivacaoExp" data-error-callback="onTurnAtivacaoExp"></div>
+  <button class="cta" id="b-confirmar" type="button" disabled>Confirmo que fui eu</button>
+  <div class="msg" id="m-confirmar" aria-live="polite"></div>
+  <p class="nota">Não foi você? Não toque no botão: a conta não será ativada. Para ativar, envie ATIVAR do número cadastrado ou troque o número na <a href="/conta.html">área do usuário</a>. Dúvidas: <a href="mailto:suporte@usenotinha.com.br">suporte@usenotinha.com.br</a>.</p>
+</div>
+
+<div id="v-final" class="hidden">
+  <span class="tag" id="f-tag">Notinha</span>
+  <h1 id="f-tit"></h1>
+  <p class="sub" id="f-txt"></p>
+  <p class="nota hidden" id="f-suporte">Precisa de ajuda? Escreva para <a href="mailto:suporte@usenotinha.com.br">suporte@usenotinha.com.br</a>.</p>
+</div>
+</div></div></main>
+<footer><a href="/">Início</a><a href="/termos.html">Termos</a><a href="/privacidade.html">Privacidade</a><a href="/contato/">Contato</a></footer>
+<script>
+(function(){
+  var API="https://xpzjwlhrlebdpcybxaxu.supabase.co/functions/v1/confirmar-ativacao";
+  var t=(new URLSearchParams(location.hash.slice(1))).get("t")||"";
+  try{history.replaceState(null,"",location.pathname);}catch(e){}
+  var turn="";
+  var $=function(id){return document.getElementById(id);};
+  var FINAIS={
+    ativado:["Conta ativada","Pronto! 🎉","Já mandamos a mensagem de boas-vindas no seu WhatsApp. É só mandar a foto ou o PDF das suas notas por lá.",false],
+    usado:["Link usado","Este link já foi usado","Este link de confirmação já foi usado ou a conta já está ativa. Se o WhatsApp ainda não responde, fale com a gente.",true],
+    expirado:["Link expirado","Este link expirou","O link de confirmação vale por 48 horas. Mande de novo a mensagem de ativação pelo WhatsApp para receber um link novo, ou fale com a gente.",true],
+    substituido:["Link substituído","Este link foi substituído","Você pediu a ativação de novo e enviamos um link mais recente. Use o e-mail mais novo, ou fale com a gente.",true],
+    invalido:["Link inválido","Link inválido","Não encontramos este pedido de ativação. Confira se abriu o link completo do e-mail, ou fale com a gente.",true],
+    bloqueado:["Não ativada","Não foi possível ativar","Este número de WhatsApp já está ligado a outra conta. Nossa equipe já foi avisada; fale com a gente para resolver.",true],
+    pagamento_pendente:["Pagamento","Pagamento ainda não confirmado","Assim que o pagamento for confirmado, abra o link do e-mail e toque no botão de novo. Se você já pagou, fale com a gente.",true],
+    muitas_tentativas:["Aguarde","Muitas tentativas","Muitas tentativas a partir desta conexão. Espere alguns minutos e tente de novo, ou fale com a gente.",true],
+    falha:["Notinha","Não conseguimos concluir agora","Tente de novo em alguns minutos pelo mesmo link. Se continuar, fale com a gente.",true]
+  };
+  function mostrar(v){["carregando","v-valido","v-final"].forEach(function(id){$(id).classList.toggle("hidden",id!==v);});}
+  function final(s){
+    var f=FINAIS[s]||FINAIS.falha;
+    $("f-tag").textContent=f[0];$("f-tit").textContent=f[1];$("f-txt").textContent=f[2];
+    $("f-suporte").classList.toggle("hidden",!f[3]);
+    mostrar("v-final");
+  }
+  function chamar(acao){
+    return fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({acao:acao,t:t,turnstile:turn})})
+      .then(function(r){return r.json();});
+  }
+  window.onTurnAtivacao=function(tok){turn=tok;$("b-confirmar").disabled=false;};
+  window.onTurnAtivacaoExp=function(){turn="";$("b-confirmar").disabled=true;};
+
+  if(!t){final("invalido");return;}
+  chamar("estado").then(function(r){
+    if(r.erro) return final(r.erro);
+    if(r.situacao!=="valido") return final(r.situacao);
+    $("nome").textContent=r.nome;$("telefone").textContent=r.telefone;
+    mostrar("v-valido");
+  }).catch(function(){final("falha");});
+
+  $("b-confirmar").addEventListener("click",function(){
+    var b=this;b.disabled=true;b.textContent="Ativando…";$("m-confirmar").textContent="";$("m-confirmar").classList.remove("erro");
+    chamar("confirmar").then(function(r){
+      if(r.erro==="captcha"){
+        $("m-confirmar").textContent="Não conseguimos confirmar que você é uma pessoa. Tente de novo.";$("m-confirmar").classList.add("erro");
+        b.textContent="Confirmo que fui eu";turn="";if(window.turnstile)window.turnstile.reset();return;
+      }
+      final(r.erro||r.situacao);
+    }).catch(function(){final("falha");});
+  });
+})();
+</script>
+</body>
+</html>
