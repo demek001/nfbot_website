@@ -4,6 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<script>
+  // Volta dos links do e-mail (confirmação do acesso, redefinição de senha): guarda o
+  // tipo e o erro antes de o supabase-js ler e limpar o fragmento da URL.
+  (function () {
+    var h = new URLSearchParams(location.hash.replace(/^#/, ""));
+    window.__voltaAuth = { tipo: h.get("type") || "", erro: h.get("error_code") || h.get("error") || "" };
+  })();
+</script>
+
 <!-- Google Consent Mode v2: padrão negado até o usuário consentir -->
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -725,7 +734,12 @@
     $("btn-signup").disabled = true;
     const captchaToken = await tokenTurnstile("signup");
     if (!captchaToken) { $("btn-signup").disabled = false; return erroRobo("signup"); }
-    const { data, error } = await sb().auth.signUp({ email, password, options: { captchaToken } });
+    // O link de confirmação volta para esta página (sem isto, o Supabase usava a origem
+    // do pedido e a pessoa caía na página inicial, com os planos).
+    const { data, error } = await sb().auth.signUp({
+      email, password,
+      options: { captchaToken, emailRedirectTo: "https://usenotinha.com.br/conta.html" },
+    });
     $("btn-signup").disabled = false;
     tokenUsado("signup");
     if (error) return show($("su-msg"), false, error.message);
@@ -939,8 +953,18 @@
   window.sair = async () => { await sb().auth.signOut(); mostrar("view-login"); };
 
   (async () => {
+    const volta = window.__voltaAuth || {};
     const { data } = await sb().auth.getSession();
-    if (data?.session) carregarPainel();
+    if (data?.session) {
+      await carregarPainel();
+      if (volta.tipo === "signup") show($("p-msg"), true, "E-mail confirmado! Sua conta está pronta.");
+      return;
+    }
+    if (volta.tipo === "signup") return show($("login-msg"), true, "E-mail confirmado! Agora é só entrar.");
+    if (volta.erro) {
+      history.replaceState(null, "", location.pathname);
+      show($("login-msg"), false, "Este link já foi usado ou expirou. Se você já confirmou seu e-mail, é só entrar. Se ainda não, toque em Primeiro acesso e crie o acesso de novo para receber outro link.");
+    }
   })();
 </script>
 </body>
