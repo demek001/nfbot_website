@@ -127,7 +127,7 @@
 <main>
   <div class="wrap">
     <h1>Política de Privacidade</h1>
-    <p class="meta">Vigente desde 26/10/2026 · Em conformidade com a Lei nº 13.709/2018 (LGPD) e Resoluções CD/ANPD nº 15/2024, 18/2024 e 19/2024</p>
+    <p class="meta">Vigente desde 26/10/2026 · Última atualização em 01/11/2026 · Em conformidade com a Lei nº 13.709/2018 (LGPD) e Resoluções CD/ANPD nº 15/2024, 18/2024 e 19/2024</p>
 
     <div class="highlight">
       <p><strong>Resumo em uma linha:</strong> O Notinha trata o mínimo de dados pessoais necessários para organizar suas notas fiscais, salva tudo no <em>seu próprio</em> Google Drive e nunca vende seus dados pessoais.</p>
@@ -216,6 +216,19 @@
       <li>Compor estatísticas <strong>anonimizadas</strong> de mercado (sem identificação pessoal)</li>
     </ul>
 
+    <h3 id="dados-google">5.4. Dados recebidos das APIs do Google</h3>
+    <p>Quando você conecta o Google Drive, o Google envia ao Notinha apenas:</p>
+    <ul>
+      <li><strong>Seu e-mail, nome e foto de perfil do Google</strong> (permissões <code>userinfo.email</code> e <code>userinfo.profile</code>). Guardamos só o e-mail e o identificador da conta Google, para saber qual Drive está ligado à sua conta do Notinha.</li>
+      <li><strong>Acesso somente aos arquivos que o próprio Notinha cria no seu Drive</strong> (permissão <code>drive.file</code>): a pasta "Notinha", as planilhas e as imagens das notas. Não vemos nenhum outro arquivo do seu Drive.</li>
+      <li>Uma <strong>autorização de acesso</strong> que permite ao Notinha continuar gravando nesses arquivos. Ela fica no nosso banco de dados, protegida como os dados cadastrais do item 5.2.</li>
+    </ul>
+    <p>Usamos esses dados só para prestar o serviço que você contratou: criar e atualizar a pasta e as planilhas, salvar as imagens das notas, montar seus relatórios em PDF com essas imagens e conferir se suas planilhas ficaram corretas.</p>
+    <p>Os dados recebidos das APIs do Google <strong>não</strong> são vendidos nem cedidos a terceiros, não são usados para publicidade, não são usados para treinar modelos de inteligência artificial (nossos ou de terceiros), não são enviados aos provedores de IA do item 6.1 e não entram nas estatísticas anonimizadas do item 6.2. Nenhuma pessoa da nossa equipe lê esse conteúdo, exceto com a sua autorização, quando necessário para segurança (por exemplo, investigar abuso ou incidente) ou para cumprir a lei.</p>
+    <p>Você pode remover o acesso do Notinha a qualquer momento em <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener">myaccount.google.com/permissions</a>. Os arquivos continuam no seu Drive.</p>
+    <p><strong>Uso Limitado:</strong> o uso e a transferência, pelo Notinha, de informações recebidas das APIs do Google seguem a <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener">Política de Dados do Usuário dos Serviços de API do Google</a>, incluindo os requisitos de Uso Limitado.</p>
+    <p lang="en" style="font-size: 14px; color: var(--muted);">Notinha's use and transfer to any other app of information received from Google APIs will adhere to the <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener">Google API Services User Data Policy</a>, including the Limited Use requirements.</p>
+
     <h2>6. Compartilhamento de dados</h2>
     <p>Não vendemos seus dados pessoais. Compartilhamos apenas com operadores estritamente necessários para prestar o serviço, mediante contrato firmado nos termos do art. 39 da LGPD:</p>
 
@@ -223,12 +236,12 @@
     <ul>
       <li><strong>Meta Platforms</strong> (WhatsApp Business Platform) — entrega de mensagens</li>
       <li><strong>Google</strong> (Drive, Sheets, Apps Script) — armazenamento e processamento</li>
-      <li><strong>Provedores de IA</strong> (Google Gemini, Anthropic Claude, OpenAI) — leitura automática das imagens de notas. Esses provedores não usam suas imagens para treinar modelos quando acessados via API paga</li>
+      <li><strong>Provedores de IA</strong> (Google Gemini, Anthropic Claude, OpenAI) — leitura automática das fotos de notas que você envia pelo WhatsApp. Eles nunca recebem dados obtidos pelas APIs do Google (item 5.4). Esses provedores não usam suas imagens para treinar modelos quando acessados via API paga</li>
       <li><strong>Gateway de pagamento</strong> — processamento financeiro (cartão de crédito e PIX)</li>
     </ul>
 
     <h3>6.2. Dados anonimizados</h3>
-    <p>Estatísticas agregadas (ex.: "preço médio de arroz na região Sudeste em outubro/2026") podem ser compartilhadas ou vendidas a varejistas e fabricantes. Esses dados <strong>não identificam você</strong> em nenhuma hipótese — são números agregados de milhares de usuários, conforme permitido pelo art. 12 da LGPD.</p>
+    <p>Estatísticas agregadas (ex.: "preço médio de arroz na região Sudeste em outubro/2026"), calculadas só a partir das fotos de notas que você envia pelo WhatsApp e nunca a partir de dados obtidos pelas APIs do Google (item 5.4), podem ser compartilhadas ou vendidas a varejistas e fabricantes. Esses dados <strong>não identificam você</strong> em nenhuma hipótese — são números agregados de milhares de usuários, conforme permitido pelo art. 12 da LGPD.</p>
 
     <h3>6.3. Autoridades públicas</h3>
     <p>Compartilharemos dados se obrigados por lei, decisão judicial ou requisição formal de autoridade competente.</p>
