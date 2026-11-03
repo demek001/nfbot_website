@@ -840,6 +840,15 @@
       $("btn-upgrade").classList.remove("hidden");
       $("btn-downgrade").classList.add("hidden");
     }
+    // Plano Pequenas Empresas (beta fechado): a troca de plano é só pelo suporte.
+    if (c.plano_tier === "empresas") {
+      $("p-plano").textContent = "PEQUENAS EMPRESAS";
+      $("p-plano2").textContent = "PEQUENAS EMPRESAS";
+      $("btn-upgrade").classList.add("hidden");
+      $("btn-downgrade").classList.add("hidden");
+      nota.textContent = "Para mudar de plano, fale com suporte@usenotinha.com.br";
+      nota.classList.remove("hidden");
+    }
   }
   const trimestral = () => cli?.forma_pagamento === "pix_trimestral";
 
