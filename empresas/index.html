@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
+<!-- Google Consent Mode v2: padrão negado até o usuário consentir -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('consent', 'default', {
+    ad_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+    analytics_storage: 'denied',
+    functionality_storage: 'granted',
+    security_storage: 'granted',
+    wait_for_update: 500
+  });
+  if (localStorage.getItem('cookieConsent') === 'all') {
+    gtag('consent', 'update', {
+      analytics_storage: 'granted',
+      ad_storage: 'granted',
+      ad_user_data: 'granted',
+      ad_personalization: 'granted'
+    });
+  }
+</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FC1XHM57Z6"></script>
+<script>
+  gtag('js', new Date());
+  gtag('config', 'G-FC1XHM57Z6');
+</script>
+<!-- Microsoft Clarity: só usa cookies depois de "Aceitar todos" -->
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "z3y43khxpg");
+    (function(){
+        var s = 'denied';
+        try { if (localStorage.getItem('cookieConsent') === 'all') s = 'granted'; } catch(e) {}
+        clarity('consentv2', {ad_Storage: s, analytics_Storage: s});
+    })();
+</script>
+
+<!-- Notinha · atribuição persistente (gclid/utm) entre páginas -->
+<script>
+(function(){
+  var K=['gclid','gbraid','wbraid','utm_source','utm_medium','utm_campaign','utm_term','utm_content'];
+  try{
+    var p=new URLSearchParams(location.search);
+    K.forEach(function(k){
+      var v=(p.get(k)||'').trim().slice(0,200);
+      if(v) sessionStorage.setItem('notinha_'+k,v);
+    });
+  }catch(e){}
+  window.notinhaAtrib=function(){
+    var o={};
+    try{ K.forEach(function(k){ var v=sessionStorage.getItem('notinha_'+k); if(v) o[k]=v; }); }catch(e){}
+    return o;
+  };
+})();
+</script>
+
+<title>Notinha para empresas: despesas da empresa pelo WhatsApp</title>
+<meta name="description" content="Plano Pequenas Empresas do Notinha: quem compra fotografa a nota no WhatsApp e a despesa cai organizada por loja, com foto, no Google Drive e pronta para o contador.">
+<meta property="og:title" content="Notinha para empresas: despesas da empresa pelo WhatsApp">
+<meta property="og:description" content="Sua empresa já vive no WhatsApp. As despesas também podem.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://usenotinha.com.br/empresas/">
+<meta property="og:site_name" content="Notinha">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:image" content="https://usenotinha.com.br/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Notinha para empresas: despesas da empresa pelo WhatsApp">
+<meta name="twitter:description" content="Sua empresa já vive no WhatsApp. As despesas também podem.">
+<meta name="twitter:image" content="https://usenotinha.com.br/og-image.png">
+<link rel="canonical" href="https://usenotinha.com.br/empresas/">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://usenotinha.com.br/#organization","name":"Notinha","url":"https://usenotinha.com.br/","logo":"https://usenotinha.com.br/notinha-icon.png"},{"@type":"WebPage","@id":"https://usenotinha.com.br/empresas/#webpage","url":"https://usenotinha.com.br/empresas/","name":"Notinha para empresas: despesas da empresa pelo WhatsApp","description":"Plano Pequenas Empresas do Notinha: quem compra fotografa a nota no WhatsApp e a despesa cai organizada por loja no Google Drive, pronta para o contador.","inLanguage":"pt-BR","publisher":{"@id":"https://usenotinha.com.br/#organization"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Quando lança?","acceptedAnswer":{"@type":"Answer","text":"O plano Pequenas Empresas lança em 12/12. Preencha o formulário para entrar primeiro."}},{"@type":"Question","name":"Quantas pessoas posso adicionar?","acceptedAnswer":{"@type":"Answer","text":"2 incluídas. Até 5 no total. Mais que isso, solução sob medida."}},{"@type":"Question","name":"Quantas lojas ou negócios?","acceptedAnswer":{"@type":"Answer","text":"Pessoal + até 3 espaços. Mais que isso, solução sob medida."}},{"@type":"Question","name":"O que dá para enviar?","acceptedAnswer":{"@type":"Answer","text":"Foto de nota fiscal, comprovante, PDF, áudio e texto pelo WhatsApp."}},{"@type":"Question","name":"Onde ficam as notas?","acceptedAnswer":{"@type":"Answer","text":"No Google Drive da dona da conta, em pastas por espaço, ano e mês, com planilha mensal."}},{"@type":"Question","name":"Colaborador registra recebimentos?","acceptedAnswer":{"@type":"Answer","text":"Não. Só dona e sócios. Colaborador registra gastos no espaço definido para ele."}},{"@type":"Question","name":"Dá para trocar o espaço de um colaborador?","acceptedAnswer":{"@type":"Answer","text":"Sim, pedindo a alteração por e-mail ao suporte@usenotinha.com.br."}},{"@type":"Question","name":"Tem período de teste?","acceptedAnswer":{"@type":"Answer","text":"Não. O plano começa no primeiro pagamento."}},{"@type":"Question","name":"Formas de pagamento?","acceptedAnswer":{"@type":"Answer","text":"Cartão de crédito mensal ou Pix trimestral antecipado."}},{"@type":"Question","name":"Funciona para MEI?","acceptedAnswer":{"@type":"Answer","text":"Sim. MEI, ME, EPP, LTDA e autônomos."}},{"@type":"Question","name":"O contador recebe como?","acceptedAnswer":{"@type":"Answer","text":"Relatório em PDF com as fotos das despesas, por espaço."}},{"@type":"Question","name":"Integra com o sistema da minha empresa?","acceptedAnswer":{"@type":"Answer","text":"Estamos desenvolvendo integrações. Conte no formulário qual sistema você usa."}}]}]}</script>
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png">
+<link rel="icon" type="image/png" sizes="64x64" href="../favicon-64.png">
+<link rel="apple-touch-icon" href="../notinha-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=DM+Sans:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #1f2630;
+    --border: #30363d;
+    --brand: #288A89;
+    --brand-hover: #2EA09E;
+    --brand-soft: #288A8922;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --accent: #f0f6fc;
+    --danger: #f85149;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.65;
+    min-height: 100vh;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(800px circle at 20% 0%, rgba(40, 138, 137, 0.08), transparent 40%),
+      radial-gradient(600px circle at 80% 30%, rgba(40, 138, 137, 0.05), transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+  header { padding: 20px 0; border-bottom: 1px solid var(--border); }
+  header .wrap { display: flex; justify-content: space-between; align-items: center; }
+  .logo { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; }
+  .logo img { height: 36px; width: auto; display: block; }
+  .logo-text {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 500;
+    font-size: 26px;
+    letter-spacing: -0.01em;
+    color: var(--accent);
+    line-height: 1;
+  }
+  nav a {
+    color: var(--muted);
+    text-decoration: none;
+    margin-left: 24px;
+    font-size: 14px;
+    transition: color 0.2s;
+  }
+  nav a:hover { color: var(--accent); }
+
+  .page-head { padding: 70px 0 10px; text-align: center; }
+  .badge {
+    display: inline-block;
+    padding: 6px 14px;
+    background: var(--brand-soft);
+    border: 1px solid var(--brand);
+    color: var(--brand);
+    font-size: 13px;
+    font-weight: 500;
+    border-radius: 100px;
+    margin-bottom: 24px;
+  }
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: clamp(34px, 5vw, 48px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+    color: var(--accent);
+  }
+  .lead {
+    font-size: 17px;
+    color: var(--muted);
+    max-width: 520px;
+    margin: 0 auto;
+  }
+
+  section { padding: 40px 0 70px; }
+
+  .form-box {
+    background: var(--surface);
+    border: 1px solid var(--brand);
+    border-radius: 20px;
+    padding: 40px;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  form.contato-form { display: flex; flex-direction: column; gap: 16px; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  form.contato-form label {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+  }
+  form.contato-form input,
+  form.contato-form select,
+  form.contato-form textarea {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 13px 16px;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 300;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    width: 100%;
+  }
+  form.contato-form input:focus,
+  form.contato-form select:focus,
+  form.contato-form textarea:focus {
+    outline: none;
+    border-color: var(--brand);
+    box-shadow: 0 0 0 3px rgba(40,138,137,0.12);
+  }
+  form.contato-form select {
+    appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="%238b949e" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    cursor: pointer;
+  }
+  form.contato-form select option { background: var(--surface); color: var(--text); }
+  form.contato-form textarea { resize: vertical; min-height: 110px; }
+
+  .checkbox-row {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+  .checkbox-row input[type="checkbox"] {
+    width: auto;
+    margin-top: 3px;
+    accent-color: var(--brand);
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .checkbox-row a { color: var(--brand); text-decoration: none; }
+  .checkbox-row a:hover { text-decoration: underline; }
+
+  form.contato-form button {
+    margin-top: 8px;
+    padding: 16px 28px;
+    background: var(--brand);
+    color: #fff;
+    border: none;
+    border-radius: 100px;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.2s, transform 0.2s;
+  }
+  form.contato-form button:hover:not(:disabled) { background: var(--brand-hover); transform: translateY(-1px); }
+  form.contato-form button:disabled { opacity: 0.6; cursor: not-allowed; }
+
+  .honeypot { position: absolute; left: -9999px; opacity: 0; pointer-events: none; }
+
+  .turn { display: flex; justify-content: center; margin: 6px 0 2px; }
+  #contato-submit[disabled] { opacity: .55; cursor: not-allowed; }
+  .form-msg { font-size: 14px; padding: 4px 0 0; color: var(--muted); }
+  .form-msg.erro { color: var(--danger); }
+
+  .form-sucesso { display: none; text-align: center; padding: 20px 0; }
+  .form-sucesso .check {
+    width: 64px; height: 64px;
+    background: var(--brand-soft);
+    border: 2px solid var(--brand);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 20px;
+    color: var(--brand); font-size: 32px; font-weight: 700;
+  }
+  .form-sucesso h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600; font-size: 24px;
+    color: var(--accent); margin-bottom: 8px;
+  }
+  .form-sucesso p { color: var(--muted); font-size: 15px; margin-bottom: 20px; }
+  .form-sucesso a {
+    color: var(--brand); text-decoration: none; font-weight: 600; font-size: 14px;
+    border-bottom: 1px dashed var(--brand); padding-bottom: 2px;
+  }
+
+  footer {
+    padding: 40px 0;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 14px;
+    text-align: center;
+  }
+  footer .links { margin-bottom: 16px; }
+  footer .links a { color: var(--muted); text-decoration: none; margin: 0 12px; }
+  footer .links a:hover { color: var(--brand); }
+  footer .legal { font-size: 13px; line-height: 1.7; }
+
+  a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, summary:focus-visible {
+    outline: 2px solid var(--brand);
+    outline-offset: 2px;
+  }
+
+  @media (max-width: 720px) {
+    .row { grid-template-columns: 1fr; }
+    nav a { margin-left: 12px; font-size: 13px; }
+    .logo-text { font-size: 22px; }
+    .logo img { height: 30px; }
+    .page-head { padding: 50px 0 8px; }
+    .form-box { padding: 28px 22px; }
+    h1 { font-size: 30px; }
+  }
+  @media (max-width: 480px) {
+    header .wrap { flex-direction: column; gap: 12px; }
+    nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 16px; }
+    nav a { margin-left: 0; }
+  }
+
+  .social { display:flex; justify-content:center; gap:14px; margin-bottom:18px; }
+  .social a { display:inline-flex; align-items:center; justify-content:center; width:38px; height:38px; border:1px solid var(--border); border-radius:50%; color:var(--muted); text-decoration:none; margin:0; transition:color .2s ease, border-color .2s ease; }
+  .social a:hover { color:var(--brand); border-color:var(--brand); }
+  .social svg { width:18px; height:18px; fill:currentColor; display:block; }
+
+  .page-head .sub {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: clamp(20px, 2.6vw, 24px);
+    line-height: 1.35;
+    color: var(--accent);
+    max-width: 620px;
+    margin: 0 auto 14px;
+  }
+  .page-head .lead { max-width: 580px; margin-bottom: 30px; }
+  .btn-cta {
+    display: inline-block;
+    padding: 16px 30px;
+    background: var(--brand);
+    color: #fff;
+    border-radius: 100px;
+    font-weight: 600;
+    font-size: 16px;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .btn-cta:hover { background: var(--brand-hover); transform: translateY(-1px); }
+
+  section.bloco { padding: 50px 0; }
+  .eyebrow {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--brand);
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: clamp(26px, 3.6vw, 34px);
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    color: var(--accent);
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  .passos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .passo {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px 24px;
+  }
+  .passo .num {
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--brand);
+    display: block;
+    margin-bottom: 12px;
+  }
+  .passo h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 20px;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .passo p { color: var(--muted); font-size: 15px; }
+
+  .plano {
+    background: var(--surface);
+    border: 1px solid var(--brand);
+    border-radius: 20px;
+    padding: 40px;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .plano h2 { margin-bottom: 24px; }
+  .lista { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+  .lista li { position: relative; padding-left: 30px; font-size: 16px; color: var(--text); }
+  .lista li::before {
+    content: '✓';
+    position: absolute; left: 0; top: 0;
+    color: var(--brand); font-weight: 700;
+  }
+
+  .tabela-wrap { max-width: 720px; margin: 0 auto; overflow-x: auto; }
+  table.papeis {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    font-size: 15px;
+  }
+  table.papeis th, table.papeis td { padding: 16px 20px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--border); }
+  table.papeis tr:last-child th, table.papeis tr:last-child td { border-bottom: none; }
+  table.papeis thead th {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--muted); font-weight: 400; background: var(--surface2);
+  }
+  table.papeis tbody th { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 600; color: var(--accent); white-space: nowrap; width: 1%; }
+  table.papeis td { color: var(--muted); }
+
+  .mais {
+    text-align: center;
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 36px 28px;
+    border: 1px dashed var(--brand);
+    border-radius: 20px;
+    background: var(--brand-soft);
+  }
+  .mais h2 { margin-bottom: 12px; }
+  .mais p { color: var(--text); font-size: 16px; margin-bottom: 18px; }
+  .btn-link {
+    color: var(--brand); text-decoration: none; font-weight: 600; font-size: 15px;
+    border-bottom: 1px dashed var(--brand); padding-bottom: 2px;
+  }
+
+  #formulario { scroll-margin-top: 20px; }
+  .form-titulo { font-size: clamp(24px, 3vw, 28px); margin-bottom: 24px; }
+  form.contato-form .checkbox-row label { display: block; font-weight: 400; }
+  #emp-submit[disabled] { opacity: .55; cursor: not-allowed; }
+
+  .faq { display: flex; flex-direction: column; gap: 8px; max-width: 760px; margin: 0 auto; }
+  details {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    transition: border-color 0.2s;
+  }
+  details[open] { border-color: var(--brand); }
+  summary {
+    cursor: pointer;
+    padding: 20px 24px;
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 17px;
+    color: var(--accent);
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: '+'; color: var(--brand); font-size: 22px; font-weight: 300; }
+  details[open] summary::after { content: '−'; }
+  details p { padding: 0 24px 22px; color: var(--muted); font-size: 15px; line-height: 1.65; margin: 0; }
+  details p a { color: var(--brand); }
+
+  @media (max-width: 720px) {
+    .passos { grid-template-columns: 1fr; }
+    .plano { padding: 28px 22px; }
+    section.bloco { padding: 36px 0; }
+    table.papeis th, table.papeis td { padding: 14px 14px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a href="/" class="logo">
+      <img src="../notinha-icon-128.png" alt="Notinha" width="128" height="128">
+      <span class="logo-text">Notinha<sup style="font-size:0.45em; font-weight:400; vertical-align:top; margin-left:1px;">™</sup></span>
+    </a>
+    <nav>
+      <a href="/#por-que">Por que</a>
+      <a href="/#como-funciona">Como funciona</a>
+      <a href="../blog/">Caderninho</a>
+      <a href="/empresas/">Empresas</a>
+      <a href="/#faq">Dúvidas</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="page-head">
+  <div class="wrap">
+    <div class="badge">● Lançamento 12/12</div>
+    <h1>Notinha para empresas</h1>
+    <p class="sub">Sua empresa já vive no WhatsApp. As despesas também podem.</p>
+    <p class="lead">Quem compra fotografa a nota. A despesa cai organizada, com foto, separada por loja e pronta para o contador.</p>
+    <a href="#formulario" class="btn-cta">Quero falar com o Notinha</a>
+  </div>
+</section>
+
+<!-- COMO FUNCIONA -->
+<section class="bloco" id="como-funciona">
+  <div class="wrap">
+    <p class="eyebrow">Como funciona</p>
+    <h2>Três passos, todos no WhatsApp</h2>
+    <div class="passos">
+      <div class="passo">
+        <span class="num">01</span>
+        <h3>Envie no WhatsApp</h3>
+        <p>Foto da nota fiscal, comprovante, PDF, áudio ou texto ("gastei 80 no posto").</p>
+      </div>
+      <div class="passo">
+        <span class="num">02</span>
+        <h3>O Notinha organiza</h3>
+        <p>Itens, valor, categoria, quem enviou e de qual espaço.</p>
+      </div>
+      <div class="passo">
+        <span class="num">03</span>
+        <h3>Tudo cai no Drive da dona</h3>
+        <p>Fotos em pastas por espaço, ano e mês; uma planilha por mês com colunas Espaço e Enviado por.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PLANO -->
+<section class="bloco" id="plano">
+  <div class="wrap">
+    <div class="plano">
+      <p class="eyebrow">Plano Pequenas Empresas</p>
+      <h2>Tudo do Premium, mais Espaços</h2>
+      <ul class="lista">
+        <li>Pessoal + até 3 espaços (lojas, unidades ou negócios).</li>
+        <li>2 pessoas incluídas (ex.: dona + sócio). Até 5 pessoas no total.</li>
+        <li>Insights semanais e mensais. Resumo e relatórios por espaço ou consolidado.</li>
+        <li>Painel do ano com filtro por espaço.</li>
+        <li>PDF com as fotos das despesas para enviar ao contador.</li>
+        <li>Conexão com Google Drive.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- PAPÉIS -->
+<section class="bloco" id="papeis">
+  <div class="wrap">
+    <p class="eyebrow">Quem faz o quê</p>
+    <h2>Cada pessoa no seu papel</h2>
+    <div class="tabela-wrap">
+      <table class="papeis">
+        <thead>
+          <tr><th scope="col">Papel</th><th scope="col">O que faz</th></tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">Dona</th><td>Cria espaços, adiciona pessoas, registra gastos e recebimentos, recebe tudo no Drive dela.</td></tr>
+          <tr><th scope="row">Sócio</th><td>Registra gastos e recebimentos.</td></tr>
+          <tr><th scope="row">Colaborador</th><td>Registra só gastos, sempre no espaço definido para ele.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- SOB MEDIDA -->
+<section class="bloco">
+  <div class="wrap">
+    <div class="mais">
+      <h2>Precisa de mais?</h2>
+      <p>Mais de 3 espaços, mais de 5 pessoas ou integração com o sistema da sua empresa? Montamos o Notinha sob medida.</p>
+      <a href="#formulario" class="btn-link">Conte no formulário →</a>
+    </div>
+  </div>
+</section>
+
+<!-- FORMULÁRIO -->
+<section class="bloco" id="formulario">
+  <div class="wrap">
+    <div class="form-box">
+      <h2 class="form-titulo">Conte o que sua empresa precisa</h2>
+      <form class="contato-form" id="emp-form" onsubmit="enviarEmpresas(event)" novalidate data-clarity-mask="True">
+        <div class="row">
+          <label>Seu nome *
+            <input type="text" name="nome" required maxlength="120" autocomplete="name" placeholder="Seu nome">
+          </label>
+          <label>Nome da empresa *
+            <input type="text" name="empresa" required maxlength="120" autocomplete="organization" placeholder="Nome da empresa">
+          </label>
+        </div>
+
+        <div class="row">
+          <label>Tipo *
+            <select name="tipo_empresa" required>
+              <option value="" disabled selected>Selecione</option>
+              <option value="mei">MEI</option>
+              <option value="me">ME</option>
+              <option value="epp">EPP</option>
+              <option value="ltda">LTDA</option>
+              <option value="autonomo_cpf">Autônomo (CPF)</option>
+              <option value="outro">Outro</option>
+            </select>
+          </label>
+          <label>CNPJ ou CPF *
+            <input type="text" name="documento" id="emp-doc" required inputmode="numeric" placeholder="00.000.000/0000-00">
+          </label>
+        </div>
+
+        <div class="row">
+          <label>Melhor e-mail *
+            <input type="email" name="email" required maxlength="160" autocomplete="email" placeholder="voce@empresa.com.br">
+          </label>
+          <label>WhatsApp *
+            <input type="tel" name="whatsapp" id="emp-wa" required autocomplete="tel" inputmode="numeric" placeholder="(00) 00000-0000">
+          </label>
+        </div>
+
+        <div class="row">
+          <label>Quantas pessoas vão usar
+            <select name="qtd_pessoas">
+              <option value="" selected>Selecione</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3 a 5">3 a 5</option>
+              <option value="6 a 20">6 a 20</option>
+              <option value="mais de 20">mais de 20</option>
+            </select>
+          </label>
+          <label>Quantas lojas/unidades
+            <select name="qtd_unidades">
+              <option value="" selected>Selecione</option>
+              <option value="1">1</option>
+              <option value="2 a 3">2 a 3</option>
+              <option value="4 a 10">4 a 10</option>
+              <option value="mais de 10">mais de 10</option>
+            </select>
+          </label>
+        </div>
+
+        <label>O que você precisa? *
+          <textarea name="necessidade" required maxlength="4000" placeholder="Ex.: tenho 2 lojas, 3 funcionários compram material e quero ver os gastos de cada loja separados"></textarea>
+        </label>
+
+        <input type="text" name="website" class="honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+        <div class="checkbox-row">
+          <input type="checkbox" name="aceite" id="emp-aceite" required>
+          <label for="emp-aceite" style="font-size:13px; color:var(--muted);">
+            Aceito ser contatado pelo Notinha por e-mail ou WhatsApp para desenharmos a melhor solução para a minha empresa. Li a <a href="/privacidade.html" target="_blank">Política de Privacidade</a>.
+          </label>
+        </div>
+
+        <div class="turn cf-turnstile" data-sitekey="0x4AAAAAAEmLqsLsblMemLoi" data-callback="onTurnEmp" data-expired-callback="onTurnEmpExp" data-error-callback="onTurnEmpExp"></div>
+
+        <button type="submit" id="emp-submit" disabled>Enviar</button>
+
+        <div class="form-msg" id="emp-msg" role="alert"></div>
+      </form>
+
+      <div class="form-sucesso" id="emp-sucesso">
+        <div class="check">✓</div>
+        <h3>Recebemos.</h3>
+        <p>Vamos falar com você em até 2 dias úteis.</p>
+        <a href="/">Voltar pro início →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="bloco" id="faq">
+  <div class="wrap">
+    <p class="eyebrow">Dúvidas</p>
+    <h2>Perguntas frequentes</h2>
+    <div class="faq">
+      <details>
+        <summary>Quando lança?</summary>
+        <p>O plano Pequenas Empresas lança em 12/12. Preencha o formulário para entrar primeiro.</p>
+      </details>
+      <details>
+        <summary>Quantas pessoas posso adicionar?</summary>
+        <p>2 incluídas. Até 5 no total. Mais que isso, solução sob medida.</p>
+      </details>
+      <details>
+        <summary>Quantas lojas ou negócios?</summary>
+        <p>Pessoal + até 3 espaços. Mais que isso, solução sob medida.</p>
+      </details>
+      <details>
+        <summary>O que dá para enviar?</summary>
+        <p>Foto de nota fiscal, comprovante, PDF, áudio e texto pelo WhatsApp.</p>
+      </details>
+      <details>
+        <summary>Onde ficam as notas?</summary>
+        <p>No Google Drive da dona da conta, em pastas por espaço, ano e mês, com planilha mensal.</p>
+      </details>
+      <details>
+        <summary>Colaborador registra recebimentos?</summary>
+        <p>Não. Só dona e sócios. Colaborador registra gastos no espaço definido para ele.</p>
+      </details>
+      <details>
+        <summary>Dá para trocar o espaço de um colaborador?</summary>
+        <p>Sim, pedindo a alteração por e-mail ao <a href="mailto:suporte@usenotinha.com.br">suporte@usenotinha.com.br</a>.</p>
+      </details>
+      <details>
+        <summary>Tem período de teste?</summary>
+        <p>Não. O plano começa no primeiro pagamento.</p>
+      </details>
+      <details>
+        <summary>Formas de pagamento?</summary>
+        <p>Cartão de crédito mensal ou Pix trimestral antecipado.</p>
+      </details>
+      <details>
+        <summary>Funciona para MEI?</summary>
+        <p>Sim. MEI, ME, EPP, LTDA e autônomos.</p>
+      </details>
+      <details>
+        <summary>O contador recebe como?</summary>
+        <p>Relatório em PDF com as fotos das despesas, por espaço.</p>
+      </details>
+      <details>
+        <summary>Integra com o sistema da minha empresa?</summary>
+        <p>Estamos desenvolvendo integrações. Conte no formulário qual sistema você usa.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="links">
+      <a href="../blog/">Caderninho</a>
+      <a href="/empresas/">Empresas</a>
+      <a href="/empresas/">Empresas</a>
+      <a href="../privacidade.html">Política de Privacidade</a>
+      <a href="../termos.html">Termos de Uso</a>
+      <a href="../cookies.html">Cookies</a>
+      <a href="/">Início</a>
+    </div>
+    <div class="social">
+      <a href="https://www.instagram.com/usenotinha/" target="_blank" rel="noopener noreferrer" aria-label="Instagram do Notinha" title="Instagram">
+        <svg viewBox="0 0 24 24" role="img" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.0559 1.6884.0684 4.9462.0622 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.0555-1.2809.0685-1.6898.0623-4.948-.0063-3.2583-.0208-3.6668-.0815-4.9465-.0606-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3877-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.074.321 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.3775-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.4229-.1651 1.0574-.3614 2.2267-.4171 1.2655-.0596 1.6447-.0719 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.8479-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.0718-4.8493.0788-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1499-3.403.0067-6.156 2.771-6.1496 6.1739M8 12.0075a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0076"/></svg>
+      </a>
+      <a href="https://www.tiktok.com/@usenotinha" target="_blank" rel="noopener noreferrer" aria-label="TikTok do Notinha" title="TikTok">
+        <svg viewBox="0 0 24 24" role="img" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+      </a>
+    </div>
+    <div class="legal">
+      Respondemos em até 2 dias úteis · <a href="mailto:contato@usenotinha.com.br" style="color:var(--brand); text-decoration:none;">contato@usenotinha.com.br</a><br>
+      © 2026 Notinha · CNPJ 66.824.150/0001-28
+    </div>
+  </div>
+</footer>
+
+<!-- Banner de Cookies LGPD -->
+<div id="cookieBanner" style="display:none; position:fixed; bottom:0; left:0; right:0; background:#161b22; border-top:1px solid #30363d; padding:20px 24px; z-index:9999; font-family:'DM Sans',sans-serif; color:#e6edf3;">
+  <div style="max-width:980px; margin:0 auto; display:flex; flex-wrap:wrap; gap:16px; align-items:center; justify-content:space-between;">
+    <p style="font-size:14px; line-height:1.5; flex:1; min-width:280px; margin:0;">
+      Usamos <a href="../cookies.html" style="color:#288A89; text-decoration:underline;">cookies</a> para melhorar sua experiência. Veja nossa <a href="../privacidade.html" style="color:#288A89; text-decoration:underline;">Política de Privacidade</a>.
+    </p>
+    <div style="display:flex; gap:8px; flex-wrap:wrap;">
+      <button onclick="cookieEssenciais()" style="padding:10px 18px; background:transparent; color:#8b949e; border:1px solid #30363d; border-radius:100px; cursor:pointer; font-family:inherit; font-size:14px;">Apenas essenciais</button>
+      <button onclick="cookieAceitar()" style="padding:10px 18px; background:#288A89; color:#fff; border:none; border-radius:100px; cursor:pointer; font-family:inherit; font-weight:600; font-size:14px;">Aceitar todos</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var c = localStorage.getItem('cookieConsent');
+  if (!c) { document.getElementById('cookieBanner').style.display = 'block'; }
+})();
+function cookieConsentUpdate(v){
+  var s = v === 'all' ? 'granted' : 'denied';
+  gtag('consent', 'update', {
+    analytics_storage: s,
+    ad_storage: s,
+    ad_user_data: s,
+    ad_personalization: s
+  });
+}
+function cookieAceitar(){ localStorage.setItem('cookieConsent','all'); cookieConsentUpdate('all'); if (window.clarity) clarity('consentv2', {ad_Storage:'granted', analytics_Storage:'granted'}); document.getElementById('cookieBanner').style.display='none'; }
+function cookieEssenciais(){ localStorage.setItem('cookieConsent','essential'); cookieConsentUpdate('essential'); document.getElementById('cookieBanner').style.display='none'; }
+</script>
+
+<!-- Máscaras CNPJ/CPF + WhatsApp e validação dos dígitos -->
+<script>
+(function(){
+  function mascaraDoc(v){
+    v=(v||'').replace(/\D/g,'').slice(0,14);
+    if(v.length<=11){
+      v=v.replace(/(\d{3})(\d)/,'$1.$2');
+      v=v.replace(/(\d{3})(\d)/,'$1.$2');
+      v=v.replace(/(\d{3})(\d{1,2})$/,'$1-$2');
+      return v;
+    }
+    return v.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{0,2}).*/,function(_,a,b,c,d,e){return a+'.'+b+'.'+c+'/'+d+(e?'-'+e:'');});
+  }
+  function mascaraTel(v){
+    v=(v||'').replace(/\D/g,'').slice(0,11);
+    if(!v) return '';
+    if(v.length<=2) return '('+v;
+    if(v.length<=6) return '('+v.slice(0,2)+') '+v.slice(2);
+    if(v.length<=10) return '('+v.slice(0,2)+') '+v.slice(2,6)+'-'+v.slice(6);
+    return '('+v.slice(0,2)+') '+v.slice(2,7)+'-'+v.slice(7);
+  }
+  var doc=document.getElementById('emp-doc');
+  if(doc) doc.addEventListener('input',function(){this.value=mascaraDoc(this.value);});
+  var wa=document.getElementById('emp-wa');
+  if(wa) wa.addEventListener('input',function(){this.value=mascaraTel(this.value);});
+})();
+
+function cpfValido(c){
+  if(!/^\d{11}$/.test(c)||/^(\d)\1{10}$/.test(c)) return false;
+  for(var n=9;n<=10;n++){
+    var s=0; for(var i=0;i<n;i++) s+=Number(c[i])*(n+1-i);
+    if((s*10)%11%10!==Number(c[n])) return false;
+  }
+  return true;
+}
+function cnpjValido(c){
+  if(!/^\d{14}$/.test(c)||/^(\d)\1{13}$/.test(c)) return false;
+  var p=[6,5,4,3,2,9,8,7,6,5,4,3,2];
+  for(var n=12;n<=13;n++){
+    var s=0; for(var i=0;i<n;i++) s+=Number(c[i])*p[i+13-n];
+    var r=s%11, d=r<2?0:11-r;
+    if(d!==Number(c[n])) return false;
+  }
+  return true;
+}
+</script>
+
+<!-- Envio: Edge Function contato-empresas -->
+<script>
+const EMPRESAS_URL = 'https://xpzjwlhrlebdpcybxaxu.supabase.co/functions/v1/contato-empresas';
+const EMPRESAS_ERRO = 'Não conseguimos enviar agora. Tente de novo daqui a pouco ou escreva para contato@usenotinha.com.br.';
+
+// Turnstile: o botão só libera quando o desafio devolve o token.
+var turnEmp = '';
+window.onTurnEmp = function (t) {
+  turnEmp = t || '';
+  var b = document.getElementById('emp-submit');
+  if (b) b.disabled = !turnEmp;
+};
+window.onTurnEmpExp = function () {
+  turnEmp = '';
+  var b = document.getElementById('emp-submit');
+  if (b) b.disabled = true;
+};
+function resetTurnEmp() {
+  turnEmp = '';
+  var b = document.getElementById('emp-submit');
+  if (b) b.disabled = true;
+  if (window.turnstile) window.turnstile.reset();
+}
+
+async function enviarEmpresas(e){
+  e.preventDefault();
+  const form = document.getElementById('emp-form');
+  const btn  = document.getElementById('emp-submit');
+  const msg  = document.getElementById('emp-msg');
+  const sucesso = document.getElementById('emp-sucesso');
+  function falha(t){ msg.textContent = t; msg.className = 'form-msg erro'; }
+
+  msg.textContent = '';
+  msg.className = 'form-msg';
+
+  // honeypot
+  if (form.website.value) { form.style.display='none'; sucesso.style.display='block'; return; }
+
+  const nome = form.nome.value.trim();
+  const empresa = form.empresa.value.trim();
+  const tipo = form.tipo_empresa.value;
+  const documento = form.documento.value.replace(/\D/g,'');
+  const email = form.email.value.trim().toLowerCase();
+  const whatsapp = form.whatsapp.value.replace(/\D/g,'');
+  const necessidade = form.necessidade.value.trim();
+
+  if (!nome) return falha('Preencha seu nome.');
+  if (!empresa) return falha('Preencha o nome da empresa.');
+  if (!tipo) return falha('Selecione o tipo da empresa.');
+  if (!((documento.length === 11 && cpfValido(documento)) || (documento.length === 14 && cnpjValido(documento)))) return falha('CNPJ ou CPF inválido. Confira os números.');
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return falha('Confira o e-mail.');
+  if (whatsapp.length < 10 || whatsapp.length > 11) return falha('WhatsApp incompleto.');
+  if (!necessidade) return falha('Conte o que você precisa.');
+  if (!form.aceite.checked) return falha('Para enviar, marque o aceite de contato.');
+
+  btn.disabled = true;
+  btn.textContent = 'Enviando...';
+
+  const atrib = window.notinhaAtrib ? window.notinhaAtrib() : {};
+  const payload = {
+    nome: nome,
+    empresa: empresa,
+    tipo_empresa: tipo,
+    documento: documento,
+    email: email,
+    whatsapp: whatsapp,
+    qtd_pessoas: form.qtd_pessoas.value || null,
+    qtd_unidades: form.qtd_unidades.value || null,
+    necessidade: necessidade,
+    aceite_contato: true,
+    versao_texto_aceite: 'empresas-v1',
+    origem_url: window.location.href.substring(0,500),
+    utm_source: atrib.utm_source || null,
+    utm_medium: atrib.utm_medium || null,
+    utm_campaign: atrib.utm_campaign || null,
+    gclid: atrib.gclid || null,
+    user_agent: navigator.userAgent.substring(0,500),
+    referrer: document.referrer || null,
+    turnstile: turnEmp
+  };
+
+  try {
+    const res = await fetch(EMPRESAS_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const corpo = await res.json().catch(function(){ return {}; });
+
+    if (res.ok && corpo.ok) {
+      form.style.display = 'none';
+      sucesso.style.display = 'block';
+      if (typeof gtag === 'function') {
+        gtag('event', 'lead_empresas', { method: 'site_empresas', tipo_empresa: tipo, qtd_pessoas: payload.qtd_pessoas || '', qtd_unidades: payload.qtd_unidades || '' });
+      }
+      return;
+    }
+    console.error('contato-empresas erro:', res.status, corpo);
+    if (corpo.erro === 'documento_invalido') falha('CNPJ ou CPF inválido. Confira os números.');
+    else if (corpo.erro === 'limite') falha('Recebemos vários envios seguidos daqui. Tente de novo em 1 hora ou escreva para contato@usenotinha.com.br.');
+    else falha(EMPRESAS_ERRO);
+  } catch (err) {
+    falha(EMPRESAS_ERRO);
+  }
+  btn.textContent = 'Enviar';
+  resetTurnEmp();
+}
+</script>
+</body>
+</html>

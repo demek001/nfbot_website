@@ -12,6 +12,7 @@ Os arquivos ficam na conta do Google Drive do usuário, não em servidores do No
 
 - [Página inicial](https://usenotinha.com.br/): como o serviço funciona, comparação com planilha, aplicativo de finanças e extrato bancário, garantias de privacidade e perguntas frequentes.
 - [Planos e assinatura](https://usenotinha.com.br/assinar/): plano Pleno e plano Premium, com o que está incluído em cada um.
+- [Notinha para empresas](https://usenotinha.com.br/empresas/): plano Pequenas Empresas (lançamento em 12/12): Pessoal + até 3 espaços (lojas, unidades ou negócios), 2 pessoas incluídas e até 5 no total, papéis de dona, sócio e colaborador, relatórios por espaço e PDF com as fotos das despesas para o contador. Formulário para empresas que precisam de solução sob medida.
 - [Contato](https://usenotinha.com.br/contato/): canal de suporte.
 
 ## Caderninho (blog)
