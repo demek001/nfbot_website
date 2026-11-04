@@ -288,6 +288,10 @@
     </header>
 
     <nav class="filtros" aria-label="Escolher período">
+      <div class="fila oculto" id="fila-espacos">
+        <span class="fila-rot">Espaço</span>
+        <span id="espacos-btn"></span>
+      </div>
       <div class="fila">
         <span class="fila-rot">Ano</span>
         <span id="anos"></span>
@@ -436,6 +440,8 @@
   var TOKEN = (location.hash || "").replace(/^#/,"");
   if(TOKEN.indexOf("t=") === 0) TOKEN = TOKEN.slice(2);
   TOKEN = decodeURIComponent(TOKEN);
+  // Plano Pequenas Empresas: espaço do filtro do topo (a fila só aparece quando a resposta traz "espacos").
+  var ESPACO = "todos";
 
   function mostrarErro(t, texto){
     el("carregando").classList.add("oculto");
@@ -702,6 +708,24 @@
         carregar(d.ano, m > 0 ? m : null);
       });
     });
+
+    var espacos = d.espacos || [];
+    el("fila-espacos").classList.toggle("oculto", espacos.length === 0);
+    if(espacos.length){
+      var opcoes = [{ v: "pessoal", n: "Pessoal" }]
+        .concat(espacos.map(function(e){ return { v: e.id, n: e.nome }; }))
+        .concat([{ v: "todos", n: "Todos" }]);
+      el("espacos-btn").innerHTML = opcoes.map(function(o){
+        return '<button class="pill" data-espaco="' + esc(o.v) + '" aria-pressed="' +
+          (o.v === (d.espaco || "todos")) + '">' + esc(o.n) + '</button>';
+      }).join(" ");
+      Array.prototype.forEach.call(document.querySelectorAll("[data-espaco]"), function(b){
+        b.addEventListener("click", function(){
+          ESPACO = b.getAttribute("data-espaco");
+          carregar(d.ano, d.mes);
+        });
+      });
+    }
   }
 
   function pintar(d){
@@ -834,6 +858,8 @@
     var q = [];
     if(ano) q.push("ano=" + ano);
     if(mes) q.push("mes=" + mes);
+    q.push("espacos=1");
+    if(ESPACO !== "todos") q.push("espaco=" + encodeURIComponent(ESPACO));
     var url = API + (q.length ? "?" + q.join("&") : "");
 
     fetch(url, { headers: { "x-painel-token": TOKEN } })
