@@ -217,6 +217,14 @@ footer{padding:32px 0;border-top:1px solid var(--border);color:var(--muted);font
       $("p-sub").textContent=(j.primeiro_nome?"Oi, "+j.primeiro_nome+". ":"")+(SUB[j.motivo]||SUB.cadastro).replace("{plano}",j.plano);
       $("p-cartao").textContent=reais(j.cartao.valor);$("b-cartao").textContent="Pagar com cartão de crédito · "+reais(j.cartao.valor)+"/mês";
       $("p-pix").textContent=reais(j.pix.valor);$("p-prox").textContent=j.pix.proxima_cobranca||"3 meses";
+      // Cupom (só a 1ª cobrança): valor cheio riscado e o valor das próximas. Sem cupom, nada muda.
+      if(j.cupom&&j.cartao.original&&j.pix.original){
+        var pcs=$("p-cartao").parentNode;pcs.innerHTML='<s></s> <span class="preco"></span> no 1º mês, com o cupom <b></b>. Depois, <span></span> por mês, com cobrança automática.';
+        pcs.querySelector("s").textContent=reais(j.cartao.original);pcs.querySelector(".preco").textContent=reais(j.cartao.valor);pcs.querySelector("b").textContent=j.cupom.codigo;pcs.querySelectorAll("span")[1].textContent=reais(j.cartao.renovacao||j.cartao.original);
+        $("b-cartao").textContent="Pagar com cartão de crédito · "+reais(j.cartao.valor)+" no 1º mês";
+        var pp=$("p-pix").parentNode;pp.innerHTML='Pague 3 meses de uma vez com o cupom <b></b>: <s></s> <span class="preco"></span> no 1º trimestre. A próxima cobrança, de <span></span>, vem em <span></span>, e a gente avisa antes.';
+        pp.querySelector("b").textContent=j.cupom.codigo;pp.querySelector("s").textContent=reais(j.pix.original);pp.querySelector(".preco").textContent=reais(j.pix.valor);var ps=pp.querySelectorAll("span");ps[1].textContent=reais(j.pix.renovacao||j.pix.original);ps[2].textContent=j.pix.proxima_cobranca||"3 meses";
+      }
       ev("begin_checkout",{currency:"BRL",value:j.cartao.valor,items:[{item_id:j.plano==="Premium"?"premium":"base",item_name:j.plano,price:j.cartao.valor,quantity:1}]});
       return;
     }
