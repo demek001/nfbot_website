@@ -91,7 +91,7 @@
     {"@type":"Question","name":"Preciso baixar app?","acceptedAnswer":{"@type":"Answer","text":"Não. É o WhatsApp que você já usa."}},
     {"@type":"Question","name":"Precisa da senha do banco?","acceptedAnswer":{"@type":"Answer","text":"Não. O Notinha só vê as notas que você manda."}},
     {"@type":"Question","name":"E nota sem QR code ou à mão?","acceptedAnswer":{"@type":"Answer","text":"Pode mandar foto ou escrever o gasto."}},
-    {"@type":"Question","name":"Funciona no OneDrive?","acceptedAnswer":{"@type":"Answer","text":"Pleno e Premium sim. Família e Empresas, por enquanto, só Google Drive."}},
+    {"@type":"Question","name":"Onde ficam as planilhas?","acceptedAnswer":{"@type":"Answer","text":"No seu Google Drive."}},
     {"@type":"Question","name":"Posso trocar de plano?","acceptedAnswer":{"@type":"Answer","text":"Sim, pelo suporte."}},
     {"@type":"Question","name":"Quando posso assinar Família ou Empresas?","acceptedAnswer":{"@type":"Answer","text":"A partir de 12/12. Entre na lista e avisamos você primeiro."}}
   ]
@@ -180,6 +180,18 @@
   .preco-box .cta { width: 100%; }
   .comparar-link { display: inline-block; margin-top: 14px; color: var(--muted); font-size: 14px; text-decoration: none; border-bottom: 1px dashed var(--border); }
   .comparar-link:hover { color: var(--brand); border-color: var(--brand); }
+
+  /* Galeria de exemplos (Família e Empresas): uma por vez, com deslizar */
+  .galeria { margin-top: 24px; }
+  .gal-trilho { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; scrollbar-width: none; border-radius: 14px; }
+  .gal-trilho::-webkit-scrollbar { display: none; }
+  .gal-trilho:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; }
+  .gal-trilho figure { flex: 0 0 100%; scroll-snap-align: center; margin: 0; }
+  .gal-trilho img { display: block; width: 100%; height: auto; border-radius: 14px; border: 1px solid var(--border); background: #f2f2ee; }
+  .gal-trilho figcaption { color: var(--muted); font-size: 12px; text-align: center; margin-top: 8px; }
+  .gal-nav { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .gal-nav button { font-family: inherit; font-size: 14px; color: var(--muted); background: transparent; border: 1px solid var(--border); border-radius: 100px; padding: 8px 16px; cursor: pointer; min-height: 40px; }
+  .gal-nav button[aria-current="true"] { color: #fff; background: var(--brand); border-color: var(--brand); }
 
   /* Tabela */
   .tabela-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid var(--border); border-radius: 14px; background: var(--surface); }
@@ -277,7 +289,7 @@
     <ol class="passos" style="margin-top:22px">
       <li class="passo">
         <div class="passo-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></div>
-        <div><span class="passo-n">Passo 1</span><p>Tire foto da nota (ou escreva o gasto).</p></div>
+        <div><span class="passo-n">Passo 1</span><p>Tire foto da nota ou escreva o gasto.</p></div>
       </li>
       <li class="passo">
         <div class="passo-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l3 3v15H6z"/><path d="M9 9h6M9 13h6M9 17h4"/></svg></div>
@@ -356,7 +368,6 @@
             <li>Comparação de preço por produto</li>
             <li>Top produtos do mês</li>
             <li>Planilha anual</li>
-            <li>Pessoal e Empresa separados no mesmo número <span class="selo data">12/12</span></li>
           </ul>
         </div>
       </div>
@@ -397,6 +408,14 @@
         </div>
       </div>
     </div>
+    <div class="galeria" aria-roledescription="carrossel" aria-label="Exemplos do plano Família">
+      <div class="gal-trilho" tabindex="0">
+        <figure id="g-familia-1" aria-label="Família · WhatsApp"><img src="/planos/img/familia-whatsapp.webp" width="1200" height="760" loading="lazy" decoding="async" alt="Exemplo ilustrativo de conversa no WhatsApp: Ana, a titular, manda a foto da nota do Mercado Bom Preço; Pedro, o membro, manda a nota da Drogaria Central do próprio celular e escreve “gasolina 210”. O Notinha confirma cada lançamento na planilha da Ana."><figcaption>Exemplo ilustrativo</figcaption></figure>
+        <figure id="g-familia-2" aria-label="Família · Planilha"><img src="/planos/img/familia-planilha.webp" width="1200" height="622" loading="lazy" decoding="async" alt="Exemplo ilustrativo da planilha de novembro no Google Drive da Ana, com as notas da casa e a coluna “Enviado por” mostrando Ana ou Pedro em cada linha."><figcaption>Exemplo ilustrativo</figcaption></figure>
+        <figure id="g-familia-3" aria-label="Família · Salário"><img src="/planos/img/familia-salario.webp" width="1200" height="760" loading="lazy" decoding="async" alt="Exemplo ilustrativo: Ana escreve “recebi 5200 salário” e o recebimento vai para a aba Entradas, junto com o freela que o Pedro mandou do celular dele. O resumo do mês mostra entradas, gastos e saldo da casa."><figcaption>Exemplo ilustrativo</figcaption></figure>
+      </div>
+      <div class="gal-nav" role="group" aria-label="Escolha o exemplo"><button type="button" data-i="0" aria-current="true">WhatsApp</button><button type="button" data-i="1">Planilha</button><button type="button" data-i="2">Salário</button></div>
+    </div>
     <div class="preco-box">
       <div class="preco">R$ 72,80<span>/mês</span></div>
       <p class="preco-nota">Assinaturas a partir de 12/12.</p>
@@ -429,6 +448,14 @@
         </div>
       </div>
     </div>
+    <div class="galeria" aria-roledescription="carrossel" aria-label="Exemplos do plano Empresas">
+      <div class="gal-trilho" tabindex="0">
+        <figure id="g-empresas-1" aria-label="Empresas · WhatsApp"><img src="/planos/img/empresas-whatsapp.webp" width="1200" height="760" loading="lazy" decoding="async" alt="Exemplo ilustrativo no WhatsApp: Carla, da equipe, manda a nota do Atacadão e escolhe a Padaria Centro; Marcos, o dono, recebe o alerta do gasto, lança a conta de luz da Padaria Gonzaga e pede o resumo do mês por espaço."><figcaption>Exemplo ilustrativo</figcaption></figure>
+        <figure id="g-empresas-2" aria-label="Empresas · Planilha"><img src="/planos/img/empresas-planilha.webp" width="1200" height="760" loading="lazy" decoding="async" alt="Exemplo ilustrativo da planilha de novembro com as colunas Hora, Espaço, Tipo e Enviado, a aba “Por espaço” com o total de cada empresa e do Pessoal, e uma pasta no Google Drive para cada espaço."><figcaption>Exemplo ilustrativo</figcaption></figure>
+        <figure id="g-empresas-3" aria-label="Empresas · Vendas"><img src="/planos/img/empresas-vendas.webp" width="1200" height="760" loading="lazy" decoding="async" alt="Exemplo ilustrativo: Carla registra o fechamento do caixa e as vendas no Pix pelo WhatsApp, cada recebimento entra na empresa certa da aba Entradas, e cada loja mostra o que entrou e o que saiu."><figcaption>Exemplo ilustrativo</figcaption></figure>
+      </div>
+      <div class="gal-nav" role="group" aria-label="Escolha o exemplo"><button type="button" data-i="0" aria-current="true">WhatsApp</button><button type="button" data-i="1">Planilha</button><button type="button" data-i="2">Vendas</button></div>
+    </div>
     <div class="preco-box">
       <div class="preco">R$ 89,90<span>/mês</span></div>
       <p class="preco-nota">Assinaturas a partir de 12/12.</p>
@@ -451,7 +478,7 @@
           <tr><th scope="row">Preço mensal</th><td>R$ 27,90</td><td>R$ 47,90</td><td>R$ 72,80</td><td>R$ 89,90</td></tr>
           <tr><th scope="row">Pix trimestral</th><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td></tr>
           <tr><th scope="row">Teste de 7 dias</th><td class="s" aria-label="incluído">✓</td><td aria-label="não incluído">—</td><td aria-label="não incluído">—</td><td aria-label="não incluído">—</td></tr>
-          <tr><th scope="row">Foto e texto no WhatsApp</th><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td></tr>
+          <tr><th scope="row">Foto ou texto no WhatsApp</th><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td></tr>
           <tr><th scope="row">Leitura item por item</th><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td></tr>
           <tr><th scope="row">Planilhas mensais no seu Drive</th><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td></tr>
           <tr><th scope="row">Correção de categoria</th><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td></tr>
@@ -464,13 +491,11 @@
           <tr><th scope="row">Top produtos do mês</th><td aria-label="não incluído">—</td><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td></tr>
           <tr><th scope="row">Planilha anual</th><td aria-label="não incluído">—</td><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td></tr>
           <tr><th scope="row">Acesso antecipado a novidades</th><td aria-label="não incluído">—</td><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td></tr>
-          <tr><th scope="row">Pessoal e Empresa <span class="selo data">12/12</span></th><td aria-label="não incluído">—</td><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td><td aria-label="não incluído">—</td></tr>
           <tr><th scope="row">Até 3 empresas + Pessoal (aba “Por espaço”)</th><td aria-label="não incluído">—</td><td aria-label="não incluído">—</td><td aria-label="não incluído">—</td><td class="s" aria-label="incluído">✓</td></tr>
           <tr><th scope="row">Hora e tipo de cada registro</th><td aria-label="não incluído">—</td><td aria-label="não incluído">—</td><td aria-label="não incluído">—</td><td class="s" aria-label="incluído">✓</td></tr>
           <tr><th scope="row">Pessoas incluídas</th><td>1</td><td>1</td><td>2</td><td>2</td></tr>
           <tr><th scope="row">Pessoas extras (R$ 24,90, até 3)</th><td aria-label="não incluído">—</td><td aria-label="não incluído">—</td><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td></tr>
           <tr><th scope="row">Coluna “Enviado por”</th><td aria-label="não incluído">—</td><td aria-label="não incluído">—</td><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td></tr>
-          <tr><th scope="row">OneDrive</th><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td><td aria-label="não incluído">—</td><td aria-label="não incluído">—</td></tr>
         </tbody>
       </table>
     </div>
@@ -499,7 +524,7 @@
       <details><summary>Preciso baixar app?</summary><p>Não. É o WhatsApp que você já usa.</p></details>
       <details><summary>Precisa da senha do banco?</summary><p>Não. O Notinha só vê as notas que você manda.</p></details>
       <details><summary>E nota sem QR code ou à mão?</summary><p>Pode mandar foto ou escrever o gasto.</p></details>
-      <details><summary>Funciona no OneDrive?</summary><p>Pleno e Premium sim. Família e Empresas, por enquanto, só Google Drive.</p></details>
+      <details><summary>Onde ficam as planilhas?</summary><p>No seu Google Drive.</p></details>
       <details><summary>Posso trocar de plano?</summary><p>Sim, pelo suporte.</p></details>
       <details><summary>Quando posso assinar Família ou Empresas?</summary><p>A partir de 12/12. Entre na lista e avisamos você primeiro.</p></details>
     </div>
@@ -568,6 +593,16 @@ function cookieEssenciais(){ localStorage.setItem('cookieConsent','essential'); 
   var io = new IntersectionObserver(function(es){ es.forEach(function(e){ var v = e.target; if (e.isIntersecting) { v.preload = 'metadata'; v.play().catch(function(){}); } else v.pause(); }); }, { threshold: 0.5 });
   vs.forEach(function(v){ io.observe(v); });
 })();
+// Galerias: os botões levam ao exemplo; deslizar atualiza o botão marcado.
+document.querySelectorAll('.galeria').forEach(function(g){
+  var trilho = g.querySelector('.gal-trilho'), figs = [].slice.call(trilho.querySelectorAll('figure')), bts = [].slice.call(g.querySelectorAll('.gal-nav button'));
+  function marcar(i){ bts.forEach(function(b, k){ if (k === i) b.setAttribute('aria-current', 'true'); else b.removeAttribute('aria-current'); }); }
+  bts.forEach(function(b, i){ b.addEventListener('click', function(){ trilho.scrollTo({ left: figs[i].offsetLeft - figs[0].offsetLeft, behavior: 'smooth' }); marcar(i); }); });
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting) marcar(figs.indexOf(e.target)); }); }, { root: trilho, threshold: 0.6 });
+    figs.forEach(function(f){ io.observe(f); });
+  }
+});
 // Funil: clique em "Assinar" (mesmo evento da home).
 (function(){
   var PRECO = {base:27.90, premium:47.90}, NOME = {base:'Pleno', premium:'Premium'};
