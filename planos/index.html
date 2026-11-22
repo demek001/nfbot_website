@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Google Consent Mode v2: padrão negado até o usuário consentir -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('consent', 'default', {
+    ad_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+    analytics_storage: 'denied',
+    functionality_storage: 'granted',
+    security_storage: 'granted',
+    wait_for_update: 500
+  });
+  if (localStorage.getItem('cookieConsent') === 'all') {
+    gtag('consent', 'update', {
+      analytics_storage: 'granted',
+      ad_storage: 'granted',
+      ad_user_data: 'granted',
+      ad_personalization: 'granted'
+    });
+  }
+</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FC1XHM57Z6"></script>
+<script>
+  gtag('js', new Date());
+  gtag('set', 'url_passthrough', true);
+  gtag('set', 'ads_data_redaction', true);
+  gtag('config', 'G-FC1XHM57Z6');
+  gtag('config', 'AW-18331471265');
+</script>
+<!-- Microsoft Clarity: só usa cookies depois de "Aceitar todos" -->
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "z3y43khxpg");
+    (function(){
+        var s = 'denied';
+        try { if (localStorage.getItem('cookieConsent') === 'all') s = 'granted'; } catch(e) {}
+        clarity('consentv2', {ad_Storage: s, analytics_Storage: s});
+    })();
+</script>
+
+<!-- Notinha · atribuição persistente (gclid/utm) entre páginas -->
+<script>
+(function(){
+  var K=['gclid','gbraid','wbraid','utm_source','utm_medium','utm_campaign','utm_term','utm_content'];
+  try{
+    var p=new URLSearchParams(location.search);
+    K.forEach(function(k){
+      var v=(p.get(k)||'').trim().slice(0,200);
+      if(v) sessionStorage.setItem('notinha_'+k,v);
+    });
+  }catch(e){}
+  window.notinhaAtrib=function(){
+    var o={};
+    try{ K.forEach(function(k){ var v=sessionStorage.getItem('notinha_'+k); if(v) o[k]=v; }); }catch(e){}
+    return o;
+  };
+})();
+</script>
+
+<title>Planos do Notinha — controle de gastos pelo WhatsApp</title>
+<meta name="description" content="Compare os planos do Notinha: Pleno, Premium, Família e Empresas. Mande a foto da nota no WhatsApp e o gasto aparece item por item na sua planilha, no seu Drive.">
+<link rel="canonical" href="https://usenotinha.com.br/planos/">
+<meta property="og:title" content="Planos do Notinha — controle de gastos pelo WhatsApp">
+<meta property="og:description" content="Você já tem a nota. Falta alguém digitar. Compare Pleno, Premium, Família e Empresas.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://usenotinha.com.br/planos/">
+<meta property="og:image" content="https://usenotinha.com.br/og-image.png">
+<meta name="theme-color" content="#0d1117">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="64x64" href="/favicon-64.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,600&family=DM+Sans:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type":"Question","name":"Preciso baixar app?","acceptedAnswer":{"@type":"Answer","text":"Não. É o WhatsApp que você já usa."}},
+    {"@type":"Question","name":"Precisa da senha do banco?","acceptedAnswer":{"@type":"Answer","text":"Não. O Notinha só vê as notas que você manda."}},
+    {"@type":"Question","name":"E nota sem QR code ou à mão?","acceptedAnswer":{"@type":"Answer","text":"Pode mandar foto ou escrever o gasto."}},
+    {"@type":"Question","name":"Funciona no OneDrive?","acceptedAnswer":{"@type":"Answer","text":"Pleno e Premium sim. Família e Empresas, por enquanto, só Google Drive."}},
+    {"@type":"Question","name":"Posso trocar de plano?","acceptedAnswer":{"@type":"Answer","text":"Sim, pelo suporte."}},
+    {"@type":"Question","name":"Quando posso assinar Família ou Empresas?","acceptedAnswer":{"@type":"Answer","text":"A partir de 12/12. Entre na lista e avisamos você primeiro."}}
+  ]
+}
+</script>
+<style>
+  :root {
+    --bg: #0d1117; --surface: #161b22; --surface2: #1f2630; --border: #30363d;
+    --brand: #288A89; --brand-hover: #2EA09E; --brand-soft: #288A8922;
+    --text: #e6edf3; --muted: #8b949e; --accent: #f0f6fc; --danger: #f85149; --novo: #F5A524;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 16px; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 300; line-height: 1.65; min-height: 100vh; overflow-x: hidden; }
+  body::before { content: ''; position: fixed; inset: 0; background: radial-gradient(800px circle at 20% 0%, rgba(40,138,137,.08), transparent 40%), radial-gradient(600px circle at 80% 30%, rgba(40,138,137,.05), transparent 50%); pointer-events: none; z-index: 0; }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 0 16px; position: relative; z-index: 1; }
+
+  header { padding: 16px 0; border-bottom: 1px solid var(--border); }
+  header .wrap { display: flex; flex-direction: column; gap: 10px; align-items: center; }
+  .logo { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; }
+  .logo img { height: 30px; width: auto; display: block; }
+  .logo-text { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 500; font-size: 22px; color: var(--accent); line-height: 1; }
+  nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 16px; }
+  nav a { color: var(--muted); text-decoration: none; font-size: 14px; }
+  nav a:hover, nav a[aria-current] { color: var(--accent); }
+
+  h1, h2, h3 { font-family: 'Fraunces', serif; color: var(--accent); }
+  h1 { font-weight: 600; font-size: 36px; line-height: 1.08; letter-spacing: -0.03em; margin-bottom: 18px; }
+  h2 { font-weight: 600; font-size: 28px; line-height: 1.15; letter-spacing: -0.02em; margin-bottom: 12px; }
+  h3 { font-weight: 600; font-size: 18px; line-height: 1.3; }
+  .sub { color: var(--muted); font-size: 16px; margin-bottom: 28px; max-width: 640px; }
+
+  .cta { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 15px 28px; background: var(--brand); color: #fff; text-decoration: none; font-weight: 600; border-radius: 100px; transition: transform .2s, box-shadow .2s, background .2s; font-size: 16px; border: 0; cursor: pointer; font-family: inherit; text-align: center; line-height: 1.35; }
+  .cta:hover { background: var(--brand-hover); transform: translateY(-2px); box-shadow: 0 12px 30px rgba(40,138,137,.35); }
+  .cta.sec { background: transparent; border: 1px solid var(--brand); color: var(--brand); }
+  .cta.sec:hover { color: #fff; background: var(--brand); }
+
+  section { padding: 52px 0; border-top: 1px solid var(--border); }
+  .hero { padding: 52px 0 48px; text-align: center; border-top: 0; }
+  .hero .lead { font-size: 17px; color: var(--muted); max-width: 600px; margin: 0 auto 30px; }
+
+  /* Como funciona */
+  .passos { display: grid; grid-template-columns: 1fr; gap: 14px; list-style: none; counter-reset: p; }
+  .passo { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 22px; display: flex; gap: 16px; align-items: flex-start; }
+  .passo-ic { width: 48px; height: 48px; border-radius: 12px; background: var(--brand-soft); color: var(--brand); display: flex; align-items: center; justify-content: center; flex: 0 0 auto; }
+  .passo-ic svg { width: 26px; height: 26px; }
+  .passo-n { display: block; font-family: 'Fraunces', serif; font-weight: 800; font-size: 13px; color: var(--brand); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 4px; }
+  .passo p { color: var(--text); font-size: 16px; }
+  .apoio { margin-top: 26px; font-family: 'Fraunces', serif; font-size: 20px; line-height: 1.4; color: var(--accent); text-align: center; max-width: 640px; margin-left: auto; margin-right: auto; }
+  .apoio em { color: var(--brand); font-style: italic; }
+
+  /* Escolha rápida */
+  .escolha { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .escolha a { display: block; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 14px; text-decoration: none; position: relative; }
+  .escolha a:hover { border-color: var(--brand); }
+  .escolha b { display: block; font-family: 'Fraunces', serif; font-weight: 600; font-size: 18px; color: var(--accent); }
+  .escolha span { color: var(--muted); font-size: 14px; }
+  .escolha .selo { display: table; margin-bottom: 6px; }
+
+  .selo { display: inline-block; padding: 3px 10px; border-radius: 100px; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; line-height: 1.5; vertical-align: middle; white-space: nowrap; }
+  .selo.novo, .selo.data { background: var(--novo); color: #0d1117; }
+
+  /* Seções por plano */
+  .plano { scroll-margin-top: 12px; }
+  .plano-top { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 6px; }
+  .plano-top .nome { font-family: 'Fraunces', serif; font-weight: 800; font-size: 13px; color: var(--brand); text-transform: uppercase; letter-spacing: .1em; }
+  .plano-grid { display: grid; grid-template-columns: 1fr; gap: 24px; margin-top: 18px; }
+  .bloco { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px; }
+  .bloco + .bloco { margin-top: 12px; }
+  .rotulo { display: block; color: var(--brand); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 6px; }
+  .bloco p { font-size: 16px; color: var(--text); }
+  .bloco.problema p { color: var(--muted); }
+  .destaques { list-style: none; }
+  .destaques li { position: relative; padding: 7px 0 7px 26px; font-size: 15px; color: var(--text); line-height: 1.5; }
+  .destaques li::before { content: '✓'; position: absolute; left: 0; color: var(--brand); font-weight: 700; }
+  .destaques .selo { margin-left: 6px; }
+  .video { display: flex; flex-direction: column; align-items: center; }
+  .fone { width: 240px; max-width: 70vw; border: 10px solid #1f2630; border-radius: 34px; overflow: hidden; background: #000; box-shadow: 0 24px 60px rgba(0,0,0,.55), 0 0 0 1px var(--border); }
+  .fone video { width: 100%; display: block; aspect-ratio: 576 / 1248; background: #000; }
+  .fone video.vertical { aspect-ratio: 9 / 16; object-fit: contain; }
+  .video p { color: var(--muted); font-size: 14px; margin-top: 12px; text-align: center; }
+  .preco-box { margin-top: 22px; background: var(--surface); border: 1px solid var(--brand); border-radius: 16px; padding: 22px; text-align: center; }
+  .preco { font-family: 'Fraunces', serif; font-weight: 800; font-size: 34px; color: var(--accent); letter-spacing: -.02em; line-height: 1.1; }
+  .preco span { font-size: 15px; font-weight: 400; color: var(--muted); letter-spacing: 0; }
+  .preco-nota { color: var(--muted); font-size: 14px; margin: 6px 0 16px; }
+  .preco-box .cta { width: 100%; }
+  .comparar-link { display: inline-block; margin-top: 14px; color: var(--muted); font-size: 14px; text-decoration: none; border-bottom: 1px dashed var(--border); }
+  .comparar-link:hover { color: var(--brand); border-color: var(--brand); }
+
+  /* Tabela */
+  .tabela-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid var(--border); border-radius: 14px; background: var(--surface); }
+  table { border-collapse: collapse; width: 100%; min-width: 520px; font-size: 13px; }
+  th, td { padding: 10px 8px; border-bottom: 1px solid var(--border); text-align: center; vertical-align: middle; }
+  tbody tr:last-child th, tbody tr:last-child td { border-bottom: 0; }
+  thead th { font-family: 'Fraunces', serif; font-weight: 600; font-size: 15px; color: var(--accent); background: var(--surface2); }
+  thead th small { display: block; font-family: 'DM Sans', sans-serif; font-weight: 400; font-size: 12px; color: var(--muted); }
+  tbody th { text-align: left; font-weight: 400; color: var(--text); position: sticky; left: 0; background: var(--surface); min-width: 128px; max-width: 150px; }
+  thead th:first-child { position: sticky; left: 0; z-index: 1; text-align: left; }
+  td { color: var(--muted); white-space: nowrap; }
+  td.s { color: var(--brand); font-weight: 700; font-size: 16px; }
+  .rolar { color: var(--muted); font-size: 13px; margin-top: 8px; }
+
+  /* Prova */
+  .dados { background: var(--surface); border: 1px solid var(--brand); border-radius: 16px; padding: 24px; display: flex; gap: 16px; align-items: flex-start; }
+  .dados .passo-ic { margin-top: 2px; }
+  .dados p { color: var(--muted); font-size: 16px; margin-top: 6px; }
+
+  /* FAQ */
+  .faq { display: flex; flex-direction: column; gap: 8px; }
+  details { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; }
+  details[open] { border-color: var(--brand); }
+  summary { cursor: pointer; padding: 18px 20px; font-family: 'Fraunces', serif; font-weight: 600; font-size: 17px; color: var(--accent); list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: '+'; color: var(--brand); font-size: 22px; font-weight: 300; }
+  details[open] summary::after { content: '−'; }
+  details p { padding: 0 20px 18px; color: var(--muted); font-size: 15px; }
+
+  .final { text-align: center; }
+
+  footer { padding: 36px 0; border-top: 1px solid var(--border); color: var(--muted); font-size: 14px; text-align: center; }
+  footer .links { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 20px; margin-bottom: 14px; }
+  footer .links a { color: var(--muted); text-decoration: none; }
+  footer .links a:hover { color: var(--brand); }
+  footer .legal { font-size: 13px; line-height: 1.7; }
+
+  a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+
+  @media (min-width: 720px) {
+    .so-celular { display: none; }
+    table { font-size: 14px; }
+    th, td { padding: 11px 10px; }
+    tbody th { min-width: 200px; max-width: none; }
+    .wrap { padding: 0 24px; }
+    header .wrap { flex-direction: row; justify-content: space-between; }
+    .logo img { height: 36px; } .logo-text { font-size: 26px; }
+    nav a { font-size: 14px; }
+    h1 { font-size: 56px; } h2 { font-size: 36px; }
+    .hero { padding: 90px 0 70px; } .hero .lead { font-size: 19px; }
+    section { padding: 70px 0; }
+    .passos { grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .passo { flex-direction: column; padding: 26px; }
+    .escolha { grid-template-columns: repeat(4, 1fr); gap: 14px; }
+    .plano-grid { grid-template-columns: 1.2fr 1fr; gap: 32px; align-items: start; }
+    .plano-grid.sem-video { grid-template-columns: 1fr 1fr; }
+    .preco-box { display: grid; grid-template-columns: auto 1fr auto; gap: 8px 24px; align-items: center; text-align: left; padding: 22px 28px; }
+    .preco-box .preco-nota { margin: 0; }
+    .preco-box .cta { width: auto; min-width: 260px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a href="/" class="logo">
+      <img src="/notinha-icon-128.png" alt="Notinha" width="128" height="128">
+      <span class="logo-text">Notinha<sup style="font-size:0.45em; font-weight:400; vertical-align:top; margin-left:1px;">™</sup></span>
+    </a>
+    <nav aria-label="Principal">
+      <a href="/#como-funciona">Como funciona</a>
+      <a href="/planos/" aria-current="page">Planos</a>
+      <a href="#comparar">Comparar</a>
+      <a href="/blog/">Caderninho</a>
+      <a href="#duvidas">Dúvidas</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <h1>Você já tem a nota. Falta alguém digitar.</h1>
+    <p class="lead">Mande a foto no WhatsApp. O Notinha lê item por item e escreve na sua planilha, no seu Drive. Sem app novo. Sem senha de banco.</p>
+    <a href="#escolha" class="cta">Ver planos ↓</a>
+  </div>
+</section>
+
+<!-- COMO FUNCIONA -->
+<section id="como-funciona">
+  <div class="wrap">
+    <h2>Como funciona</h2>
+    <ol class="passos" style="margin-top:22px">
+      <li class="passo">
+        <div class="passo-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></div>
+        <div><span class="passo-n">Passo 1</span><p>Tire foto da nota (ou escreva o gasto).</p></div>
+      </li>
+      <li class="passo">
+        <div class="passo-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l3 3v15H6z"/><path d="M9 9h6M9 13h6M9 17h4"/></svg></div>
+        <div><span class="passo-n">Passo 2</span><p>O Notinha lê cada item e categoriza.</p></div>
+      </li>
+      <li class="passo">
+        <div class="passo-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 4v16"/></svg></div>
+        <div><span class="passo-n">Passo 3</span><p>A linha aparece na sua planilha. Você só confere.</p></div>
+      </li>
+    </ol>
+    <p class="apoio">O extrato mostra “Supermercado R$ 312”. O Notinha mostra <em>o que tinha dentro</em>.</p>
+  </div>
+</section>
+
+<!-- ESCOLHA -->
+<section id="escolha">
+  <div class="wrap">
+    <h2>Escolha seu plano</h2>
+    <p class="sub">Toque no plano para ver para quem ele é.</p>
+    <div class="escolha">
+      <a href="#pleno"><b>Pleno</b><span>R$ 27,90/mês</span></a>
+      <a href="#premium"><b>Premium</b><span>R$ 47,90/mês</span></a>
+      <a href="#familia"><span class="selo novo">Novo</span><b>Família</b><span>R$ 72,80/mês</span></a>
+      <a href="#empresas"><span class="selo novo">Novo</span><b>Empresas</b><span>R$ 89,90/mês</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- PLENO -->
+<section id="pleno" class="plano">
+  <div class="wrap">
+    <div class="plano-top"><span class="nome">Pleno</span></div>
+    <h2>Pleno — para quem quer parar de digitar.</h2>
+    <div class="plano-grid">
+      <div>
+        <div class="bloco"><span class="rotulo">Para quem é</span><p>Quem já tentou planilha ou app e largou no segundo mês.</p></div>
+        <div class="bloco problema"><span class="rotulo">O problema</span><p>Anotar gasto é chato. Por isso ninguém anota.</p></div>
+        <div class="bloco"><span class="rotulo">Como resolve</span><p>Você só fotografa. A planilha se preenche sozinha, no seu Google Drive.</p></div>
+        <div class="bloco"><span class="rotulo">Destaques</span>
+          <ul class="destaques">
+            <li>Leitura item por item</li>
+            <li>Correção de categoria pelo WhatsApp</li>
+            <li>Resumo do mês quando pedir</li>
+            <li>7 dias para testar</li>
+          </ul>
+        </div>
+      </div>
+      <div class="video">
+        <div class="fone"><video src="/notinha-enviando-nota-fiscal.mp4" poster="/notinha-demo-poster.jpg" muted loop playsinline preload="metadata" data-auto aria-label="Demonstração: foto da nota enviada pelo WhatsApp e o resumo organizado"></video></div>
+        <p>Foto enviada, nota organizada.</p>
+      </div>
+    </div>
+    <div class="preco-box">
+      <div class="preco">R$ 27,90<span>/mês</span></div>
+      <p class="preco-nota">Ou Pix trimestral. 7 dias para testar.</p>
+      <a href="/assinar/?plano=base" class="cta">Assinar</a>
+    </div>
+    <a href="#comparar" class="comparar-link">Comparar todos os planos</a>
+  </div>
+</section>
+
+<!-- PREMIUM -->
+<section id="premium" class="plano">
+  <div class="wrap">
+    <div class="plano-top"><span class="nome">Premium</span></div>
+    <h2>Premium — para quem quer entender, não só registrar.</h2>
+    <div class="plano-grid">
+      <div>
+        <div class="bloco"><span class="rotulo">Para quem é</span><p>Quem já registra e quer saber onde cortar.</p></div>
+        <div class="bloco problema"><span class="rotulo">O problema</span><p>Planilha cheia não diz nada sozinha.</p></div>
+        <div class="bloco"><span class="rotulo">Como resolve</span><p>Toda semana, o Notinha te conta o que mudou. No fim do mês, o PDF com as fotos das notas.</p></div>
+        <div class="bloco"><span class="rotulo">Destaques</span>
+          <ul class="destaques">
+            <li>Insights semanais</li>
+            <li>Painel interativo</li>
+            <li>Comparação de preço por produto</li>
+            <li>Top produtos do mês</li>
+            <li>Planilha anual</li>
+            <li>Pessoal e Empresa separados no mesmo número <span class="selo data">12/12</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="video">
+        <div class="fone"><video class="vertical" src="/dashboard-demo.mp4" poster="/dashboard-demo-poster.jpg" muted loop playsinline preload="metadata" data-auto aria-label="Demonstração do painel interativo do Premium"></video></div>
+        <p>O painel interativo do Premium.</p>
+      </div>
+    </div>
+    <div class="preco-box">
+      <div class="preco">R$ 47,90<span>/mês</span></div>
+      <p class="preco-nota">Ou Pix trimestral.</p>
+      <a href="/assinar/?plano=premium" class="cta">Assinar</a>
+    </div>
+    <a href="#comparar" class="comparar-link">Comparar todos os planos</a>
+  </div>
+</section>
+
+<!-- FAMÍLIA -->
+<section id="familia" class="plano">
+  <div class="wrap">
+    <div class="plano-top"><span class="nome">Família</span><span class="selo novo">Novo</span></div>
+    <h2>Família — a casa inteira na mesma planilha.</h2>
+    <div class="plano-grid sem-video">
+      <div>
+        <div class="bloco"><span class="rotulo">Para quem é</span><p>Casais e famílias que dividem as compras.</p></div>
+        <div class="bloco problema"><span class="rotulo">O problema</span><p>Metade das notas está no celular da outra pessoa. E nunca chega na planilha.</p></div>
+        <div class="bloco"><span class="rotulo">Como resolve</span><p>Cada um manda do próprio WhatsApp. Tudo cai no Drive do titular, com o nome de quem enviou.</p></div>
+      </div>
+      <div>
+        <div class="bloco"><span class="rotulo">Destaques</span>
+          <ul class="destaques">
+            <li>Tudo do Premium</li>
+            <li>2 pessoas incluídas</li>
+            <li>Até 3 extras (R$ 24,90 cada)</li>
+            <li>Coluna “Enviado por”</li>
+            <li>O titular aceita os termos pelos filhos menores</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="preco-box">
+      <div class="preco">R$ 72,80<span>/mês</span></div>
+      <p class="preco-nota">Assinaturas a partir de 12/12.</p>
+      <button type="button" class="cta" data-lista-espera="familia" data-origem="planos_familia">Lançamento 12/12 · Entre na lista de espera</button>
+    </div>
+    <a href="#comparar" class="comparar-link">Comparar todos os planos</a>
+  </div>
+</section>
+
+<!-- EMPRESAS -->
+<section id="empresas" class="plano">
+  <div class="wrap">
+    <div class="plano-top"><span class="nome">Empresas</span><span class="selo novo">Novo</span></div>
+    <h2>Empresas — a casa e até 3 empresas, sem misturar.</h2>
+    <div class="plano-grid sem-video">
+      <div>
+        <div class="bloco"><span class="rotulo">Para quem é</span><p>Quem toca um ou mais comércios e paga conta da casa no mesmo cartão.</p></div>
+        <div class="bloco problema"><span class="rotulo">O problema</span><p>No fim do mês, ninguém sabe o que foi da empresa e o que foi de casa. O contador também não.</p></div>
+        <div class="bloco"><span class="rotulo">Como resolve</span><p>Cada nota vai para o espaço certo. A equipe manda do próprio WhatsApp. O dono recebe alerta a cada gasto.</p></div>
+      </div>
+      <div>
+        <div class="bloco"><span class="rotulo">Destaques</span>
+          <ul class="destaques">
+            <li>Até 3 empresas + Pessoal</li>
+            <li>Equipe de 2 (até 5)</li>
+            <li>Pasta e aba “Por espaço” para cada empresa</li>
+            <li>Hora e tipo de cada registro</li>
+            <li>Relatório em PDF com fotos para o contador</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="preco-box">
+      <div class="preco">R$ 89,90<span>/mês</span></div>
+      <p class="preco-nota">Assinaturas a partir de 12/12.</p>
+      <button type="button" class="cta" data-lista-espera="empresas" data-origem="planos_empresas">Lançamento 12/12 · Entre na lista de espera</button>
+    </div>
+    <a href="#comparar" class="comparar-link">Comparar todos os planos</a>
+  </div>
+</section>
+
+<!-- COMPARATIVO -->
+<section id="comparar">
+  <div class="wrap">
+    <h2>Compare os planos</h2>
+    <div class="tabela-wrap" role="region" aria-label="Tabela comparativa dos planos" tabindex="0">
+      <table>
+        <thead>
+          <tr><th scope="col">Recurso</th><th scope="col">Pleno</th><th scope="col">Premium</th><th scope="col">Família<small>12/12</small></th><th scope="col">Empresas<small>12/12</small></th></tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">Preço mensal</th><td>R$ 27,90</td><td>R$ 47,90</td><td>R$ 72,80</td><td>R$ 89,90</td></tr>
+          <tr><th scope="row">Pix trimestral</th><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td></tr>
+          <tr><th scope="row">Teste de 7 dias</th><td class="s" aria-label="incluído">✓</td><td aria-label="não incluído">—</td><td aria-label="não incluído">—</td><td aria-label="não incluído">—</td></tr>
+          <tr><th scope="row">Foto e texto no WhatsApp</th><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td></tr>
+          <tr><th scope="row">Leitura item por item</th><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td></tr>
+          <tr><th scope="row">Planilhas mensais no seu Drive</th><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td></tr>
+          <tr><th scope="row">Correção de categoria</th><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td></tr>
+          <tr><th scope="row">Resumo do mês</th><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td></tr>
+          <tr><th scope="row">Link da planilha de qualquer mês</th><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td></tr>
+          <tr><th scope="row">Painel interativo</th><td aria-label="não incluído">—</td><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td></tr>
+          <tr><th scope="row">Insights semanais</th><td aria-label="não incluído">—</td><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td></tr>
+          <tr><th scope="row">Relatório PDF com fotos</th><td aria-label="não incluído">—</td><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td></tr>
+          <tr><th scope="row">Comparação de preço por produto</th><td aria-label="não incluído">—</td><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td></tr>
+          <tr><th scope="row">Top produtos do mês</th><td aria-label="não incluído">—</td><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td></tr>
+          <tr><th scope="row">Planilha anual</th><td aria-label="não incluído">—</td><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td></tr>
+          <tr><th scope="row">Acesso antecipado a novidades</th><td aria-label="não incluído">—</td><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td></tr>
+          <tr><th scope="row">Pessoal e Empresa <span class="selo data">12/12</span></th><td aria-label="não incluído">—</td><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td><td aria-label="não incluído">—</td></tr>
+          <tr><th scope="row">Até 3 empresas + Pessoal (aba “Por espaço”)</th><td aria-label="não incluído">—</td><td aria-label="não incluído">—</td><td aria-label="não incluído">—</td><td class="s" aria-label="incluído">✓</td></tr>
+          <tr><th scope="row">Hora e tipo de cada registro</th><td aria-label="não incluído">—</td><td aria-label="não incluído">—</td><td aria-label="não incluído">—</td><td class="s" aria-label="incluído">✓</td></tr>
+          <tr><th scope="row">Pessoas incluídas</th><td>1</td><td>1</td><td>2</td><td>2</td></tr>
+          <tr><th scope="row">Pessoas extras (R$ 24,90, até 3)</th><td aria-label="não incluído">—</td><td aria-label="não incluído">—</td><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td></tr>
+          <tr><th scope="row">Coluna “Enviado por”</th><td aria-label="não incluído">—</td><td aria-label="não incluído">—</td><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td></tr>
+          <tr><th scope="row">OneDrive</th><td class="s" aria-label="incluído">✓</td><td class="s" aria-label="incluído">✓</td><td aria-label="não incluído">—</td><td aria-label="não incluído">—</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="rolar">✓ incluído · — não incluído<span class="so-celular"> · arraste a tabela para o lado para ver todos os planos</span></p>
+  </div>
+</section>
+
+<!-- PROVA -->
+<section id="seus-dados">
+  <div class="wrap">
+    <div class="dados">
+      <div class="passo-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h6l2 2h10v10H3z"/></svg></div>
+      <div>
+        <h2 style="font-size:24px;margin:0">Seus dados ficam com você</h2>
+        <p>A pasta e as planilhas são suas, no seu Google Drive. Se sair, tudo continua lá.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="duvidas">
+  <div class="wrap">
+    <h2>Dúvidas</h2>
+    <div class="faq" style="margin-top:20px">
+      <details><summary>Preciso baixar app?</summary><p>Não. É o WhatsApp que você já usa.</p></details>
+      <details><summary>Precisa da senha do banco?</summary><p>Não. O Notinha só vê as notas que você manda.</p></details>
+      <details><summary>E nota sem QR code ou à mão?</summary><p>Pode mandar foto ou escrever o gasto.</p></details>
+      <details><summary>Funciona no OneDrive?</summary><p>Pleno e Premium sim. Família e Empresas, por enquanto, só Google Drive.</p></details>
+      <details><summary>Posso trocar de plano?</summary><p>Sim, pelo suporte.</p></details>
+      <details><summary>Quando posso assinar Família ou Empresas?</summary><p>A partir de 12/12. Entre na lista e avisamos você primeiro.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="final">
+  <div class="wrap">
+    <h2>A próxima nota já vai cair na planilha.</h2>
+    <a href="#escolha" class="cta" style="margin-top:14px">Escolher meu plano</a>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="links">
+      <a href="/">Início</a>
+      <a href="/blog/">Caderninho</a>
+      <a href="/privacidade.html">Política de Privacidade</a>
+      <a href="/termos.html">Termos de Uso</a>
+      <a href="/cookies.html">Cookies</a>
+      <a href="/contato/">Contato</a>
+    </div>
+    <div class="legal">© 2026 Notinha · CNPJ 66.824.150/0001-28<br>Todos os direitos reservados</div>
+  </div>
+</footer>
+
+<!-- Banner de Cookies LGPD -->
+<div id="cookieBanner" style="display:none; position:fixed; bottom:0; left:0; right:0; background:#161b22; border-top:1px solid #30363d; padding:20px 24px; z-index:9999; font-family:'DM Sans',sans-serif; color:#e6edf3;">
+  <div style="max-width:980px; margin:0 auto; display:flex; flex-wrap:wrap; gap:16px; align-items:center; justify-content:space-between;">
+    <p style="font-size:14px; line-height:1.5; flex:1; min-width:280px; margin:0;">
+      Usamos <a href="/cookies.html" style="color:#288A89; text-decoration:underline;">cookies</a> para melhorar sua experiência. Cookies analíticos e funcionais dependem do seu consentimento. Veja nossa <a href="/privacidade.html" style="color:#288A89; text-decoration:underline;">Política de Privacidade</a>.
+    </p>
+    <div style="display:flex; gap:8px; flex-wrap:wrap;">
+      <button onclick="cookieEssenciais()" style="padding:10px 18px; background:transparent; color:#8b949e; border:1px solid #30363d; border-radius:100px; cursor:pointer; font-family:inherit; font-size:14px;">Apenas essenciais</button>
+      <button onclick="cookieAceitar()" style="padding:10px 18px; background:#288A89; color:#fff; border:none; border-radius:100px; cursor:pointer; font-family:inherit; font-weight:600; font-size:14px;">Aceitar todos</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var c = localStorage.getItem('cookieConsent');
+  if (!c) { document.getElementById('cookieBanner').style.display = 'block'; }
+})();
+function cookieConsentUpdate(v){
+  var s = v === 'all' ? 'granted' : 'denied';
+  gtag('consent', 'update', {
+    analytics_storage: s,
+    ad_storage: s,
+    ad_user_data: s,
+    ad_personalization: s
+  });
+}
+function cookieAceitar(){ localStorage.setItem('cookieConsent','all'); cookieConsentUpdate('all'); if (window.clarity) clarity('consentv2', {ad_Storage:'granted', analytics_Storage:'granted'}); document.getElementById('cookieBanner').style.display='none'; }
+function cookieEssenciais(){ localStorage.setItem('cookieConsent','essential'); cookieConsentUpdate('essential'); document.getElementById('cookieBanner').style.display='none'; }
+</script>
+
+<script>
+// Vídeos: tocam só quando visíveis (economia de banda).
+(function(){
+  var vs = document.querySelectorAll('video[data-auto]');
+  if (!('IntersectionObserver' in window)) return;
+  var io = new IntersectionObserver(function(es){ es.forEach(function(e){ var v = e.target; if (e.isIntersecting) { v.preload = 'metadata'; v.play().catch(function(){}); } else v.pause(); }); }, { threshold: 0.5 });
+  vs.forEach(function(v){ io.observe(v); });
+})();
+// Funil: clique em "Assinar" (mesmo evento da home).
+(function(){
+  var PRECO = {base:27.90, premium:47.90}, NOME = {base:'Pleno', premium:'Premium'};
+  document.querySelectorAll('a[href^="/assinar/"]').forEach(function(a){
+    a.addEventListener('click', function(){
+      var m = (a.getAttribute('href')||'').match(/plano=(base|premium)/), pl = m ? m[1] : 'base';
+      if (typeof gtag === 'function') gtag('event','select_item',{item_list_id:'planos_pagina',item_list_name:'Página de planos',currency:'BRL',items:[{item_id:pl,item_name:NOME[pl],price:PRECO[pl],quantity:1}]});
+    });
+  });
+})();
+</script>
+<script src="/lista-espera.js" defer></script>
+</body>
+</html>

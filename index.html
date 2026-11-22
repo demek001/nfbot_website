@@ -682,6 +682,12 @@
     font-weight: 700;
   }
   .plano-card .cta { justify-content: center; width: 100%; }
+  .planos-grid.quatro { max-width: 860px; }
+  .plano-tag.novo { background: #F5A524; color: #0d1117; }
+  .plano-frase { font-family: 'Fraunces', serif; font-style: italic; color: var(--accent); font-size: 16px; line-height: 1.4; margin: -10px 0 14px; }
+  .plano-card .cta.lista { font-size: 15px; line-height: 1.35; text-align: center; padding: 14px 20px; }
+  .plano-mais { display: block; text-align: center; margin-top: 14px; color: var(--muted); font-size: 14px; text-decoration: none; }
+  .plano-mais:hover { color: var(--brand); }
   @media (max-width: 720px) {
     .planos-grid { grid-template-columns: 1fr; gap: 28px; }
     .plano-card { padding: 28px 22px; }
@@ -874,7 +880,7 @@
     <h2>Escolha seu plano</h2>
     <p class="sub">Sem aplicativo pra baixar. Sem senha de banco. Cancele quando quiser.</p>
 
-    <div class="planos-grid">
+    <div class="planos-grid quatro">
       <div class="plano-card" data-cortesia="card">
         <div class="plano-nome">Pleno</div>
         <div class="plano-preco" data-cortesia="preco">R$ 27,90<span>/mês</span></div>
@@ -887,6 +893,7 @@
           <li>Link da planilha de qualquer mês</li>
         </ul>
         <a href="/assinar/?plano=base" class="cta" data-cortesia="cta">Assinar o Pleno →</a>
+        <a href="/planos/#pleno" class="plano-mais">Saiba mais →</a>
       </div>
 
       <div class="plano-card destaque">
@@ -903,6 +910,37 @@
           <li>Acesso antecipado às funcionalidades novas</li>
         </ul>
         <a href="/assinar/?plano=premium" class="cta">Assinar o Premium →</a>
+        <a href="/planos/#premium" class="plano-mais">Saiba mais →</a>
+      </div>
+
+      <div class="plano-card">
+        <span class="plano-tag novo">Novo</span>
+        <div class="plano-nome">Família</div>
+        <div class="plano-preco">R$ 72,80<span>/mês</span></div>
+        <p class="plano-frase">Duas pessoas mandam. Uma planilha soma.</p>
+        <ul>
+          <li>Tudo do Premium</li>
+          <li>Você e mais 1 pessoa, cada um no próprio WhatsApp</li>
+          <li>Tudo no seu Drive, com quem enviou cada nota</li>
+          <li>Até 3 pessoas extras por R$ 24,90 cada</li>
+        </ul>
+        <button type="button" class="cta lista" data-lista-espera="familia" data-origem="home_card">Lançamento 12/12 · Entre na lista de espera</button>
+        <a href="/planos/#familia" class="plano-mais">Saiba mais →</a>
+      </div>
+
+      <div class="plano-card">
+        <span class="plano-tag novo">Novo</span>
+        <div class="plano-nome">Empresas</div>
+        <div class="plano-preco">R$ 89,90<span>/mês</span></div>
+        <p class="plano-frase">A casa e até 3 empresas. Um WhatsApp.</p>
+        <ul>
+          <li>Equipe de 2 pessoas (até 5) mandando notas</li>
+          <li>Cada empresa com pasta e aba própria</li>
+          <li>Alerta ao dono a cada gasto lançado</li>
+          <li>Relatório em PDF com fotos, pronto para o contador</li>
+        </ul>
+        <button type="button" class="cta lista" data-lista-espera="empresas" data-origem="home_card">Lançamento 12/12 · Entre na lista de espera</button>
+        <a href="/planos/#empresas" class="plano-mais">Saiba mais →</a>
       </div>
     </div>
   </div>
@@ -1043,6 +1081,7 @@
       <a href="#planos" class="cta">Ver planos →</a>
     </div>
     <div class="links">
+      <a href="/planos/">Planos</a>
       <a href="blog/">Caderninho</a>
       <a href="privacidade.html">Política de Privacidade</a>
       <a href="termos.html">Termos de Uso</a>
@@ -1161,5 +1200,6 @@ function cookieEssenciais(){ localStorage.setItem('cookieConsent','essential'); 
 })();
 </script>
 <script src="/cortesia-card.js" defer></script>
+<script src="/lista-espera.js" defer></script>
 </body>
 </html>

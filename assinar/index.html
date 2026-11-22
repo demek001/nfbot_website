@@ -3,6 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+// Família e Empresas: só pela lista de espera até a chave planos_novos_liberados virar true (função lista-espera).
+// Se a consulta falhar, vai para a lista (a venda direta só abre com a resposta "liberados").
+(function(){try{var q=new URLSearchParams(location.search).get("plano");if(q!=="familia"&&q!=="empresas")return;var d=document.documentElement;d.style.visibility="hidden";var ir=function(){location.replace("/planos/?lista="+q+"#"+q)};var t=setTimeout(ir,4000);fetch("https://xpzjwlhrlebdpcybxaxu.supabase.co/functions/v1/lista-espera",{method:"POST",headers:{"Content-Type":"application/json"},body:'{"acao":"status"}'}).then(function(r){return r.ok?r.json():{}}).then(function(j){clearTimeout(t);if(j&&j.liberados===true)d.style.visibility="";else ir()}).catch(function(){clearTimeout(t);ir()})}catch(e){}})();
+</script>
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <script>
   window.dataLayer = window.dataLayer || [];
