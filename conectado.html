@@ -99,6 +99,9 @@
   const BOT_WHATSAPP = "5513996286090";
   const params = new URLSearchParams(location.search);
   const erro = params.get("erro");
+  const provedor = params.get("provider") === "microsoft" ? "microsoft" : "google";
+  // Link novo para "Conectar de novo" (permissão desmarcada): vem no fragmento #r=, nunca vai a servidor nenhum.
+  const reconectar = (location.hash.match(/[#&]r=([A-Za-z0-9_-]+)/) || [])[1] || "";
   const box = document.getElementById("box");
   const CODIGO_URL = "https://xpzjwlhrlebdpcybxaxu.supabase.co/functions/v1/codigo-ativacao";
 
@@ -108,7 +111,7 @@
   const SUPORTE = ' Fale com a gente em <a href="contato/" style="color:var(--brand-hover)">usenotinha.com.br/contato</a>';
   const ERROS = {
     cancelado: "Você cancelou a autorização do Google. Sem ela, o Notinha não consegue guardar suas notas no seu Drive." + DE_NOVO,
-    permissao: "Na tela do Google, a caixa de acesso ao <b>Google Drive</b> ficou desmarcada. Sem ela, o Notinha não consegue criar sua pasta." + DE_NOVO + " Desta vez, marque essa caixa.",
+    permissao: "Faltou marcar uma permissão. Para o Notinha criar sua planilha, marque todas as caixas na tela " + (provedor === "microsoft" ? "da Microsoft." : "do Google."),
     drive: "O Google não deixou criar a pasta Notinha no seu Drive." + DE_NOVO + " Se continuar," + SUPORTE.replace(" Fale", " fale") + ".",
     token: "Não foi possível concluir o acesso ao seu Drive." + DE_NOVO,
     google: "O Google não respondeu como esperado." + DE_NOVO,
@@ -150,11 +153,17 @@
         '<p>' + AVISOS[chave][1] + '</p>';
       return;
     }
+    // Permissão desmarcada: o botão leva direto para conectar de novo (Google: link novo do #r=; OneDrive: /conta/).
+    let cta = '<a class="cta" href="index.html">Voltar ao início →</a>';
+    if (chave === "permissao") {
+      if (provedor === "microsoft") cta = '<a class="cta" href="conta/">Conectar de novo</a>';
+      else if (reconectar) cta = '<a class="cta" href="conectar/#t=' + esc(reconectar) + '">Conectar de novo</a>';
+      else cta = '<p>Volte ao e-mail e toque outra vez em <b>Conectar meu Google Drive</b>.</p>';
+    }
     box.innerHTML =
       '<div class="check err">!</div>' +
       '<h1>Não deu pra conectar</h1>' +
-      '<p>' + (ERROS[chave] || ERROS.inesperado) + '</p>' +
-      '<a class="cta" href="index.html">Voltar ao início →</a>';
+      '<p>' + (ERROS[chave] || ERROS.inesperado) + '</p>' + cta;
   }
 
   // Fluxo novo: token de uso único no fragment, trocado pelo código no servidor.
